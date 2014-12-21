@@ -39,7 +39,7 @@ import os
 import re
 import ssl
 import threading
-import urlparse
+import urllib.parse
 
 import google
 import docker
@@ -332,7 +332,7 @@ def CreateImage(docker_client, image_opts):
 
 
 def GetDockerHost(docker_client):
-  parsed_url = urlparse.urlparse(docker_client.base_url)
+  parsed_url = urllib.parse.urlparse(docker_client.base_url)
 
   # Socket url schemes look like: unix:// or http+unix://.
   # If the user is running docker locally and connecting over a socket, we
@@ -364,7 +364,7 @@ def _GetAllLingeringContainersInfo(docker_client, prefix):
         name.startswith('/' + prefix)
         for name in cinfo['Names']) and cinfo['Id'] not in live_containers_ids
 
-  return filter(IsPrefixedAndStopped, all_containers)
+  return list(filter(IsPrefixedAndStopped, all_containers))
 
 
 def StartDelayedCleanup(docker_client, prefix, delay_sec,
@@ -492,8 +492,8 @@ class Container(object):
           command=self._container_opts.command,
           stdin_open=False,
           tty=False, mem_limit=0,
-          ports=port_bindings.keys(),
-          volumes=(self._container_opts.volumes.keys()
+          ports=list(port_bindings.keys()),
+          volumes=(list(self._container_opts.volumes.keys())
                    if self._container_opts.volumes else None),
           environment=self._container_opts.environment,
           dns=None,

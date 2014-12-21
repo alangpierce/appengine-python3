@@ -32,7 +32,7 @@
 import cgi
 import collections
 import csv
-import cStringIO
+import io
 import datetime
 import decimal
 import logging
@@ -47,8 +47,8 @@ import sys
 import time
 import traceback
 import types
-import urllib
-import urlparse
+import urllib.request, urllib.parse, urllib.error
+import urllib.parse
 
 
 
@@ -146,14 +146,14 @@ def ustr(value):
   try:
     return str(value)
   except UnicodeError:
-    return unicode(value).encode('UTF-8')
+    return str(value).encode('UTF-8')
 
 
 def urepr(value):
   """Like repr(), but UTF-8-encodes Unicode inside a list."""
   if isinstance(value, list):
     return '[' + ', '.join(map(urepr, value)) + ']'
-  if isinstance(value, unicode):
+  if isinstance(value, str):
     return ('u"' +
             value.encode('utf-8').replace('\"', '\\"').replace('\\', '\\\\') +
             '"')
@@ -197,7 +197,7 @@ class ImageHandler(webapp.RequestHandler):
     path = os.path.join(directory, 'templates', 'images', image_name)
     try:
       image_stream = open(path, 'rb')
-    except IOError, e:
+    except IOError as e:
       logging.error('Cannot open image %s: %s', image_name, e)
       self.error(404)
       return
@@ -280,7 +280,7 @@ class BaseRequestHandler(webapp.RequestHandler):
     for arg in args:
       value = self.request.get(arg)
       if value:
-        queries.append(arg + '=' + urllib.quote_plus(
+        queries.append(arg + '=' + urllib.parse.quote_plus(
             ustr(self.request.get(arg))))
     return self.request.path + '?' + '&'.join(queries)
 
@@ -350,7 +350,7 @@ class InteractiveExecuteHandler(BaseRequestHandler):
       if self.interactive_console_enabled():
 
         save_stdout = sys.stdout
-        results_io = cStringIO.StringIO()
+        results_io = io.StringIO()
         try:
           sys.stdout = results_io
 
@@ -361,7 +361,7 @@ class InteractiveExecuteHandler(BaseRequestHandler):
           try:
             compiled_code = compile(code, '<string>', 'exec')
             exec(compiled_code, globals())
-          except Exception, e:
+          except Exception as e:
             traceback.print_exc(file=results_io)
         finally:
           sys.stdout = save_stdout
@@ -625,11 +625,11 @@ class QueuesPageHandler(BaseRequestHandler):
       push_queues = QueueBatch('Push Queues',
                                True,
                                True,
-                               filter(is_push_queue, queues))
+                               list(filter(is_push_queue, queues)))
       pull_queues = QueueBatch('Pull Queues',
                                False,
                                False,
-                               filter(is_pull_queue, queues))
+                               list(filter(is_pull_queue, queues)))
       values['queueBatches'] = [push_queues, pull_queues]
     except apiproxy_errors.ApplicationError:
 
@@ -685,7 +685,7 @@ class TasksPageHandler(BaseRequestHandler):
       params['start_name'] = self.start_name
       params['start_eta'] = self.start_eta
       params['page_no'] = self.page_no
-    self.redirect('%s?%s' % (self.request.path, urllib.urlencode(params)))
+    self.redirect('%s?%s' % (self.request.path, urllib.parse.urlencode(params)))
 
   def _generate_page_params(self, page_dict):
     """Generate the params for a page link."""
@@ -696,7 +696,7 @@ class TasksPageHandler(BaseRequestHandler):
         ('per_page', self.per_page),
         ('page_no', page_dict['number']),
         ]
-    return urllib.urlencode(params)
+    return urllib.parse.urlencode(params)
 
   def generate_page_dicts(self, start_tasks, end_tasks):
     """Generate the page dicts from a list of tasks.
@@ -917,10 +917,10 @@ class MemcachePageHandler(BaseRequestHandler):
 
 
   TYPES = ((str, str, 'String'),
-           (unicode, unicode, 'Unicode String'),
+           (str, str, 'Unicode String'),
            (bool, lambda value: MemcachePageHandler._ToBool(value), 'Boolean'),
            (int, int, 'Integer'),
-           (long, long, 'Long Integer'),
+           (int, int, 'Long Integer'),
            (float, float, 'Float'))
   DEFAULT_TYPESTR_FOR_NEW = 'String'
 
@@ -956,7 +956,7 @@ class MemcachePageHandler(BaseRequestHandler):
     try:
       value = memcache.get(key)
     except (pickle.UnpicklingError, AttributeError, EOFError, ImportError,
-            IndexError), e:
+            IndexError) as e:
 
 
       msg = 'Failed to retrieve value from cache: %s' % e
@@ -1063,9 +1063,9 @@ class MemcachePageHandler(BaseRequestHandler):
     Returns:
       String.
     """
-    return '&'.join('%s=%s' % (urllib.quote_plus(k.encode('utf8')),
-                               urllib.quote_plus(v.encode('utf8')))
-                    for k, v in query.iteritems())
+    return '&'.join('%s=%s' % (urllib.parse.quote_plus(k.encode('utf8')),
+                               urllib.parse.quote_plus(v.encode('utf8')))
+                    for k, v in query.items())
 
   @xsrf_required
   def post(self):
@@ -1108,7 +1108,7 @@ class MemcachePageHandler(BaseRequestHandler):
           next_param['message'] = 'Key "%s" saved.' % key
         else:
           next_param['message'] = 'ERROR: Failed to save key "%s".' % key
-      except ValueError, e:
+      except ValueError as e:
         next_param['message'] = 'ERROR: Unable to encode value: %s' % e
 
     elif self.request.get('action:cancel'):
@@ -1222,8 +1222,8 @@ class DatastoreRequestHandler(BaseRequestHandler):
     """
     key_dict = {}
     for entity in entities:
-      for key, value in entity.iteritems():
-        if key_dict.has_key(key):
+      for key, value in entity.items():
+        if key in key_dict:
           key_dict[key].append(value)
         else:
           key_dict[key] = [value]
@@ -1231,7 +1231,7 @@ class DatastoreRequestHandler(BaseRequestHandler):
 
   def redirect_with_message(self, message):
     """Redirect to the 'next' url with message added as the msg parameter."""
-    quoted_message = urllib.quote_plus(message)
+    quoted_message = urllib.parse.quote_plus(message)
     redirect_url = self.request.get('next')
     if '?' in redirect_url:
       redirect_url += '&msg=%s' % quoted_message
@@ -1260,7 +1260,7 @@ class DatastoreQueryHandler(DatastoreRequestHandler):
 
   def _calculate_writes_for_built_in_indices(self, entity):
     writes = 0
-    for prop_name in entity.keys():
+    for prop_name in list(entity.keys()):
       if not prop_name in entity.unindexed_properties():
 
 
@@ -1275,7 +1275,7 @@ class DatastoreQueryHandler(DatastoreRequestHandler):
   def _calculate_writes_for_composite_index(self, entity, index):
     composite_index_value_count = 1
     for prop_name, _ in index.Properties():
-      if not prop_name in entity.keys() or (
+      if not prop_name in list(entity.keys()) or (
           prop_name in entity.unindexed_properties()):
         return 0
       prop_vals = entity[prop_name]
@@ -1339,7 +1339,7 @@ class DatastoreQueryHandler(DatastoreRequestHandler):
 
     result_set, total = self.execute_query()
     key_values = self.get_key_values(result_set)
-    keys = key_values.keys()
+    keys = list(key_values.keys())
     keys.sort()
 
 
@@ -1360,7 +1360,7 @@ class DatastoreQueryHandler(DatastoreRequestHandler):
       write_ops = self._get_write_ops(entity)
       attributes = []
       for key in keys[:DEFAULT_MAX_DATASTORE_VIEWER_COLUMNS]:
-        if entity.has_key(key):
+        if key in entity:
           raw_value = entity[key]
           data_type = DataType.get(raw_value)
           value = data_type.format(raw_value)
@@ -1383,7 +1383,7 @@ class DatastoreQueryHandler(DatastoreRequestHandler):
         'write_ops' : write_ops,
         'shortened_key': str(entity.key())[:8] + '...',
         'attributes': attributes,
-        'edit_uri': edit_path + '?key=' + str(entity.key()) + '&kind=' + urllib.quote(ustr(self.request.get('kind'))) + '&next=' + urllib.quote(ustr(self.filter_url(
+        'edit_uri': edit_path + '?key=' + str(entity.key()) + '&kind=' + urllib.parse.quote(ustr(self.request.get('kind'))) + '&next=' + urllib.parse.quote(ustr(self.filter_url(
                         ['kind', 'order', 'order_type', 'namespace', 'num']))),
       })
 
@@ -1468,7 +1468,7 @@ class DatastoreBatchEditHandler(DatastoreRequestHandler):
     keys = []
     index = 0
     num_keys = int(self.request.get('numkeys'))
-    for i in xrange(1, num_keys+1):
+    for i in range(1, num_keys+1):
       key = self.request.get('key%d' % i)
       if key:
         keys.append(key)
@@ -1525,7 +1525,7 @@ class DatastoreEditHandler(DatastoreRequestHandler):
 
 
       next_uri = self.request.get('next')
-      next_uri += '&msg=%s' % urllib.quote_plus(
+      next_uri += '&msg=%s' % urllib.parse.quote_plus(
           "The kind %s doesn't exist in the %s namespace" % (
               kind,
               self.request.get('namespace', '<Empty>')))
@@ -1559,13 +1559,13 @@ class DatastoreEditHandler(DatastoreRequestHandler):
 
     fields = []
     key_values = self.get_key_values(sample_entities)
-    for key, sample_values in sorted(key_values.iteritems()):
-      if entity and entity.has_key(key):
+    for key, sample_values in sorted(key_values.items()):
+      if entity and key in entity:
         data_type = DataType.get(entity[key])
       else:
         data_type = DataType.get(sample_values[0])
       name = data_type.name() + "|" + key
-      if entity and entity.has_key(key):
+      if entity and key in entity:
         value = entity[key]
       else:
         value = None
@@ -1620,7 +1620,7 @@ class DatastoreEditHandler(DatastoreRequestHandler):
 
 
 
-        if entity and entity.has_key(field_name):
+        if entity and field_name in entity:
           old_formatted_value = data_type.format(entity[field_name])
           if old_formatted_value == ustr(form_value):
             continue
@@ -1629,7 +1629,7 @@ class DatastoreEditHandler(DatastoreRequestHandler):
         if len(form_value) > 0:
           value = data_type.parse(form_value)
           entity[field_name] = value
-        elif entity.has_key(field_name):
+        elif field_name in entity:
           del entity[field_name]
 
 
@@ -1668,7 +1668,7 @@ class DatastoreStatsHandler(BaseRequestHandler):
       msg = 'No processing requested'
 
     uri = self.request.path_url
-    self.redirect('%s?%s' % (uri, urllib.urlencode(
+    self.redirect('%s?%s' % (uri, urllib.parse.urlencode(
         [('msg', msg), ('status', status)])))
 
   def generate_stats(self, _app=None):
@@ -1704,7 +1704,7 @@ class SearchIndexesListHandler(BaseRequestHandler):
         'num': limit,
         'start': start,
         'start_base_url': self.filter_url(['num', 'namespace']),
-        'next': urllib.quote(ustr(self.request.uri)),
+        'next': urllib.parse.quote(ustr(self.request.uri)),
         'indexes': indexes}
     if current_page > 1:
       values['prev_start'] = int((current_page - 2) * limit)
@@ -1782,7 +1782,7 @@ class SearchIndexHandler(BaseRequestHandler):
         'prev_start': -1,
         'start_base_url': self.filter_url([
             'query', 'index', 'num', 'namespace']),
-        'next': urllib.quote(ustr(self.request.uri)),
+        'next': urllib.parse.quote(ustr(self.request.uri)),
         'values': self._ProcessSearchResponse(resp),
         'prev': self.request.get(
             'next',
@@ -1839,7 +1839,7 @@ class SearchBatchDeleteHandler(BaseRequestHandler):
     docs = []
     index = 0
     num_docs = int(self.request.get('numdocs'))
-    for i in xrange(1, num_docs+1):
+    for i in range(1, num_docs+1):
       key = self.request.get('doc%d' % i)
       if key:
         docs.append(key)
@@ -2086,10 +2086,10 @@ class LongType(NumberType):
     return 'long'
 
   def parse(self, value):
-    return long(value)
+    return int(value)
 
   def python_type(self):
-    return long
+    return int
 
 
 class FloatType(NumberType):
@@ -2266,20 +2266,20 @@ class BlobKeyType(StringType):
 
 
 _DATA_TYPES = {
-  types.NoneType: NoneType(),
-  types.StringType: StringType(),
-  types.UnicodeType: StringType(),
+  type(None): NoneType(),
+  bytes: StringType(),
+  str: StringType(),
   datastore_types.Text: TextType(),
   datastore_types.Blob: BlobType(),
   datastore_types.EmbeddedEntity: EmbeddedEntityType(),
-  types.BooleanType: BoolType(),
-  types.IntType: IntType(),
-  types.LongType: LongType(),
-  types.FloatType: FloatType(),
+  bool: BoolType(),
+  int: IntType(),
+  int: LongType(),
+  float: FloatType(),
   datetime.datetime: TimeType(),
   users.User: UserType(),
   datastore_types.Key: ReferenceType(),
-  types.ListType: ListType(),
+  list: ListType(),
   datastore_types.Email: EmailType(),
   datastore_types.Category: CategoryType(),
   datastore_types.Link: LinkType(),
@@ -2293,7 +2293,7 @@ _DATA_TYPES = {
 }
 
 _NAMED_DATA_TYPES = {}
-for _data_type in _DATA_TYPES.values():
+for _data_type in list(_DATA_TYPES.values()):
   _NAMED_DATA_TYPES[_data_type.name()] = _data_type
 
 
@@ -2332,13 +2332,13 @@ def PseudoBreadcrumbs(key):
   parts = []
   for i in range(0, len(path)//2):
     kind = path[i*2]
-    if isinstance(kind, unicode):
+    if isinstance(kind, str):
       kind = kind.encode('utf8')
     value = path[i*2 + 1]
-    if isinstance(value, (int, long)):
+    if isinstance(value, int):
       parts.append('%s: id=%d' % (kind, value))
     else:
-      if isinstance(value, unicode):
+      if isinstance(value, str):
         value = value.encode('utf8')
       parts.append('%s: name=%s' % (kind, value))
   return ' > '.join(parts)

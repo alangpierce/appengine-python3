@@ -54,7 +54,7 @@ __all__ = ["MapreduceState",
 
 import cgi
 import datetime
-import urllib
+import urllib.request, urllib.parse, urllib.error
 import zlib
 
 import google
@@ -146,7 +146,7 @@ class HugeTask(object):
       self._headers.update(headers)
 
 
-    payload_str = urllib.urlencode(params)
+    payload_str = urllib.parse.urlencode(params)
     compressed_payload = ""
     if len(payload_str) > self.MAX_TASK_PAYLOAD:
       compressed_payload = zlib.compress(payload_str)
@@ -230,7 +230,7 @@ class HugeTask(object):
       payload_str = body
 
     result = {}
-    for (name, value) in cgi.parse_qs(payload_str).items():
+    for (name, value) in list(cgi.parse_qs(payload_str).items()):
       if len(value) == 1:
         result[name] = value[0]
       else:
@@ -661,7 +661,7 @@ class MapreduceState(db.Model):
 
       stride_length = max(1, shard_count / 16)
       chart.bottom.labels = []
-      for x in xrange(shard_count):
+      for x in range(shard_count):
         if (x % stride_length == 0 or
             x == shard_count - 1):
           chart.bottom.labels.append(x)
@@ -945,7 +945,7 @@ class ShardState(db.Model):
       kv["slice_request_id"] = self.slice_request_id
     if self.acquired_once:
       kv["acquired_once"] = self.acquired_once
-    keys = kv.keys()
+    keys = list(kv.keys())
     keys.sort()
 
     result = "ShardState is {"
@@ -1009,7 +1009,7 @@ class ShardState(db.Model):
 
   def copy_from(self, other_state):
     """Copy data from another shard state entity to self."""
-    for prop in self.properties().values():
+    for prop in list(self.properties().values()):
       setattr(self, prop.name, getattr(other_state, prop.name))
 
   def __eq__(self, other):

@@ -22,7 +22,7 @@
 
 
 
-import httplib
+import http.client
 import json
 import os
 import unittest
@@ -55,15 +55,15 @@ class DiscoveryApiProxyTest(unittest.TestCase):
     return self._response
 
   def prepare_discovery_request(self, status_code, body):
-    self.mox.StubOutWithMock(httplib.HTTPSConnection, 'request')
-    self.mox.StubOutWithMock(httplib.HTTPSConnection, 'getresponse')
-    self.mox.StubOutWithMock(httplib.HTTPSConnection, 'close')
+    self.mox.StubOutWithMock(http.client.HTTPSConnection, 'request')
+    self.mox.StubOutWithMock(http.client.HTTPSConnection, 'getresponse')
+    self.mox.StubOutWithMock(http.client.HTTPSConnection, 'close')
 
-    httplib.HTTPSConnection.request(mox.IsA(basestring), mox.IsA(basestring),
+    http.client.HTTPSConnection.request(mox.IsA(str), mox.IsA(str),
                                     mox.IgnoreArg(), mox.IsA(dict))
-    httplib.HTTPSConnection.getresponse().AndReturn(
+    http.client.HTTPSConnection.getresponse().AndReturn(
         test_utils.MockConnectionResponse(status_code, body))
-    httplib.HTTPSConnection.close()
+    http.client.HTTPSConnection.close()
 
   def test_generate_discovery_doc_rest(self):
     body = {'baseUrl': 'https://tictactoe.appspot.com/_ah/api/tictactoe/v1/'}

@@ -51,7 +51,7 @@ class InputReader(shard_life_cycle._ShardLifeCycle, json_util.JsonMixin):
   def __iter__(self):
     return self
 
-  def next(self):
+  def __next__(self):
     """Returns the next input from this input reader.
 
     Returns:

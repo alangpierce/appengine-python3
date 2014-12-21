@@ -60,8 +60,8 @@ import math
 import os
 import re
 import time
-import urllib
-import urlparse
+import urllib.request, urllib.parse, urllib.error
+import urllib.parse
 
 from google.appengine.api import apiproxy_stub_map
 from google.appengine.api import namespace_manager
@@ -272,7 +272,7 @@ def _parse_relative_url(relative_url):
   """
   if not relative_url:
     raise _RelativeUrlError('Relative URL is empty')
-  (scheme, netloc, path, query, fragment) = urlparse.urlsplit(relative_url)
+  (scheme, netloc, path, query, fragment) = urllib.parse.urlsplit(relative_url)
   if scheme or netloc:
     raise _RelativeUrlError('Relative URL may not have a scheme or location')
   if fragment:
@@ -297,8 +297,8 @@ def _flatten_params(params):
     List of (key, value) tuples.
   """
   def get_string(value):
-    if isinstance(value, unicode):
-      return unicode(value).encode('utf-8')
+    if isinstance(value, str):
+      return str(value).encode('utf-8')
     else:
 
 
@@ -307,9 +307,9 @@ def _flatten_params(params):
       return str(value)
 
   param_list = []
-  for key, value in params.iteritems():
+  for key, value in params.items():
     key = get_string(key)
-    if isinstance(value, basestring):
+    if isinstance(value, str):
       param_list.append((key, get_string(value)))
     else:
       try:
@@ -352,7 +352,7 @@ class TaskRetryOptions(object):
     Raises:
       InvalidTaskRetryOptionsError if any of the parameters are invalid.
     """
-    args_diff = set(kwargs.iterkeys()) - self.__CONSTRUCTOR_KWARGS
+    args_diff = set(kwargs.keys()) - self.__CONSTRUCTOR_KWARGS
     if args_diff:
       raise TypeError('Invalid arguments: %s' % ', '.join(args_diff))
 
@@ -466,7 +466,7 @@ class Task(object):
       the task URL is invalid or too long; TaskTooLargeError if the task with
       its payload is too large.
     """
-    args_diff = set(kwargs.iterkeys()) - self.__CONSTRUCTOR_KWARGS
+    args_diff = set(kwargs.keys()) - self.__CONSTRUCTOR_KWARGS
     if args_diff:
       raise TypeError('Invalid arguments: %s' % ', '.join(args_diff))
 
@@ -556,7 +556,7 @@ class Task(object):
       default_url = False
       try:
         relative_url, query = _parse_relative_url(relative_url)
-      except _RelativeUrlError, e:
+      except _RelativeUrlError as e:
         raise InvalidUrlError(e)
 
     if len(relative_url) > MAX_URL_LENGTH:
@@ -619,7 +619,7 @@ class Task(object):
       URL-encoded version of the params, ready to be added to a query string or
       POST body.
     """
-    return urllib.urlencode(_flatten_params(params))
+    return urllib.parse.urlencode(_flatten_params(params))
 
   @staticmethod
   def __convert_payload(payload, headers):
@@ -635,7 +635,7 @@ class Task(object):
     Raises:
       InvalidTaskError if the payload is not a string or unicode instance.
     """
-    if isinstance(payload, unicode):
+    if isinstance(payload, str):
       headers.setdefault('content-type', 'text/plain; charset=utf-8')
       payload = payload.encode('utf-8')
     elif not isinstance(payload, str):
@@ -767,7 +767,7 @@ class Queue(object):
                                      'PurgeQueue',
                                      request,
                                      response)
-    except apiproxy_errors.ApplicationError, e:
+    except apiproxy_errors.ApplicationError as e:
       raise self.__TranslateError(e.application_error, e.error_detail)
 
   def add(self, task, transactional=False):
@@ -834,7 +834,7 @@ class Queue(object):
 
     try:
       apiproxy_stub_map.MakeSyncCall('taskqueue', 'BulkAdd', request, response)
-    except apiproxy_errors.ApplicationError, e:
+    except apiproxy_errors.ApplicationError as e:
       raise self.__TranslateError(e.application_error, e.error_detail)
 
     assert response.taskresult_size() == len(tasks), (
@@ -918,7 +918,7 @@ class Queue(object):
 
 
     task_request.set_queue_name(self.__name)
-    task_request.set_eta_usec(long(task.eta_posix * 1e6))
+    task_request.set_eta_usec(int(task.eta_posix * 1e6))
     task_request.set_method(_METHOD_MAP.get(task.method))
     task_request.set_url(adjusted_url)
 
@@ -978,7 +978,7 @@ class Queue(object):
 
       class JointException(datastore_exception.__class__, DatastoreError):
         """There was a datastore error while accessing the queue."""
-        __msg = (u'taskqueue.DatastoreError caused by: %s %s' %
+        __msg = ('taskqueue.DatastoreError caused by: %s %s' %
                  (datastore_exception.__class__, detail))
         def __str__(self):
           return JointException.__msg

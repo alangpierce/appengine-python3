@@ -33,7 +33,7 @@ def url(regex, view, kwargs=None, name=None, prefix=''):
         urlconf_module, app_name, namespace = view
         return RegexURLResolver(regex, urlconf_module, kwargs, app_name=app_name, namespace=namespace)
     else:
-        if isinstance(view, basestring):
+        if isinstance(view, str):
             if not view:
                 raise ImproperlyConfigured('Empty URL pattern view name not permitted (for pattern %r)' % regex)
             if prefix:

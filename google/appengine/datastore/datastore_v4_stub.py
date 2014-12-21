@@ -70,16 +70,16 @@ class DatastoreV4Stub(apiproxy_stub.APIProxyStub):
           self.__app_id, req)
       v3_resp = datastore_pb.Transaction()
       self.__make_v3_call('BeginTransaction', v3_req, v3_resp)
-    except datastore_pbs.InvalidConversionError, e:
+    except datastore_pbs.InvalidConversionError as e:
       raise apiproxy_errors.ApplicationError(
           datastore_v4_pb.Error.BAD_REQUEST, str(e))
-    except datastore_v4_validator.ValidationError, e:
+    except datastore_v4_validator.ValidationError as e:
       raise apiproxy_errors.ApplicationError(
           datastore_v4_pb.Error.BAD_REQUEST, str(e))
     try:
       v4_resp = self.__service_converter.v3_to_v4_begin_transaction_resp(
           v3_resp)
-    except datastore_pbs.InvalidConversionError, e:
+    except datastore_pbs.InvalidConversionError as e:
       raise apiproxy_errors.ApplicationError(
           datastore_v4_pb.Error.INTERNAL_ERROR, str(e))
     resp.CopyFrom(v4_resp)
@@ -89,10 +89,10 @@ class DatastoreV4Stub(apiproxy_stub.APIProxyStub):
       self.__service_validator.validate_rollback_req(req)
       v3_req = self.__service_converter.v4_rollback_req_to_v3_txn(req)
       self.__make_v3_call('Rollback', v3_req, api_base_pb.VoidProto())
-    except datastore_pbs.InvalidConversionError, e:
+    except datastore_pbs.InvalidConversionError as e:
       raise apiproxy_errors.ApplicationError(
           datastore_v4_pb.Error.BAD_REQUEST, str(e))
-    except datastore_v4_validator.ValidationError, e:
+    except datastore_v4_validator.ValidationError as e:
       raise apiproxy_errors.ApplicationError(
           datastore_v4_pb.Error.BAD_REQUEST, str(e))
 
@@ -116,10 +116,10 @@ class DatastoreV4Stub(apiproxy_stub.APIProxyStub):
         resp.mutable_deprecated_mutation_result().CopyFrom(
             self.__apply_v4_deprecated_mutation(req.deprecated_mutation(),
                                                 None))
-    except datastore_pbs.InvalidConversionError, e:
+    except datastore_pbs.InvalidConversionError as e:
       raise apiproxy_errors.ApplicationError(
           datastore_v4_pb.Error.BAD_REQUEST, str(e))
-    except datastore_v4_validator.ValidationError, e:
+    except datastore_v4_validator.ValidationError as e:
       raise apiproxy_errors.ApplicationError(
           datastore_v4_pb.Error.BAD_REQUEST, str(e))
 
@@ -180,7 +180,7 @@ class DatastoreV4Stub(apiproxy_stub.APIProxyStub):
       filters were removed.
     """
 
-    assert datastore_v4_pb.CompositeFilter._Operator_NAMES.values() == ['AND']
+    assert list(datastore_v4_pb.CompositeFilter._Operator_NAMES.values()) == ['AND']
 
 
 
@@ -238,10 +238,10 @@ class DatastoreV4Stub(apiproxy_stub.APIProxyStub):
         v3_req = self.__service_converter.v4_run_query_req_to_v3_query(req)
         v3_resp = datastore_pb.QueryResult()
         self.__make_v3_call('RunQuery', v3_req, v3_resp)
-    except datastore_pbs.InvalidConversionError, e:
+    except datastore_pbs.InvalidConversionError as e:
       raise apiproxy_errors.ApplicationError(
           datastore_v4_pb.Error.BAD_REQUEST, str(e))
-    except datastore_v4_validator.ValidationError, e:
+    except datastore_v4_validator.ValidationError as e:
       raise apiproxy_errors.ApplicationError(
           datastore_v4_pb.Error.BAD_REQUEST, str(e))
     try:
@@ -252,7 +252,7 @@ class DatastoreV4Stub(apiproxy_stub.APIProxyStub):
         else:
           result_type = datastore_v4_pb.EntityResult.PROJECTION
         v4_resp.mutable_batch().set_entity_result_type(result_type)
-    except datastore_pbs.InvalidConversionError, e:
+    except datastore_pbs.InvalidConversionError as e:
       raise apiproxy_errors.ApplicationError(
           datastore_v4_pb.Error.INTERNAL_ERROR, str(e))
     resp.CopyFrom(v4_resp)
@@ -263,15 +263,15 @@ class DatastoreV4Stub(apiproxy_stub.APIProxyStub):
       v3_req = self.__service_converter.v4_to_v3_next_req(req)
       v3_resp = datastore_pb.QueryResult()
       self.__make_v3_call('Next', v3_req, v3_resp)
-    except datastore_pbs.InvalidConversionError, e:
+    except datastore_pbs.InvalidConversionError as e:
       raise apiproxy_errors.ApplicationError(
           datastore_v4_pb.Error.BAD_REQUEST, str(e))
-    except datastore_v4_validator.ValidationError, e:
+    except datastore_v4_validator.ValidationError as e:
       raise apiproxy_errors.ApplicationError(
           datastore_v4_pb.Error.BAD_REQUEST, str(e))
     try:
       v4_resp = self.__service_converter.v3_to_v4_continue_query_resp(v3_resp)
-    except datastore_pbs.InvalidConversionError, e:
+    except datastore_pbs.InvalidConversionError as e:
       raise apiproxy_errors.ApplicationError(
           datastore_v4_pb.Error.INTERNAL_ERROR, str(e))
     resp.CopyFrom(v4_resp)
@@ -282,15 +282,15 @@ class DatastoreV4Stub(apiproxy_stub.APIProxyStub):
       v3_req = self.__service_converter.v4_to_v3_get_req(req)
       v3_resp = datastore_pb.GetResponse()
       self.__make_v3_call('Get', v3_req, v3_resp)
-    except datastore_pbs.InvalidConversionError, e:
+    except datastore_pbs.InvalidConversionError as e:
       raise apiproxy_errors.ApplicationError(
           datastore_v4_pb.Error.BAD_REQUEST, str(e))
-    except datastore_v4_validator.ValidationError, e:
+    except datastore_v4_validator.ValidationError as e:
       raise apiproxy_errors.ApplicationError(
           datastore_v4_pb.Error.BAD_REQUEST, str(e))
     try:
       v4_resp = self.__service_converter.v3_to_v4_lookup_resp(v3_resp)
-    except datastore_pbs.InvalidConversionError, e:
+    except datastore_pbs.InvalidConversionError as e:
       raise apiproxy_errors.ApplicationError(
           datastore_v4_pb.Error.INTERNAL_ERROR, str(e))
     resp.CopyFrom(v4_resp)
@@ -315,10 +315,10 @@ class DatastoreV4Stub(apiproxy_stub.APIProxyStub):
             req.reserve_list())
 
         v3_stub._AllocateIds(v3_refs)
-    except datastore_pbs.InvalidConversionError, e:
+    except datastore_pbs.InvalidConversionError as e:
       raise apiproxy_errors.ApplicationError(
           datastore_v4_pb.Error.BAD_REQUEST, str(e))
-    except datastore_v4_validator.ValidationError, e:
+    except datastore_v4_validator.ValidationError as e:
       raise apiproxy_errors.ApplicationError(
           datastore_v4_pb.Error.BAD_REQUEST, str(e))
 

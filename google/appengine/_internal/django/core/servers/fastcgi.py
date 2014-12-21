@@ -81,9 +81,9 @@ FASTCGI_OPTIONS = {
 }
 
 def fastcgi_help(message=None):
-    print FASTCGI_HELP
+    print(FASTCGI_HELP)
     if message:
-        print message
+        print(message)
     return False
 
 def runfastcgi(argset=[], **kwargs):
@@ -101,12 +101,12 @@ def runfastcgi(argset=[], **kwargs):
 
     try:
         import flup
-    except ImportError, e:
-        print >> sys.stderr, "ERROR: %s" % e
-        print >> sys.stderr, "  Unable to load the flup package.  In order to run django"
-        print >> sys.stderr, "  as a FastCGI application, you will need to get flup from"
-        print >> sys.stderr, "  http://www.saddi.com/software/flup/   If you've already"
-        print >> sys.stderr, "  installed flup, then make sure you have it in your PYTHONPATH."
+    except ImportError as e:
+        print("ERROR: %s" % e, file=sys.stderr)
+        print("  Unable to load the flup package.  In order to run django", file=sys.stderr)
+        print("  as a FastCGI application, you will need to get flup from", file=sys.stderr)
+        print("  http://www.saddi.com/software/flup/   If you've already", file=sys.stderr)
+        print("  installed flup, then make sure you have it in your PYTHONPATH.", file=sys.stderr)
         return False
 
     flup_module = 'server.' + options['protocol']
@@ -134,7 +134,7 @@ def runfastcgi(argset=[], **kwargs):
         module = importlib.import_module('.%s' % flup_module, 'flup')
         WSGIServer = module.WSGIServer
     except:
-        print "Can't import flup." + flup_module
+        print("Can't import flup." + flup_module)
         return False
 
     # Prep up and go

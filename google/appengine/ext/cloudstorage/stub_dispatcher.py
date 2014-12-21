@@ -16,7 +16,6 @@
 #
 """Dispatcher to handle Google Cloud Storage stub requests."""
 
-from __future__ import with_statement
 
 
 
@@ -27,11 +26,12 @@ from __future__ import with_statement
 
 
 
-import httplib
+
+import http.client
 import re
 import threading
-import urllib
-import urlparse
+import urllib.request, urllib.parse, urllib.error
+import urllib.parse
 import xml.etree.ElementTree as ET
 
 from google.appengine.api import apiproxy_stub_map
@@ -89,7 +89,7 @@ def dispatch(method, headers, url, payload):
     elif method == 'DELETE':
       return _handle_delete(gcs_stub, filename)
     raise ValueError('Unrecognized request method %r.' % method,
-                     httplib.METHOD_NOT_ALLOWED)
+                     http.client.METHOD_NOT_ALLOWED)
 
 
 def _preprocess(method, headers, url):
@@ -115,21 +115,21 @@ def _preprocess(method, headers, url):
   Raises:
     ValueError: invalid path.
   """
-  _, _, path, query, _ = urlparse.urlsplit(url)
+  _, _, path, query, _ = urllib.parse.urlsplit(url)
 
   if not path.startswith(common.LOCAL_GCS_ENDPOINT):
-    raise ValueError('Invalid GCS path: %s' % path, httplib.BAD_REQUEST)
+    raise ValueError('Invalid GCS path: %s' % path, http.client.BAD_REQUEST)
 
   filename = path[len(common.LOCAL_GCS_ENDPOINT):]
 
 
 
-  param_dict = urlparse.parse_qs(query, True)
+  param_dict = urllib.parse.parse_qs(query, True)
   for k in param_dict:
-    param_dict[k] = urllib.unquote(param_dict[k][0])
+    param_dict[k] = urllib.parse.unquote(param_dict[k][0])
 
-  headers = dict((k.lower(), v) for k, v in headers.iteritems())
-  return method, headers, urllib.unquote(filename), param_dict
+  headers = dict((k.lower(), v) for k, v in headers.items())
+  return method, headers, urllib.parse.unquote(filename), param_dict
 
 
 def _handle_post(gcs_stub, filename, headers):
@@ -139,11 +139,11 @@ def _handle_post(gcs_stub, filename, headers):
   response_headers = {
       'location': 'https://storage.googleapis.com/%s?%s' % (
           filename,
-          urllib.urlencode({'upload_id': token})),
+          urllib.parse.urlencode({'upload_id': token})),
       'content-type': content_type.value,
       'content-length': 0
   }
-  return _FakeUrlFetchResult(httplib.CREATED, response_headers, '')
+  return _FakeUrlFetchResult(http.client.CREATED, response_headers, '')
 
 
 def _handle_put(gcs_stub, filename, param_dict, headers, payload):
@@ -159,14 +159,14 @@ def _handle_put(gcs_stub, filename, param_dict, headers, payload):
     return _find_progress(gcs_stub, filename, token)
 
   if not content_range.value:
-    raise ValueError('Missing header content-range.', httplib.BAD_REQUEST)
+    raise ValueError('Missing header content-range.', http.client.BAD_REQUEST)
 
 
 
 
   if (headers.get('x-goog-if-generation-match', None) == '0' and
       gcs_stub.head_object(filename) is not None):
-    return _FakeUrlFetchResult(httplib.PRECONDITION_FAILED, {}, '')
+    return _FakeUrlFetchResult(http.client.PRECONDITION_FAILED, {}, '')
 
 
 
@@ -174,10 +174,10 @@ def _handle_put(gcs_stub, filename, param_dict, headers, payload):
 
     if content_range.length is None:
       raise ValueError('Content-Range must have a final length.',
-                       httplib.BAD_REQUEST)
+                       http.client.BAD_REQUEST)
     elif not content_range.no_data and content_range.range[0] != 0:
       raise ValueError('Content-Range must specify complete object.',
-                       httplib.BAD_REQUEST)
+                       http.client.BAD_REQUEST)
     else:
 
       token = gcs_stub.post_start_creation(filename, headers)
@@ -187,7 +187,7 @@ def _handle_put(gcs_stub, filename, param_dict, headers, payload):
                                    payload,
                                    content_range.range,
                                    content_range.length)
-  except ValueError, e:
+  except ValueError as e:
     return _FakeUrlFetchResult(e.args[1], {}, e.args[0])
 
   if content_range.length is not None:
@@ -196,7 +196,7 @@ def _handle_put(gcs_stub, filename, param_dict, headers, payload):
     response_headers = {
         'content-length': 0,
     }
-    response_status = httplib.OK
+    response_status = http.client.OK
   else:
     response_headers = {}
     response_status = 308
@@ -212,7 +212,7 @@ def _is_query_progress(content_range):
 def _find_progress(gcs_stub, filename, token):
 
   if gcs_stub.head_object(filename) is not None:
-    return _FakeUrlFetchResult(httplib.OK, {}, '')
+    return _FakeUrlFetchResult(http.client.OK, {}, '')
   last_offset = gcs_stub.put_empty(token)
   if last_offset == -1:
     return _FakeUrlFetchResult(308, {}, '')
@@ -237,14 +237,14 @@ def _copy(gcs_stub, filename, headers):
   """
   source = _XGoogCopySource(headers).value
   result = _handle_head(gcs_stub, source)
-  if result.status_code == httplib.NOT_FOUND:
+  if result.status_code == http.client.NOT_FOUND:
     return result
   directive = headers.pop('x-goog-metadata-directive', 'COPY')
   if directive == 'REPLACE':
     gcs_stub.put_copy(source, filename, headers)
   else:
     gcs_stub.put_copy(source, filename, None)
-  return _FakeUrlFetchResult(httplib.OK, {}, '')
+  return _FakeUrlFetchResult(http.client.OK, {}, '')
 
 
 def _handle_get(gcs_stub, filename, param_dict, headers):
@@ -256,7 +256,7 @@ def _handle_get(gcs_stub, filename, param_dict, headers):
   else:
 
     result = _handle_head(gcs_stub, filename)
-    if result.status_code == httplib.NOT_FOUND:
+    if result.status_code == http.client.NOT_FOUND:
       return result
 
 
@@ -264,7 +264,7 @@ def _handle_get(gcs_stub, filename, param_dict, headers):
     start, end = _Range(headers).value
     st_size = result.headers['x-goog-stored-content-length']
     if end is not None:
-      result.status_code = httplib.PARTIAL_CONTENT
+      result.status_code = http.client.PARTIAL_CONTENT
       end = min(end, st_size - 1)
       result.headers['content-range'] = 'bytes %d-%d/%d' % (start, end, st_size)
 
@@ -336,14 +336,14 @@ def _handle_get_bucket(gcs_stub, bucketpath, param_dict):
   body = ET.tostring(root)
   response_headers = {'content-length': len(body),
                       'content-type': 'application/xml'}
-  return _FakeUrlFetchResult(httplib.OK, response_headers, body)
+  return _FakeUrlFetchResult(http.client.OK, response_headers, body)
 
 
 def _handle_head(gcs_stub, filename):
   """Handle HEAD request."""
   filestat = gcs_stub.head_object(filename)
   if not filestat:
-    return _FakeUrlFetchResult(httplib.NOT_FOUND, {}, '')
+    return _FakeUrlFetchResult(http.client.NOT_FOUND, {}, '')
 
   http_time = common.posix_time_to_http(filestat.st_ctime)
 
@@ -358,15 +358,15 @@ def _handle_head(gcs_stub, filename):
   if filestat.metadata:
     response_headers.update(filestat.metadata)
 
-  return _FakeUrlFetchResult(httplib.OK, response_headers, '')
+  return _FakeUrlFetchResult(http.client.OK, response_headers, '')
 
 
 def _handle_delete(gcs_stub, filename):
   """Handle DELETE object."""
   if gcs_stub.delete_object(filename):
-    return _FakeUrlFetchResult(httplib.NO_CONTENT, {}, '')
+    return _FakeUrlFetchResult(http.client.NO_CONTENT, {}, '')
   else:
-    return _FakeUrlFetchResult(httplib.NOT_FOUND, {}, '')
+    return _FakeUrlFetchResult(http.client.NOT_FOUND, {}, '')
 
 
 class _Header(object):
@@ -424,17 +424,17 @@ class _ContentRange(_Header):
       result = self.RE_PATTERN.match(self.value)
       if not result:
         raise ValueError('Invalid content-range header %s' % self.value,
-                         httplib.BAD_REQUEST)
+                         http.client.BAD_REQUEST)
 
       self.no_data = result.group(1) == '*'
       last = result.group(4) != '*'
       self.length = None
       if last:
-        self.length = long(result.group(4))
+        self.length = int(result.group(4))
 
       self.range = None
       if not self.no_data:
-        self.range = (long(result.group(2)), long(result.group(3)))
+        self.range = (int(result.group(2)), int(result.group(3)))
 
 
 class _Range(_Header):
@@ -449,7 +449,7 @@ class _Range(_Header):
     super(_Range, self).__init__(headers)
     if self.value:
       start, end = self.value.rsplit('=', 1)[-1].split('-')
-      start, end = long(start), long(end)
+      start, end = int(start), int(end)
     else:
       start, end = 0, None
     self.value = start, end
@@ -468,5 +468,5 @@ def _get_param(param, param_dict, default=None):
   """
   result = param_dict.get(param, default)
   if param in ['max-keys'] and result:
-    return long(result)
+    return int(result)
   return result

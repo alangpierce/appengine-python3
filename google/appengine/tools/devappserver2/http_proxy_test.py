@@ -16,8 +16,8 @@
 #
 """Tests for google.appengine.tools.devappserver2.http_proxy."""
 
-import cStringIO
-import httplib
+import io
+import http.client
 import os
 import re
 import shutil
@@ -86,10 +86,10 @@ class HttpProxyTest(wsgi_test_utils.WSGITestCase):
         instance_logs_getter=get_instance_logs,
         error_handler_file=None)
 
-    self.mox.StubOutWithMock(httplib.HTTPConnection, 'connect')
-    self.mox.StubOutWithMock(httplib.HTTPConnection, 'request')
-    self.mox.StubOutWithMock(httplib.HTTPConnection, 'getresponse')
-    self.mox.StubOutWithMock(httplib.HTTPConnection, 'close')
+    self.mox.StubOutWithMock(http.client.HTTPConnection, 'connect')
+    self.mox.StubOutWithMock(http.client.HTTPConnection, 'request')
+    self.mox.StubOutWithMock(http.client.HTTPConnection, 'getresponse')
+    self.mox.StubOutWithMock(http.client.HTTPConnection, 'close')
     self.mox.StubOutWithMock(login, 'get_user_info')
     self.url_map = appinfo.URLMap(url=r'/(get|post).*',
                                   script=r'\1.py')
@@ -104,8 +104,8 @@ class HttpProxyTest(wsgi_test_utils.WSGITestCase):
                                 [('Foo', 'a'), ('Foo', 'b'), ('Var', 'c')],
                                 'response')
     login.get_user_info(None).AndReturn(('', False, ''))
-    httplib.HTTPConnection.connect()
-    httplib.HTTPConnection.request(
+    http.client.HTTPConnection.connect()
+    http.client.HTTPConnection.request(
         'GET', '/get%20request?key=value', '',
         {'HEADER': 'value',
          http_runtime_constants.REQUEST_ID_HEADER: 'request id',
@@ -120,8 +120,8 @@ class HttpProxyTest(wsgi_test_utils.WSGITestCase):
          'X-APPENGINE-SERVER-PORT': '8080',
          'X-APPENGINE-SERVER-PROTOCOL': 'HTTP/1.1',
         })
-    httplib.HTTPConnection.getresponse().AndReturn(response)
-    httplib.HTTPConnection.close()
+    http.client.HTTPConnection.getresponse().AndReturn(response)
+    http.client.HTTPConnection.close()
     environ = {'HTTP_HEADER': 'value', 'PATH_INFO': '/get request',
                'QUERY_STRING': 'key=value',
                'HTTP_X_APPENGINE_USER_ID': '123',
@@ -145,8 +145,8 @@ class HttpProxyTest(wsgi_test_utils.WSGITestCase):
                                 [('Foo', 'a'), ('Foo', 'b'), ('Var', 'c')],
                                 'response')
     login.get_user_info('cookie').AndReturn(('user@example.com', True, '12345'))
-    httplib.HTTPConnection.connect()
-    httplib.HTTPConnection.request(
+    http.client.HTTPConnection.connect()
+    http.client.HTTPConnection.request(
         'POST', '/post', 'post data',
         {'HEADER': 'value',
          'COOKIE': 'cookie',
@@ -164,10 +164,10 @@ class HttpProxyTest(wsgi_test_utils.WSGITestCase):
          'X-APPENGINE-SERVER-PORT': '8080',
          'X-APPENGINE-SERVER-PROTOCOL': 'HTTP/1.1',
         })
-    httplib.HTTPConnection.getresponse().AndReturn(response)
-    httplib.HTTPConnection.close()
+    http.client.HTTPConnection.getresponse().AndReturn(response)
+    http.client.HTTPConnection.close()
     environ = {'HTTP_HEADER': 'value', 'PATH_INFO': '/post',
-               'wsgi.input': cStringIO.StringIO('post data'),
+               'wsgi.input': io.StringIO('post data'),
                'CONTENT_LENGTH': '9',
                'CONTENT_TYPE': 'text/plain',
                'REQUEST_METHOD': 'POST',
@@ -201,8 +201,8 @@ class HttpProxyTest(wsgi_test_utils.WSGITestCase):
         500, 'Internal Server Error',
         [(http_runtime_constants.ERROR_CODE_HEADER, '1')], '')
     login.get_user_info(None).AndReturn(('', False, ''))
-    httplib.HTTPConnection.connect()
-    httplib.HTTPConnection.request(
+    http.client.HTTPConnection.connect()
+    http.client.HTTPConnection.request(
         'GET', '/get%20error', '',
         {'HEADER': 'value',
          http_runtime_constants.REQUEST_ID_HEADER: 'request id',
@@ -217,8 +217,8 @@ class HttpProxyTest(wsgi_test_utils.WSGITestCase):
          'X-APPENGINE-SERVER-PORT': '8080',
          'X-APPENGINE-SERVER-PROTOCOL': 'HTTP/1.1',
         })
-    httplib.HTTPConnection.getresponse().AndReturn(response)
-    httplib.HTTPConnection.close()
+    http.client.HTTPConnection.getresponse().AndReturn(response)
+    http.client.HTTPConnection.close()
     environ = {'HTTP_HEADER': 'value', 'PATH_INFO': '/get error',
                'QUERY_STRING': '',
                'HTTP_X_APPENGINE_USER_ID': '123',
@@ -249,8 +249,8 @@ class HttpProxyTest(wsgi_test_utils.WSGITestCase):
         500, 'Internal Server Error',
         [(http_runtime_constants.ERROR_CODE_HEADER, '1')], '')
     login.get_user_info(None).AndReturn(('', False, ''))
-    httplib.HTTPConnection.connect()
-    httplib.HTTPConnection.request(
+    http.client.HTTPConnection.connect()
+    http.client.HTTPConnection.request(
         'GET', '/get%20error', '',
         {'HEADER': 'value',
          http_runtime_constants.REQUEST_ID_HEADER: 'request id',
@@ -265,8 +265,8 @@ class HttpProxyTest(wsgi_test_utils.WSGITestCase):
          'X-APPENGINE-SERVER-PORT': '8080',
          'X-APPENGINE-SERVER-PROTOCOL': 'HTTP/1.1',
         })
-    httplib.HTTPConnection.getresponse().AndReturn(response)
-    httplib.HTTPConnection.close()
+    http.client.HTTPConnection.getresponse().AndReturn(response)
+    http.client.HTTPConnection.close()
     environ = {'HTTP_HEADER': 'value', 'PATH_INFO': '/get error',
                'QUERY_STRING': '',
                'HTTP_X_APPENGINE_USER_ID': '123',
@@ -296,8 +296,8 @@ class HttpProxyTest(wsgi_test_utils.WSGITestCase):
         500, 'Internal Server Error',
         [(http_runtime_constants.ERROR_CODE_HEADER, '1')], '')
     login.get_user_info(None).AndReturn(('', False, ''))
-    httplib.HTTPConnection.connect()
-    httplib.HTTPConnection.request(
+    http.client.HTTPConnection.connect()
+    http.client.HTTPConnection.request(
         'GET', '/get%20error', '',
         {'HEADER': 'value',
          http_runtime_constants.REQUEST_ID_HEADER: 'request id',
@@ -312,8 +312,8 @@ class HttpProxyTest(wsgi_test_utils.WSGITestCase):
          'X-APPENGINE-SERVER-PORT': '8080',
          'X-APPENGINE-SERVER-PROTOCOL': 'HTTP/1.1',
         })
-    httplib.HTTPConnection.getresponse().AndReturn(response)
-    httplib.HTTPConnection.close()
+    http.client.HTTPConnection.getresponse().AndReturn(response)
+    http.client.HTTPConnection.close()
     environ = {'HTTP_HEADER': 'value', 'PATH_INFO': '/get error',
                'QUERY_STRING': '',
                'HTTP_X_APPENGINE_USER_ID': '123',
@@ -347,8 +347,8 @@ class HttpProxyTest(wsgi_test_utils.WSGITestCase):
         error_handler_file=None)
 
     login.get_user_info(None).AndReturn(('', False, ''))
-    httplib.HTTPConnection.connect()
-    httplib.HTTPConnection.request(
+    http.client.HTTPConnection.connect()
+    http.client.HTTPConnection.request(
         'GET', '/get%20request?key=value', '',
         {'HEADER': 'value',
          http_runtime_constants.REQUEST_ID_HEADER: 'request id',
@@ -363,8 +363,8 @@ class HttpProxyTest(wsgi_test_utils.WSGITestCase):
          'X-APPENGINE-SERVER-PORT': '8080',
          'X-APPENGINE-SERVER-PROTOCOL': 'HTTP/1.1',
         })
-    httplib.HTTPConnection.getresponse().AndRaise(httplib.IncompleteRead(''))
-    httplib.HTTPConnection.close()
+    http.client.HTTPConnection.getresponse().AndRaise(http.client.IncompleteRead(''))
+    http.client.HTTPConnection.close()
     environ = {'HTTP_HEADER': 'value', 'PATH_INFO': '/get request',
                'QUERY_STRING': 'key=value',
                'HTTP_X_APPENGINE_USER_ID': '123',
@@ -399,10 +399,10 @@ class HttpProxyTest(wsgi_test_utils.WSGITestCase):
         error_handler_file=None)
 
     response = FakeHttpResponse(200, 'OK', [], line0)
-    response.partial_read_error = httplib.IncompleteRead('')
+    response.partial_read_error = http.client.IncompleteRead('')
     login.get_user_info(None).AndReturn(('', False, ''))
-    httplib.HTTPConnection.connect()
-    httplib.HTTPConnection.request(
+    http.client.HTTPConnection.connect()
+    http.client.HTTPConnection.request(
         'GET', '/get%20request?key=value', '',
         {'HEADER': 'value',
          http_runtime_constants.REQUEST_ID_HEADER: 'request id',
@@ -417,8 +417,8 @@ class HttpProxyTest(wsgi_test_utils.WSGITestCase):
          'X-APPENGINE-SERVER-PORT': '8080',
          'X-APPENGINE-SERVER-PROTOCOL': 'HTTP/1.1',
         })
-    httplib.HTTPConnection.getresponse().AndReturn(response)
-    httplib.HTTPConnection.close()
+    http.client.HTTPConnection.getresponse().AndReturn(response)
+    http.client.HTTPConnection.close()
     environ = {'HTTP_HEADER': 'value', 'PATH_INFO': '/get request',
                'QUERY_STRING': 'key=value',
                'HTTP_X_APPENGINE_USER_ID': '123',
@@ -438,8 +438,8 @@ class HttpProxyTest(wsgi_test_utils.WSGITestCase):
 
   def test_connection_error(self):
     login.get_user_info(None).AndReturn(('', False, ''))
-    httplib.HTTPConnection.connect().AndRaise(socket.error())
-    httplib.HTTPConnection.close()
+    http.client.HTTPConnection.connect().AndRaise(socket.error())
+    http.client.HTTPConnection.close()
 
     self.mox.ReplayAll()
     self.assertRaises(socket.error,
@@ -449,7 +449,7 @@ class HttpProxyTest(wsgi_test_utils.WSGITestCase):
                           url_map=self.url_map,
                           match=re.match(self.url_map.url, '/get%20error'),
                           request_id='request id',
-                          request_type=instance.NORMAL_REQUEST).next)
+                          request_type=instance.NORMAL_REQUEST).__next__)
     self.mox.VerifyAll()
 
   def test_connection_error_process_quit(self):
@@ -459,8 +459,8 @@ class HttpProxyTest(wsgi_test_utils.WSGITestCase):
         instance_logs_getter=get_instance_logs,
         error_handler_file=None)
     login.get_user_info(None).AndReturn(('', False, ''))
-    httplib.HTTPConnection.connect().AndRaise(socket.error())
-    httplib.HTTPConnection.close()
+    http.client.HTTPConnection.connect().AndRaise(socket.error())
+    http.client.HTTPConnection.close()
 
     self.mox.ReplayAll()
     expected_headers = {
@@ -483,8 +483,8 @@ class HttpProxyTest(wsgi_test_utils.WSGITestCase):
   def test_handle_background_thread(self):
     response = FakeHttpResponse(200, 'OK', [('Foo', 'Bar')], 'response')
     login.get_user_info(None).AndReturn(('', False, ''))
-    httplib.HTTPConnection.connect()
-    httplib.HTTPConnection.request(
+    http.client.HTTPConnection.connect()
+    http.client.HTTPConnection.request(
         'GET', '/get%20request?key=value', '',
         {'HEADER': 'value',
          http_runtime_constants.REQUEST_ID_HEADER: 'request id',
@@ -500,8 +500,8 @@ class HttpProxyTest(wsgi_test_utils.WSGITestCase):
          'X-APPENGINE-SERVER-PORT': '8080',
          'X-APPENGINE-SERVER-PROTOCOL': 'HTTP/1.1',
         })
-    httplib.HTTPConnection.getresponse().AndReturn(response)
-    httplib.HTTPConnection.close()
+    http.client.HTTPConnection.getresponse().AndReturn(response)
+    http.client.HTTPConnection.close()
     environ = {'HTTP_HEADER': 'value', 'PATH_INFO': '/get request',
                'QUERY_STRING': 'key=value',
                'HTTP_X_APPENGINE_USER_ID': '123',

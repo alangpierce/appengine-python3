@@ -292,7 +292,7 @@ def build_go_docker_image_source(
   ]
   with open(dst_build, 'wb') as fd:
     fd.write('\n'.join(lines) + '\n')
-  os.chmod(dst_build, 0777)
+  os.chmod(dst_build, 0o777)
 
   # TODO: Remove this when classic Go SDK is gone.
   # Write default Dockerfile if none found.

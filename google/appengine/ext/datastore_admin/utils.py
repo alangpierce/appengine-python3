@@ -596,7 +596,7 @@ def RunMapForKinds(operation_key,
                            queue_name=queue_name, shard_count=shard_count))
     return jobs
 
-  except BaseException, ex:
+  except BaseException as ex:
     AbortAdminOperation(operation_key,
                         _status=DatastoreAdminOperation.STATUS_FAILED,
                         _status_info='%s: %s' % (ex.__class__.__name__, ex))
@@ -684,7 +684,7 @@ class ReserveKeyPool(object):
 
   def reserve_key(self, key):
     for id_or_name in key.to_path()[1::2]:
-      if isinstance(id_or_name, (int, long)):
+      if isinstance(id_or_name, int):
         self.keys.append(key)
         if len(self.keys) >= RESERVE_KEY_POOL_MAX_SIZE:
           self.flush()

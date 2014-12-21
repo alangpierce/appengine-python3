@@ -40,8 +40,8 @@ class Token(object):
     Raises:
       TypeError: If an unknown argument is passed.
     """
-    if isinstance(chars, basestring) and not isinstance(chars, unicode):
-      chars = unicode(chars, 'utf-8')
+    if isinstance(chars, str) and not isinstance(chars, str):
+      chars = str(chars, 'utf-8')
     self._chars = chars
     self._position = position
     self._field_name = field_name
@@ -50,7 +50,7 @@ class Token(object):
   def chars(self):
     """Returns a list of fields of the document."""
     value = self._chars
-    if not isinstance(value, basestring):
+    if not isinstance(value, str):
       value = str(self._chars)
     if self._field_name:
       return self._field_name + ':' + value

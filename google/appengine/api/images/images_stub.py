@@ -28,7 +28,7 @@
 import datetime
 import logging
 import re
-import StringIO
+import io
 import time
 
 
@@ -318,7 +318,7 @@ class ImagesServiceStub(apiproxy_stub.APIProxyStub):
     Returns:
       str - Encoded image information in given encoding format.  Default is PNG.
     """
-    image_string = StringIO.StringIO()
+    image_string = io.StringIO()
     image_encoding = PNG
 
     if output_encoding.mime_type() == images_service_pb.OutputSettings.WEBP:
@@ -395,7 +395,7 @@ class ImagesServiceStub(apiproxy_stub.APIProxyStub):
       raise apiproxy_errors.ApplicationError(
           images_service_pb.ImagesServiceError.NOT_IMAGE)
 
-    image = StringIO.StringIO(image)
+    image = io.StringIO(image)
     try:
       return Image.open(image)
     except IOError:
@@ -672,7 +672,7 @@ class ImagesServiceStub(apiproxy_stub.APIProxyStub):
       if not match:
         return None
       try:
-        date = datetime.datetime(*map(int, filter(None, match.groups())))
+        date = datetime.datetime(*list(map(int, [_f for _f in match.groups() if _f])))
       except ValueError:
         logging.info('Invalid date in EXIF: %s', exif_time)
         return None
@@ -692,7 +692,7 @@ class ImagesServiceStub(apiproxy_stub.APIProxyStub):
       else:
         del metadata_dict[_EXIF_DATETIMEORIGINAL_TAG]
     metadata = dict(
-        [(_EXIF_TAGS[k], v) for k, v in metadata_dict.iteritems()
+        [(_EXIF_TAGS[k], v) for k, v in metadata_dict.items()
          if k in _EXIF_TAGS])
     return simplejson.dumps(metadata)
 

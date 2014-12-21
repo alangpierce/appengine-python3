@@ -319,7 +319,7 @@ class Future(object):
   def check_success(self):
     self.wait()
     if self._exception is not None:
-      raise self._exception.__class__, self._exception, self._traceback
+      raise self._exception.__class__(self._exception).with_traceback(self._traceback)
 
   def get_result(self):
     self.check_success()
@@ -365,7 +365,7 @@ class Future(object):
         if exc is not None:
           _logging_debug('Throwing %s(%s) into %s',
                         exc.__class__.__name__, exc, info)
-          value = gen.throw(exc.__class__, exc, tb)
+          value = gen.throw(exc.__class__(exc).with_traceback(tb))
         else:
           _logging_debug('Sending %r to %s', val, info)
           value = gen.send(val)
@@ -379,7 +379,7 @@ class Future(object):
         if save_ds_connection is not ds_conn:
           datastore._SetConnection(save_ds_connection)
 
-    except StopIteration, err:
+    except StopIteration as err:
       result = get_return_value(err)
       _logging_debug('%s returned %r', info, result)
       self.set_result(result)
@@ -392,7 +392,7 @@ class Future(object):
       # TODO: Remove when Python 2.5 is no longer supported.
       raise
 
-    except Exception, err:
+    except Exception as err:
       _, _, tb = sys.exc_info()
       if isinstance(err, _flow_exceptions):
         # Flow exceptions aren't logged except in "heavy debug" mode,
@@ -438,7 +438,7 @@ class Future(object):
           mfut.complete()
         except GeneratorExit:
           raise
-        except Exception, err:
+        except Exception as err:
           _, _, tb = sys.exc_info()
           mfut.set_exception(err, tb)
         mfut.add_callback(self._on_future_completion, mfut, ns, ds_conn, gen)
@@ -454,7 +454,7 @@ class Future(object):
       result = rpc.get_result()
     except GeneratorExit:
       raise
-    except Exception, err:
+    except Exception as err:
       _, _, tb = sys.exc_info()
       self._help_tasklet_along(ns, ds_conn, gen, exc=err, tb=tb)
     else:
@@ -563,7 +563,7 @@ class MultiFuture(Future):
       result = [r.get_result() for r in self._results]
     except GeneratorExit:
       raise
-    except Exception, err:
+    except Exception as err:
       _, _, tb = sys.exc_info()
       self.set_exception(err, tb)
     else:
@@ -580,7 +580,7 @@ class MultiFuture(Future):
   def add_dependent(self, fut):
     if isinstance(fut, list):
       mfut = MultiFuture()
-      map(mfut.add_dependent, fut)
+      list(map(mfut.add_dependent, fut))
       mfut.complete()
       fut = mfut
     elif not isinstance(fut, Future):
@@ -919,7 +919,7 @@ class ReducingFuture(Future):
       val = fut.get_result()
     except GeneratorExit:
       raise
-    except Exception, err:
+    except Exception as err:
       _, _, tb = sys.exc_info()
       self.set_exception(err, tb)
       return
@@ -931,7 +931,7 @@ class ReducingFuture(Future):
         nval = self._reducer(todo)
       except GeneratorExit:
         raise
-      except Exception, err:
+      except Exception as err:
         _, _, tb = sys.exc_info()
         self.set_exception(err, tb)
         return
@@ -954,7 +954,7 @@ class ReducingFuture(Future):
         nval = self._reducer(todo)
       except GeneratorExit:
         raise
-      except Exception, err:
+      except Exception as err:
         _, _, tb = sys.exc_info()
         self.set_exception(err, tb)
         return
@@ -1001,7 +1001,7 @@ def tasklet(func):
     fut._context = get_context()
     try:
       result = func(*args, **kwds)
-    except StopIteration, err:
+    except StopIteration as err:
       # Just in case the function is not a generator but still uses
       # the "raise Return(...)" idiom, we'll extract the return value.
       result = get_return_value(err)

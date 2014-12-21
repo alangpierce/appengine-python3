@@ -29,7 +29,7 @@ RPCStats holds data about a specific RPC category for each request.
 
 
 import logging
-import entity
+from . import entity
 
 
 def _RPCCategory(rpcstatsproto):
@@ -336,7 +336,7 @@ class URLStats(object):
         freq_request = request.EntityGroupCount()
       else:
         freq_request = request.EntityCount()
-      for name, freq in freq_request.items():
+      for name, freq in list(freq_request.items()):
         if not name in freq_total:
           freq_total[name] = {'read': 0, 'write': 0, 'miss': 0}
         freq_total[name]['read'] += freq['read']

@@ -22,7 +22,7 @@ to the local emulation layer.
 
 
 
-import httplib
+import http.client
 import logging
 import webob
 
@@ -54,13 +54,13 @@ class Application(object):
       result = stub_dispatcher.dispatch(request.method, request.headers,
                                         request.url, request.body)
     except ValueError as e:
-      status_message = httplib.responses.get(e.args[1], '')
+      status_message = http.client.responses.get(e.args[1], '')
       start_response('%d %s' % (e.args[1], status_message), [])
       return [e.args[0]]
 
     # The metadata headers must be convereted from unicode to string.
     headers = []
-    for k, v in result.headers.iteritems():
+    for k, v in result.headers.items():
       headers.append((str(k), str(v)))
 
     # GCS uses non-standard HTTP 308 status code.
@@ -68,7 +68,7 @@ class Application(object):
     if status_code == 308:
       status_message = HTTP_308_STATUS_MESSAGE
     else:
-      status_message = httplib.responses.get(status_code, '')
+      status_message = http.client.responses.get(status_code, '')
 
     start_response('%d %s' % (status_code, status_message), headers)
 

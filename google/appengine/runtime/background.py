@@ -26,7 +26,7 @@ request context and do not need to end before the creator request completes.
 
 import logging
 import sys
-import thread
+import _thread
 import threading
 import traceback
 
@@ -81,7 +81,7 @@ class _BackgroundRequest(object):
         kwargs: A dict of keyword args to be passed to target.
     """
     with self._ready_condition:
-      self._thread_id = thread.get_ident()
+      self._thread_id = _thread.get_ident()
       self._thread_id_ready = True
       self._ready_condition.notify()
       while not self._callable_ready:

@@ -45,7 +45,7 @@ DEFAULT_FILE = 'appstats.pkl'
 
 
 def auth_func():
-  return (raw_input('Email: '), getpass.getpass('Password: '))
+  return (input('Email: '), getpass.getpass('Password: '))
 
 
 def download_appstats(servername, appid, path, secure,
@@ -61,7 +61,7 @@ def download_appstats(servername, appid, path, secure,
     try:
       logging.info('Importing appengine_config from %s', appdir)
       import appengine_config
-    except ImportError, err:
+    except ImportError as err:
       logging.warn('Failed to load appengine_config: %s', err)
 
 
@@ -151,9 +151,9 @@ def main(argv):
       or (options.path and len(args) > 1)):
     parser.print_usage(sys.stderr)
     if len(args) > 2:
-      print >> sys.stderr, 'Unexpected arguments: %s' % args[2:]
+      print('Unexpected arguments: %s' % args[2:], file=sys.stderr)
     elif options.path and len(args) > 1:
-      print >> sys.stderr, 'Path specified twice.'
+      print('Path specified twice.', file=sys.stderr)
     sys.exit(1)
 
 

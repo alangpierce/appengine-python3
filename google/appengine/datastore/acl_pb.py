@@ -19,7 +19,7 @@
 
 from google.net.proto import ProtocolBuffer
 import array
-import dummy_thread as thread
+import _dummy_thread as thread
 
 __pychecker__ = """maxreturns=0 maxbranches=0 no-callinit
                    unusednames=printElemNumber,debug_strs no-special"""
@@ -162,7 +162,7 @@ class Scope(ProtocolBuffer.ProtocolMessage):
 
 
   def _BuildTagLookupTable(sparse, maxtag, default=None):
-    return tuple([sparse.get(i, default) for i in xrange(0, 1+maxtag)])
+    return tuple([sparse.get(i, default) for i in range(0, 1+maxtag)])
 
   ktype = 1
   kvalue = 2
@@ -353,7 +353,7 @@ class Entry(ProtocolBuffer.ProtocolMessage):
 
 
   def _BuildTagLookupTable(sparse, maxtag, default=None):
-    return tuple([sparse.get(i, default) for i in xrange(0, 1+maxtag)])
+    return tuple([sparse.get(i, default) for i in range(0, 1+maxtag)])
 
   kscope = 1
   kpermission = 2
@@ -418,7 +418,7 @@ class AccessControlList(ProtocolBuffer.ProtocolMessage):
   def MergeFrom(self, x):
     assert x is not self
     if (x.has_owner()): self.set_owner(x.owner())
-    for i in xrange(x.entries_size()): self.add_entries().CopyFrom(x.entries(i))
+    for i in range(x.entries_size()): self.add_entries().CopyFrom(x.entries(i))
 
   def Equals(self, x):
     if x is self: return 1
@@ -439,14 +439,14 @@ class AccessControlList(ProtocolBuffer.ProtocolMessage):
     n = 0
     if (self.has_owner_): n += 1 + self.lengthString(len(self.owner_))
     n += 1 * len(self.entries_)
-    for i in xrange(len(self.entries_)): n += self.lengthString(self.entries_[i].ByteSize())
+    for i in range(len(self.entries_)): n += self.lengthString(self.entries_[i].ByteSize())
     return n
 
   def ByteSizePartial(self):
     n = 0
     if (self.has_owner_): n += 1 + self.lengthString(len(self.owner_))
     n += 1 * len(self.entries_)
-    for i in xrange(len(self.entries_)): n += self.lengthString(self.entries_[i].ByteSizePartial())
+    for i in range(len(self.entries_)): n += self.lengthString(self.entries_[i].ByteSizePartial())
     return n
 
   def Clear(self):
@@ -457,7 +457,7 @@ class AccessControlList(ProtocolBuffer.ProtocolMessage):
     if (self.has_owner_):
       out.putVarInt32(10)
       out.putPrefixedString(self.owner_)
-    for i in xrange(len(self.entries_)):
+    for i in range(len(self.entries_)):
       out.putVarInt32(18)
       out.putVarInt32(self.entries_[i].ByteSize())
       self.entries_[i].OutputUnchecked(out)
@@ -466,7 +466,7 @@ class AccessControlList(ProtocolBuffer.ProtocolMessage):
     if (self.has_owner_):
       out.putVarInt32(10)
       out.putPrefixedString(self.owner_)
-    for i in xrange(len(self.entries_)):
+    for i in range(len(self.entries_)):
       out.putVarInt32(18)
       out.putVarInt32(self.entries_[i].ByteSizePartial())
       self.entries_[i].OutputPartial(out)
@@ -504,7 +504,7 @@ class AccessControlList(ProtocolBuffer.ProtocolMessage):
 
 
   def _BuildTagLookupTable(sparse, maxtag, default=None):
-    return tuple([sparse.get(i, default) for i in xrange(0, 1+maxtag)])
+    return tuple([sparse.get(i, default) for i in range(0, 1+maxtag)])
 
   kowner = 1
   kentries = 2

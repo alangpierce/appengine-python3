@@ -95,7 +95,7 @@ class Job(object):
       (basestring, int)
     """
     self.__update_state()
-    return self._state.counters_map.counters.iteritems()
+    return iter(self._state.counters_map.counters.items())
 
   def get_counter(self, counter_name, default=0):
     """Get the value of the named counter from this job.

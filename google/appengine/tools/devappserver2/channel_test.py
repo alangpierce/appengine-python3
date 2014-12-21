@@ -19,9 +19,9 @@
 
 
 
-import StringIO
+import io
 import unittest
-import urllib
+import urllib.request, urllib.parse, urllib.error
 
 from google.appengine.api.channel import channel_service_stub
 from google.appengine.tools.devappserver2 import channel
@@ -40,7 +40,7 @@ class MockChannelServiceStub(object):
     self._messages = messages
 
   def has_channel_messages(self, token):
-    return (self._messages.has_key(token) and
+    return (token in self._messages and
             self._messages[token])
 
   def get_channel_messages(self, token):
@@ -86,7 +86,7 @@ def _build_environ(path, query=None):
       'PATH_INFO': path,
   }
   if query:
-    environ['QUERY_STRING'] = urllib.urlencode(query)
+    environ['QUERY_STRING'] = urllib.parse.urlencode(query)
   return environ
 
 
@@ -109,7 +109,7 @@ class DevAppserverChannelTest(wsgi_test_utils.WSGITestCase):
     self._old_get_channel_stub = channel._get_channel_stub
     channel._get_channel_stub = lambda: self._mock_channel_service_stub
     self._channel_app = channel.application
-    self._output = StringIO.StringIO()
+    self._output = io.StringIO()
 
   def tearDown(self):
     channel._get_channel_stub = self._old_get_channel_stub

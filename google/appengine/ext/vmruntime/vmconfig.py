@@ -18,7 +18,7 @@
 
 import collections
 import os
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 
 _METADATA_BASE_PATH = 'http://metadata/0.1/meta-data/attributes'
 
@@ -32,7 +32,7 @@ def _MetadataGetter(key):
   Returns:
     The metadata value as a string.
   """
-  return urllib2.urlopen('%s/%s' % (_METADATA_BASE_PATH, key)).read()
+  return urllib.request.urlopen('%s/%s' % (_METADATA_BASE_PATH, key)).read()
 
 
 VmAppengineEnvConfig = collections.namedtuple(

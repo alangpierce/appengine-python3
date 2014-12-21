@@ -52,7 +52,7 @@ import weakref
 
 
 
-import cPickle as pickle
+import pickle as pickle
 
 from google.appengine.api import apiproxy_stub
 from google.appengine.api import datastore
@@ -200,7 +200,7 @@ class PropertyPseudoKind(object):
 
 
 
-        for entity in entities[app_kind].values():
+        for entity in list(entities[app_kind].values()):
           for prop in entity.protobuf.property_list():
             prop_name = prop.name()
 
@@ -229,7 +229,7 @@ class PropertyPseudoKind(object):
       def InQuery(property_e):
         return property_range.Contains(
             (kind, _FinalElement(property_e.key()).name()))
-      properties += filter(InQuery, kind_properties)
+      properties += list(filter(InQuery, kind_properties))
 
     return (properties, [], [])
 
@@ -353,8 +353,8 @@ class DatastoreFileStub(datastore_stub_util.BaseDatastore,
 
     self.__schema_cache = {}
 
-    self.__id_counters = {datastore_stub_util.SEQUENTIAL: 1L,
-                          datastore_stub_util.SCATTERED: 1L
+    self.__id_counters = {datastore_stub_util.SEQUENTIAL: 1,
+                          datastore_stub_util.SCATTERED: 1
                          }
     self.__id_lock = threading.Lock()
 
@@ -468,11 +468,11 @@ class DatastoreFileStub(datastore_stub_util.BaseDatastore,
       for encoded_entity in self.__ReadPickled(self.__datastore_file):
         try:
           entity = entity_pb.EntityProto(encoded_entity)
-        except self.READ_PB_EXCEPTIONS, e:
+        except self.READ_PB_EXCEPTIONS as e:
           raise apiproxy_errors.ApplicationError(
               datastore_pb.Error.INTERNAL_ERROR,
               self.READ_ERROR_MSG % (self.__datastore_file, e))
-        except struct.error, e:
+        except struct.error as e:
           if (sys.version_info[0:3] == (2, 5, 0)
               and e.message.startswith('unpack requires a string argument')):
 
@@ -508,8 +508,8 @@ class DatastoreFileStub(datastore_stub_util.BaseDatastore,
     """
     if self.__IsSaveable():
       encoded = []
-      for kind_dict in self.__entities_by_kind.values():
-        encoded.extend(entity.encoded_protobuf for entity in kind_dict.values())
+      for kind_dict in list(self.__entities_by_kind.values()):
+        encoded.extend(entity.encoded_protobuf for entity in list(kind_dict.values()))
 
       self.__WritePickled(encoded, self.__datastore_file)
 
@@ -528,7 +528,7 @@ class DatastoreFileStub(datastore_stub_util.BaseDatastore,
         else:
           logging.warning('Could not read datastore data from %s', filename)
       except (AttributeError, LookupError, ImportError, NameError, TypeError,
-              ValueError, struct.error, pickle.PickleError), e:
+              ValueError, struct.error, pickle.PickleError) as e:
 
 
         raise apiproxy_errors.ApplicationError(
@@ -668,12 +668,12 @@ class DatastoreFileStub(datastore_stub_util.BaseDatastore,
         (results, filters, orders) = pseudo_kind.Query(query, filters, orders)
       elif query.has_kind():
         results = [entity.protobuf for entity in
-                   self.__entities_by_kind[app_ns, query.kind()].values()]
+                   list(self.__entities_by_kind[app_ns, query.kind()].values())]
       else:
         results = []
-        for (cur_app_ns, _), entities in self.__entities_by_kind.iteritems():
+        for (cur_app_ns, _), entities in self.__entities_by_kind.items():
           if cur_app_ns == app_ns:
-            results.extend(entity.protobuf for entity in entities.itervalues())
+            results.extend(entity.protobuf for entity in entities.values())
     except KeyError:
       results = []
     finally:

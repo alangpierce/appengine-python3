@@ -20,7 +20,7 @@
 
 """Userland RPC instrumentation for App Engine."""
 
-from __future__ import with_statement
+
 
 
 
@@ -171,7 +171,7 @@ class ConfigDefaults(object):
       if config.DEBUG:
         logging.debug('FILTER_LIST: %r', config.FILTER_LIST)
       for filter_dict in config.FILTER_LIST:
-        for key, regex in filter_dict.iteritems():
+        for key, regex in filter_dict.items():
           negated = isinstance(regex, str) and regex.startswith('!')
           if negated:
             regex = regex[1:]
@@ -246,7 +246,7 @@ class Recorder(object):
     Args:
       env: A dict giving the CGI or WSGI environment.
     """
-    self.env = dict(kv for kv in env.iteritems() if isinstance(kv[1], str))
+    self.env = dict(kv for kv in env.items() if isinstance(kv[1], str))
     self.start_timestamp = time.time()
     self.http_status = 0
     self.end_timestamp = self.start_timestamp
@@ -724,7 +724,7 @@ class Recorder(object):
       proto.set_user_email(user_email)
     if self.env.get('USER_IS_ADMIN') == '1':
       proto.set_is_admin(True)
-    for key, value in sorted(self.env.iteritems()):
+    for key, value in sorted(self.env.items()):
       x = proto.add_cgi_env()
       x.set_key(key)
       x.set_value(value)
@@ -764,14 +764,14 @@ class Recorder(object):
     duration = int(1000 * (self.end_timestamp - self.start_timestamp))
     summary.set_duration_milliseconds(duration)
     summary.set_overhead_walltime_milliseconds(int(self.overhead * 1000))
-    rpc_stats = self.get_rpcstats().items()
+    rpc_stats = list(self.get_rpcstats().items())
     rpc_stats.sort(key=lambda x: (-x[1][0], x[0]))
     for key, value in rpc_stats:
       x = summary.add_rpc_stats()
       x.set_service_call_name(key)
       x.set_total_amount_of_calls(value[0])
       x.set_total_cost_of_calls_microdollars(value[1])
-      for billed_op in value[2].itervalues():
+      for billed_op in value[2].values():
         x.total_billed_ops_list().append(billed_op)
     return summary
 
@@ -831,7 +831,7 @@ class Recorder(object):
                  self.http_query(),
                  self.http_status,
                  self.end_timestamp - self.start_timestamp)
-    for key, value in sorted(self.get_rpcstats().iteritems()):
+    for key, value in sorted(self.get_rpcstats().items()):
       logging.info('  %s : %s', key, value)
     if level <= 0:
       return
@@ -921,7 +921,7 @@ class Recorder(object):
     if max_locals <= 0:
       return True
 
-    for name, value in sorted(frame.f_locals.iteritems()):
+    for name, value in sorted(frame.f_locals.items()):
       x = entry.add_variables()
       x.set_key(name)
       x.set_value(format_value(value))
@@ -1115,7 +1115,7 @@ class StatsProto(object):
         _add_billed_ops_to_map(combined_ops_dict,
                                stats.total_billed_ops_list())
       self.__combined_rpc_billed_ops = billed_ops_to_str(
-          combined_ops_dict.itervalues())
+          iter(combined_ops_dict.values()))
     return self.__combined_rpc_billed_ops
 
 
@@ -1143,10 +1143,10 @@ def load_summary_protos(java_application=False):
                 config.KEY_DISTANCE)]
   results = memcache.get_multi(keys, namespace=config.KEY_NAMESPACE)
   records = []
-  for rec in results.itervalues():
+  for rec in results.values():
     try:
       pb = StatsProto(rec)
-    except Exception, err:
+    except Exception as err:
       logging.warn('Bad record: %s', err)
     else:
       records.append(pb)
@@ -1180,7 +1180,7 @@ def load_full_proto(timestamp, java_application=False):
     return None
   try:
     full = StatsProto(full_binary)
-  except Exception, err:
+  except Exception as err:
     logging.warn('Bad full record at %s: %s', full_key, err)
     return None
   if full.start_timestamp_milliseconds() != int(timestamp * 1000):

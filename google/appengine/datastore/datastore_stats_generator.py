@@ -49,9 +49,9 @@ _GLOBAL_KEY = (stats.GlobalStat, 'total_entity_usage', '')
 
 
 _PROPERTY_TYPE_TO_DSS_NAME = {
-    unicode: ('String', 'STRING'),
+    str: ('String', 'STRING'),
     bool: ('Boolean', 'BOOLEAN'),
-    long: ('Integer', 'INT64'),
+    int: ('Integer', 'INT64'),
     type(None): ('NULL', 'NULL'),
     float: ('Float', 'DOUBLE'),
     datastore_types.Key: ('Key', 'REFERENCE'),
@@ -223,7 +223,7 @@ class DatastoreStatsProcessor(object):
           value = datastore_types.FromPropertyPb(prop)
           self.__AggregateProperty(kind_name, namespace, entity_key_size,
                                    prop, value)
-        except (AssertionError, AttributeError, TypeError, ValueError), e:
+        except (AssertionError, AttributeError, TypeError, ValueError) as e:
           logging.error('Cannot process property %r, exception %s' %
                         (prop, e))
 
@@ -559,7 +559,7 @@ class DatastoreStatsProcessor(object):
                                             _app=self.app_id),
           _app=self.app_id)
       stats_dict[stat_key] = stat_model
-      for field, value in kwds.iteritems():
+      for field, value in kwds.items():
         setattr(stat_model, field, value)
       stat_model.count = count
       if size:
@@ -593,7 +593,7 @@ class DatastoreStatsProcessor(object):
 
     self.written = 0
 
-    for stat in self.whole_app_stats.itervalues():
+    for stat in self.whole_app_stats.values():
       if stat.count or not (isinstance(stat, stats.GlobalStat) or
                             isinstance(stat, stats.NamespaceStat)):
         stat.put()
@@ -602,7 +602,7 @@ class DatastoreStatsProcessor(object):
 
 
     if self.found_non_empty_namespace:
-      for stat in self.namespace_stats.itervalues():
+      for stat in self.namespace_stats.values():
         if stat.count or not isinstance(stat, stats.NamespaceGlobalStat):
           stat.put()
           self.written += 1

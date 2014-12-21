@@ -65,7 +65,7 @@ import logging
 import pickle
 import random
 import string
-import StringIO
+import io
 import time
 import zipfile
 
@@ -157,7 +157,7 @@ class InputReader(json_util.JsonMixin):
   def __iter__(self):
     return self
 
-  def next(self):
+  def __next__(self):
     """Returns the next input from this input reader as a key, value pair.
 
     Returns:
@@ -249,13 +249,13 @@ def _get_params(mapper_spec, allowed_keys=None, allow_old=True):
     if not allow_old or allowed_keys:
       raise errors.BadReaderParamsError(message)
     params = mapper_spec.params
-    params = dict((str(n), v) for n, v in params.iteritems())
+    params = dict((str(n), v) for n, v in params.items())
   else:
     if not isinstance(mapper_spec.params.get("input_reader"), dict):
       raise errors.BadReaderParamsError(
           "Input reader parameters should be a dictionary")
     params = mapper_spec.params.get("input_reader")
-    params = dict((str(n), v) for n, v in params.iteritems())
+    params = dict((str(n), v) for n, v in params.items())
     if allowed_keys:
       params_diff = set(params.keys()) - allowed_keys
       if params_diff:
@@ -322,7 +322,7 @@ class FileInputReader(InputReader):
     """Inherit docs."""
     return self
 
-  def next(self):
+  def __next__(self):
     """Inherit docs."""
     ctx = context.get()
     start_time = time.time()
@@ -373,12 +373,12 @@ class FileInputReader(InputReader):
       raise BadReaderParamsError("Must specify %s" % cls.FORMAT_PARAM)
 
     format_string = params[cls.FORMAT_PARAM]
-    if not isinstance(format_string, basestring):
+    if not isinstance(format_string, str):
       raise BadReaderParamsError("format should be string but is %s" %
                                  cls.FORMAT_PARAM)
     try:
       file_format_parser.parse(format_string)
-    except ValueError, e:
+    except ValueError as e:
       raise BadReaderParamsError(e)
 
     paths = params[cls.FILES_PARAM]
@@ -665,7 +665,7 @@ class AbstractDatastoreInputReader(InputReader):
         batch_size = int(params[cls.BATCH_SIZE_PARAM])
         if batch_size < 1:
           raise BadReaderParamsError("Bad batch size: %s" % batch_size)
-      except ValueError, e:
+      except ValueError as e:
         raise BadReaderParamsError("Bad batch size: %s" % e)
     try:
       bool(params.get(cls.KEYS_ONLY_PARAM, False))
@@ -674,7 +674,7 @@ class AbstractDatastoreInputReader(InputReader):
                                  params[cls.KEYS_ONLY_PARAM])
     if cls.NAMESPACE_PARAM in params:
       if not isinstance(params[cls.NAMESPACE_PARAM],
-                        (str, unicode, type(None))):
+                        (str, type(None))):
         raise BadReaderParamsError(
             "Expected a single namespace string")
     if cls.NAMESPACES_PARAM in params:
@@ -689,9 +689,9 @@ class AbstractDatastoreInputReader(InputReader):
         if len(f) != 3:
           raise BadReaderParamsError("Filter should be a 3-tuple: %s", f)
         prop, op, _ = f
-        if not isinstance(prop, basestring):
+        if not isinstance(prop, str):
           raise BadReaderParamsError("Property should be string: %s", prop)
-        if not isinstance(op, basestring):
+        if not isinstance(op, str):
           raise BadReaderParamsError("Operator should be string: %s", op)
 
   @classmethod
@@ -760,7 +760,7 @@ class DatastoreInputReader(AbstractDatastoreInputReader):
 
     try:
       model_class = util.for_name(entity_kind)
-    except ImportError, e:
+    except ImportError as e:
       raise BadReaderParamsError("Bad entity kind: %s" % e)
     if cls.FILTERS_PARAM in params:
       filters = params[cls.FILTERS_PARAM]
@@ -802,7 +802,7 @@ class DatastoreInputReader(AbstractDatastoreInputReader):
 
       try:
         properties[prop].validate(val)
-      except db.BadValueError, e:
+      except db.BadValueError as e:
         raise errors.BadReaderParamsError(e)
 
   @classmethod
@@ -825,7 +825,7 @@ class DatastoreInputReader(AbstractDatastoreInputReader):
 
       try:
         properties[prop]._do_validate(val)
-      except db.BadValueError, e:
+      except db.BadValueError as e:
         raise errors.BadReaderParamsError(e)
 
   @classmethod
@@ -1196,11 +1196,11 @@ class _OldAbstractDatastoreInputReader(InputReader):
         batch_size = int(params[cls.BATCH_SIZE_PARAM])
         if batch_size < 1:
           raise BadReaderParamsError("Bad batch size: %s" % batch_size)
-      except ValueError, e:
+      except ValueError as e:
         raise BadReaderParamsError("Bad batch size: %s" % e)
     if cls.NAMESPACE_PARAM in params:
       if not isinstance(params[cls.NAMESPACE_PARAM],
-                        (str, unicode, type(None))):
+                        (str, type(None))):
         raise BadReaderParamsError(
             "Expected a single namespace string")
     if cls.NAMESPACES_PARAM in params:
@@ -1214,7 +1214,7 @@ class _OldAbstractDatastoreInputReader(InputReader):
           raise BadReaderParamsError("Filter should be a tuple or list: %s", f)
         if len(f) != 3:
           raise BadReaderParamsError("Filter should be a 3-tuple: %s", f)
-        if not isinstance(f[0], basestring):
+        if not isinstance(f[0], str):
           raise BadReaderParamsError("First element should be string: %s", f)
         if f[1] != "=":
           raise BadReaderParamsError(
@@ -1414,7 +1414,7 @@ class BlobstoreLineInputReader(InputReader):
     self._has_iterated = False
     self._read_before_start = bool(start_position)
 
-  def next(self):
+  def __next__(self):
     """Returns the next input from as an (offset, line) tuple."""
     self._has_iterated = True
 
@@ -1470,7 +1470,7 @@ class BlobstoreLineInputReader(InputReader):
     if cls.BLOB_KEYS_PARAM not in params:
       raise BadReaderParamsError("Must specify 'blob_keys' for mapper input")
     blob_keys = params[cls.BLOB_KEYS_PARAM]
-    if isinstance(blob_keys, basestring):
+    if isinstance(blob_keys, str):
 
 
       blob_keys = blob_keys.split(",")
@@ -1497,7 +1497,7 @@ class BlobstoreLineInputReader(InputReader):
     """
     params = _get_params(mapper_spec)
     blob_keys = params[cls.BLOB_KEYS_PARAM]
-    if isinstance(blob_keys, basestring):
+    if isinstance(blob_keys, str):
 
 
       blob_keys = blob_keys.split(",")
@@ -1513,9 +1513,9 @@ class BlobstoreLineInputReader(InputReader):
       shards_per_blob = 1
 
     chunks = []
-    for blob_key, blob_size in blob_sizes.items():
+    for blob_key, blob_size in list(blob_sizes.items()):
       blob_chunk_size = blob_size // shards_per_blob
-      for i in xrange(shards_per_blob - 1):
+      for i in range(shards_per_blob - 1):
         chunks.append(BlobstoreLineInputReader.from_json(
             {cls.BLOB_KEY_PARAM: blob_key,
              cls.INITIAL_POSITION_PARAM: blob_chunk_size * i,
@@ -1563,7 +1563,7 @@ class BlobstoreZipInputReader(InputReader):
     self._zip = None
     self._entries = None
 
-  def next(self):
+  def __next__(self):
     """Returns the next input from this input reader as (ZipInfo, opener) tuple.
 
     Returns:
@@ -1760,7 +1760,7 @@ class BlobstoreZipLineInputReader(InputReader):
       raise BadReaderParamsError("Must specify 'blob_keys' for mapper input")
 
     blob_keys = params[cls.BLOB_KEYS_PARAM]
-    if isinstance(blob_keys, basestring):
+    if isinstance(blob_keys, str):
 
 
       blob_keys = blob_keys.split(",")
@@ -1791,7 +1791,7 @@ class BlobstoreZipLineInputReader(InputReader):
     """
     params = _get_params(mapper_spec)
     blob_keys = params[cls.BLOB_KEYS_PARAM]
-    if isinstance(blob_keys, basestring):
+    if isinstance(blob_keys, str):
 
 
       blob_keys = blob_keys.split(",")
@@ -1831,7 +1831,7 @@ class BlobstoreZipLineInputReader(InputReader):
 
     return readers
 
-  def next(self):
+  def __next__(self):
     """Returns the next line from this input reader as (lineinfo, line) tuple.
 
     Returns:
@@ -1851,7 +1851,7 @@ class BlobstoreZipLineInputReader(InputReader):
         raise StopIteration()
       entry = self._entries.pop()
       value = self._zip.read(entry.filename)
-      self._filestream = StringIO.StringIO(value)
+      self._filestream = io.StringIO(value)
       if self._initial_offset:
         self._filestream.seek(self._initial_offset)
         self._filestream.readline()
@@ -1865,7 +1865,7 @@ class BlobstoreZipLineInputReader(InputReader):
       self._filestream = None
       self._start_file_index += 1
       self._initial_offset = 0
-      return self.next()
+      return next(self)
 
     return ((self._blob_key, self._start_file_index, start_position),
             line.rstrip("\n"))
@@ -2073,7 +2073,7 @@ class NamespaceInputReader(InputReader):
         batch_size = int(params[cls.BATCH_SIZE_PARAM])
         if batch_size < 1:
           raise BadReaderParamsError("Bad batch size: %s" % batch_size)
-      except ValueError, e:
+      except ValueError as e:
         raise BadReaderParamsError("Bad batch size: %s" % e)
 
   @classmethod
@@ -2153,9 +2153,9 @@ class RecordsReader(InputReader):
               COUNTER_IO_READ_MSEC, int((time.time() - start_time) * 1000))(ctx)
           operation.counters.Increment(COUNTER_IO_READ_BYTES, len(record))(ctx)
         yield record
-      except (files.ExistenceError), e:
+      except (files.ExistenceError) as e:
         raise errors.FailJobError("ExistenceError: %s" % e)
-      except (files.UnknownError), e:
+      except (files.UnknownError) as e:
         raise errors.RetrySliceError("UnknownError: %s" % e)
       except EOFError:
         self._filenames.pop(0)
@@ -2206,12 +2206,12 @@ class RecordsReader(InputReader):
 
     if cls.FILES_PARAM in params:
       filenames = params[cls.FILES_PARAM]
-      if isinstance(filenames, basestring):
+      if isinstance(filenames, str):
         filenames = filenames.split(",")
     else:
       filenames = [params[cls.FILE_PARAM]]
 
-    batch_list = [[] for _ in xrange(shard_count)]
+    batch_list = [[] for _ in range(shard_count)]
     for index, _ in enumerate(filenames):
 
       batch_list[index % shard_count].append(filenames[index])
@@ -2349,7 +2349,7 @@ class LogInputReader(InputReader):
       An instance of the InputReader configured using the given JSON parameters.
     """
 
-    params = dict((str(k), v) for k, v in json.iteritems()
+    params = dict((str(k), v) for k, v in json.items()
                   if k in cls._PARAMS)
 
 
@@ -2394,7 +2394,7 @@ class LogInputReader(InputReader):
 
 
     shards = []
-    for _ in xrange(shard_count - 1):
+    for _ in range(shard_count - 1):
       params[cls.END_TIME_PARAM] = (params[cls.START_TIME_PARAM] +
                                     seconds_per_shard)
       shards.append(LogInputReader(**params))
@@ -2452,7 +2452,7 @@ class LogInputReader(InputReader):
 
     try:
       logservice.fetch(**params)
-    except logservice.InvalidArgumentError, e:
+    except logservice.InvalidArgumentError as e:
       raise errors.BadReaderParamsError("One or more parameters are not valid "
                                         "inputs to logservice.fetch(): %s" % e)
 
@@ -2595,7 +2595,7 @@ class _GoogleCloudStorageInputReader(InputReader):
     try:
       cloudstorage.validate_bucket_name(
           reader_spec[cls.BUCKET_NAME_PARAM])
-    except ValueError, error:
+    except ValueError as error:
       raise errors.BadReaderParamsError("Bad bucket name, %s" % (error))
 
 
@@ -2609,13 +2609,13 @@ class _GoogleCloudStorageInputReader(InputReader):
           "Object name list is not a list but a %s" %
           filenames.__class__.__name__)
     for filename in filenames:
-      if not isinstance(filename, basestring):
+      if not isinstance(filename, str):
         raise errors.BadReaderParamsError(
             "Object name is not a string but a %s" %
             filename.__class__.__name__)
     if cls.DELIMITER_PARAM in reader_spec:
       delimiter = reader_spec[cls.DELIMITER_PARAM]
-      if not isinstance(delimiter, basestring):
+      if not isinstance(delimiter, str):
         raise errors.BadReaderParamsError(
             "%s is not a string but a %s" %
             (cls.DELIMITER_PARAM, type(delimiter)))
@@ -2678,7 +2678,7 @@ class _GoogleCloudStorageInputReader(InputReader):
     finally:
       self._bucket_itr = before_iter
 
-  def next(self):
+  def __next__(self):
     """Returns the next input from this input reader, a block of bytes.
 
     Non existent files will be logged and skipped. The file might have been
@@ -2754,7 +2754,7 @@ class _GoogleCloudStorageRecordInputReader(_GoogleCloudStorageInputReader):
       result.pop("_record_reader")
     return result
 
-  def next(self):
+  def __next__(self):
     """Returns the next input from this input reader, a record.
 
     Returns:
@@ -2767,8 +2767,8 @@ class _GoogleCloudStorageRecordInputReader(_GoogleCloudStorageInputReader):
     while True:
       if not hasattr(self, "_cur_handle") or self._cur_handle is None:
 
-        self._cur_handle = super(_GoogleCloudStorageRecordInputReader,
-                                 self).next()
+        self._cur_handle = next(super(_GoogleCloudStorageRecordInputReader,
+                                 self))
       if not hasattr(self, "_record_reader") or self._record_reader is None:
         self._record_reader = records.RecordsReader(self._cur_handle)
 
@@ -2814,7 +2814,7 @@ class _ReducerReader(_GoogleCloudStorageRecordInputReader):
 
     try:
       while True:
-        binary_record = super(_ReducerReader, self).next()
+        binary_record = next(super(_ReducerReader, self))
         proto = file_service_pb.KeyValues()
         proto.ParseFromString(binary_record)
 

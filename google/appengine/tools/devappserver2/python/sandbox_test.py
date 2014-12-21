@@ -18,13 +18,13 @@
 
 
 
-import __builtin__
+import builtins
 import imp
 import os
 import re
 import sys
 import types
-import urllib
+import urllib.request, urllib.parse, urllib.error
 import unittest
 
 import google
@@ -58,13 +58,13 @@ class SandboxTest(unittest.TestCase):
     self.config.application_root = self.app_root
     self.config.app_id = 'app'
     self.config.version_id = '1'
-    self.builtins = __builtin__.__dict__.copy()
+    self.builtins = builtins.__dict__.copy()
     self.modules = sys.modules.copy()
 
   def tearDown(self):
     sys.modules.clear()
     sys.modules.update(self.modules)
-    __builtin__.__dict__.update(self.builtins)
+    builtins.__dict__.update(self.builtins)
     sys.meta_path = self.old_meta_path
     sys.path = self.old_path
     sandbox._THIRD_PARTY_LIBRARY_FORMAT_STRING = self.old_library_format_string

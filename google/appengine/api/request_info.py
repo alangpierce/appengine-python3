@@ -30,7 +30,7 @@ capabilities.
 import logging
 import operator
 import os
-import urllib
+import urllib.request, urllib.parse, urllib.error
 
 
 class Error(Exception):
@@ -91,14 +91,14 @@ class ResponseTuple(tuple):
     return 'ResponseTuple(status=%r, headers=%r, content=%r)' % self
 
   def _asdict(self):
-    return dict(zip(self._fields, self))
+    return dict(list(zip(self._fields, self)))
 
   __dict__ = property(_asdict)
 
   def _replace(self, **kwds):
-    result = self._make(map(kwds.pop, ('status', 'headers', 'content'), self))
+    result = self._make(list(map(kwds.pop, ('status', 'headers', 'content'), self)))
     if kwds:
-      raise ValueError('Got unexpected field names: %r' % kwds.keys())
+      raise ValueError('Got unexpected field names: %r' % list(kwds.keys()))
     return result
 
   def __getnewargs__(self):
@@ -670,7 +670,7 @@ class _LocalRequestInfo(RequestInfo):
       if port != '80':
         host += ':' + port
     url = 'http://' + host
-    url += urllib.quote(os.environ.get('PATH_INFO', '/'))
+    url += urllib.parse.quote(os.environ.get('PATH_INFO', '/'))
     if os.environ.get('QUERY_STRING'):
       url += '?' + os.environ['QUERY_STRING']
     return url

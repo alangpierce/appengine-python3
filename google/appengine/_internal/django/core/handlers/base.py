@@ -38,7 +38,7 @@ class BaseHandler(object):
             mw_module, mw_classname = middleware_path[:dot], middleware_path[dot+1:]
             try:
                 mod = import_module(mw_module)
-            except ImportError, e:
+            except ImportError as e:
                 raise exceptions.ImproperlyConfigured('Error importing middleware %s: "%s"' % (mw_module, e))
             try:
                 mw_class = getattr(mod, mw_classname)
@@ -98,7 +98,7 @@ class BaseHandler(object):
 
                 try:
                     response = callback(request, *callback_args, **callback_kwargs)
-                except Exception, e:
+                except Exception as e:
                     # If the view raised an exception, run it through exception
                     # middleware, and if the exception middleware returns a
                     # response, use that. Otherwise, reraise the exception.
@@ -111,13 +111,13 @@ class BaseHandler(object):
                 # Complain if the view returned None (a common error).
                 if response is None:
                     try:
-                        view_name = callback.func_name # If it's a function
+                        view_name = callback.__name__ # If it's a function
                     except AttributeError:
                         view_name = callback.__class__.__name__ + '.__call__' # If it's a class
                     raise ValueError("The view %s.%s didn't return an HttpResponse object." % (callback.__module__, view_name))
 
                 return response
-            except http.Http404, e:
+            except http.Http404 as e:
                 if settings.DEBUG:
                     from google.appengine._internal.django.views import debug
                     return debug.technical_404_response(request, e)
@@ -174,7 +174,7 @@ class BaseHandler(object):
         mail_admins(subject, message, fail_silently=True)
         # If Http500 handler is not installed, re-raise last exception
         if resolver.urlconf_module is None:
-            raise exc_info[1], None, exc_info[2]
+            raise exc_info[1].with_traceback(exc_info[2])
         # Return an HttpResponse that displays a friendly error message.
         callback, param_dict = resolver.resolve500()
         return callback(request, **param_dict)
@@ -211,10 +211,10 @@ def get_script_name(environ):
     # rewrites. Unfortunately not every Web server (lighttpd!) passes this
     # information through all the time, so FORCE_SCRIPT_NAME, above, is still
     # needed.
-    script_url = environ.get('SCRIPT_URL', u'')
+    script_url = environ.get('SCRIPT_URL', '')
     if not script_url:
-        script_url = environ.get('REDIRECT_URL', u'')
+        script_url = environ.get('REDIRECT_URL', '')
     if script_url:
         return force_unicode(script_url[:-len(environ.get('PATH_INFO', ''))])
-    return force_unicode(environ.get('SCRIPT_NAME', u''))
+    return force_unicode(environ.get('SCRIPT_NAME', ''))
 

@@ -32,7 +32,7 @@ representing an App Engine runtime.
 
 
 import calendar
-import cStringIO
+import io
 import email
 import functools
 import logging
@@ -134,14 +134,14 @@ def _ignore_response_headers_rewriter(ignored_response_headers, state):
     ignored_response_headers: A list of header names to remove.
     state: A RewriterState to modify.
   """
-  for name, value in state.headers.items():
+  for name, value in list(state.headers.items()):
     if name.lower() in ignored_response_headers:
       del state.headers[name]
     # Delete a header if its name or value contains non-allowed characters.
     try:
-      if isinstance(name, unicode):
+      if isinstance(name, str):
         name = name.encode('ascii')
-      if isinstance(value, unicode):
+      if isinstance(value, str):
         value = value.encode('ascii')
     except UnicodeEncodeError:
       # Contains non-ASCII Unicode characters.
@@ -297,12 +297,12 @@ def _rewriter_middleware(request_rewriter_chain, response_rewriter_chain,
     An iterable of strings containing the body of an HTTP response.
   """
   response_dict = {'headers_sent': False}
-  write_body = cStringIO.StringIO()
+  write_body = io.StringIO()
 
   def wrapped_start_response(status, response_headers, exc_info=None):
     if exc_info and response_dict['headers_sent']:
       # Headers have already been sent. PEP 333 mandates that this is an error.
-      raise exc_info[0], exc_info[1], exc_info[2]
+      raise exc_info[0](exc_info[1]).with_traceback(exc_info[2])
 
     response_dict['status'] = status
     response_dict['response_headers'] = response_headers
@@ -319,7 +319,7 @@ def _rewriter_middleware(request_rewriter_chain, response_rewriter_chain,
   first = write_body.getvalue()
   while not first:
     try:
-      first = response_body.next()
+      first = next(response_body)
     except StopIteration:
       break
 
@@ -343,7 +343,7 @@ def _rewriter_middleware(request_rewriter_chain, response_rewriter_chain,
   state = RewriterState(environ, status, response_headers, body)
   for rewriter in response_rewriter_chain:
     rewriter(state)
-  start_response(state.status, state.headers.items())
+  start_response(state.status, list(state.headers.items()))
   return state.body
 
 

@@ -28,7 +28,7 @@ functions that are used by the dev_appserver's admin console to display the
 application's queues and tasks.
 """
 
-from __future__ import with_statement
+
 
 
 
@@ -54,8 +54,8 @@ import string
 import threading
 import time
 
-import taskqueue_service_pb
-import taskqueue
+from . import taskqueue_service_pb
+from . import taskqueue
 
 from google.appengine.api import api_base_pb
 from google.appengine.api import apiproxy_stub
@@ -397,7 +397,7 @@ class _Group(object):
     result = None, None
 
 
-    for queue in self._queues.itervalues():
+    for queue in self._queues.values():
       if queue.queue_mode == QUEUE_MODE.PULL:
         continue
       task = queue.OldestTask()
@@ -682,7 +682,7 @@ class _Group(object):
     try:
       apiproxy_stub_map.MakeSyncCall(
           'datastore_v3', 'AddActions', request, api_base_pb.VoidProto())
-    except apiproxy_errors.ApplicationError, e:
+    except apiproxy_errors.ApplicationError as e:
       raise apiproxy_errors.ApplicationError(
           e.application_error +
           taskqueue_service_pb.TaskQueueServiceError.DATASTORE_ERROR,
@@ -713,7 +713,7 @@ class _Group(object):
                                         response.taskresult_list()):
       try:
         store.Add(add_request, now)
-      except apiproxy_errors.ApplicationError, e:
+      except apiproxy_errors.ApplicationError as e:
         task_result.set_result(e.application_error)
       else:
         task_result.set_result(taskqueue_service_pb.TaskQueueServiceError.OK)
@@ -1583,7 +1583,7 @@ class _Queue(object):
     end_pos = min(end_pos, len(index))
 
     tasks = []
-    for pos in xrange(start_pos, end_pos):
+    for pos in range(start_pos, end_pos):
       tasks.append(index[pos][-1])
     return tasks
 
@@ -1792,7 +1792,7 @@ class _Queue(object):
                           ('foo', 'bar'),
                           ('content-type', 'text/plain'),
                           ('from', 'user@email.com')]
-        for _ in xrange(random.randint(1, 4)):
+        for _ in range(random.randint(1, 4)):
           elem = random.randint(0, len(random_headers) - 1)
           key, value = random_headers.pop(elem)
           header_proto = task.add_header()
@@ -2535,7 +2535,7 @@ class TaskQueueServiceStub(apiproxy_stub.APIProxyStub):
     all_queue_names = [queue['name'] for queue in self.GetQueues()]
 
 
-    if isinstance(queue_names, basestring):
+    if isinstance(queue_names, str):
       queue_names = [queue_names]
 
 

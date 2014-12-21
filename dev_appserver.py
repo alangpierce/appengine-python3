@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 #
 # Copyright 2007 Google Inc.
 #
@@ -76,7 +76,7 @@ def _run_file(file_path, globals_):
   if 'google' in sys.modules:
     del sys.modules['google']
 
-  execfile(_PATHS.script_file(script_name), globals_)
+  exec(compile(open(_PATHS.script_file(script_name)).read(), _PATHS.script_file(script_name), 'exec'), globals_)
 
 
 if __name__ == '__main__':

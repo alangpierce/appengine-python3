@@ -4,7 +4,7 @@ import os
 import time
 import shutil
 try:
-    import cPickle as pickle
+    import pickle as pickle
 except ImportError:
     import pickle
 
@@ -33,7 +33,7 @@ class CacheClass(BaseCache):
 
     def add(self, key, value, timeout=None):
         self.validate_key(key)
-        if self.has_key(key):
+        if key in self:
             return False
 
         self.set(key, value, timeout)

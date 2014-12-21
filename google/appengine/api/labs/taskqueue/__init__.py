@@ -30,7 +30,7 @@
 import os
 import warnings
 
-from taskqueue import *
+from .taskqueue import *
 
 
 

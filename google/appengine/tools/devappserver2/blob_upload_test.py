@@ -20,7 +20,7 @@
 
 import base64
 import cgi
-import cStringIO
+import io
 import datetime
 import email
 import email.message
@@ -28,10 +28,10 @@ import hashlib
 import os
 import re
 import shutil
-import StringIO
+import io
 import tempfile
 import unittest
-import urlparse
+import urllib.parse
 import wsgiref.util
 
 import google
@@ -223,7 +223,7 @@ class FakeForm(dict):
     super(FakeForm, self).__init__()
     self.update(subforms or {})
     self.headers = headers or email.Message.Message()
-    for key, value in kwds.iteritems():
+    for key, value in kwds.items():
       setattr(self, key, value)
 
 
@@ -488,7 +488,7 @@ class UploadHandlerUnitTest(UploadTestBase):
     self.mox.ReplayAll()
     content_type, blob_file, filename = self.handler._preprocess_data(
         'image/png; a="b"; m="n"',
-        StringIO.StringIO(blob_content),
+        io.StringIO(blob_content),
         'stuff.png',
         base64_encoding)
     self.handler.store_blob(content_type=content_type,
@@ -526,7 +526,7 @@ class UploadHandlerUnitTest(UploadTestBase):
 
     form = FakeForm({
         'field1': FakeForm(name='field1',
-                           file=StringIO.StringIO('file1'),
+                           file=io.StringIO('file1'),
                            type='image/png',
                            type_options={'a': 'b', 'x': 'y'},
                            filename='stuff.png',
@@ -534,13 +534,13 @@ class UploadHandlerUnitTest(UploadTestBase):
                                     'h2': 'v2',
                                    }),
         'field2': [FakeForm(name='field2',
-                            file=StringIO.StringIO('file2'),
+                            file=io.StringIO('file2'),
                             type='application/pdf',
                             type_options={},
                             filename='stuff.pdf',
                             headers={}),
                    FakeForm(name='field2',
-                            file=StringIO.StringIO('file3 extra'),
+                            file=io.StringIO('file3 extra'),
                             type='text/plain',
                             type_options={},
                             filename='stuff.txt',
@@ -584,7 +584,7 @@ class UploadHandlerUnitTest(UploadTestBase):
 
     form = FakeForm({
         'field1': FakeForm(name='field1',
-                           file=StringIO.StringIO('file1'),
+                           file=io.StringIO('file1'),
                            type='image/png',
                            type_options={'a': 'b', 'x': 'y'},
                            filename='stuff.png',
@@ -616,7 +616,7 @@ class UploadHandlerUnitTest(UploadTestBase):
 
     form = FakeForm({
         'field1': FakeForm(name='field1',
-                           file=StringIO.StringIO('file1'),
+                           file=io.StringIO('file1'),
                            type='text/plain',
                            type_options={'a': 'b', 'x': 'y'},
                            filename='chinese_char_name_\xe6\xb1\x89.txt',
@@ -635,7 +635,7 @@ class UploadHandlerUnitTest(UploadTestBase):
                             content_text)
 
     blob1 = blobstore.get('item1')
-    self.assertEquals(u'chinese_char_name_\u6c49.txt', blob1.filename)
+    self.assertEquals('chinese_char_name_\u6c49.txt', blob1.filename)
 
   def test_store_and_build_forward_message_latin1_values(self):
     """Test store and build message method with Latin-1 values."""
@@ -647,7 +647,7 @@ class UploadHandlerUnitTest(UploadTestBase):
 
     form = FakeForm({
         'field1': FakeForm(name='field1',
-                           file=StringIO.StringIO('file1'),
+                           file=io.StringIO('file1'),
                            type='text/plain',
                            type_options={'a': 'b', 'x': 'y'},
                            filename='german_char_name_f\xfc\xdfe.txt',
@@ -674,7 +674,7 @@ class UploadHandlerUnitTest(UploadTestBase):
     self.mox.ReplayAll()
 
     form = FakeForm({'field1': FakeForm(name='field1',
-                                        file=StringIO.StringIO('file1'),
+                                        file=io.StringIO('file1'),
                                         type=None,
                                         type_options={},
                                         filename='file1',
@@ -707,7 +707,7 @@ class UploadHandlerUnitTest(UploadTestBase):
 
     form = FakeForm({
         'field1': FakeForm(name='field1',
-                           file=StringIO.StringIO('file1'),
+                           file=io.StringIO('file1'),
                            type='image/png',
                            type_options={'a': 'b', 'x': 'y'},
                            filename='stuff.png',
@@ -715,7 +715,7 @@ class UploadHandlerUnitTest(UploadTestBase):
                                     'h2': 'v2',
                                    }),
         'field2': FakeForm(name='field2',
-                           file=StringIO.StringIO(''),
+                           file=io.StringIO(''),
                            type='application/pdf',
                            type_options={},
                            filename='stuff.pdf',
@@ -748,7 +748,7 @@ class UploadHandlerUnitTest(UploadTestBase):
 
     form = FakeForm({
         'field1': FakeForm(name='field1',
-                           file=StringIO.StringIO('file1'),
+                           file=io.StringIO('file1'),
                            type='image/png',
                            type_options={'a': 'b', 'x': 'y'},
                            filename='stuff.png',
@@ -756,7 +756,7 @@ class UploadHandlerUnitTest(UploadTestBase):
                                     'h2': 'v2',
                                    }),
         'field2': FakeForm(name='field2',
-                           file=StringIO.StringIO(''),
+                           file=io.StringIO(''),
                            type='application/pdf',
                            type_options={},
                            filename='',
@@ -787,7 +787,7 @@ class UploadHandlerUnitTest(UploadTestBase):
 
     for mime_type in BAD_MIMES:
       form = FakeForm({'field1': FakeForm(name='field1',
-                                          file=StringIO.StringIO('file1'),
+                                          file=io.StringIO('file1'),
                                           type=mime_type,
                                           type_options={},
                                           filename='file',
@@ -813,7 +813,7 @@ class UploadHandlerUnitTest(UploadTestBase):
 
     form = FakeForm({
         'field1': FakeForm(name='field1',
-                           file=StringIO.StringIO('a'),
+                           file=io.StringIO('a'),
                            type='image/png',
                            type_options={'a': 'b', 'x': 'y'},
                            filename='stuff.png',
@@ -821,7 +821,7 @@ class UploadHandlerUnitTest(UploadTestBase):
                                     'h2': 'v2',
                                    }),
         'field2': FakeForm(name='field2',
-                           file=StringIO.StringIO('longerfile'),
+                           file=io.StringIO('longerfile'),
                            type='application/pdf',
                            type_options={},
                            filename='stuff.pdf',
@@ -847,7 +847,7 @@ class UploadHandlerUnitTest(UploadTestBase):
 
     form = FakeForm({
         'field1': FakeForm(name='field1',
-                           file=StringIO.StringIO('a'),
+                           file=io.StringIO('a'),
                            type='image/png',
                            type_options={'a': 'b', 'x': 'y'},
                            filename='stuff.png',
@@ -855,7 +855,7 @@ class UploadHandlerUnitTest(UploadTestBase):
                                     'h2': 'v2',
                                    }),
         'field2': FakeForm(name='field2',
-                           file=StringIO.StringIO('longerfile'),
+                           file=io.StringIO('longerfile'),
                            type='application/pdf',
                            type_options={},
                            filename='stuff.pdf',
@@ -887,7 +887,7 @@ class UploadHandlerUnitTest(UploadTestBase):
 
     form = FakeForm({
         'field1': FakeForm(name='field1',
-                           file=StringIO.StringIO('a'),
+                           file=io.StringIO('a'),
                            type='image/png',
                            type_options={'a': 'b', 'x': 'y'},
                            filename=filename,
@@ -911,7 +911,7 @@ class UploadHandlerUnitTest(UploadTestBase):
 
     form = FakeForm({
         'field1': FakeForm(name='field1',
-                           file=StringIO.StringIO('a'),
+                           file=io.StringIO('a'),
                            type=content_type,
                            type_options={'a': 'b', 'x': 'y'},
                            filename='foobar.txt',
@@ -1028,9 +1028,9 @@ class UploadHandlerWSGITest(UploadTestBase):
         'headers_already_sent': False,
     }
 
-    self.environ['wsgi.input'] = cStringIO.StringIO(request_body)
+    self.environ['wsgi.input'] = io.StringIO(request_body)
 
-    body = cStringIO.StringIO()
+    body = io.StringIO()
 
     def write_body(text):
       if not text:
@@ -1043,7 +1043,7 @@ class UploadHandlerWSGITest(UploadTestBase):
       if exc_info is None:
         assert not state_dict['start_response_already_called']
       if state_dict['headers_already_sent']:
-        raise exc_info[0], exc_info[1], exc_info[2]
+        raise exc_info[0](exc_info[1]).with_traceback(exc_info[2])
       state_dict['start_response_already_called'] = True
       response_dict['status'] = status
       response_dict['headers'] = dict((k.lower(), v) for (k, v) in
@@ -1065,7 +1065,7 @@ class UploadHandlerWSGITest(UploadTestBase):
 
   def _run_test_success(self, upload_data, upload_url):
     """Basic dispatcher request flow."""
-    request_path = urlparse.urlparse(upload_url)[2]
+    request_path = urllib.parse.urlparse(upload_url)[2]
 
     # Get session key from upload url.
     session_key = upload_url.split('/')[-1]
@@ -1225,7 +1225,7 @@ Content-Transfer-Encoding: base64
     session_key = upload_url.split('/')[-1]
     datastore.Delete(session_key)
 
-    request_path = urlparse.urlparse(upload_url)[2]
+    request_path = urllib.parse.urlparse(upload_url)[2]
     self.environ['PATH_INFO'] = request_path
     status, _, response_body, forward_environ, forward_body = (
         self.run_dispatcher())
@@ -1250,7 +1250,7 @@ value
 
     upload_url = blobstore.create_upload_url('/success')
 
-    request_path = urlparse.urlparse(upload_url)[2]
+    request_path = urllib.parse.urlparse(upload_url)[2]
     self.environ['PATH_INFO'] = request_path
     self.environ['CONTENT_TYPE'] = (
         'multipart/form-data; boundary="================1234=="')
@@ -1279,7 +1279,7 @@ value
 
     upload_url = blobstore.create_upload_url('/success')
 
-    request_path = urlparse.urlparse(upload_url)[2]
+    request_path = urllib.parse.urlparse(upload_url)[2]
     self.environ['PATH_INFO'] = request_path
     self.environ['CONTENT_TYPE'] = (
         'multipart/form-data; boundary="================1234=="')
@@ -1304,7 +1304,7 @@ value
 
     upload_url = blobstore.create_upload_url('/success')
 
-    request_path = urlparse.urlparse(upload_url)[2]
+    request_path = urllib.parse.urlparse(upload_url)[2]
     self.environ['PATH_INFO'] = request_path
     self.environ['CONTENT_TYPE'] = (
         'multipart/form-data; boundary="================1234=="')
@@ -1345,7 +1345,7 @@ Lots and Lots of Stuff
 
     upload_url = blobstore.create_upload_url('/success1', max_bytes_per_blob=1)
 
-    request_path = urlparse.urlparse(upload_url)[2]
+    request_path = urllib.parse.urlparse(upload_url)[2]
     self.environ['PATH_INFO'] = request_path
     self.environ['CONTENT_TYPE'] = (
         'multipart/form-data; boundary="================1234=="')
@@ -1375,7 +1375,7 @@ Lots and Lots of Stuff
 
     upload_url = blobstore.create_upload_url('/success1')
 
-    request_path = urlparse.urlparse(upload_url)[2]
+    request_path = urllib.parse.urlparse(upload_url)[2]
     self.environ['PATH_INFO'] = request_path
     self.environ['CONTENT_TYPE'] = (
         'multipart/form-data; boundary="================1234=="')
@@ -1407,7 +1407,7 @@ Lots and Lots of Stuff
 
     upload_url = blobstore.create_upload_url('/success1')
 
-    request_path = urlparse.urlparse(upload_url)[2]
+    request_path = urllib.parse.urlparse(upload_url)[2]
     self.environ['PATH_INFO'] = request_path
     self.environ['CONTENT_TYPE'] = (
         'multipart/form-data; boundary="================1234=="')
@@ -1433,7 +1433,7 @@ Lots and Lots of Stuff
     self.dispatcher = blob_upload.Application(forward_app)
 
     upload_url = blobstore.create_upload_url('/success')
-    request_path = urlparse.urlparse(upload_url)[2]
+    request_path = urllib.parse.urlparse(upload_url)[2]
     self.environ['PATH_INFO'] = request_path
 
     self.assertRaises(webob.exc.HTTPLengthRequired,

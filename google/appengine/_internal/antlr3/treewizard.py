@@ -399,10 +399,10 @@ class TreeWizard(object):
 
         """
 
-        if isinstance(what, (int, long)):
+        if isinstance(what, int):
             return self._findTokenType(tree, what)
 
-        elif isinstance(what, basestring):
+        elif isinstance(what, str):
             return self._findPattern(tree, what)
 
         else:
@@ -464,10 +464,10 @@ class TreeWizard(object):
         label.
         """
 
-        if isinstance(what, (int, long)):
+        if isinstance(what, int):
             self._visitType(tree, None, 0, what, visitor)
 
-        elif isinstance(what, basestring):
+        elif isinstance(what, str):
             self._visitPattern(tree, what, visitor)
 
         else:

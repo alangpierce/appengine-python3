@@ -6,7 +6,7 @@ import re
 import sys
 import warnings
 import gettext as gettext_module
-from cStringIO import StringIO
+from io import StringIO
 
 from google.appengine._internal.django.utils.importlib import import_module
 from google.appengine._internal.django.utils.safestring import mark_safe, SafeData
@@ -128,7 +128,7 @@ def translation(language):
                 t = gettext_module.translation('django', path, [loc], DjangoTranslation)
                 t.set_language(lang)
                 return t
-            except IOError, e:
+            except IOError as e:
                 return None
 
         res = _translation(globalpath)
@@ -184,7 +184,7 @@ def activate(language):
     language and installs it as the current translation object for the current
     thread.
     """
-    if isinstance(language, basestring) and language == 'no':
+    if isinstance(language, str) and language == 'no':
         warnings.warn(
             "The use of the language code 'no' is deprecated. "
             "Please use the 'nb' translation instead.",

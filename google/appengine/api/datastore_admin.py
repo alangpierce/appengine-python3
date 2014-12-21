@@ -101,5 +101,5 @@ def _Call(call, req, resp):
     if result:
       return result
     return resp
-  except apiproxy_errors.ApplicationError, err:
+  except apiproxy_errors.ApplicationError as err:
     raise datastore._ToDatastoreError(err)

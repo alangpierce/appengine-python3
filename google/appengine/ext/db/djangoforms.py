@@ -153,7 +153,7 @@ def monkey_patch(name, bases, namespace):
 
   assert len(bases) == 1, 'Exactly one base class is required'
   base = bases[0]
-  for name, value in namespace.iteritems():
+  for name, value in namespace.items():
     if name not in ('__metaclass__', '__module__'):
       setattr(base, name, value)
   return base
@@ -164,9 +164,7 @@ def monkey_patch(name, bases, namespace):
 
 
 
-class Property(db.Property):
-  __metaclass__ = monkey_patch
-
+class Property(db.Property, metaclass=monkey_patch):
   def get_form_field(self, form_class=forms.CharField, **kwargs):
     """Return a Django form field appropriate for this property.
 
@@ -193,7 +191,7 @@ class Property(db.Property):
                                'initial' not in kwargs):
         choices.append(('', '---------'))
       for choice in self.choices:
-        choices.append((str(choice), unicode(choice)))
+        choices.append((str(choice), str(choice)))
       defaults['widget'] = forms.Select(choices=choices)
     if self.default is not None:
       defaults['initial'] = self.default
@@ -239,9 +237,7 @@ class Property(db.Property):
     return value
 
 
-class UserProperty(db.UserProperty):
-  __metaclass__ = monkey_patch
-
+class UserProperty(db.UserProperty, metaclass=monkey_patch):
   def get_form_field(self, **kwargs):
     """Return a Django form field appropriate for a User property.
 
@@ -266,9 +262,7 @@ class UserProperty(db.UserProperty):
     return value.email()
 
 
-class StringProperty(db.StringProperty):
-  __metaclass__ = monkey_patch
-
+class StringProperty(db.StringProperty, metaclass=monkey_patch):
   def get_form_field(self, **kwargs):
     """Return a Django form field appropriate for a string property.
 
@@ -282,9 +276,7 @@ class StringProperty(db.StringProperty):
     return super(StringProperty, self).get_form_field(**defaults)
 
 
-class TextProperty(db.TextProperty):
-  __metaclass__ = monkey_patch
-
+class TextProperty(db.TextProperty, metaclass=monkey_patch):
   def get_form_field(self, **kwargs):
     """Return a Django form field appropriate for a text property.
 
@@ -295,9 +287,7 @@ class TextProperty(db.TextProperty):
     return super(TextProperty, self).get_form_field(**defaults)
 
 
-class BlobProperty(db.BlobProperty):
-  __metaclass__ = monkey_patch
-
+class BlobProperty(db.BlobProperty, metaclass=monkey_patch):
   def __init__(self, *args, **kwargs):
     super(BlobProperty, self).__init__(*args, **kwargs)
     self.form_value = None
@@ -337,9 +327,7 @@ class BlobProperty(db.BlobProperty):
     return super(BlobProperty, self).make_value_from_form(value)
 
 
-class DateTimeProperty(db.DateTimeProperty):
-  __metaclass__ = monkey_patch
-
+class DateTimeProperty(db.DateTimeProperty, metaclass=monkey_patch):
   def get_form_field(self, **kwargs):
     """Return a Django form field appropriate for a date-time property.
 
@@ -354,9 +342,7 @@ class DateTimeProperty(db.DateTimeProperty):
     return super(DateTimeProperty, self).get_form_field(**defaults)
 
 
-class DateProperty(db.DateProperty):
-  __metaclass__ = monkey_patch
-
+class DateProperty(db.DateProperty, metaclass=monkey_patch):
   def get_form_field(self, **kwargs):
     """Return a Django form field appropriate for a date property.
 
@@ -371,9 +357,7 @@ class DateProperty(db.DateProperty):
     return super(DateProperty, self).get_form_field(**defaults)
 
 
-class TimeProperty(db.TimeProperty):
-  __metaclass__ = monkey_patch
-
+class TimeProperty(db.TimeProperty, metaclass=monkey_patch):
   def get_form_field(self, **kwargs):
     """Return a Django form field appropriate for a time property.
 
@@ -388,9 +372,7 @@ class TimeProperty(db.TimeProperty):
     return super(TimeProperty, self).get_form_field(**defaults)
 
 
-class IntegerProperty(db.IntegerProperty):
-  __metaclass__ = monkey_patch
-
+class IntegerProperty(db.IntegerProperty, metaclass=monkey_patch):
   def get_form_field(self, **kwargs):
     """Return a Django form field appropriate for an integer property.
 
@@ -401,9 +383,7 @@ class IntegerProperty(db.IntegerProperty):
     return super(IntegerProperty, self).get_form_field(**defaults)
 
 
-class FloatProperty(db.FloatProperty):
-  __metaclass__ = monkey_patch
-
+class FloatProperty(db.FloatProperty, metaclass=monkey_patch):
   def get_form_field(self, **kwargs):
     """Return a Django form field appropriate for an integer property.
 
@@ -417,9 +397,7 @@ class FloatProperty(db.FloatProperty):
     return super(FloatProperty, self).get_form_field(**defaults)
 
 
-class BooleanProperty(db.BooleanProperty):
-  __metaclass__ = monkey_patch
-
+class BooleanProperty(db.BooleanProperty, metaclass=monkey_patch):
   def get_form_field(self, **kwargs):
     """Return a Django form field appropriate for a boolean property.
 
@@ -436,20 +414,14 @@ class BooleanProperty(db.BooleanProperty):
     """
     if value is None:
       return None
-    if isinstance(value, basestring) and value.lower() == 'false':
+    if isinstance(value, str) and value.lower() == 'false':
 
 
       return False
     return bool(value)
 
 
-class StringListProperty(db.StringListProperty):
-  __metaclass__ = monkey_patch
-
-
-
-
-
+class StringListProperty(db.StringListProperty, metaclass=monkey_patch):
   def get_form_field(self, **kwargs):
     """Return a Django form field appropriate for a StringList property.
 
@@ -479,14 +451,12 @@ class StringListProperty(db.StringListProperty):
     """
     if not value:
       return []
-    if isinstance(value, basestring):
+    if isinstance(value, str):
       value = value.splitlines()
     return value
 
 
-class LinkProperty(db.LinkProperty):
-  __metaclass__ = monkey_patch
-
+class LinkProperty(db.LinkProperty, metaclass=monkey_patch):
   def get_form_field(self, **kwargs):
     """Return a Django form field appropriate for a URL property.
 
@@ -510,12 +480,12 @@ class _WrapIter(object):
 class ModelChoiceField(forms.Field):
 
   default_error_messages = {
-      'invalid_choice': _(u'Please select a valid choice. '
-                          u'That choice is not one of the available choices.'),
+      'invalid_choice': _('Please select a valid choice. '
+                          'That choice is not one of the available choices.'),
     }
 
   def __init__(self, reference_class, query=None, choices=None,
-               empty_label=u'---------',
+               empty_label='---------',
                required=True, widget=forms.Select, label=None, initial=None,
                help_text=None, *args, **kwargs):
     """Constructor.
@@ -572,7 +542,7 @@ class ModelChoiceField(forms.Field):
 
 
     for inst in self._query:
-      yield (inst.key(), unicode(inst))
+      yield (inst.key(), str(inst))
 
 
 
@@ -611,9 +581,7 @@ class ModelChoiceField(forms.Field):
     return instance
 
 
-class ReferenceProperty(db.ReferenceProperty):
-  __metaclass__ = monkey_patch
-
+class ReferenceProperty(db.ReferenceProperty, metaclass=monkey_patch):
   def get_form_field(self, **kwargs):
     """Return a Django form field appropriate for a reference property.
 
@@ -645,9 +613,7 @@ class ReferenceProperty(db.ReferenceProperty):
     return value
 
 
-class _ReverseReferenceProperty(db._ReverseReferenceProperty):
-  __metaclass__ = monkey_patch
-
+class _ReverseReferenceProperty(db._ReverseReferenceProperty, metaclass=monkey_patch):
   def get_form_field(self, **kwargs):
     """Return a Django form field appropriate for a reverse reference.
 
@@ -677,8 +643,8 @@ def property_clean(prop, value):
 
 
       prop.validate(prop.make_value_from_form(value))
-    except (db.BadValueError, ValueError), e:
-      raise forms.ValidationError(unicode(e))
+    except (db.BadValueError, ValueError) as e:
+      raise forms.ValidationError(str(e))
 
 
 class ModelFormOptions(object):
@@ -724,7 +690,7 @@ class ModelFormMetaclass(type):
     """
 
     fields = sorted(((field_name, attrs.pop(field_name))
-                     for field_name, obj in attrs.items()
+                     for field_name, obj in list(attrs.items())
                      if isinstance(obj, forms.Field)),
                     key=lambda obj: obj[1].creation_counter)
 
@@ -732,7 +698,7 @@ class ModelFormMetaclass(type):
 
     for base in bases[::-1]:
       if hasattr(base, 'base_fields'):
-        fields = base.base_fields.items() + fields
+        fields = list(base.base_fields.items()) + fields
     declared_fields = django.utils.datastructures.SortedDict()
     for field_name, obj in fields:
       declared_fields[field_name] = obj
@@ -764,7 +730,7 @@ class ModelFormMetaclass(type):
             '%s defines a different model than its parent.' % class_name)
 
       model_fields = django.utils.datastructures.SortedDict()
-      for name, prop in sorted(opts.model.properties().iteritems(),
+      for name, prop in sorted(iter(opts.model.properties().items()),
                                key=lambda prop: prop[1].creation_counter):
         if opts.fields and name not in opts.fields:
           continue
@@ -781,7 +747,7 @@ class ModelFormMetaclass(type):
 
 
       props = opts.model.properties()
-      for name, field in model_fields.iteritems():
+      for name, field in model_fields.items():
         prop = props.get(name)
         if prop:
 
@@ -840,7 +806,7 @@ class BaseModelForm(forms.BaseForm):
     self.instance = instance
     object_data = {}
     if instance is not None:
-      for name, prop in instance.properties().iteritems():
+      for name, prop in instance.properties().items():
         if opts.fields and name not in opts.fields:
           continue
         if opts.exclude and name in opts.exclude:
@@ -857,7 +823,7 @@ class BaseModelForm(forms.BaseForm):
                   prefix=prefix, initial=object_data,
                   error_class=error_class, label_suffix=label_suffix)
     kwargs = dict((name, value)
-                  for name, value in kwargs.iteritems()
+                  for name, value in kwargs.items()
                   if value is not None)
     super(BaseModelForm, self).__init__(**kwargs)
 
@@ -892,7 +858,7 @@ class BaseModelForm(forms.BaseForm):
     cleaned_data = self._cleaned_data()
     converted_data = {}
     propiter = itertools.chain(
-      opts.model.properties().iteritems(),
+      iter(opts.model.properties().items()),
       iter([('key_name', StringProperty(name='key_name'))])
       )
     for name, prop in propiter:
@@ -905,12 +871,12 @@ class BaseModelForm(forms.BaseForm):
         self.instance = instance
       else:
 
-        for name, value in converted_data.iteritems():
+        for name, value in converted_data.items():
           if name == 'key_name':
 
             continue
           setattr(instance, name, value)
-    except db.BadValueError, err:
+    except db.BadValueError as err:
       raise ValueError('The %s could not be %s (%s)' %
                        (opts.model.kind(), fail_message, err))
     if commit:
@@ -933,7 +899,7 @@ class BaseModelForm(forms.BaseForm):
       return self.clean_data
 
 
-class ModelForm(BaseModelForm):
+class ModelForm(BaseModelForm, metaclass=ModelFormMetaclass):
   """A Django form tied to a Datastore model.
 
   Note that this particular class just sets the metaclass; all other
@@ -986,5 +952,3 @@ class ModelForm(BaseModelForm):
   named keys. The 'key_name' field will be ignored when updating an
   instance (although it will still be shown on the form).
   """
-
-  __metaclass__ = ModelFormMetaclass

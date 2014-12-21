@@ -3,9 +3,9 @@ Base file upload handler classes, and the built-in concrete subclasses
 """
 
 try:
-    from cStringIO import StringIO
+    from io import StringIO
 except ImportError:
-    from StringIO import StringIO
+    from io import StringIO
 
 from google.appengine._internal.django.conf import settings
 from google.appengine._internal.django.core.exceptions import ImproperlyConfigured
@@ -36,9 +36,9 @@ class StopUpload(UploadFileException):
 
     def __unicode__(self):
         if self.connection_reset:
-            return u'StopUpload: Halt current upload.'
+            return 'StopUpload: Halt current upload.'
         else:
-            return u'StopUpload: Consume request data, then halt.'
+            return 'StopUpload: Consume request data, then halt.'
 
 class SkipFile(UploadFileException):
     """
@@ -204,9 +204,9 @@ def load_handler(path, *args, **kwargs):
     module, attr = path[:i], path[i+1:]
     try:
         mod = importlib.import_module(module)
-    except ImportError, e:
+    except ImportError as e:
         raise ImproperlyConfigured('Error importing upload handler module %s: "%s"' % (module, e))
-    except ValueError, e:
+    except ValueError as e:
         raise ImproperlyConfigured('Error importing upload handler module. Is FILE_UPLOAD_HANDLERS a correctly defined list or tuple?')
     try:
         cls = getattr(mod, attr)

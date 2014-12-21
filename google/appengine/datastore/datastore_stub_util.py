@@ -24,7 +24,7 @@ This module is internal and should not be used by client applications.
 """
 
 
-from __future__ import with_statement
+
 
 
 
@@ -227,7 +227,7 @@ _SPECIAL_PROPERTY_MAP = {
 def GetInvisibleSpecialPropertyNames():
   """Gets the names of all non user-visible special properties."""
   invisible_names = []
-  for name, value in _SPECIAL_PROPERTY_MAP.items():
+  for name, value in list(_SPECIAL_PROPERTY_MAP.items()):
     is_visible, _, _ = value
     if not is_visible:
       invisible_names.append(name)
@@ -237,11 +237,11 @@ def GetInvisibleSpecialPropertyNames():
 def _PrepareSpecialProperties(entity_proto, is_load):
   """Computes special properties for loading or storing.
   Strips other special properties."""
-  for i in xrange(entity_proto.property_size() - 1, -1, -1):
-    if _SPECIAL_PROPERTY_MAP.has_key(entity_proto.property(i).name()):
+  for i in range(entity_proto.property_size() - 1, -1, -1):
+    if entity_proto.property(i).name() in _SPECIAL_PROPERTY_MAP:
       del entity_proto.property_list()[i]
 
-  for is_visible, is_stored, property_func in _SPECIAL_PROPERTY_MAP.values():
+  for is_visible, is_stored, property_func in list(_SPECIAL_PROPERTY_MAP.values()):
     if is_load:
       should_process = is_visible
     else:
@@ -841,7 +841,7 @@ def _KindKeyToString(key):
   """
   key_path = key.to_path()
   if (len(key_path) == 2 and key_path[0] == '__kind__' and
-      isinstance(key_path[1], basestring)):
+      isinstance(key_path[1], str)):
     return key_path[1]
   Check(False, 'invalid Key for __kind__ table')
 
@@ -882,7 +882,7 @@ def _NamespaceKeyToString(key):
   if len(key_path) == 2 and key_path[0] == '__namespace__':
     if key_path[1] == datastore_types._EMPTY_NAMESPACE_ID:
       return ''
-    if isinstance(key_path[1], basestring):
+    if isinstance(key_path[1], str):
       return key_path[1]
   Check(False, 'invalid Key for __namespace__ table')
 
@@ -940,11 +940,11 @@ def _PropertyKeyToString(key, default_property):
   """
   key_path = key.to_path()
   if (len(key_path) == 2 and
-      key_path[0] == '__kind__' and isinstance(key_path[1], basestring)):
+      key_path[0] == '__kind__' and isinstance(key_path[1], str)):
     return (key_path[1], default_property)
   if (len(key_path) == 4 and
-      key_path[0] == '__kind__' and isinstance(key_path[1], basestring) and
-      key_path[2] == '__property__' and isinstance(key_path[3], basestring)):
+      key_path[0] == '__kind__' and isinstance(key_path[1], str) and
+      key_path[2] == '__property__' and isinstance(key_path[3], str)):
     return (key_path[1], key_path[3])
 
   Check(False, 'invalid Key for __property__ table')
@@ -1339,8 +1339,8 @@ def _GetKeyKind(key):
 
 def _FilterIndexesByKind(key, indexes):
   """Return only the indexes with the specified kind."""
-  return filter((lambda index:
-                 index.definition().entity_type() == _GetKeyKind(key)), indexes)
+  return list(filter((lambda index:
+                 index.definition().entity_type() == _GetKeyKind(key)), indexes))
 
 
 class LiveTxn(object):
@@ -1373,7 +1373,7 @@ class LiveTxn(object):
 
   def __init__(self, txn_manager, app, allow_multiple_eg):
     assert isinstance(txn_manager, BaseTransactionManager)
-    assert isinstance(app, basestring)
+    assert isinstance(app, str)
 
     self._txn_manager = txn_manager
     self._app = app
@@ -1432,7 +1432,7 @@ class LiveTxn(object):
     if not self._entity_groups:
       self._GetTracker(datastore_types.Key.from_path(
           '__global__', 1, _app=self._app)._ToPb())
-    return self._entity_groups.values()
+    return list(self._entity_groups.values())
 
   def _GrabSnapshot(self, reference):
     """Gets snapshot for this reference, creating it if necessary.
@@ -1456,7 +1456,7 @@ class LiveTxn(object):
 
 
 
-      candidates = [other for other in self._entity_groups.values()
+      candidates = [other for other in list(self._entity_groups.values())
                     if other._snapshot is not None and other != tracker]
       meta_data_list = [other._meta_data for other in candidates]
       self._txn_manager._AcquireWriteLocks(meta_data_list)
@@ -1509,7 +1509,7 @@ class LiveTxn(object):
     Check(query.has_ancestor(),
           'Query must have an ancestor when performed in a transaction.')
     snapshot = self._GrabSnapshot(query.ancestor())
-    return _ExecuteQuery(snapshot.values(), query, filters, orders, index_list,
+    return _ExecuteQuery(list(snapshot.values()), query, filters, orders, index_list,
                          filter_predicate)
 
   @_SynchronizeTxn
@@ -1587,7 +1587,7 @@ class LiveTxn(object):
         empty = empty and not tracker._put and not tracker._delete
 
 
-        for entity, insert in tracker._put.itervalues():
+        for entity, insert in tracker._put.values():
           Check(not insert or self.Get(entity.key()) is None,
                 'the id allocated for a new entity was already '
                 'in use, please try again')
@@ -1598,7 +1598,7 @@ class LiveTxn(object):
             old_entity = snapshot[key]
           self._AddWriteOps(old_entity, entity)
 
-        for reference in tracker._delete.itervalues():
+        for reference in tracker._delete.values():
 
 
           old_entity = None
@@ -1643,7 +1643,7 @@ class LiveTxn(object):
         try:
           apiproxy_stub_map.MakeSyncCall(
               'taskqueue', 'Add', action, api_base_pb.VoidProto())
-        except apiproxy_errors.ApplicationError, e:
+        except apiproxy_errors.ApplicationError as e:
           logging.warning('Transactional task %s has been dropped, %s',
                           action, e)
       self._actions = []
@@ -1682,7 +1682,7 @@ class LiveTxn(object):
     try:
 
       assert self._state == self.COMMITED
-      for tracker in self._entity_groups.values():
+      for tracker in list(self._entity_groups.values()):
         if tracker._meta_data is meta_data:
           break
       else:
@@ -1690,11 +1690,11 @@ class LiveTxn(object):
       assert tracker._read_pos != tracker.APPLIED
 
 
-      for entity, insert in tracker._put.itervalues():
+      for entity, insert in tracker._put.values():
         self._txn_manager._Put(entity, insert)
 
 
-      for key in tracker._delete.itervalues():
+      for key in tracker._delete.values():
         self._txn_manager._Delete(key)
 
 
@@ -2036,7 +2036,7 @@ class BaseTransactionManager(object):
     """
     self._meta_data_lock.acquire()
     try:
-      self._consistency_policy._OnGroom(self._meta_data.itervalues())
+      self._consistency_policy._OnGroom(iter(self._meta_data.values()))
     finally:
       self._meta_data_lock.release()
 
@@ -2044,7 +2044,7 @@ class BaseTransactionManager(object):
     """Applies all outstanding transactions."""
     self._meta_data_lock.acquire()
     try:
-      for meta_data in self._meta_data.itervalues():
+      for meta_data in self._meta_data.values():
         if not meta_data._apply_queue:
           continue
 
@@ -2488,7 +2488,7 @@ class BaseDatastore(BaseTransactionManager, BaseIndexManager):
       def op(txn, v):
         key, i = v
         result[i] = self._GetWithPseudoKinds(txn, key)
-      for keys in grouped_keys.itervalues():
+      for keys in grouped_keys.values():
         self._RunInTxn(keys, keys[0][0].app(), op)
       return result
 
@@ -2567,7 +2567,7 @@ class BaseDatastore(BaseTransactionManager, BaseIndexManager):
     if transaction:
 
       txn = self.GetTxn(transaction, trusted, calling_app)
-      for group in grouped_entities.values():
+      for group in list(grouped_entities.values()):
         for entity, insert in group:
 
           indexes = _FilterIndexesByKind(entity.key(), self.GetIndexes(
@@ -2575,7 +2575,7 @@ class BaseDatastore(BaseTransactionManager, BaseIndexManager):
           txn.Put(entity, insert, indexes)
     else:
 
-      for entities in grouped_entities.itervalues():
+      for entities in grouped_entities.values():
         txn_cost = self._RunInTxn(
             entities, entities[0][0].key().app(),
 
@@ -2620,7 +2620,7 @@ class BaseDatastore(BaseTransactionManager, BaseIndexManager):
         txn.Delete(key, indexes)
     else:
 
-      for keys in grouped_keys.itervalues():
+      for keys in grouped_keys.values():
 
         txn_cost = self._RunInTxn(
             keys, keys[0].app(),
@@ -2639,7 +2639,7 @@ class BaseDatastore(BaseTransactionManager, BaseIndexManager):
       entity_group_key = datastore_types.ReferenceToKeyValue(entity_group)
       grouped_keys[entity_group_key].append(key)
 
-    for keys in grouped_keys.itervalues():
+    for keys in grouped_keys.values():
       self._RunInTxn(keys, keys[0].app(), lambda txn, key: None)
 
   def _RunInTxn(self, values, app, op):
@@ -2663,7 +2663,7 @@ class BaseDatastore(BaseTransactionManager, BaseIndexManager):
         for value in values:
           op(txn, value)
         return txn.Commit()
-      except apiproxy_errors.ApplicationError, e:
+      except apiproxy_errors.ApplicationError as e:
         if e.application_error == datastore_pb.Error.CONCURRENT_TRANSACTION:
 
           retries += 1
@@ -2998,7 +2998,7 @@ class DatastoreStub(object):
   def QueryHistory(self):
     """Returns a dict that maps Query PBs to times they've been run."""
 
-    return dict((pb, times) for pb, times in self.__query_history.items()
+    return dict((pb, times) for pb, times in list(self.__query_history.items())
                 if pb.app() == self._app_id)
 
   def _QueryCompositeIndexHistoryLength(self):
@@ -3322,7 +3322,7 @@ class DatastoreStub(object):
 
 
     created = 0
-    for key, index in requested.iteritems():
+    for key, index in requested.items():
       if key not in existing:
         new_index = entity_pb.CompositeIndex()
         new_index.CopyFrom(index)
@@ -3333,7 +3333,7 @@ class DatastoreStub(object):
 
 
     deleted = 0
-    for key, index in existing.iteritems():
+    for key, index in existing.items():
       if key not in requested:
         datastore_admin.DeleteIndex(index)
         deleted += 1
@@ -3983,7 +3983,7 @@ class StubServiceConverter(object):
 
     if v3_result.has_skipped_results():
       v4_batch.set_skipped_results(v3_result.skipped_results())
-    for v3_entity, v3_cursor in itertools.izip_longest(
+    for v3_entity, v3_cursor in itertools.zip_longest(
         v3_result.result_list(),
         v3_result.result_compiled_cursor_list()):
       v4_entity_result = datastore_v4_pb.EntityResult()
@@ -4047,7 +4047,7 @@ def ToScatteredId(v):
   """
   if v >= _MAX_SCATTERED_COUNTER:
     raise datastore_errors.BadArgumentError('counter value too large (%d)' %v)
-  return _MAX_SEQUENTIAL_ID + 1 + long(ReverseBitsInt64(v << _SCATTER_SHIFT))
+  return _MAX_SEQUENTIAL_ID + 1 + int(ReverseBitsInt64(v << _SCATTER_SHIFT))
 
 
 def IdToCounter(k):
@@ -4064,9 +4064,9 @@ def IdToCounter(k):
   if k > _MAX_SCATTERED_ID:
     return 0, SCATTERED
   elif k > _MAX_SEQUENTIAL_ID and k <= _MAX_SCATTERED_ID:
-    return long(ReverseBitsInt64(k) >> _SCATTER_SHIFT), SCATTERED
+    return int(ReverseBitsInt64(k) >> _SCATTER_SHIFT), SCATTERED
   elif k > 0:
-    return long(k), SEQUENTIAL
+    return int(k), SEQUENTIAL
   else:
     raise datastore_errors.BadArgumentError('invalid id (%d)' % k)
 
@@ -4154,7 +4154,7 @@ def _MakeQuery(query_pb, filters, orders, filter_predicate):
 
   query = datastore_query.Query._from_pb(clone_pb)
 
-  assert datastore_v4_pb.CompositeFilter._Operator_NAMES.values() == ['AND']
+  assert list(datastore_v4_pb.CompositeFilter._Operator_NAMES.values()) == ['AND']
 
 
 
@@ -4224,7 +4224,7 @@ def _CreateIndexEntities(entity, postfix_props):
   clone.property_list().extend(base_props)
   results = [clone]
 
-  for name, splits in to_split.iteritems():
+  for name, splits in to_split.items():
     if len(splits) == 1:
 
       for result in results:
@@ -4366,9 +4366,9 @@ def _ChangedIndexRows(composite_indexes, old_entity, new_entity):
 
 
 
-  all_property_names = set(unique_old_properties.iterkeys())
-  all_property_names.update(unique_old_properties.iterkeys())
-  all_property_names.update(unchanged.iterkeys())
+  all_property_names = set(unique_old_properties.keys())
+  all_property_names.update(iter(unique_old_properties.keys()))
+  all_property_names.update(iter(unchanged.keys()))
 
   all_indexes = _GetEntityByPropertyIndexes(all_property_names)
   all_indexes.extend([comp.definition() for comp in composite_indexes])

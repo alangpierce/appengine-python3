@@ -77,10 +77,10 @@ version_info = (1, 2, 2, 'final', 0)
 
 
 
-class Warning(StandardError, exceptions.Warning):
+class Warning(Exception, exceptions.Warning):
   pass
 
-class Error(StandardError):
+class Error(Exception):
   pass
 
 class InterfaceError(Error):
@@ -133,7 +133,7 @@ def Binary(string):
   return Blob(string)
 
 
-STRING = unicode
+STRING = str
 BINARY = Blob
 NUMBER = float
 DATETIME = datetime.datetime
@@ -141,12 +141,12 @@ ROWID = int
 
 
 _PYTHON_TYPE_TO_JDBC_TYPE = {
-    types.IntType: jdbc_type.INTEGER,
-    types.LongType: jdbc_type.INTEGER,
-    types.FloatType: jdbc_type.DOUBLE,
-    types.BooleanType: jdbc_type.BOOLEAN,
-    types.StringType: jdbc_type.VARCHAR,
-    types.UnicodeType: jdbc_type.VARCHAR,
+    int: jdbc_type.INTEGER,
+    int: jdbc_type.INTEGER,
+    float: jdbc_type.DOUBLE,
+    bool: jdbc_type.BOOLEAN,
+    bytes: jdbc_type.VARCHAR,
+    str: jdbc_type.VARCHAR,
     datetime.date: jdbc_type.DATE,
     datetime.datetime: jdbc_type.TIMESTAMP,
     datetime.time: jdbc_type.TIME,
@@ -200,7 +200,7 @@ _EXCEPTION_TO_ERROR_CODES = {
 
 
 _ERROR_CODE_TO_EXCEPTION = {}
-for error, codes in _EXCEPTION_TO_ERROR_CODES.iteritems():
+for error, codes in _EXCEPTION_TO_ERROR_CODES.items():
   for code in codes:
     _ERROR_CODE_TO_EXCEPTION[code] = error
 
@@ -351,7 +351,7 @@ class Cursor(object):
       return arg_jdbc_type
 
 
-    for python_t, jdbc_t in _PYTHON_TYPE_TO_JDBC_TYPE.items():
+    for python_t, jdbc_t in list(_PYTHON_TYPE_TO_JDBC_TYPE.items()):
       if isinstance(arg, python_t):
         return jdbc_t
 
@@ -495,7 +495,7 @@ class Cursor(object):
       self._rowcount = result.rows_updated
 
     if result.generated_keys:
-      self.lastrowid = long(result.generated_keys[-1])
+      self.lastrowid = int(result.generated_keys[-1])
 
     if result.HasField('statement_id'):
       self._statement_id = result.statement_id
@@ -533,7 +533,7 @@ class Cursor(object):
           value_index += 1
       if self._use_dict_cursor:
         assert len(column_names) == len(row)
-        row = dict(zip(column_names, row))
+        row = dict(list(zip(column_names, row)))
       else:
         row = tuple(row)
       rows.append(row)
@@ -719,7 +719,7 @@ class Cursor(object):
       return tuple(rows)
     else:
       result = []
-      for _ in xrange(size):
+      for _ in range(size):
         result.append(self._rows.popleft())
       return tuple(result)
 
@@ -804,7 +804,7 @@ class Connection(object):
     self._retry_interval_seconds = retry_interval_seconds
     self.converter = {}
     self.encoders = {}
-    for key, value in conv.items():
+    for key, value in list(conv.items()):
       if isinstance(key, int):
         self.converter[key] = value
       else:

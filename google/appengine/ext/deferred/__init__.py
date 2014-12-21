@@ -27,7 +27,7 @@
 
 
 
-from deferred import *
+from .deferred import *
 
 
 if __name__ == "__main__":

@@ -23,7 +23,7 @@ class FileProxyMixin(object):
     truncate = property(lambda self: self.file.truncate)
     write = property(lambda self: self.file.write)
     writelines = property(lambda self: self.file.writelines)
-    xreadlines = property(lambda self: self.file.xreadlines)
+    xreadlines = property(lambda self: self.file.__iter__)
 
     def __iter__(self):
         return iter(self.file)

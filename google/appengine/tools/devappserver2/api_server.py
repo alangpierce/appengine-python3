@@ -31,8 +31,8 @@ import tempfile
 import threading
 import time
 import traceback
-import urllib2
-import urlparse
+import urllib.request, urllib.error, urllib.parse
+import urllib.parse
 
 import google
 import yaml
@@ -195,7 +195,7 @@ class APIServer(wsgi_server.WsgiServer):
       request.ParseFromString(wsgi_input)
       api_response = _execute_request(request).Encode()
       response.set_response(api_response)
-    except Exception, e:
+    except Exception as e:
       if isinstance(e, apiproxy_errors.ApplicationError):
         level = logging.DEBUG
         application_error = response.mutable_application_error()
@@ -227,7 +227,7 @@ class APIServer(wsgi_server.WsgiServer):
     return [encoded_response]
 
   def _handle_GET(self, environ, start_response):
-    params = urlparse.parse_qs(environ['QUERY_STRING'])
+    params = urllib.parse.parse_qs(environ['QUERY_STRING'])
     rtok = params.get('rtok', ['0'])[0]
 
     start_response('200 OK', [('Content-Type', 'text/plain')])

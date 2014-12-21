@@ -2,7 +2,7 @@ from google.appengine._internal.django.core.management.base import NoArgsCommand
 
 def module_to_dict(module, omittable=lambda k: k.startswith('_')):
     "Converts a module namespace to a Python dictionary. Used by get_settings_diff."
-    return dict([(k, repr(v)) for k, v in module.__dict__.items() if not omittable(k)])
+    return dict([(k, repr(v)) for k, v in list(module.__dict__.items()) if not omittable(k)])
 
 class Command(NoArgsCommand):
     help = """Displays differences between the current settings.py and Django's
@@ -22,7 +22,7 @@ class Command(NoArgsCommand):
         default_settings = module_to_dict(global_settings)
 
         output = []
-        keys = user_settings.keys()
+        keys = list(user_settings.keys())
         keys.sort()
         for key in keys:
             if key not in default_settings:

@@ -23,13 +23,13 @@ used to query various info about the object, if available.
 """
 
 import string
-import socket
+from . import socket
 import os
 import time
 import sys
 import base64
 
-from urlparse import urljoin as basejoin
+from urllib.parse import urljoin as basejoin
 
 __all__ = ["urlopen", "URLopener", "FancyURLopener", "urlretrieve",
            "urlcleanup", "quote", "quote_plus", "unquote", "unquote_plus",
@@ -203,18 +203,18 @@ class URLopener:
                 return getattr(self, name)(url)
             else:
                 return getattr(self, name)(url, data)
-        except socket.error, msg:
-            raise IOError, ('socket error', msg), sys.exc_info()[2]
+        except socket.error as msg:
+            raise IOError('socket error', msg).with_traceback(sys.exc_info()[2])
 
     def open_unknown(self, fullurl, data=None):
         """Overridable interface to open unknown URL type."""
         type, url = splittype(fullurl)
-        raise IOError, ('url error', 'unknown url type', type)
+        raise IOError('url error', 'unknown url type', type)
 
     def open_unknown_proxy(self, proxy, fullurl, data=None):
         """Overridable interface to open unknown URL type."""
         type, url = splittype(fullurl)
-        raise IOError, ('url error', 'invalid proxy for %s' % type, proxy)
+        raise IOError('url error', 'invalid proxy for %s' % type, proxy)
 
     # External interface
     def retrieve(self, url, filename=None, reporthook=None, data=None):
@@ -284,7 +284,7 @@ class URLopener:
 
     def open_http(self, url, data=None):
         """Use HTTP protocol."""
-        import httplib
+        from . import httplib
         user_passwd = None
         proxy_passwd= None
         if isinstance(url, str):
@@ -313,7 +313,7 @@ class URLopener:
                     host = realhost
 
             #print "proxy via http:", host, selector
-        if not host: raise IOError, ('http error', 'no host given')
+        if not host: raise IOError('http error', 'no host given')
 
         if proxy_passwd:
             proxy_passwd = unquote(proxy_passwd)
@@ -343,7 +343,7 @@ class URLopener:
         if errcode == -1:
             if fp: fp.close()
             # something went wrong with the HTTP status line
-            raise IOError, ('http protocol error', 0,
+            raise IOError('http protocol error', 0,
                             'got a bad status line', None)
         # According to RFC 2616, "2xx" code indicates that the client's
         # request was successfully received, understood, and accepted.
@@ -373,13 +373,13 @@ class URLopener:
     def http_error_default(self, url, fp, errcode, errmsg, headers):
         """Default error handler: close the connection and raise IOError."""
         fp.close()
-        raise IOError, ('http error', errcode, errmsg, headers)
+        raise IOError('http error', errcode, errmsg, headers)
 
     if _have_ssl:
         def open_https(self, url, data=None):
             """Use HTTPS protocol."""
 
-            import httplib
+            from . import httplib
             user_passwd = None
             proxy_passwd = None
             if isinstance(url, str):
@@ -404,7 +404,7 @@ class URLopener:
                     if user_passwd:
                         selector = "%s://%s%s" % (urltype, realhost, rest)
                 #print "proxy via https:", host, selector
-            if not host: raise IOError, ('https error', 'no host given')
+            if not host: raise IOError('https error', 'no host given')
             if proxy_passwd:
                 proxy_passwd = unquote(proxy_passwd)
                 proxy_auth = base64.b64encode(proxy_passwd).strip()
@@ -435,7 +435,7 @@ class URLopener:
             if errcode == -1:
                 if fp: fp.close()
                 # something went wrong with the HTTP status line
-                raise IOError, ('http protocol error', 0,
+                raise IOError('http protocol error', 0,
                                 'got a bad status line', None)
             # According to RFC 2616, "2xx" code indicates that the client's
             # request was successfully received, understood, and accepted.
@@ -451,7 +451,7 @@ class URLopener:
     def open_file(self, url):
         """Use local file or FTP depending on form of URL."""
         if not isinstance(url, str):
-            raise IOError, ('file error', 'proxy support for file protocol currently not implemented')
+            raise IOError('file error', 'proxy support for file protocol currently not implemented')
         if url[:2] == '//' and url[2:3] != '/' and url[2:12].lower() != 'localhost/':
             return self.open_ftp(url)
         else:
@@ -461,14 +461,14 @@ class URLopener:
         """Use local file."""
         import mimetypes, mimetools, email.utils
         try:
-            from cStringIO import StringIO
+            from io import StringIO
         except ImportError:
-            from StringIO import StringIO
+            from io import StringIO
         host, file = splithost(url)
         localname = url2pathname(file)
         try:
             stats = os.stat(localname)
-        except OSError, e:
+        except OSError as e:
             raise IOError(e.errno, e.strerror, e.filename)
         size = stats.st_size
         modified = email.utils.formatdate(stats.st_mtime, usegmt=True)
@@ -491,19 +491,19 @@ class URLopener:
                 urlfile = 'file://' + file
             return addinfourl(open(localname, 'rb'),
                               headers, urlfile)
-        raise IOError, ('local file error', 'not on local host')
+        raise IOError('local file error', 'not on local host')
 
     def open_ftp(self, url):
         """Use FTP protocol."""
         if not isinstance(url, str):
-            raise IOError, ('ftp error', 'proxy support for ftp protocol currently not implemented')
+            raise IOError('ftp error', 'proxy support for ftp protocol currently not implemented')
         import mimetypes, mimetools
         try:
-            from cStringIO import StringIO
+            from io import StringIO
         except ImportError:
-            from StringIO import StringIO
+            from io import StringIO
         host, path = splithost(url)
-        if not host: raise IOError, ('ftp error', 'no host given')
+        if not host: raise IOError('ftp error', 'no host given')
         host, port = splitport(host)
         user, host = splituser(host)
         if user: user, passwd = splitpasswd(user)
@@ -527,7 +527,7 @@ class URLopener:
         # XXX thread unsafe!
         if len(self.ftpcache) > MAXFTPCACHE:
             # Prune the cache, rather arbitrarily
-            for k in self.ftpcache.keys():
+            for k in list(self.ftpcache.keys()):
                 if k != key:
                     v = self.ftpcache[k]
                     del self.ftpcache[k]
@@ -550,13 +550,13 @@ class URLopener:
                 headers += "Content-Length: %d\n" % retrlen
             headers = mimetools.Message(StringIO(headers))
             return addinfourl(fp, headers, "ftp:" + url)
-        except ftperrors(), msg:
-            raise IOError, ('ftp error', msg), sys.exc_info()[2]
+        except ftperrors() as msg:
+            raise IOError('ftp error', msg).with_traceback(sys.exc_info()[2])
 
     def open_data(self, url, data=None):
         """Use "data" URL."""
         if not isinstance(url, str):
-            raise IOError, ('data error', 'proxy support for data protocol currently not implemented')
+            raise IOError('data error', 'proxy support for data protocol currently not implemented')
         # ignore POSTed data
         #
         # syntax of data URLs:
@@ -566,13 +566,13 @@ class URLopener:
         # parameter := attribute "=" value
         import mimetools
         try:
-            from cStringIO import StringIO
+            from io import StringIO
         except ImportError:
-            from StringIO import StringIO
+            from io import StringIO
         try:
             [type, data] = url.split(',', 1)
         except ValueError:
-            raise IOError, ('data error', 'bad data URL')
+            raise IOError('data error', 'bad data URL')
         if not type:
             type = 'text/plain;charset=US-ASCII'
         semi = type.rfind(';')
@@ -786,13 +786,13 @@ class FancyURLopener(URLopener):
         """Override this in a GUI environment!"""
         import getpass
         try:
-            user = raw_input("Enter username for %s at %s: " % (realm,
+            user = input("Enter username for %s at %s: " % (realm,
                                                                 host))
             passwd = getpass.getpass("Enter password for %s in %s at %s: " %
                 (user, realm, host))
             return user, passwd
         except KeyboardInterrupt:
-            print
+            print()
             return None, None
 
 
@@ -830,9 +830,9 @@ def noheaders():
     if _noheaders is None:
         import mimetools
         try:
-            from cStringIO import StringIO
+            from io import StringIO
         except ImportError:
-            from StringIO import StringIO
+            from io import StringIO
         _noheaders = mimetools.Message(StringIO(), 0)
         _noheaders.fp.close()   # Recycle file descriptor
     return _noheaders
@@ -881,9 +881,9 @@ class ftpwrapper:
             try:
                 cmd = 'RETR ' + file
                 conn, retrlen = self.ftp.ntransfercmd(cmd)
-            except ftplib.error_perm, reason:
+            except ftplib.error_perm as reason:
                 if str(reason)[:3] != '550':
-                    raise IOError, ('ftp error', reason), sys.exc_info()[2]
+                    raise IOError('ftp error', reason).with_traceback(sys.exc_info()[2])
         if not conn:
             # Set transfer mode to ASCII!
             self.ftp.voidcmd('TYPE A')
@@ -893,8 +893,8 @@ class ftpwrapper:
                 try:
                     try:
                         self.ftp.cwd(file)
-                    except ftplib.error_perm, reason:
-                        raise IOError, ('ftp error', reason), sys.exc_info()[2]
+                    except ftplib.error_perm as reason:
+                        raise IOError('ftp error', reason).with_traceback(sys.exc_info()[2])
                 finally:
                     self.ftp.cwd(pwd)
                 cmd = 'LIST ' + file
@@ -950,7 +950,7 @@ class addbase:
         if hasattr(self.fp, "__iter__"):
             self.__iter__ = self.fp.__iter__
             if hasattr(self.fp, "next"):
-                self.next = self.fp.next
+                self.next = self.fp.__next__
 
     def __repr__(self):
         return '<%s at %r whose fp = %r>' % (self.__class__.__name__,
@@ -1024,13 +1024,13 @@ class addinfourl(addbase):
 # quote('abc def') -> 'abc%20def')
 
 try:
-    unicode
+    str
 except NameError:
     def _is_unicode(x):
         return 0
 else:
     def _is_unicode(x):
-        return isinstance(x, unicode)
+        return isinstance(x, str)
 
 def toBytes(url):
     """toBytes(u"URL") --> 'URL'."""
@@ -1135,7 +1135,7 @@ def splitnport(host, defport=-1):
     if match:
         host, port = match.group(1, 2)
         try:
-            if not port: raise ValueError, "no digits"
+            if not port: raise ValueError("no digits")
             nport = int(port)
         except ValueError:
             nport = None
@@ -1205,7 +1205,7 @@ def unquote(s):
         except KeyError:
             s += '%' + item
         except UnicodeDecodeError:
-            s += unichr(int(item[:2], 16)) + item[2:]
+            s += chr(int(item[:2], 16)) + item[2:]
     return s
 
 def unquote_plus(s):
@@ -1217,7 +1217,7 @@ always_safe = ('ABCDEFGHIJKLMNOPQRSTUVWXYZ'
                'abcdefghijklmnopqrstuvwxyz'
                '0123456789' '_.-')
 _safe_map = {}
-for i, c in zip(xrange(256), str(bytearray(xrange(256)))):
+for i, c in zip(range(256), str(bytearray(range(256)))):
     # NOTE(guido): The original code here used Python 2.7 syntax, but
     # in App Engine we want to support Python 2.6 as well.
     _safe_map[c] = c if (i < 128 and c in always_safe) else '%%%02X' % i
@@ -1282,7 +1282,7 @@ def urlencode(query, doseq=0):
 
     if hasattr(query,"items"):
         # mapping objects
-        query = query.items()
+        query = list(query.items())
     else:
         # it's a bother at times that strings and string-like objects are
         # sequences...
@@ -1297,7 +1297,7 @@ def urlencode(query, doseq=0):
             # preserved for consistency
         except TypeError:
             ty,va,tb = sys.exc_info()
-            raise TypeError, "not a valid non-string sequence or mapping object", tb
+            raise TypeError("not a valid non-string sequence or mapping object").with_traceback(tb)
 
     l = []
     if not doseq:
@@ -1343,7 +1343,7 @@ def getproxies_environment():
 
     """
     proxies = {}
-    for name, value in os.environ.items():
+    for name, value in list(os.environ.items()):
         name = name.lower()
         if value and name[-6:] == '_proxy':
             proxies[name[:-6]] = value
@@ -1381,14 +1381,14 @@ if sys.platform == 'darwin':
         to fetch the proxy information.
         """
         import re
-        import socket
+        from . import socket
         from fnmatch import fnmatch
 
         hostonly, port = splitport(host)
 
         def ip2num(ipAddr):
             parts = ipAddr.split('.')
-            parts = map(int, parts)
+            parts = list(map(int, parts))
             if len(parts) != 4:
                 parts = (parts + [0, 0, 0, 0])[:4]
             return (parts[0] << 24) | (parts[1] << 16) | (parts[2] << 8) | parts[3]
@@ -1458,18 +1458,18 @@ elif os.name == 'nt':
         """
         proxies = {}
         try:
-            import _winreg
+            import winreg
         except ImportError:
             # Std module, so should be around - but you never know!
             return proxies
         try:
-            internetSettings = _winreg.OpenKey(_winreg.HKEY_CURRENT_USER,
+            internetSettings = winreg.OpenKey(winreg.HKEY_CURRENT_USER,
                 r'Software\Microsoft\Windows\CurrentVersion\Internet Settings')
-            proxyEnable = _winreg.QueryValueEx(internetSettings,
+            proxyEnable = winreg.QueryValueEx(internetSettings,
                                                'ProxyEnable')[0]
             if proxyEnable:
                 # Returned as Unicode but problems if not converted to ASCII
-                proxyServer = str(_winreg.QueryValueEx(internetSettings,
+                proxyServer = str(winreg.QueryValueEx(internetSettings,
                                                        'ProxyServer')[0])
                 if '=' in proxyServer:
                     # Per-protocol settings
@@ -1507,17 +1507,17 @@ elif os.name == 'nt':
 
     def proxy_bypass_registry(host):
         try:
-            import _winreg
+            import winreg
             import re
         except ImportError:
             # Std modules, so should be around - but you never know!
             return 0
         try:
-            internetSettings = _winreg.OpenKey(_winreg.HKEY_CURRENT_USER,
+            internetSettings = winreg.OpenKey(winreg.HKEY_CURRENT_USER,
                 r'Software\Microsoft\Windows\CurrentVersion\Internet Settings')
-            proxyEnable = _winreg.QueryValueEx(internetSettings,
+            proxyEnable = winreg.QueryValueEx(internetSettings,
                                                'ProxyEnable')[0]
-            proxyOverride = str(_winreg.QueryValueEx(internetSettings,
+            proxyOverride = str(winreg.QueryValueEx(internetSettings,
                                                      'ProxyOverride')[0])
             # ^^^^ Returned as Unicode but problems if not converted to ASCII
         except WindowsError:
@@ -1584,14 +1584,14 @@ def test1():
     uqs = unquote(qs)
     t1 = time.time()
     if uqs != s:
-        print 'Wrong!'
-    print repr(s)
-    print repr(qs)
-    print repr(uqs)
-    print round(t1 - t0, 3), 'sec'
+        print('Wrong!')
+    print(repr(s))
+    print(repr(qs))
+    print(repr(uqs))
+    print(round(t1 - t0, 3), 'sec')
 
 
 def reporthook(blocknum, blocksize, totalsize):
     # Report during remote transfers
-    print "Block number: %d, Block size: %d, Total size: %d" % (
-        blocknum, blocksize, totalsize)
+    print("Block number: %d, Block size: %d, Total size: %d" % (
+        blocknum, blocksize, totalsize))

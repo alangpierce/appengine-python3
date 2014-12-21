@@ -43,7 +43,7 @@ Classes defined here:
 
 
 
-import cPickle
+import pickle
 import os
 
 from google.appengine.api import apiproxy_stub_map
@@ -137,7 +137,7 @@ def get_oauth_consumer_key():
   resp = user_service_pb.CheckOAuthSignatureResponse()
   try:
     apiproxy_stub_map.MakeSyncCall('user', 'CheckOAuthSignature', req, resp)
-  except apiproxy_errors.ApplicationError, e:
+  except apiproxy_errors.ApplicationError as e:
     if (e.application_error ==
         user_service_pb.UserServiceError.OAUTH_INVALID_REQUEST):
       raise InvalidOAuthParametersError(e.error_detail)
@@ -198,7 +198,7 @@ def _maybe_call_get_oauth_user(scope):
 
   if not scope:
     scope_str = ''
-  elif isinstance(scope, basestring):
+  elif isinstance(scope, str):
     scope_str = scope
   else:
     scope_str = str(sorted(scope))
@@ -207,7 +207,7 @@ def _maybe_call_get_oauth_user(scope):
       os.environ.get('TESTONLY_OAUTH_SKIP_CACHE')):
     req = user_service_pb.GetOAuthUserRequest()
     if scope:
-      if isinstance(scope, basestring):
+      if isinstance(scope, str):
         req.add_scopes(scope)
       else:
         req.scopes_list().extend(scope)
@@ -219,14 +219,14 @@ def _maybe_call_get_oauth_user(scope):
       os.environ['OAUTH_AUTH_DOMAIN'] = resp.auth_domain()
       os.environ['OAUTH_USER_ID'] = resp.user_id()
       os.environ['OAUTH_CLIENT_ID'] = resp.client_id()
-      os.environ['OAUTH_AUTHORIZED_SCOPES'] = cPickle.dumps(
-          list(resp.scopes_list()), cPickle.HIGHEST_PROTOCOL)
+      os.environ['OAUTH_AUTHORIZED_SCOPES'] = pickle.dumps(
+          list(resp.scopes_list()), pickle.HIGHEST_PROTOCOL)
       if resp.is_admin():
         os.environ['OAUTH_IS_ADMIN'] = '1'
       else:
         os.environ['OAUTH_IS_ADMIN'] = '0'
       os.environ['OAUTH_ERROR_CODE'] = ''
-    except apiproxy_errors.ApplicationError, e:
+    except apiproxy_errors.ApplicationError as e:
       os.environ['OAUTH_ERROR_CODE'] = str(e.application_error)
       os.environ['OAUTH_ERROR_DETAIL'] = e.error_detail
     os.environ['OAUTH_LAST_SCOPE'] = scope_str
@@ -294,4 +294,4 @@ def _get_authorized_scopes_from_environ():
     list: the list of OAuth scopes.
   """
   assert 'OAUTH_AUTHORIZED_SCOPES' in os.environ
-  return cPickle.loads(os.environ['OAUTH_AUTHORIZED_SCOPES'])
+  return pickle.loads(os.environ['OAUTH_AUTHORIZED_SCOPES'])

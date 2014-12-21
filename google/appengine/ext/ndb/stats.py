@@ -78,7 +78,7 @@ class BaseKindStatistic(BaseStatistic):
   # The number of bytes that is taken up in entity table. entity_bytes does not
   # reflect the storage allocated for indexes, either built-in or composite
   # indexes.
-  entity_bytes = model.IntegerProperty(default=0L)
+  entity_bytes = model.IntegerProperty(default=0)
 
 
 class GlobalStat(BaseStatistic):
@@ -100,19 +100,19 @@ class GlobalStat(BaseStatistic):
   STORED_KIND_NAME = '__Stat_Total__'
 
   # The number of bytes that is taken up in entity storage.
-  entity_bytes = model.IntegerProperty(default=0L)
+  entity_bytes = model.IntegerProperty(default=0)
 
   # The number of bytes taken up for built-in index entries.
-  builtin_index_bytes = model.IntegerProperty(default=0L)
+  builtin_index_bytes = model.IntegerProperty(default=0)
 
   # The number of built-in index entries.
-  builtin_index_count = model.IntegerProperty(default=0L)
+  builtin_index_count = model.IntegerProperty(default=0)
 
   # The number of bytes taken up for composite index entries.
-  composite_index_bytes = model.IntegerProperty(default=0L)
+  composite_index_bytes = model.IntegerProperty(default=0)
 
   # The number of composite indexes entries.
-  composite_index_count = model.IntegerProperty(default=0L)
+  composite_index_count = model.IntegerProperty(default=0)
 
 
 class NamespaceStat(BaseStatistic):
@@ -140,19 +140,19 @@ class NamespaceStat(BaseStatistic):
   subject_namespace = model.StringProperty()
 
   # The number of bytes that is taken up in entity storage.
-  entity_bytes = model.IntegerProperty(default=0L)
+  entity_bytes = model.IntegerProperty(default=0)
 
   # The number of bytes taken up for built-in index entries.
-  builtin_index_bytes = model.IntegerProperty(default=0L)
+  builtin_index_bytes = model.IntegerProperty(default=0)
 
   # The number of built-in index entries.
-  builtin_index_count = model.IntegerProperty(default=0L)
+  builtin_index_count = model.IntegerProperty(default=0)
 
   # The number of bytes taken up for composite index entries.
-  composite_index_bytes = model.IntegerProperty(default=0L)
+  composite_index_bytes = model.IntegerProperty(default=0)
 
   # The number of composite indexes entries.
-  composite_index_count = model.IntegerProperty(default=0L)
+  composite_index_count = model.IntegerProperty(default=0)
 
 
 class KindStat(BaseKindStatistic):
@@ -172,16 +172,16 @@ class KindStat(BaseKindStatistic):
   STORED_KIND_NAME = '__Stat_Kind__'
 
   # The number of bytes taken up for built-in index entries.
-  builtin_index_bytes = model.IntegerProperty(default=0L)
+  builtin_index_bytes = model.IntegerProperty(default=0)
 
   # The number of built-in index entries.
-  builtin_index_count = model.IntegerProperty(default=0L)
+  builtin_index_count = model.IntegerProperty(default=0)
 
   # The number of bytes taken up for composite index entries.
-  composite_index_bytes = model.IntegerProperty(default=0L)
+  composite_index_bytes = model.IntegerProperty(default=0)
 
   # The number of composite indexes entries.
-  composite_index_count = model.IntegerProperty(default=0L)
+  composite_index_count = model.IntegerProperty(default=0)
 
 
 class KindRootEntityStat(BaseKindStatistic):
@@ -225,13 +225,13 @@ class PropertyTypeStat(BaseStatistic):
   property_type = model.StringProperty()
 
   # The number of bytes that is taken up in entity storage.
-  entity_bytes = model.IntegerProperty(default=0L)
+  entity_bytes = model.IntegerProperty(default=0)
 
   # The number of bytes taken up for built-in index entries.
-  builtin_index_bytes = model.IntegerProperty(default=0L)
+  builtin_index_bytes = model.IntegerProperty(default=0)
 
   # The number of built-in index entries.
-  builtin_index_count = model.IntegerProperty(default=0L)
+  builtin_index_count = model.IntegerProperty(default=0)
 
 
 class KindPropertyTypeStat(BaseKindStatistic):
@@ -252,10 +252,10 @@ class KindPropertyTypeStat(BaseKindStatistic):
   property_type = model.StringProperty()
 
   # The number of bytes taken up for built-in index entries.
-  builtin_index_bytes = model.IntegerProperty(default=0L)
+  builtin_index_bytes = model.IntegerProperty(default=0)
 
   # The number of built-in index entries.
-  builtin_index_count = model.IntegerProperty(default=0L)
+  builtin_index_count = model.IntegerProperty(default=0)
 
 
 class KindPropertyNameStat(BaseKindStatistic):
@@ -277,10 +277,10 @@ class KindPropertyNameStat(BaseKindStatistic):
   property_name = model.StringProperty()
 
   # The number of bytes taken up for built-in index entries.
-  builtin_index_bytes = model.IntegerProperty(default=0L)
+  builtin_index_bytes = model.IntegerProperty(default=0)
 
   # The number of built-in index entries.
-  builtin_index_count = model.IntegerProperty(default=0L)
+  builtin_index_count = model.IntegerProperty(default=0)
 
 
 class KindPropertyNamePropertyTypeStat(BaseKindStatistic):
@@ -306,10 +306,10 @@ class KindPropertyNamePropertyTypeStat(BaseKindStatistic):
   property_name = model.StringProperty()
 
   # The number of bytes taken up for built-in index entries.
-  builtin_index_bytes = model.IntegerProperty(default=0L)
+  builtin_index_bytes = model.IntegerProperty(default=0)
 
   # The number of built-in index entries.
-  builtin_index_count = model.IntegerProperty(default=0L)
+  builtin_index_count = model.IntegerProperty(default=0)
 
 
 class KindCompositeIndexStat(BaseStatistic):

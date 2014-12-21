@@ -67,7 +67,7 @@ class BaseHandler(webapp.RequestHandler):
   def post(self):
     try:
       self.xmpp_message = xmpp.Message(self.request.POST)
-    except xmpp.InvalidMessageError, e:
+    except xmpp.InvalidMessageError as e:
       logging.error("Invalid XMPP request: Missing required field %s", e[0])
       return
     self.message_received(self.xmpp_message)

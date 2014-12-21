@@ -49,7 +49,7 @@ def find_management_module(app_name):
     # of the app_name but the project directory itself isn't on the path.
     try:
         f, path, descr = imp.find_module(part,path)
-    except ImportError,e:
+    except ImportError as e:
         if os.path.basename(os.getcwd()) != part:
             raise e
 
@@ -236,7 +236,7 @@ class ManagementUtility(object):
         """
         usage = ['',"Type '%s help <subcommand>' for help on a specific subcommand." % self.prog_name,'']
         usage.append('Available subcommands:')
-        commands = get_commands().keys()
+        commands = list(get_commands().keys())
         commands.sort()
         for cmd in commands:
             usage.append('  %s' % cmd)
@@ -282,7 +282,7 @@ class ManagementUtility(object):
         and formatted as potential completion suggestions.
         """
         # Don't complete if user hasn't sourced bash_completion file.
-        if not os.environ.has_key('DJANGO_AUTO_COMPLETE'):
+        if 'DJANGO_AUTO_COMPLETE' not in os.environ:
             return
 
         cwords = os.environ['COMP_WORDS'].split()[1:]
@@ -293,12 +293,12 @@ class ManagementUtility(object):
         except IndexError:
             curr = ''
 
-        subcommands = get_commands().keys() + ['help']
+        subcommands = list(get_commands().keys()) + ['help']
         options = [('--help', None)]
 
         # subcommand
         if cword == 1:
-            print ' '.join(sorted(filter(lambda x: x.startswith(curr), subcommands)))
+            print(' '.join(sorted([x for x in subcommands if x.startswith(curr)])))
         # subcommand options
         # special case: the 'help' subcommand has no options
         elif cwords[0] in subcommands and cwords[0] != 'help':
@@ -324,7 +324,7 @@ class ManagementUtility(object):
                         subcommand_cls.option_list]
             # filter out previously specified options from available options
             prev_opts = [x.split('=')[0] for x in cwords[1:cword-1]]
-            options = filter(lambda (x, v): x not in prev_opts, options)
+            options = [x_v for x_v in options if x_v[0] not in prev_opts]
 
             # filter options by current input
             options = sorted([(k, v) for k, v in options if k.startswith(curr)])
@@ -333,7 +333,7 @@ class ManagementUtility(object):
                 # append '=' to options which require args
                 if option[1]:
                     opt_label += '='
-                print opt_label
+                print(opt_label)
         sys.exit(1)
 
     def execute(self):

@@ -359,7 +359,7 @@ class NamespaceRange(object):
             n,
             contiguous,
             can_query=itertools.chain(itertools.repeat(True, 50),
-                                      itertools.repeat(False)).next,
+                                      itertools.repeat(False)).__next__,
             _app=None):
 
     """Splits the complete NamespaceRange into n equally-sized NamespaceRanges.

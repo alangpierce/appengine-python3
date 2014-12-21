@@ -150,8 +150,8 @@ def _SignedVarintDecoder(mask, result_type):
 
 
 
-_DecodeVarint = _VarintDecoder((1 << 64) - 1, long)
-_DecodeSignedVarint = _SignedVarintDecoder((1 << 64) - 1, long)
+_DecodeVarint = _VarintDecoder((1 << 64) - 1, int)
+_DecodeSignedVarint = _SignedVarintDecoder((1 << 64) - 1, int)
 
 
 _DecodeVarint32 = _VarintDecoder((1 << 32) - 1, int)
@@ -466,12 +466,12 @@ def StringDecoder(field_number, is_repeated, is_packed, key, new_default):
   """Returns a decoder for a string field."""
 
   local_DecodeVarint = _DecodeVarint
-  local_unicode = unicode
+  local_unicode = str
 
   def _ConvertToUnicode(byte_str):
     try:
       return local_unicode(byte_str, 'utf-8')
-    except UnicodeDecodeError, e:
+    except UnicodeDecodeError as e:
 
       e.reason = '%s in field: %s' % (e, key.full_name)
       raise

@@ -101,17 +101,17 @@ import getpass
 import imp
 import logging
 import os
-import Queue
+import queue
 import re
 import shutil
 import signal
-import StringIO
+import io
 import sys
 import threading
 import time
 import traceback
-import urllib2
-import urlparse
+import urllib.request, urllib.error, urllib.parse
+import urllib.parse
 
 from google.appengine.datastore import entity_pb
 
@@ -131,6 +131,7 @@ from google.appengine.runtime import apiproxy_errors
 from google.appengine.tools import adaptive_thread_pool
 from google.appengine.tools import appengine_rpc
 from google.appengine.tools.requeue import ReQueue
+import collections
 
 
 
@@ -425,7 +426,7 @@ class UploadWorkItemGenerator(object):
       line: A line number to advance to.
     """
     while self.line_number < line:
-      self.reader.next()
+      next(self.reader)
       self.line_number += 1
       self.row_count += 1
       self.xfer_count += 1
@@ -449,7 +450,7 @@ class UploadWorkItemGenerator(object):
 
     self.read_rows = []
     while self.line_number <= key_end:
-      row = self.reader.next()
+      row = next(self.reader)
       self.row_count += 1
       if self.column_count is None:
         self.column_count = len(row)
@@ -490,7 +491,7 @@ class UploadWorkItemGenerator(object):
 
       logger.info('Skipping header line.')
       try:
-        self.reader.next()
+        next(self.reader)
       except StopIteration:
 
 
@@ -583,7 +584,7 @@ class CSVGenerator(object):
 
       for record in reader:
         yield record
-    except csv.Error, e:
+    except csv.Error as e:
       if e.args and e.args[0].startswith('field larger than field limit'):
         raise FieldSizeLimitError(csv.field_size_limit())
       else:
@@ -611,7 +612,7 @@ class KeyRangeItemGenerator(object):
       key_range_item_factory: A factory to produce KeyRangeItems.
     """
     self.request_manager = request_manager
-    if isinstance(kinds, basestring):
+    if isinstance(kinds, str):
       self.kinds = [kinds]
     else:
       self.kinds = kinds
@@ -769,11 +770,11 @@ class _WorkItem(adaptive_thread_pool.WorkItem):
               db.TransactionFailedError,
               apiproxy_errors.OverQuotaError,
               apiproxy_errors.DeadlineExceededError,
-              apiproxy_errors.ApplicationError), e:
+              apiproxy_errors.ApplicationError) as e:
 
         status = adaptive_thread_pool.WorkItem.RETRY
         logger.exception('Retrying on non-fatal datastore error: %s', e)
-      except urllib2.HTTPError, e:
+      except urllib.error.HTTPError as e:
         http_status = e.code
         if http_status >= 500 and http_status < 600:
 
@@ -783,7 +784,7 @@ class _WorkItem(adaptive_thread_pool.WorkItem):
         else:
           self.SetError()
           status = adaptive_thread_pool.WorkItem.FAILURE
-      except urllib2.URLError, e:
+      except urllib.error.URLError as e:
         if IsURLErrorFatal(e):
           self.SetError()
           status = adaptive_thread_pool.WorkItem.FAILURE
@@ -805,7 +806,7 @@ class _WorkItem(adaptive_thread_pool.WorkItem):
       raise BadStateError('%s:%s not in %s' %
                           (str(self),
                            self.state_namer(self.state),
-                           map(self.state_namer, states)))
+                           list(map(self.state_namer, states))))
 
   def _AssertProgressKey(self):
     """Raises an Error if the progress key is None."""
@@ -898,8 +899,8 @@ class UploadWorkItem(_WorkItem):
                        progress_key=progress_key)
 
 
-    assert isinstance(key_start, (int, long))
-    assert isinstance(key_end, (int, long))
+    assert isinstance(key_start, int)
+    assert isinstance(key_end, int)
     assert key_start <= key_end
 
     self.request_manager = request_manager
@@ -1229,7 +1230,7 @@ def _AuthFunction(host, email, passin, raw_input_fn, password_input_fn):
     Pair, (email, password).
   """
   if not email:
-    print 'Please enter login credentials for %s' % host
+    print('Please enter login credentials for %s' % host)
     email = raw_input_fn('Email: ')
 
   if email:
@@ -1435,7 +1436,7 @@ class RequestManager(object):
 
         continue
       if isinstance(entity, list):
-        entities.extend(map(ToEntity, entity))
+        entities.extend(list(map(ToEntity, entity)))
       elif entity:
         entities.append(ToEntity(entity))
 
@@ -1470,7 +1471,7 @@ class RequestManager(object):
         results += result_pb.result_list()
 
       return results
-    except apiproxy_errors.ApplicationError, e:
+    except apiproxy_errors.ApplicationError as e:
       raise datastore._ToDatastoreError(e)
 
   def GetEntities(
@@ -1659,7 +1660,7 @@ def IsURLErrorFatal(error):
   Args:
     error: A urllib2.URLError instance.
   """
-  assert isinstance(error, urllib2.URLError)
+  assert isinstance(error, urllib.error.URLError)
   if not hasattr(error, 'reason'):
     return True
   if not isinstance(error.reason[0], int):
@@ -1744,7 +1745,7 @@ class DataSourceThread(_ThreadBase):
           self.thread_pool.SubmitItem(item, block=True, timeout=1.0)
           self.entity_count += item.count
           break
-        except Queue.Full:
+        except queue.Full:
           pass
 
 
@@ -1811,7 +1812,7 @@ class _Database(object):
 
     try:
       self.primary_conn.execute(create_table)
-    except sqlite3.OperationalError, e:
+    except sqlite3.OperationalError as e:
 
       if 'already exists' not in e.message:
         raise
@@ -1819,7 +1820,7 @@ class _Database(object):
     if index:
       try:
         self.primary_conn.execute(index)
-      except sqlite3.OperationalError, e:
+      except sqlite3.OperationalError as e:
 
         if 'already exists' not in e.message:
           raise
@@ -1835,7 +1836,7 @@ class _Database(object):
       self.primary_conn.cursor().execute(
           'insert into %s (value) values (?)' % _Database.SIGNATURE_TABLE_NAME,
           (signature,))
-    except sqlite3.OperationalError, e:
+    except sqlite3.OperationalError as e:
       if 'already exists' not in e.message:
         logger.exception('Exception creating table:')
         raise
@@ -1940,7 +1941,7 @@ def KeyStr(key):
 
   out_path = []
   for part in path:
-    if isinstance(part, (int, long)):
+    if isinstance(part, int):
 
 
       part = '%020d' % part
@@ -1948,9 +1949,9 @@ def KeyStr(key):
 
       part = ':%s' % part
 
-    out_path.append(zero_matcher.sub(u'\0\1', part))
+    out_path.append(zero_matcher.sub('\0\1', part))
 
-  out_str = u'\0\0'.join(out_path)
+  out_str = '\0\0'.join(out_path)
 
   return out_str
 
@@ -1964,12 +1965,12 @@ def StrKey(key_str):
   Returns:
     A datastore.Key instance k, such that KeyStr(k) == key_str.
   """
-  parts = key_str.split(u'\0\0')
-  for i in xrange(len(parts)):
+  parts = key_str.split('\0\0')
+  for i in range(len(parts)):
     if parts[i][0] == ':':
 
       part = parts[i][1:]
-      part = zero_one_matcher.sub(u'\0', part)
+      part = zero_one_matcher.sub('\0', part)
       parts[i] = part
     else:
       parts[i] = int(parts[i])
@@ -2218,7 +2219,7 @@ class _ProgressDatabase(_Database):
     self.insert_cursor.execute(
         'insert into progress (state, kind, key_start, key_end)'
         ' values (?, ?, ?, ?)',
-        (STATE_READ, unicode(kind), unicode(key_start), unicode(key_end)))
+        (STATE_READ, str(kind), str(key_start), str(key_end)))
 
     progress_key = self.insert_cursor.lastrowid
 
@@ -2429,7 +2430,7 @@ class _ProgressThreadBase(_ThreadBase):
     while not self.exit_flag:
       try:
         item = self.progress_queue.get(block=True, timeout=1.0)
-      except Queue.Empty:
+      except queue.Empty:
 
         continue
       if item == _THREAD_SHOULD_EXIT:
@@ -2675,7 +2676,7 @@ class Loader(object):
            ('description', datastore_types.Text),
            ]
     """
-    Validate(kind, (basestring, tuple))
+    Validate(kind, (str, tuple))
     self.kind = kind
     self.__openfile = open
     self.__create_csv_reader = csv.reader
@@ -2685,8 +2686,8 @@ class Loader(object):
 
     Validate(properties, list)
     for name, fn in properties:
-      Validate(name, basestring)
-      assert callable(fn), (
+      Validate(name, str)
+      assert isinstance(fn, collections.Callable), (
         'Conversion function %s for property %s is not callable.' % (fn, name))
 
     self.__properties = properties
@@ -2723,11 +2724,11 @@ class Loader(object):
 
 
       if hasattr(self.__class__, old_name) and not (
-          getattr(self.__class__, old_name).im_func ==
-          getattr(Loader, new_name).im_func):
+          getattr(self.__class__, old_name).__func__ ==
+          getattr(Loader, new_name).__func__):
         if hasattr(self.__class__, new_name) and not (
-            getattr(self.__class__, new_name).im_func ==
-            getattr(Loader, new_name).im_func):
+            getattr(self.__class__, new_name).__func__ ==
+            getattr(Loader, new_name).__func__):
 
           raise NameClashError(old_name, new_name, self.__class__)
 
@@ -2912,7 +2913,7 @@ class RestoreLoader(Loader):
 
   def initialize(self, filename, loader_opts):
     CheckFile(filename)
-    self.queue = Queue.Queue(1000)
+    self.queue = queue.Queue(1000)
     restore_thread = RestoreThread(self.queue, filename)
     restore_thread.start()
     self.keys_to_reserve = self._find_keys_to_reserve(
@@ -2943,7 +2944,7 @@ class RestoreLoader(Loader):
       entity = self.create_entity(values)
       key = entity.key()
       for id_or_name in key.to_path()[1::2]:
-        if isinstance(id_or_name, (int, long)):
+        if isinstance(id_or_name, int):
           keys_to_reserve.append(key)
           break
     return keys_to_reserve
@@ -3050,7 +3051,7 @@ class Exporter(object):
          ('description', str, ''),
          ]
     """
-    Validate(kind, basestring)
+    Validate(kind, str)
     self.kind = kind
 
 
@@ -3058,12 +3059,12 @@ class Exporter(object):
 
     Validate(properties, list)
     for name, fn, default in properties:
-      Validate(name, basestring)
-      assert callable(fn), (
+      Validate(name, str)
+      assert isinstance(fn, collections.Callable), (
           'Conversion function %s for property %s is not callable.' % (
               fn, name))
       if default:
-        Validate(default, basestring)
+        Validate(default, str)
 
     self.__properties = properties
 
@@ -3110,7 +3111,7 @@ class Exporter(object):
     Returns:
       A CSV string.
     """
-    output = StringIO.StringIO()
+    output = io.StringIO()
     writer = csv.writer(output)
     writer.writerow(self.__ExtractProperties(entity))
     return output.getvalue()
@@ -3125,8 +3126,8 @@ class Exporter(object):
       A serialized representation of an entity.
     """
     encoding = self.__EncodeEntity(entity)
-    if not isinstance(encoding, unicode):
-      encoding = unicode(encoding, 'utf-8')
+    if not isinstance(encoding, str):
+      encoding = str(encoding, 'utf-8')
     encoding = encoding.encode('utf-8')
     return encoding
 
@@ -3225,7 +3226,7 @@ class Mapper(object):
     Args:
       kind: a string containing the entity kind that this mapper handles
     """
-    Validate(kind, basestring)
+    Validate(kind, str)
     self.kind = kind
 
 
@@ -3253,7 +3254,7 @@ class Mapper(object):
     pass
 
   def apply(self, entity):
-    print 'Default map function doing nothing to %s' % entity
+    print('Default map function doing nothing to %s' % entity)
 
   def batch_apply(self, entities):
     for entity in entities:
@@ -3296,7 +3297,7 @@ class QueueJoinThread(threading.Thread):
     """
     threading.Thread.__init__(self)
     self.setDaemon(True)
-    assert isinstance(queue, (Queue.Queue, ReQueue))
+    assert isinstance(queue, (queue.Queue, ReQueue))
     self.queue = queue
 
   def run(self):
@@ -3379,7 +3380,7 @@ class BulkTransporterApp(object):
                max_queue_size=DEFAULT_QUEUE_SIZE,
                request_manager_factory=RequestManager,
                datasourcethread_factory=DataSourceThread,
-               progress_queue_factory=Queue.Queue,
+               progress_queue_factory=queue.Queue,
                thread_pool_factory=adaptive_thread_pool.AdaptiveThreadPool,
                server=None):
     """Instantiate a BulkTransporterApp.
@@ -3425,12 +3426,12 @@ class BulkTransporterApp(object):
     self.server = server
     (scheme,
      self.host_port, self.url_path,
-     unused_query, unused_fragment) = urlparse.urlsplit(self.post_url)
+     unused_query, unused_fragment) = urllib.parse.urlsplit(self.post_url)
     self.secure = (scheme == 'https')
 
   def RunPostAuthentication(self):
     """Method that gets called after authentication."""
-    if isinstance(self.kind, basestring):
+    if isinstance(self.kind, str):
       return [self.kind]
     return self.kind
 
@@ -3464,11 +3465,11 @@ class BulkTransporterApp(object):
 
 
       self.request_manager.Authenticate()
-    except Exception, e:
+    except Exception as e:
       self.error = True
 
 
-      if not isinstance(e, urllib2.HTTPError) or (
+      if not isinstance(e, urllib.error.HTTPError) or (
           e.code != 302 and e.code != 401):
         logger.exception('Exception during authentication')
       raise AuthenticationError()
@@ -3553,7 +3554,7 @@ class BulkTransporterApp(object):
           logger.debug('Joining %s failed', ob)
         else:
           logger.debug('... done.')
-      elif isinstance(ob, (Queue.Queue, ReQueue)):
+      elif isinstance(ob, (queue.Queue, ReQueue)):
         if not InterruptibleQueueJoin(ob, thread_local, thread_pool):
           ShutdownThreads(self.data_source_thread, thread_pool)
       else:
@@ -3571,7 +3572,7 @@ class BulkTransporterApp(object):
 
     thread_pool.JoinThreads()
     thread_pool.CheckErrors()
-    print ''
+    print('')
 
 
 
@@ -3646,7 +3647,7 @@ class BulkDownloaderApp(BulkTransporterApp):
   def RunPostAuthentication(self):
     if not self.kind:
       return self.request_manager.GetSchemaKinds()
-    elif isinstance(self.kind, basestring):
+    elif isinstance(self.kind, str):
       return [self.kind]
     else:
       return self.kind
@@ -3704,7 +3705,7 @@ def PrintUsageExit(code):
   Args:
     code: Status code to pass to sys.exit() after displaying usage information.
   """
-  print __doc__ % {'arg0': sys.argv[0]}
+  print(__doc__ % {'arg0': sys.argv[0]})
   sys.stdout.flush()
   sys.stderr.flush()
   sys.exit(code)
@@ -3789,8 +3790,8 @@ def ParseArguments(argv, die_fn=lambda: PrintUsageExit(1)):
       continue
     option = option[2:]
     if option in DEPRECATED_OPTIONS:
-      print >> sys.stderr, ('--%s is deprecated, please use --%s.' %
-                           (option, DEPRECATED_OPTIONS[option]))
+      print(('--%s is deprecated, please use --%s.' %
+                           (option, DEPRECATED_OPTIONS[option])), file=sys.stderr)
       option = DEPRECATED_OPTIONS[option]
 
     if option in BOOL_ARGS:
@@ -3890,12 +3891,12 @@ def LoadConfig(config_file_name, exit_fn=sys.exit):
         for cls in bulkloader_config.mappers:
           Mapper.RegisterMapper(cls())
 
-    except NameError, e:
+    except NameError as e:
 
 
       m = re.search(r"[^']*'([^']*)'.*", str(e))
       if m.groups() and m.group(1) == 'Loader':
-        print >> sys.stderr, """
+        print("""
 The config file format has changed and you appear to be using an old-style
 config file.  Please make the following changes:
 
@@ -3914,20 +3915,20 @@ loaders = [MyLoader1,...,MyLoaderN]
 
 Where MyLoader1,...,MyLoaderN are the Loader subclasses you want the bulkloader
 to have access to.
-"""
+""", file=sys.stderr)
         exit_fn(1)
       else:
         raise
-    except Exception, e:
+    except Exception as e:
 
 
 
       if isinstance(e, NameClashError) or 'bulkloader_config' in vars() and (
           hasattr(bulkloader_config, 'bulkloader') and
           isinstance(e, bulkloader_config.bulkloader.NameClashError)):
-        print >> sys.stderr, (
+        print((
             'Found both %s and %s while aliasing old names on %s.' %
-            (e.old_name, e.new_name, e.klass))
+            (e.old_name, e.new_name, e.klass)), file=sys.stderr)
         exit_fn(1)
       else:
         raise
@@ -3946,7 +3947,7 @@ def GetArgument(kwargs, name, die_fn):
   if name in kwargs:
     return kwargs[name]
   else:
-    print >> sys.stderr, '%s argument required' % name
+    print('%s argument required' % name, file=sys.stderr)
     die_fn()
 
 
@@ -3966,7 +3967,7 @@ def _MakeSignature(app_id=None,
     result_db_line = 'result_db: %s' % result_db_filename
   else:
     result_db_line = ''
-  return u"""
+  return """
   app_id: %s
   url: %s
   kind: %s
@@ -4055,7 +4056,7 @@ def ProcessArguments(arg_dict,
   if namespace:
     try:
       namespace_manager.validate_namespace(namespace)
-    except namespace_manager.BadValueError, msg:
+    except namespace_manager.BadValueError as msg:
       errors.append('namespace parameter %s' % msg)
 
 
@@ -4071,7 +4072,7 @@ def ProcessArguments(arg_dict,
 
 
   if errors:
-    print >> sys.stderr, '\n'.join(errors)
+    print('\n'.join(errors), file=sys.stderr)
     die_fn()
 
   return arg_dict
@@ -4081,7 +4082,7 @@ def _GetRemoteAppId(url, throttle, email, passin,
                     raw_input_fn=raw_input, password_input_fn=getpass.getpass,
                     throttle_class=None):
   """Get the App ID from the remote server."""
-  scheme, host_port, url_path, _, _ = urlparse.urlsplit(url)
+  scheme, host_port, url_path, _, _ = urllib.parse.urlsplit(url)
 
   secure = (scheme == 'https')
 
@@ -4260,7 +4261,7 @@ def _PerformBulkload(arg_dict,
                             max_queue_size,
                             RequestManager,
                             DataSourceThread,
-                            Queue.Queue,
+                            queue.Queue,
                             server=server)
       try:
         return_code = app.Run()
@@ -4294,7 +4295,7 @@ def _PerformBulkload(arg_dict,
                               0,
                               RequestManager,
                               DataSourceThread,
-                              Queue.Queue,
+                              queue.Queue,
                               server=server)
       try:
         return_code = app.Run()
@@ -4329,7 +4330,7 @@ def _PerformBulkload(arg_dict,
                           0,
                           RequestManager,
                           DataSourceThread,
-                          Queue.Queue,
+                          queue.Queue,
                           server=server)
       try:
         return_code = app.Run()
@@ -4413,10 +4414,10 @@ def main(argv):
 
 
   errors = ['%s argument required' % key
-            for (key, value) in arg_dict.iteritems()
+            for (key, value) in arg_dict.items()
             if value is REQUIRED_OPTION]
   if errors:
-    print >> sys.stderr, '\n'.join(errors)
+    print('\n'.join(errors), file=sys.stderr)
     PrintUsageExit(1)
 
   SetupLogging(arg_dict)

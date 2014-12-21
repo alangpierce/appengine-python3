@@ -44,7 +44,7 @@ class UtilTest(unittest.TestCase):
     headers['Content-Length'] = '2'
     headers['X-User-IP'] = '127.0.0.1'
     headers['Access-Control-Allow-Origin'] = 'google.com'
-    util.put_headers_in_environ(headers.items(), environ)
+    util.put_headers_in_environ(list(headers.items()), environ)
 
     self.assertEqual(environ,
                      {'SERVER_PORT': '42', 'REQUEST_METHOD': 'GET',

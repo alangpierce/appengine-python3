@@ -196,7 +196,7 @@ def appstats_should_record(env):
   if appstats_FILTER_LIST:
     logging.debug('FILTER_LIST: %r', appstats_FILTER_LIST)
     for filter_dict in appstats_FILTER_LIST:
-      for key, regex in filter_dict.iteritems():
+      for key, regex in filter_dict.items():
         negated = isinstance(regex, str) and regex.startswith('!')
         if negated:
           regex = regex[1:]

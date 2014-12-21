@@ -234,8 +234,8 @@ def key_id_or_name_as_string_n(index):
   def transform_function(key):
     id_or_name = _key_id_or_name_n(key, index)
     if not id_or_name:
-      return u''
-    return unicode(id_or_name)
+      return ''
+    return str(id_or_name)
 
   return transform_function
 
@@ -263,7 +263,7 @@ def key_type_n(index):
     id_or_name = _key_id_or_name_n(key, index)
     if id_or_name is None:
       return ''
-    if isinstance(id_or_name, basestring):
+    if isinstance(id_or_name, str):
       return KEY_TYPE_NAME
     return KEY_TYPE_ID
 
@@ -291,7 +291,7 @@ def key_kind_n(index):
   def transform_function(key):
     path = key.to_path()
     path_index = (index * 2)
-    return unicode(path[path_index])
+    return str(path[path_index])
 
   return transform_function
 

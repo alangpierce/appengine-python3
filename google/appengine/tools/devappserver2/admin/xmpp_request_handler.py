@@ -18,7 +18,7 @@
 
 
 
-import cStringIO
+import io
 import random
 import string
 from xml.etree import ElementTree
@@ -49,7 +49,7 @@ class _FormData(object):
     """Returns the message boundary and entire content body for the form."""
     boundary = '----=' + ''.join(random.choice(string.letters + string.digits)
                                  for _ in range(25))
-    s = cStringIO.StringIO()
+    s = io.StringIO()
 
     for name, value, sub_type in self._data:
       s.write('--%s\r\n' % boundary)

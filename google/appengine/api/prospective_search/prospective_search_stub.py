@@ -31,13 +31,13 @@ import base64
 import bisect
 
 
-import cPickle as pickle
+import pickle as pickle
 import itertools
 import logging
 import os
 import re
 import time
-import urllib
+import urllib.request, urllib.parse, urllib.error
 
 from google.appengine.api import apiproxy_stub
 from google.appengine.api.prospective_search import error_pb
@@ -59,7 +59,7 @@ def ValidateTopic(topic):
 
 
 def ValidateQuery(query):
-  query_parser.Parse(unicode(query, 'utf-8'))
+  query_parser.Parse(str(query, 'utf-8'))
 
 def RaiseBadRequest(message):
   raise apiproxy_errors.ApplicationError(error_pb.Error.BAD_REQUEST, message)
@@ -151,9 +151,9 @@ class ProspectiveSearchStub(apiproxy_stub.APIProxyStub):
     """Remove expired subscriptions."""
     now = time.time()
     empty_topics = []
-    for topic, topic_subs in self.topics.iteritems():
+    for topic, topic_subs in self.topics.items():
       expired_sub_ids = []
-      for sub_id, entry in topic_subs.iteritems():
+      for sub_id, entry in topic_subs.items():
         _, expires = entry
         if expires < now:
           expired_sub_ids.append(sub_id)
@@ -174,7 +174,7 @@ class ProspectiveSearchStub(apiproxy_stub.APIProxyStub):
     ValidateTopic(request.topic())
     self._ExpireSubscriptions()
     topic_subs = self.topics.get(request.topic(), {})
-    sub_ids = topic_subs.keys()
+    sub_ids = list(topic_subs.keys())
     sub_ids.sort()
     start = bisect.bisect_left(sub_ids, request.subscription_id_start())
     sub_ids = sub_ids[start:start + request.max_results()]
@@ -195,7 +195,7 @@ class ProspectiveSearchStub(apiproxy_stub.APIProxyStub):
       request: ListTopicsRequest
       response: ListTopicsResponse
     """
-    topics = self.topics.keys()
+    topics = list(self.topics.keys())
     topics.sort()
     if request.has_topic_start():
       start = bisect.bisect_left(topics, request.topic_start())
@@ -223,7 +223,7 @@ class ProspectiveSearchStub(apiproxy_stub.APIProxyStub):
       parameters['key'] = match_request.result_key()
     taskqueue_request = taskqueue_service_pb.TaskQueueBulkAddRequest()
     batch_size = match_request.result_batch_size()
-    for i in xrange(0, len(subscriptions), batch_size):
+    for i in range(0, len(subscriptions), batch_size):
       add_request = taskqueue_request.add_add_request()
       add_request.set_queue_name(match_request.result_task_queue())
       add_request.set_task_name('')
@@ -236,7 +236,7 @@ class ProspectiveSearchStub(apiproxy_stub.APIProxyStub):
       parameters['results_count'] = len(subscriptions)
       parameters['results_offset'] = i
       parameters['id'] = subscriptions[i:i+batch_size]
-      add_request.set_body(urllib.urlencode(parameters, doseq=True))
+      add_request.set_body(urllib.parse.urlencode(parameters, doseq=True))
     taskqueue_response = taskqueue_service_pb.TaskQueueBulkAddResponse()
     self.taskqueue_stub._Dynamic_BulkAdd(taskqueue_request, taskqueue_response)
 
@@ -253,7 +253,7 @@ class ProspectiveSearchStub(apiproxy_stub.APIProxyStub):
                                  request.document().raw_property_list())
     for prop in properties:
 
-      prop_name = unicode(prop.name(), 'utf-8')
+      prop_name = str(prop.name(), 'utf-8')
       doc.setdefault(prop_name, [])
       if prop.value().has_int64value():
         value = prop.value().int64value()
@@ -262,7 +262,7 @@ class ProspectiveSearchStub(apiproxy_stub.APIProxyStub):
           doc[prop_name].append(prop.value().int64value())
       elif prop.value().has_stringvalue():
 
-        unicode_value = unicode(prop.value().stringvalue(), 'utf-8')
+        unicode_value = str(prop.value().stringvalue(), 'utf-8')
         doc[prop_name].append(unicode_value)
       elif prop.value().has_doublevalue():
         doc[prop_name].append(prop.value().doublevalue())
@@ -271,7 +271,7 @@ class ProspectiveSearchStub(apiproxy_stub.APIProxyStub):
 
     matches = []
     topic_subs = self.topics.get(request.topic(), {})
-    sub_ids = topic_subs.keys()
+    sub_ids = list(topic_subs.keys())
     for sub_id in sub_ids:
       vanilla_query, _ = topic_subs[sub_id]
       if self._FindMatches(vanilla_query, doc):
@@ -282,7 +282,7 @@ class ProspectiveSearchStub(apiproxy_stub.APIProxyStub):
   def _FindMatches(self, query, doc):
     """Entry point for matching document against a query."""
     self._Debug('_FindMatches: query: %r, doc: %s' % (query, doc), 0)
-    query_tree = self._Simplify(query_parser.Parse(unicode(query, 'utf-8')))
+    query_tree = self._Simplify(query_parser.Parse(str(query, 'utf-8')))
     match = self._WalkQueryTree(query_tree, doc)
     self._Debug('_FindMatches: result: %s' % match, 0)
     return match
@@ -375,13 +375,13 @@ class ProspectiveSearchStub(apiproxy_stub.APIProxyStub):
 
     if (op is QueryParser.HAS
         or (op is QueryParser.EQ
-            and type(field_vals[0]) is unicode)):
+            and type(field_vals[0]) is str)):
 
 
       if query_val.startswith('"') and query_val.endswith('"'):
         query_val = query_val[1:-1]
       query_val = re.sub(r'\s+', r'\s+', query_val)
-      re_query = re.compile(u'(^\\s*|\\s+)%s(\\s+|\\s*$)'
+      re_query = re.compile('(^\\s*|\\s+)%s(\\s+|\\s*$)'
                             % query_val, re.IGNORECASE)
       for val in field_vals:
         value_text = ('%s' % val)

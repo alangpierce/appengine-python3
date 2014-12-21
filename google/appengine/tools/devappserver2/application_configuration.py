@@ -284,14 +284,14 @@ class ModuleConfiguration(object):
       A set containing the changes that occured. See the *_CHANGED module
       constants.
     """
-    new_mtimes = self._get_mtimes(self._mtimes.keys())
+    new_mtimes = self._get_mtimes(list(self._mtimes.keys()))
     if new_mtimes == self._mtimes:
       return set()
 
     try:
       app_info_external, files_to_check = self._parse_configuration(
           self._config_path)
-    except Exception, e:
+    except Exception as e:
       failure_message = str(e)
       if failure_message != self._last_failure_message:
         logging.error('Configuration is not valid: %s', failure_message)
@@ -311,7 +311,7 @@ class ModuleConfiguration(object):
         # immutable value *and* different from the last loaded value.
         continue
 
-      if isinstance(app_info_value, types.StringTypes):
+      if isinstance(app_info_value, str):
         logging.warning('Restart the development module to see updates to "%s" '
                         '["%s" => "%s"]',
                         app_info_attribute,
@@ -466,7 +466,7 @@ def _set_health_check_defaults(vm_health_check):
   """
   if not vm_health_check:
     vm_health_check = appinfo.VmHealthCheck()
-  for k, v in _HEALTH_CHECK_DEFAULTS.iteritems():
+  for k, v in _HEALTH_CHECK_DEFAULTS.items():
     if getattr(vm_health_check, k) is None:
       setattr(vm_health_check, k, v)
   return vm_health_check
@@ -508,7 +508,7 @@ class BackendsConfiguration(object):
 
   def get_backend_configurations(self):
     return [BackendConfiguration(self._base_module_configuration, self, entry)
-            for entry in self._backends_name_to_backend_entry.values()]
+            for entry in list(self._backends_name_to_backend_entry.values())]
 
   def check_for_updates(self, backend_name):
     """Return any configuration changes since the last check_for_updates call.
@@ -524,7 +524,7 @@ class BackendsConfiguration(object):
     with self._update_lock:
       module_changes = self._base_module_configuration.check_for_updates()
       if module_changes:
-        for backend_changes in self._changes.values():
+        for backend_changes in list(self._changes.values()):
           backend_changes.update(module_changes)
       changes = self._changes[backend_name]
       self._changes[backend_name] = set()
@@ -712,7 +712,7 @@ class DispatchConfiguration(object):
       self._mtime = mtime
       try:
         dispatch_info_external = self._parse_configuration(self._config_path)
-      except Exception, e:
+      except Exception as e:
         failure_message = str(e)
         logging.error('Configuration is not valid: %s', failure_message)
         return
@@ -755,7 +755,7 @@ class ApplicationConfiguration(object):
     self.dispatch = None
     # It's really easy to add a test case that passes in a string rather than
     # a list of strings, so guard against that.
-    assert not isinstance(config_paths, basestring)
+    assert not isinstance(config_paths, str)
     config_paths = self._config_files_from_paths(config_paths)
     for config_path in config_paths:
       # TODO: add support for backends.xml and dispatch.xml here

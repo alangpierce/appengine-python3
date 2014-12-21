@@ -34,7 +34,7 @@ The templates are written to work with either Django 0.96 or Django
 
 
 import cgi
-import cStringIO
+import io
 import email.Utils
 import logging
 import mimetypes
@@ -100,7 +100,7 @@ def render(tmplname, data):
   data['multithread'] = os.getenv('wsgi.multithread')
   try:
     return _template.render(tmpl, data)
-  except Exception, err:
+  except Exception as err:
     logging.exception('Failed to render %s', tmpl)
     return 'Problematic template %s: %s' % (tmplname, err)
 
@@ -240,31 +240,31 @@ class SummaryHandler(webapp.RequestHandler):
 
 
     allstats_by_count = []
-    for k, v in allstats.iteritems():
-      for path_vals in pivot_rpc_path[k].itervalues():
+    for k, v in allstats.items():
+      for path_vals in pivot_rpc_path[k].values():
         path_vals.billed_ops = _billed_ops_to_str(
-            path_vals.billed_ops.itervalues())
+            iter(path_vals.billed_ops.values()))
         path_vals.cost_pct = _as_percentage_of(
             path_vals.cost, total_cost_micropennies)
 
 
 
 
-      pivot = sorted(pivot_rpc_path[k].itervalues(),
+      pivot = sorted(iter(pivot_rpc_path[k].values()),
                      key=lambda x: (-x.calls, x.name))
       allstats_by_count.append((
-          k, v.calls, v.cost, _billed_ops_to_str(v.billed_ops.itervalues()),
+          k, v.calls, v.cost, _billed_ops_to_str(iter(v.billed_ops.values())),
           _as_percentage_of(v.cost, total_cost_micropennies),
           [x.to_list() for x in pivot]))
     allstats_by_count.sort(key=lambda x: (-x[1], x[0]))
 
 
     pathstats_by_count = []
-    for path_key, pathstats_info in pathstats.iteritems():
+    for path_key, pathstats_info in pathstats.items():
       rpc_count = 0
-      for rpc_vals in pivot_path_rpc[path_key].itervalues():
+      for rpc_vals in pivot_path_rpc[path_key].values():
         rpc_vals.billed_ops = _billed_ops_to_str(
-            rpc_vals.billed_ops.itervalues())
+            iter(rpc_vals.billed_ops.values()))
         rpc_vals.cost_pct = _as_percentage_of(
             rpc_vals.cost, total_cost_micropennies)
         rpc_count += rpc_vals.calls
@@ -272,11 +272,11 @@ class SummaryHandler(webapp.RequestHandler):
 
 
 
-      pivot = sorted(pivot_path_rpc[path_key].itervalues(),
+      pivot = sorted(iter(pivot_path_rpc[path_key].values()),
                      key=lambda x: (-x.calls, x.name))
       pathstats_by_count.append((
           path_key, rpc_count, pathstats_info.cost,
-          _billed_ops_to_str(pathstats_info.billed_ops.itervalues()),
+          _billed_ops_to_str(iter(pathstats_info.billed_ops.values())),
           _as_percentage_of(pathstats_info.cost, total_cost_micropennies),
           pathstats_info.num_requests,
           pathstats_info.most_recent_requests,
@@ -379,9 +379,9 @@ def get_details_data(record, file_url=None):
     rpcstats_map[key] = (count, real, api, rpc_cost_micropennies, billed_ops)
   rpcstats_by_count = [
       (name, count, real, recording.mcycles_to_msecs(api),
-       rpc_cost_micropennies, _billed_ops_to_str(billed_ops.itervalues()))
+       rpc_cost_micropennies, _billed_ops_to_str(iter(billed_ops.values())))
       for name, (count, real, api, rpc_cost_micropennies, billed_ops)
-      in rpcstats_map.iteritems()]
+      in rpcstats_map.items()]
   rpcstats_by_count.sort(key=lambda x: -x[1])
 
 
@@ -458,8 +458,8 @@ class ShellHandler(webapp.RequestHandler):
   def execute_script(self, script):
     save_stdout = sys.stdout
     save_stderr = sys.stderr
-    new_stdout = cStringIO.StringIO()
-    new_stderr = cStringIO.StringIO()
+    new_stdout = io.StringIO()
+    new_stderr = io.StringIO()
     try:
       sys.stdout = new_stdout
       sys.stderr = new_stderr
@@ -506,7 +506,7 @@ class FileHandler(webapp.RequestHandler):
 
     try:
       fp = open(filename)
-    except IOError, err:
+    except IOError as err:
       self.response.out.write('<h1>IOError</h1><pre>%s</pre>' %
                               cgi.escape(str(err)))
       self.response.set_status(404)

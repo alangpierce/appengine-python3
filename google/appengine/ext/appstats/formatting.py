@@ -32,9 +32,9 @@ except ImportError:
   message = None
 
 
-EASY_TYPES = (type(None), int, long, float, bool)
-META_TYPES = (type, types.ClassType)
-STRING_TYPES = (str, unicode)
+EASY_TYPES = (type(None), int, int, float, bool)
+META_TYPES = (type, type)
+STRING_TYPES = (str, str)
 CONTAINER_TYPES = {tuple: ('(', ')'),
                    list: ('[', ']'),
                    dict: ('{', '}'),
@@ -83,16 +83,16 @@ def _format_value(val, limit, level, len=len, repr=repr):
   if typ in EASY_TYPES:
     if typ is float:
       rep = str(val)
-    elif typ is long:
-      if val >= 10L**99:
+    elif typ is int:
+      if val >= 10**99:
         return '...L'
-      elif val <= -10L**98:
+      elif val <= -10**98:
         return '-...L'
       else:
         rep = repr(val)
     else:
       rep = repr(val)
-    if typ is long and len(rep) > limit:
+    if typ is int and len(rep) > limit:
       n1 = (limit - 3) // 2
       n2 = (limit - 3) - n1
       rep = rep[:n1] + '...' + rep[-n2:]
@@ -117,12 +117,12 @@ def _format_value(val, limit, level, len=len, repr=repr):
     return rep[:n1] + '...' + rep[-n2:]
 
   if typ is types.MethodType:
-    if val.im_self is None:
+    if val.__self__ is None:
       fmt = '<unbound method %s of %s>'
     else:
       fmt = '<method %s of %s<>>'
-    if val.im_class is not None:
-      return fmt % (val.__name__, val.im_class.__name__)
+    if val.__self__.__class__ is not None:
+      return fmt % (val.__name__, val.__self__.__class__.__name__)
     else:
       return fmt % (val.__name__, '?')
 
@@ -232,7 +232,7 @@ def _format_value(val, limit, level, len=len, repr=repr):
             break
 
     for nam in names:
-      if not isinstance(nam, basestring):
+      if not isinstance(nam, str):
         continue
       if first:
         first = False

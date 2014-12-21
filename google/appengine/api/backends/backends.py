@@ -151,7 +151,7 @@ def get_hostname(backend=None, instance=None):
     backend = get_backend()
 
 
-  if not isinstance(backend, (str, unicode)):
+  if not isinstance(backend, str):
     raise InvalidBackendError('Invalid backend: %s' % backend)
 
   if not re.match('^[a-zA-Z0-9\-]+$', backend):

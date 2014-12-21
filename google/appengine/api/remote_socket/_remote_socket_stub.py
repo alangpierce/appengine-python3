@@ -19,7 +19,7 @@
 A stub version of the Remote Socket API for the dev_appserver.
 """
 
-from __future__ import with_statement
+
 
 
 
@@ -54,16 +54,16 @@ def TranslateSystemErrors(method):
   def WrappedMethod(self, *args, **kwargs):
     try:
       return method(self, *args, **kwargs)
-    except socket.gaierror, e:
+    except socket.gaierror as e:
       raise apiproxy_errors.ApplicationError(
           RemoteSocketServiceError.GAI_ERROR,
           'system_error:%u error_detail:"%s"' % (e.errno, e.strerror))
-    except socket.timeout, e:
+    except socket.timeout as e:
       raise apiproxy_errors.ApplicationError(
           RemoteSocketServiceError.SYSTEM_ERROR,
           'system_error:%u error_detail:"%s"' % (errno.EAGAIN,
                                                  os.strerror(errno.EAGAIN)))
-    except socket.error, e:
+    except socket.error as e:
       raise apiproxy_errors.ApplicationError(
           RemoteSocketServiceError.SYSTEM_ERROR,
           'system_error:%u error_detail:"%s"' % (e.errno, e.strerror))

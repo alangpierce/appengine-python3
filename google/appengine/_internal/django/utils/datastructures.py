@@ -33,14 +33,14 @@ class MergeDict(object):
 
     def getlist(self, key):
         for dict_ in self.dicts:
-            if key in dict_.keys():
+            if key in list(dict_.keys()):
                 return dict_.getlist(key)
         return []
 
     def iteritems(self):
         seen = set()
         for dict_ in self.dicts:
-            for item in dict_.iteritems():
+            for item in dict_.items():
                 k, v = item
                 if k in seen:
                     continue
@@ -48,21 +48,21 @@ class MergeDict(object):
                 yield item
 
     def iterkeys(self):
-        for k, v in self.iteritems():
+        for k, v in self.items():
             yield k
 
     def itervalues(self):
-        for k, v in self.iteritems():
+        for k, v in self.items():
             yield v
 
     def items(self):
-        return list(self.iteritems())
+        return list(self.items())
 
     def keys(self):
-        return list(self.iterkeys())
+        return list(self.keys())
 
     def values(self):
-        return list(self.itervalues())
+        return list(self.values())
 
     def has_key(self, key):
         for dict_ in self.dicts:
@@ -96,7 +96,7 @@ class SortedDict(dict):
             data = list(data)
         super(SortedDict, self).__init__(data)
         if isinstance(data, dict):
-            self.keyOrder = data.keys()
+            self.keyOrder = list(data.keys())
         else:
             self.keyOrder = []
             seen = set()
@@ -107,7 +107,7 @@ class SortedDict(dict):
 
     def __deepcopy__(self, memo):
         return self.__class__([(key, deepcopy(value, memo))
-                               for key, value in self.iteritems()])
+                               for key, value in self.items()])
 
     def __setitem__(self, key, value):
         if key not in self:
@@ -136,7 +136,7 @@ class SortedDict(dict):
         return result
 
     def items(self):
-        return zip(self.keyOrder, self.values())
+        return list(zip(self.keyOrder, list(self.values())))
 
     def iteritems(self):
         for key in self.keyOrder:
@@ -149,14 +149,14 @@ class SortedDict(dict):
         return iter(self.keyOrder)
 
     def values(self):
-        return map(self.__getitem__, self.keyOrder)
+        return list(map(self.__getitem__, self.keyOrder))
 
     def itervalues(self):
         for key in self.keyOrder:
             yield self[key]
 
     def update(self, dict_):
-        for k, v in dict_.iteritems():
+        for k, v in dict_.items():
             self[k] = v
 
     def setdefault(self, key, default):
@@ -190,7 +190,7 @@ class SortedDict(dict):
         Replaces the normal dict.__repr__ with a version that returns the keys
         in their sorted order.
         """
-        return '{%s}' % ', '.join(['%r: %r' % (k, v) for k, v in self.items()])
+        return '{%s}' % ', '.join(['%r: %r' % (k, v) for k, v in list(self.items())])
 
     def clear(self):
         super(SortedDict, self).clear()
@@ -242,7 +242,7 @@ class MultiValueDict(dict):
         super(MultiValueDict, self).__setitem__(key, [value])
 
     def __copy__(self):
-        return self.__class__(super(MultiValueDict, self).items())
+        return self.__class__(list(super(MultiValueDict, self).items()))
 
     def __deepcopy__(self, memo=None):
         import google.appengine._internal.django.utils.copycompat as copy
@@ -262,7 +262,7 @@ class MultiValueDict(dict):
 
     def __setstate__(self, obj_dict):
         data = obj_dict.pop('_data', {})
-        for k, v in data.items():
+        for k, v in list(data.items()):
             self.setlist(k, v)
         self.__dict__.update(obj_dict)
 
@@ -312,31 +312,31 @@ class MultiValueDict(dict):
         Returns a list of (key, value) pairs, where value is the last item in
         the list associated with the key.
         """
-        return [(key, self[key]) for key in self.keys()]
+        return [(key, self[key]) for key in list(self.keys())]
 
     def iteritems(self):
         """
         Yields (key, value) pairs, where value is the last item in the list
         associated with the key.
         """
-        for key in self.keys():
+        for key in list(self.keys()):
             yield (key, self[key])
 
     def lists(self):
         """Returns a list of (key, list) pairs."""
-        return super(MultiValueDict, self).items()
+        return list(super(MultiValueDict, self).items())
 
     def iterlists(self):
         """Yields (key, list) pairs."""
-        return super(MultiValueDict, self).iteritems()
+        return iter(super(MultiValueDict, self).items())
 
     def values(self):
         """Returns a list of the last value on every key list."""
-        return [self[key] for key in self.keys()]
+        return [self[key] for key in list(self.keys())]
 
     def itervalues(self):
         """Yield the last value on every key list."""
-        for key in self.iterkeys():
+        for key in self.keys():
             yield self[key]
 
     def copy(self):
@@ -357,11 +357,11 @@ class MultiValueDict(dict):
                     self.setlistdefault(key, []).extend(value_list)
             else:
                 try:
-                    for key, value in other_dict.items():
+                    for key, value in list(other_dict.items()):
                         self.setlistdefault(key, []).append(value)
                 except TypeError:
                     raise ValueError("MultiValueDict.update() takes either a MultiValueDict or dictionary")
-        for key, value in kwargs.iteritems():
+        for key, value in kwargs.items():
             self.setlistdefault(key, []).append(value)
 
 class DotExpandedDict(dict):
@@ -386,7 +386,7 @@ class DotExpandedDict(dict):
     {'c': 1}
     """
     def __init__(self, key_to_list_mapping):
-        for k, v in key_to_list_mapping.items():
+        for k, v in list(key_to_list_mapping.items()):
             current = self
             bits = k.split('.')
             for bit in bits[:-1]:

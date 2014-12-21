@@ -5,9 +5,9 @@
 import os
 
 if 'GAE_USE_SOCKETS_HTTPLIB' in os.environ:
-  from python_std_lib import httplib
+  from .python_std_lib import httplib
 else:
-  from gae_override import httplib
+  from .gae_override import httplib
 
 # Can't just do from version.httplib import * as that skips variables
 # prefixed with an underscore. As this proxy should be transparent, we need

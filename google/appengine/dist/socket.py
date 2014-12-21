@@ -208,7 +208,7 @@ class _socketobject(object):
     _s = ("def %s(self, *args): return self._sock.%s(*args)\n\n"
           "%s.__doc__ = _realsocket.%s.__doc__\n")
     for _m in _socketmethods:
-        exec _s % (_m, _m, _m, _m)
+        exec(_s % (_m, _m, _m, _m))
     del _m, _s
 
 socket = SocketType = _socketobject
@@ -284,7 +284,7 @@ class _fileobject(object):
     def writelines(self, list):
 
 
-        self._wbuf.extend(filter(None, map(str, list)))
+        self._wbuf.extend([_f for _f in map(str, list) if _f])
         if (self._wbufsize <= 1 or
             self._get_wbuf_len() >= self._wbufsize):
             self.flush()
@@ -427,7 +427,7 @@ class _fileobject(object):
     def __iter__(self):
         return self
 
-    def next(self):
+    def __next__(self):
         line = self.readline()
         if not line:
             raise StopIteration
@@ -460,11 +460,11 @@ def create_connection(address, timeout=_GLOBAL_DEFAULT_TIMEOUT):
             sock.connect(sa, host)
             return sock
 
-        except error, msg:
+        except error as msg:
             if sock is not None:
                 sock.close()
 
-    raise error, msg
+    raise error(msg)
 
 
 ssl = None

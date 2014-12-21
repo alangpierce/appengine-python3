@@ -36,7 +36,7 @@
 
 
 
-import httplib
+import http.client
 import logging
 
 import google
@@ -178,7 +178,7 @@ class TaskQueueHandler(webapp.RequestHandler):
     this method to perform controlled task retries. Only raise exceptions
     for those deserve ERROR log entries.
     """
-    self.response.set_status(httplib.SERVICE_UNAVAILABLE, "Retry task")
+    self.response.set_status(http.client.SERVICE_UNAVAILABLE, "Retry task")
     self.response.clear()
 
 
@@ -231,7 +231,7 @@ class JsonHandler(webapp.RequestHandler):
       self.json_response.clear()
       self.json_response["error_class"] = "Notice"
       self.json_response["error_message"] = "Could not find 'mapreduce.yaml'"
-    except Exception, e:
+    except Exception as e:
       logging.exception("Error in JsonHandler, returning exception.")
 
       self.json_response.clear()
@@ -242,7 +242,7 @@ class JsonHandler(webapp.RequestHandler):
     try:
       output = simplejson.dumps(self.json_response, cls=json_util.JsonEncoder)
 
-    except Exception, e:
+    except Exception as e:
       logging.exception("Could not serialize to JSON")
       self.response.set_status(500, message="Could not serialize to JSON")
       return

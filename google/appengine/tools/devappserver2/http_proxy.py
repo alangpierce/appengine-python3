@@ -21,9 +21,9 @@ only. Static files are handled separately.
 """
 
 import contextlib
-import httplib
+import http.client
 import logging
-import urllib
+import urllib.request, urllib.parse, urllib.error
 import wsgiref.headers
 
 from google.appengine.tools.devappserver2 import http_runtime_constants
@@ -127,10 +127,10 @@ class HttpProxy:
               http_runtime_constants.APPENGINE_ENVIRON_PREFIX + name] = value
     headers = util.get_headers_from_environ(environ)
     if environ.get('QUERY_STRING'):
-      url = '%s?%s' % (urllib.quote(environ['PATH_INFO']),
+      url = '%s?%s' % (urllib.parse.quote(environ['PATH_INFO']),
                        environ['QUERY_STRING'])
     else:
-      url = urllib.quote(environ['PATH_INFO'])
+      url = urllib.parse.quote(environ['PATH_INFO'])
     if 'CONTENT_LENGTH' in environ:
       headers['CONTENT-LENGTH'] = environ['CONTENT_LENGTH']
       data = environ['wsgi.input'].read(int(environ['CONTENT_LENGTH']))
@@ -158,18 +158,18 @@ class HttpProxy:
     headers[http_runtime_constants.APPENGINE_HEADER_PREFIX +
             'User-Organization'] = organization
     headers['X-AppEngine-Country'] = 'ZZ'
-    connection = httplib.HTTPConnection(self._host, self._port)
+    connection = http.client.HTTPConnection(self._host, self._port)
     with contextlib.closing(connection):
       try:
         connection.connect()
         connection.request(environ.get('REQUEST_METHOD', 'GET'),
                            url,
                            data,
-                           dict(headers.items()))
+                           dict(list(headers.items())))
 
         try:
           response = connection.getresponse()
-        except httplib.HTTPException as e:
+        except http.client.HTTPException as e:
           # The runtime process has written a bad HTTP response. For example,
           # a Go runtime process may have crashed in app-specific code.
           yield self._respond_with_error(
@@ -202,7 +202,7 @@ class HttpProxy:
           return
         del response_headers[http_runtime_constants.ERROR_CODE_HEADER]
         start_response('%s %s' % (response.status, response.reason),
-                       response_headers.items())
+                       list(response_headers.items()))
 
         # Yield the response body in small blocks.
         while True:
@@ -211,7 +211,7 @@ class HttpProxy:
             if not block:
               break
             yield block
-          except httplib.HTTPException:
+          except http.client.HTTPException:
             # The runtime process has encountered a problem, but has not
             # necessarily crashed. For example, a Go runtime process' HTTP
             # handler may have panicked in app-specific code (which the http

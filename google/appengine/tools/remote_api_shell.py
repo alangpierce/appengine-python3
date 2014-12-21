@@ -61,7 +61,7 @@ The db, ndb, users, urlfetch, and memcache modules are imported.\
 
 
 def auth_func():
-  return (raw_input('Email: '), getpass.getpass('Password: '))
+  return (input('Email: '), getpass.getpass('Password: '))
 
 
 def remote_api_shell(servername, appid, path, secure, rpc_server_factory):
@@ -123,9 +123,9 @@ def main(argv):
       or (options.path and len(args) > 1)):
     parser.print_usage(sys.stderr)
     if len(args) > 2:
-      print >> sys.stderr, 'Unexpected arguments: %s' % args[2:]
+      print('Unexpected arguments: %s' % args[2:], file=sys.stderr)
     elif options.path and len(args) > 1:
-      print >> sys.stderr, 'Path specified twice.'
+      print('Path specified twice.', file=sys.stderr)
     sys.exit(1)
 
 

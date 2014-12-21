@@ -122,7 +122,7 @@ class ChannelServiceStub(apiproxy_stub.APIProxyStub):
       duration = ChannelServiceStub.CHANNEL_TOKEN_DEFAULT_DURATION
 
 
-    expiration_sec = long(self._time_func() + duration * 60) + 1
+    expiration_sec = int(self._time_func() + duration * 60) + 1
 
     raw_token = '-'.join([ChannelServiceStub.CHANNEL_TOKEN_IDENTIFIER,
                           str(random.randint(0, 2 ** 32)),
@@ -214,7 +214,7 @@ class ChannelServiceStub(apiproxy_stub.APIProxyStub):
     if (constant_id != ChannelServiceStub.CHANNEL_TOKEN_IDENTIFIER
         or not expiration_sec.isdigit()):
       raise InvalidTokenError()
-    if long(expiration_sec) <= self._time_func():
+    if int(expiration_sec) <= self._time_func():
       raise TokenTimedOutError()
 
     return client_id

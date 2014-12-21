@@ -79,7 +79,7 @@ def fix_paths(app_path, python_lib_path):
   if os.path.isfile(os.path.join(app_path, AUTO_IMPORT_FIXER_FILE)):
     return
 
-  for module_name, module in sys.modules.items():
+  for module_name, module in list(sys.modules.items()):
     if getattr(module, '__path__', None) is None:
       continue
 
@@ -445,7 +445,7 @@ def use_library(name, version):
   """
   if name not in PACKAGES:
     raise ValueError('%s is not a supported package' % name)
-  versions = PACKAGES[name][1].keys()
+  versions = list(PACKAGES[name][1].keys())
   if version not in versions:
     raise ValueError('%s is not a supported version for %s; '
                      'supported versions are %s' % (version, name, versions))

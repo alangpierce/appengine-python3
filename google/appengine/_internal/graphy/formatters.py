@@ -164,7 +164,7 @@ class LabelSeparator(object):
         labels[i][0] = new_position
 
     # Separate positions and labels
-    label_positions, labels = zip(*labels)
+    label_positions, labels = list(zip(*labels))
     axis.labels = labels
     axis.label_positions = label_positions
 

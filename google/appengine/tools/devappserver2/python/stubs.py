@@ -53,7 +53,7 @@ def fake_urandom(n):
   """Fake version of os.urandom."""
   # On Mac OS X, os.urandom reads /dev/urandom from Python code, which is
   # disallowed by the sandbox.
-  return ''.join(chr(random.randint(0, 255)) for _ in xrange(n))
+  return ''.join(chr(random.randint(0, 255)) for _ in range(n))
 
 
 def fake_access(path, mode, _os_access=os.access):
@@ -65,7 +65,7 @@ def fake_access(path, mode, _os_access=os.access):
   return _os_access(path, mode)
 
 
-def fake_open(filename, flags, mode=0777, _os_open=os.open):
+def fake_open(filename, flags, mode=0o777, _os_open=os.open):
   """Fake version of os.open."""
   # A copy of os.open is saved in _os_open so it can still be used after os.open
   # is replaced with this stub.
@@ -212,7 +212,7 @@ class FakeFile(file):
     Raises:
       TypeError: filename is not a basestring.
     """
-    if not isinstance(filename, basestring):
+    if not isinstance(filename, str):
       raise TypeError()
     # Blindly follow symlinks here. DO NOT use os.path.realpath. This approach
     # enables the application developer to create symlinks in their

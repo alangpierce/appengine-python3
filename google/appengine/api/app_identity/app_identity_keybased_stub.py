@@ -22,7 +22,7 @@ This service behaves the same as the production service, except using
 a private key specified when starting dev_appserver.py.
 """
 
-from __future__ import with_statement
+
 
 
 
@@ -39,7 +39,7 @@ import json
 import os
 import threading
 import time
-import urllib
+import urllib.request, urllib.parse, urllib.error
 
 from pyasn1.codec.der import decoder
 from pyasn1_modules.rfc2459 import Certificate
@@ -99,7 +99,7 @@ class KeyBasedAppIdentityServiceStub(app_identity_stub.AppIdentityServiceStub):
     with self.__x509_init_lock:
       if not self.__x509:
         url = ('https://www.googleapis.com/service_accounts/v1/metadata/x509/%s'
-               % urllib.unquote_plus(self.__email_address))
+               % urllib.parse.unquote_plus(self.__email_address))
         resp = urlfetch.fetch(
             url=url,
             validate_certificate=True,
@@ -116,7 +116,7 @@ class KeyBasedAppIdentityServiceStub(app_identity_stub.AppIdentityServiceStub):
 
 
 
-        for signing_key, x509 in json.loads(resp.content).items():
+        for signing_key, x509 in list(json.loads(resp.content).items()):
           der = rsa.pem.load_pem(x509, 'CERTIFICATE')
           asn1_cert, _ = decoder.decode(der, asn1Spec=Certificate())
 
@@ -205,7 +205,7 @@ class KeyBasedAppIdentityServiceStub(app_identity_stub.AppIdentityServiceStub):
           assertion_input, self.__private_key, 'SHA-256')).rstrip('=')
 
 
-      message = urllib.urlencode({
+      message = urllib.parse.urlencode({
           'grant_type': 'urn:ietf:params:oauth:grant-type:jwt-bearer',
           'assertion': '%s.%s' % (assertion_input, signature)
       })

@@ -157,7 +157,7 @@ class BarChart(common.BaseChart):
     if not self.data:
       return None, None  # No data, nothing to do.
     num_bars = max(len(series.data) for series in self.data)
-    positives = [0 for i in xrange(0, num_bars)]
+    positives = [0 for i in range(0, num_bars)]
     negatives = list(positives)
     for series in self.data:
       for i, point in enumerate(series.data):

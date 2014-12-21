@@ -191,7 +191,7 @@ class _PropertyRangeModelIterator(RangeIterator):
       else:
         cursor = self._query.cursor_after()
 
-    if cursor is None or isinstance(cursor, basestring):
+    if cursor is None or isinstance(cursor, str):
       cursor_object = False
     else:
       cursor_object = True
@@ -256,7 +256,7 @@ class _KeyRangesIterator(RangeIterator):
           yield o
 
       try:
-        k_range = self._key_ranges.next()
+        k_range = next(self._key_ranges)
         self._current_iter = self._key_range_iter_cls(k_range,
                                                       self._query_spec)
       except StopIteration:

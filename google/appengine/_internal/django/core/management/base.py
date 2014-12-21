@@ -207,7 +207,7 @@ class BaseCommand(object):
             try:
                 from google.appengine._internal.django.utils import translation
                 translation.activate('en-us')
-            except ImportError, e:
+            except ImportError as e:
                 # If settings should be available, but aren't,
                 # raise the error and quit.
                 sys.stderr.write(smart_str(self.style.ERROR('Error: %s\n' % e)))
@@ -229,7 +229,7 @@ class BaseCommand(object):
                 self.stdout.write(output)
                 if self.output_transaction:
                     self.stdout.write('\n' + self.style.SQL_KEYWORD("COMMIT;") + '\n')
-        except CommandError, e:
+        except CommandError as e:
             self.stderr.write(smart_str(self.style.ERROR('Error: %s\n' % e)))
             sys.exit(1)
 
@@ -242,9 +242,9 @@ class BaseCommand(object):
         """
         from google.appengine._internal.django.core.management.validation import get_validation_errors
         try:
-            from cStringIO import StringIO
+            from io import StringIO
         except ImportError:
-            from StringIO import StringIO
+            from io import StringIO
         s = StringIO()
         num_errors = get_validation_errors(s, app)
         if num_errors:
@@ -279,7 +279,7 @@ class AppCommand(BaseCommand):
             raise CommandError('Enter at least one appname.')
         try:
             app_list = [models.get_app(app_label) for app_label in app_labels]
-        except (ImproperlyConfigured, ImportError), e:
+        except (ImproperlyConfigured, ImportError) as e:
             raise CommandError("%s. Are you sure your INSTALLED_APPS setting is correct?" % e)
         output = []
         for app in app_list:
@@ -382,7 +382,7 @@ def copy_helper(style, app_or_project, name, directory, other_name=''):
     top_dir = os.path.join(directory, name)
     try:
         os.mkdir(top_dir)
-    except OSError, e:
+    except OSError as e:
         raise CommandError(e)
 
     # Determine where the app or project templates are. Use

@@ -123,7 +123,7 @@ def Tuple2Str(arg, conversions_dict):
 
 
 def Str2Unicode(arg):
-  return unicode(arg, 'utf-8')
+  return str(arg, 'utf-8')
 
 
 def _Strptime(arg, strptime_format):
@@ -149,13 +149,13 @@ def Str2Datetime(arg):
 
 conversions = {
 
-    types.IntType: Any2Str,
-    types.LongType: Any2Str,
-    types.FloatType: Any2Str,
-    types.TupleType: Tuple2Str,
-    types.BooleanType: Bool2Str,
-    types.StringType: Any2Str,
-    types.UnicodeType: Unicode2Str,
+    int: Any2Str,
+    int: Any2Str,
+    float: Any2Str,
+    tuple: Tuple2Str,
+    bool: Bool2Str,
+    bytes: Any2Str,
+    str: Unicode2Str,
     datetime.date: Date2Str,
     datetime.datetime: Datetime2Str,
     datetime.time: Time2Str,

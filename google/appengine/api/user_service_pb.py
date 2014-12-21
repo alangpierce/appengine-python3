@@ -19,7 +19,7 @@
 
 from google.net.proto import ProtocolBuffer
 import array
-import dummy_thread as thread
+import _dummy_thread as thread
 
 __pychecker__ = """maxreturns=0 maxbranches=0 no-callinit
                    unusednames=printElemNumber,debug_strs no-special"""
@@ -102,7 +102,7 @@ class UserServiceError(ProtocolBuffer.ProtocolMessage):
 
 
   def _BuildTagLookupTable(sparse, maxtag, default=None):
-    return tuple([sparse.get(i, default) for i in xrange(0, 1+maxtag)])
+    return tuple([sparse.get(i, default) for i in range(0, 1+maxtag)])
 
 
   _TEXT = _BuildTagLookupTable({
@@ -261,7 +261,7 @@ class CreateLoginURLRequest(ProtocolBuffer.ProtocolMessage):
 
 
   def _BuildTagLookupTable(sparse, maxtag, default=None):
-    return tuple([sparse.get(i, default) for i in xrange(0, 1+maxtag)])
+    return tuple([sparse.get(i, default) for i in range(0, 1+maxtag)])
 
   kdestination_url = 1
   kauth_domain = 2
@@ -367,7 +367,7 @@ class CreateLoginURLResponse(ProtocolBuffer.ProtocolMessage):
 
 
   def _BuildTagLookupTable(sparse, maxtag, default=None):
-    return tuple([sparse.get(i, default) for i in xrange(0, 1+maxtag)])
+    return tuple([sparse.get(i, default) for i in range(0, 1+maxtag)])
 
   klogin_url = 1
 
@@ -498,7 +498,7 @@ class CreateLogoutURLRequest(ProtocolBuffer.ProtocolMessage):
 
 
   def _BuildTagLookupTable(sparse, maxtag, default=None):
-    return tuple([sparse.get(i, default) for i in xrange(0, 1+maxtag)])
+    return tuple([sparse.get(i, default) for i in range(0, 1+maxtag)])
 
   kdestination_url = 1
   kauth_domain = 2
@@ -601,7 +601,7 @@ class CreateLogoutURLResponse(ProtocolBuffer.ProtocolMessage):
 
 
   def _BuildTagLookupTable(sparse, maxtag, default=None):
-    return tuple([sparse.get(i, default) for i in xrange(0, 1+maxtag)])
+    return tuple([sparse.get(i, default) for i in range(0, 1+maxtag)])
 
   klogout_url = 1
 
@@ -674,7 +674,7 @@ class GetOAuthUserRequest(ProtocolBuffer.ProtocolMessage):
   def MergeFrom(self, x):
     assert x is not self
     if (x.has_scope()): self.set_scope(x.scope())
-    for i in xrange(x.scopes_size()): self.add_scopes(x.scopes(i))
+    for i in range(x.scopes_size()): self.add_scopes(x.scopes(i))
     if (x.has_request_writer_permission()): self.set_request_writer_permission(x.request_writer_permission())
 
   def Equals(self, x):
@@ -696,7 +696,7 @@ class GetOAuthUserRequest(ProtocolBuffer.ProtocolMessage):
     n = 0
     if (self.has_scope_): n += 1 + self.lengthString(len(self.scope_))
     n += 1 * len(self.scopes_)
-    for i in xrange(len(self.scopes_)): n += self.lengthString(len(self.scopes_[i]))
+    for i in range(len(self.scopes_)): n += self.lengthString(len(self.scopes_[i]))
     if (self.has_request_writer_permission_): n += 2
     return n
 
@@ -704,7 +704,7 @@ class GetOAuthUserRequest(ProtocolBuffer.ProtocolMessage):
     n = 0
     if (self.has_scope_): n += 1 + self.lengthString(len(self.scope_))
     n += 1 * len(self.scopes_)
-    for i in xrange(len(self.scopes_)): n += self.lengthString(len(self.scopes_[i]))
+    for i in range(len(self.scopes_)): n += self.lengthString(len(self.scopes_[i]))
     if (self.has_request_writer_permission_): n += 2
     return n
 
@@ -717,7 +717,7 @@ class GetOAuthUserRequest(ProtocolBuffer.ProtocolMessage):
     if (self.has_scope_):
       out.putVarInt32(10)
       out.putPrefixedString(self.scope_)
-    for i in xrange(len(self.scopes_)):
+    for i in range(len(self.scopes_)):
       out.putVarInt32(18)
       out.putPrefixedString(self.scopes_[i])
     if (self.has_request_writer_permission_):
@@ -728,7 +728,7 @@ class GetOAuthUserRequest(ProtocolBuffer.ProtocolMessage):
     if (self.has_scope_):
       out.putVarInt32(10)
       out.putPrefixedString(self.scope_)
-    for i in xrange(len(self.scopes_)):
+    for i in range(len(self.scopes_)):
       out.putVarInt32(18)
       out.putPrefixedString(self.scopes_[i])
     if (self.has_request_writer_permission_):
@@ -767,7 +767,7 @@ class GetOAuthUserRequest(ProtocolBuffer.ProtocolMessage):
 
 
   def _BuildTagLookupTable(sparse, maxtag, default=None):
-    return tuple([sparse.get(i, default) for i in xrange(0, 1+maxtag)])
+    return tuple([sparse.get(i, default) for i in range(0, 1+maxtag)])
 
   kscope = 1
   kscopes = 2
@@ -926,7 +926,7 @@ class GetOAuthUserResponse(ProtocolBuffer.ProtocolMessage):
     if (x.has_user_organization()): self.set_user_organization(x.user_organization())
     if (x.has_is_admin()): self.set_is_admin(x.is_admin())
     if (x.has_client_id()): self.set_client_id(x.client_id())
-    for i in xrange(x.scopes_size()): self.add_scopes(x.scopes(i))
+    for i in range(x.scopes_size()): self.add_scopes(x.scopes(i))
     if (x.has_is_project_writer()): self.set_is_project_writer(x.is_project_writer())
 
   def Equals(self, x):
@@ -975,7 +975,7 @@ class GetOAuthUserResponse(ProtocolBuffer.ProtocolMessage):
     if (self.has_is_admin_): n += 2
     if (self.has_client_id_): n += 1 + self.lengthString(len(self.client_id_))
     n += 1 * len(self.scopes_)
-    for i in xrange(len(self.scopes_)): n += self.lengthString(len(self.scopes_[i]))
+    for i in range(len(self.scopes_)): n += self.lengthString(len(self.scopes_[i]))
     if (self.has_is_project_writer_): n += 2
     return n + 3
 
@@ -994,7 +994,7 @@ class GetOAuthUserResponse(ProtocolBuffer.ProtocolMessage):
     if (self.has_is_admin_): n += 2
     if (self.has_client_id_): n += 1 + self.lengthString(len(self.client_id_))
     n += 1 * len(self.scopes_)
-    for i in xrange(len(self.scopes_)): n += self.lengthString(len(self.scopes_[i]))
+    for i in range(len(self.scopes_)): n += self.lengthString(len(self.scopes_[i]))
     if (self.has_is_project_writer_): n += 2
     return n
 
@@ -1024,7 +1024,7 @@ class GetOAuthUserResponse(ProtocolBuffer.ProtocolMessage):
     if (self.has_client_id_):
       out.putVarInt32(50)
       out.putPrefixedString(self.client_id_)
-    for i in xrange(len(self.scopes_)):
+    for i in range(len(self.scopes_)):
       out.putVarInt32(58)
       out.putPrefixedString(self.scopes_[i])
     if (self.has_is_project_writer_):
@@ -1050,7 +1050,7 @@ class GetOAuthUserResponse(ProtocolBuffer.ProtocolMessage):
     if (self.has_client_id_):
       out.putVarInt32(50)
       out.putPrefixedString(self.client_id_)
-    for i in xrange(len(self.scopes_)):
+    for i in range(len(self.scopes_)):
       out.putVarInt32(58)
       out.putPrefixedString(self.scopes_[i])
     if (self.has_is_project_writer_):
@@ -1109,7 +1109,7 @@ class GetOAuthUserResponse(ProtocolBuffer.ProtocolMessage):
 
 
   def _BuildTagLookupTable(sparse, maxtag, default=None):
-    return tuple([sparse.get(i, default) for i in xrange(0, 1+maxtag)])
+    return tuple([sparse.get(i, default) for i in range(0, 1+maxtag)])
 
   kemail = 1
   kuser_id = 2
@@ -1198,7 +1198,7 @@ class CheckOAuthSignatureRequest(ProtocolBuffer.ProtocolMessage):
 
 
   def _BuildTagLookupTable(sparse, maxtag, default=None):
-    return tuple([sparse.get(i, default) for i in xrange(0, 1+maxtag)])
+    return tuple([sparse.get(i, default) for i in range(0, 1+maxtag)])
 
 
   _TEXT = _BuildTagLookupTable({
@@ -1295,7 +1295,7 @@ class CheckOAuthSignatureResponse(ProtocolBuffer.ProtocolMessage):
 
 
   def _BuildTagLookupTable(sparse, maxtag, default=None):
-    return tuple([sparse.get(i, default) for i in xrange(0, 1+maxtag)])
+    return tuple([sparse.get(i, default) for i in range(0, 1+maxtag)])
 
   koauth_consumer_key = 1
 

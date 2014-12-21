@@ -18,7 +18,7 @@
 
 
 
-import cStringIO
+import io
 import unittest
 
 from google.appengine.tools.devappserver2 import tee
@@ -38,7 +38,7 @@ class Counter(object):
 
 class TeeTest(unittest.TestCase):
   def test_tee(self):
-    output = cStringIO.StringIO()
+    output = io.StringIO()
     tee.Tee._MAX_LINES = 3
     t = tee.Tee(Counter(100), output)
     t.start()

@@ -232,7 +232,7 @@ def urlfetch_to_gcs_stub(url, payload, method, headers, request, response,
   result = gcs_dispatcher.dispatch(method, headers_map, url, payload)
   response.set_statuscode(result.status_code)
   response.set_content(result.content[:urlfetch_stub.MAX_RESPONSE_SIZE])
-  for k, v in result.headers.iteritems():
+  for k, v in result.headers.items():
     if k.lower() == 'content-length' and method != 'HEAD':
       v = len(response.content())
     header_proto = response.add_header()
@@ -318,7 +318,7 @@ class Testbed(object):
     if not self._activated:
       raise NotActivatedError('The testbed is not activated.')
 
-    for service_name, deactivate_callback in self._enabled_stubs.iteritems():
+    for service_name, deactivate_callback in self._enabled_stubs.items():
       if deactivate_callback:
         deactivate_callback(self._test_stub_map.GetStub(service_name))
 
@@ -355,16 +355,16 @@ class Testbed(object):
                 uppercased and used as a key in os.environ.
     """
     merged_kwargs = {}
-    for key, value in kwargs.iteritems():
+    for key, value in kwargs.items():
 
       if key == 'app_id':
         key = 'APPLICATION_ID'
       merged_kwargs[key.upper()] = value
     if not overwrite:
-      for key, value in DEFAULT_ENVIRONMENT.iteritems():
+      for key, value in DEFAULT_ENVIRONMENT.items():
         if key not in merged_kwargs:
           merged_kwargs[key] = value
-    for key, value in merged_kwargs.iteritems():
+    for key, value in merged_kwargs.items():
       if overwrite or key not in os.environ:
         os.environ[key] = value
 

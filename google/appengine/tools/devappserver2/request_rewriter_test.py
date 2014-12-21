@@ -198,7 +198,7 @@ class RewriterMiddlewareTest(wsgi_test_utils.RewriterTestCase):
       yield ''
       try:
         raise ValueError('A problem happened')
-      except ValueError, e:
+      except ValueError as e:
         exc_info = sys.exc_info()
         start_response('500 Internal Server Error',
                        [('SomeHeader', 'Some value')], exc_info)
@@ -231,7 +231,7 @@ class RewriterMiddlewareTest(wsgi_test_utils.RewriterTestCase):
       yield 'Origin'
       try:
         raise ValueError('A problem happened')
-      except ValueError, e:
+      except ValueError as e:
         exc_info = sys.exc_info()
         start_response('500 Internal Server Error',
                        [('SomeHeader', 'Some value')], exc_info)

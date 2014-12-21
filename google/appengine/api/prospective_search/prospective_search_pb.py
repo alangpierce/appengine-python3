@@ -19,7 +19,7 @@
 
 from google.net.proto import ProtocolBuffer
 import array
-import dummy_thread as thread
+import _dummy_thread as thread
 
 __pychecker__ = """maxreturns=0 maxbranches=0 no-callinit
                    unusednames=printElemNumber,debug_strs no-special"""
@@ -205,7 +205,7 @@ class SchemaEntry(ProtocolBuffer.ProtocolMessage):
 
 
   def _BuildTagLookupTable(sparse, maxtag, default=None):
-    return tuple([sparse.get(i, default) for i in xrange(0, 1+maxtag)])
+    return tuple([sparse.get(i, default) for i in range(0, 1+maxtag)])
 
   kname = 1
   ktype = 2
@@ -318,7 +318,7 @@ class SubscribeRequest(ProtocolBuffer.ProtocolMessage):
     if (x.has_sub_id()): self.set_sub_id(x.sub_id())
     if (x.has_lease_duration_sec()): self.set_lease_duration_sec(x.lease_duration_sec())
     if (x.has_vanilla_query()): self.set_vanilla_query(x.vanilla_query())
-    for i in xrange(x.schema_entry_size()): self.add_schema_entry().CopyFrom(x.schema_entry(i))
+    for i in range(x.schema_entry_size()): self.add_schema_entry().CopyFrom(x.schema_entry(i))
 
   def Equals(self, x):
     if x is self: return 1
@@ -363,7 +363,7 @@ class SubscribeRequest(ProtocolBuffer.ProtocolMessage):
     n += self.lengthString(len(self.sub_id_))
     n += self.lengthString(len(self.vanilla_query_))
     n += 1 * len(self.schema_entry_)
-    for i in xrange(len(self.schema_entry_)): n += self.lengthString(self.schema_entry_[i].ByteSize())
+    for i in range(len(self.schema_entry_)): n += self.lengthString(self.schema_entry_[i].ByteSize())
     return n + 12
 
   def ByteSizePartial(self):
@@ -380,7 +380,7 @@ class SubscribeRequest(ProtocolBuffer.ProtocolMessage):
       n += 1
       n += self.lengthString(len(self.vanilla_query_))
     n += 1 * len(self.schema_entry_)
-    for i in xrange(len(self.schema_entry_)): n += self.lengthString(self.schema_entry_[i].ByteSizePartial())
+    for i in range(len(self.schema_entry_)): n += self.lengthString(self.schema_entry_[i].ByteSizePartial())
     return n
 
   def Clear(self):
@@ -399,7 +399,7 @@ class SubscribeRequest(ProtocolBuffer.ProtocolMessage):
     out.putDouble(self.lease_duration_sec_)
     out.putVarInt32(34)
     out.putPrefixedString(self.vanilla_query_)
-    for i in xrange(len(self.schema_entry_)):
+    for i in range(len(self.schema_entry_)):
       out.putVarInt32(42)
       out.putVarInt32(self.schema_entry_[i].ByteSize())
       self.schema_entry_[i].OutputUnchecked(out)
@@ -417,7 +417,7 @@ class SubscribeRequest(ProtocolBuffer.ProtocolMessage):
     if (self.has_vanilla_query_):
       out.putVarInt32(34)
       out.putPrefixedString(self.vanilla_query_)
-    for i in xrange(len(self.schema_entry_)):
+    for i in range(len(self.schema_entry_)):
       out.putVarInt32(42)
       out.putVarInt32(self.schema_entry_[i].ByteSizePartial())
       self.schema_entry_[i].OutputPartial(out)
@@ -467,7 +467,7 @@ class SubscribeRequest(ProtocolBuffer.ProtocolMessage):
 
 
   def _BuildTagLookupTable(sparse, maxtag, default=None):
-    return tuple([sparse.get(i, default) for i in xrange(0, 1+maxtag)])
+    return tuple([sparse.get(i, default) for i in range(0, 1+maxtag)])
 
   ktopic = 1
   ksub_id = 2
@@ -547,7 +547,7 @@ class SubscribeResponse(ProtocolBuffer.ProtocolMessage):
 
 
   def _BuildTagLookupTable(sparse, maxtag, default=None):
-    return tuple([sparse.get(i, default) for i in xrange(0, 1+maxtag)])
+    return tuple([sparse.get(i, default) for i in range(0, 1+maxtag)])
 
 
   _TEXT = _BuildTagLookupTable({
@@ -680,7 +680,7 @@ class UnsubscribeRequest(ProtocolBuffer.ProtocolMessage):
 
 
   def _BuildTagLookupTable(sparse, maxtag, default=None):
-    return tuple([sparse.get(i, default) for i in xrange(0, 1+maxtag)])
+    return tuple([sparse.get(i, default) for i in range(0, 1+maxtag)])
 
   ktopic = 1
   ksub_id = 2
@@ -751,7 +751,7 @@ class UnsubscribeResponse(ProtocolBuffer.ProtocolMessage):
 
 
   def _BuildTagLookupTable(sparse, maxtag, default=None):
-    return tuple([sparse.get(i, default) for i in xrange(0, 1+maxtag)])
+    return tuple([sparse.get(i, default) for i in range(0, 1+maxtag)])
 
 
   _TEXT = _BuildTagLookupTable({
@@ -1000,7 +1000,7 @@ class SubscriptionRecord(ProtocolBuffer.ProtocolMessage):
 
 
   def _BuildTagLookupTable(sparse, maxtag, default=None):
-    return tuple([sparse.get(i, default) for i in xrange(0, 1+maxtag)])
+    return tuple([sparse.get(i, default) for i in range(0, 1+maxtag)])
 
   kid = 1
   kvanilla_query = 2
@@ -1236,7 +1236,7 @@ class ListSubscriptionsRequest(ProtocolBuffer.ProtocolMessage):
 
 
   def _BuildTagLookupTable(sparse, maxtag, default=None):
-    return tuple([sparse.get(i, default) for i in xrange(0, 1+maxtag)])
+    return tuple([sparse.get(i, default) for i in range(0, 1+maxtag)])
 
   ktopic = 1
   kmax_results = 2
@@ -1291,7 +1291,7 @@ class ListSubscriptionsResponse(ProtocolBuffer.ProtocolMessage):
 
   def MergeFrom(self, x):
     assert x is not self
-    for i in xrange(x.subscription_size()): self.add_subscription().CopyFrom(x.subscription(i))
+    for i in range(x.subscription_size()): self.add_subscription().CopyFrom(x.subscription(i))
 
   def Equals(self, x):
     if x is self: return 1
@@ -1309,26 +1309,26 @@ class ListSubscriptionsResponse(ProtocolBuffer.ProtocolMessage):
   def ByteSize(self):
     n = 0
     n += 1 * len(self.subscription_)
-    for i in xrange(len(self.subscription_)): n += self.lengthString(self.subscription_[i].ByteSize())
+    for i in range(len(self.subscription_)): n += self.lengthString(self.subscription_[i].ByteSize())
     return n
 
   def ByteSizePartial(self):
     n = 0
     n += 1 * len(self.subscription_)
-    for i in xrange(len(self.subscription_)): n += self.lengthString(self.subscription_[i].ByteSizePartial())
+    for i in range(len(self.subscription_)): n += self.lengthString(self.subscription_[i].ByteSizePartial())
     return n
 
   def Clear(self):
     self.clear_subscription()
 
   def OutputUnchecked(self, out):
-    for i in xrange(len(self.subscription_)):
+    for i in range(len(self.subscription_)):
       out.putVarInt32(10)
       out.putVarInt32(self.subscription_[i].ByteSize())
       self.subscription_[i].OutputUnchecked(out)
 
   def OutputPartial(self, out):
-    for i in xrange(len(self.subscription_)):
+    for i in range(len(self.subscription_)):
       out.putVarInt32(10)
       out.putVarInt32(self.subscription_[i].ByteSizePartial())
       self.subscription_[i].OutputPartial(out)
@@ -1362,7 +1362,7 @@ class ListSubscriptionsResponse(ProtocolBuffer.ProtocolMessage):
 
 
   def _BuildTagLookupTable(sparse, maxtag, default=None):
-    return tuple([sparse.get(i, default) for i in xrange(0, 1+maxtag)])
+    return tuple([sparse.get(i, default) for i in range(0, 1+maxtag)])
 
   ksubscription = 1
 
@@ -1519,7 +1519,7 @@ class ListTopicsRequest(ProtocolBuffer.ProtocolMessage):
 
 
   def _BuildTagLookupTable(sparse, maxtag, default=None):
-    return tuple([sparse.get(i, default) for i in xrange(0, 1+maxtag)])
+    return tuple([sparse.get(i, default) for i in range(0, 1+maxtag)])
 
   ktopic_start = 1
   kmax_results = 2
@@ -1567,7 +1567,7 @@ class ListTopicsResponse(ProtocolBuffer.ProtocolMessage):
 
   def MergeFrom(self, x):
     assert x is not self
-    for i in xrange(x.topic_size()): self.add_topic(x.topic(i))
+    for i in range(x.topic_size()): self.add_topic(x.topic(i))
 
   def Equals(self, x):
     if x is self: return 1
@@ -1583,25 +1583,25 @@ class ListTopicsResponse(ProtocolBuffer.ProtocolMessage):
   def ByteSize(self):
     n = 0
     n += 1 * len(self.topic_)
-    for i in xrange(len(self.topic_)): n += self.lengthString(len(self.topic_[i]))
+    for i in range(len(self.topic_)): n += self.lengthString(len(self.topic_[i]))
     return n
 
   def ByteSizePartial(self):
     n = 0
     n += 1 * len(self.topic_)
-    for i in xrange(len(self.topic_)): n += self.lengthString(len(self.topic_[i]))
+    for i in range(len(self.topic_)): n += self.lengthString(len(self.topic_[i]))
     return n
 
   def Clear(self):
     self.clear_topic()
 
   def OutputUnchecked(self, out):
-    for i in xrange(len(self.topic_)):
+    for i in range(len(self.topic_)):
       out.putVarInt32(10)
       out.putPrefixedString(self.topic_[i])
 
   def OutputPartial(self, out):
-    for i in xrange(len(self.topic_)):
+    for i in range(len(self.topic_)):
       out.putVarInt32(10)
       out.putPrefixedString(self.topic_[i])
 
@@ -1629,7 +1629,7 @@ class ListTopicsResponse(ProtocolBuffer.ProtocolMessage):
 
 
   def _BuildTagLookupTable(sparse, maxtag, default=None):
-    return tuple([sparse.get(i, default) for i in xrange(0, 1+maxtag)])
+    return tuple([sparse.get(i, default) for i in range(0, 1+maxtag)])
 
   ktopic = 1
 
@@ -1952,7 +1952,7 @@ class MatchRequest(ProtocolBuffer.ProtocolMessage):
 
 
   def _BuildTagLookupTable(sparse, maxtag, default=None):
-    return tuple([sparse.get(i, default) for i in xrange(0, 1+maxtag)])
+    return tuple([sparse.get(i, default) for i in range(0, 1+maxtag)])
 
   ktopic = 1
   kdocument = 2
@@ -2038,7 +2038,7 @@ class MatchResponse(ProtocolBuffer.ProtocolMessage):
 
 
   def _BuildTagLookupTable(sparse, maxtag, default=None):
-    return tuple([sparse.get(i, default) for i in xrange(0, 1+maxtag)])
+    return tuple([sparse.get(i, default) for i in range(0, 1+maxtag)])
 
 
   _TEXT = _BuildTagLookupTable({

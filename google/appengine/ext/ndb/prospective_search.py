@@ -87,7 +87,7 @@ def _add_schema_entry(prop_class, name, schema):
 def _model_to_entity_schema(document_class):
   """Produce schema from NDB Model class."""
   schema = {}
-  for name, prop in document_class._properties.iteritems():
+  for name, prop in document_class._properties.items():
     _add_schema_entry(prop.__class__, name, schema)
   return schema
 

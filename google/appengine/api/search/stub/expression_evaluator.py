@@ -281,7 +281,7 @@ class ExpressionEvaluator(object):
     terms = self._tokenizer.TokenizeText(
         query_parser.GetQueryNodeText(query).strip('"'))
     for term in terms:
-      search_token = tokens.Token(chars=u'%s:%s' % (field, term.chars))
+      search_token = tokens.Token(chars='%s:%s' % (field, term.chars))
       postings = self._inverted_index.GetPostingsForToken(search_token)
       for posting in postings:
         if posting.doc_id != self._doc_pb.id() or not posting.positions:
@@ -481,7 +481,7 @@ class ExpressionEvaluator(object):
 
       if (schema.IsType(name, document_pb.FieldValue.DATE) and
           not contains_text_result):
-        if isinstance(default_value, basestring):
+        if isinstance(default_value, str):
           try:
             default_value = search_util.DeserializeDate(default_value)
           except ValueError:
@@ -491,11 +491,11 @@ class ExpressionEvaluator(object):
     result = default_value
     try:
       result = self._Eval(expression_tree, return_type=return_type)
-    except _ExpressionError, e:
+    except _ExpressionError as e:
 
 
       logging.debug('Skipping expression %s: %s', expression, e)
-    except search_util.UnsupportedOnDevError, e:
+    except search_util.UnsupportedOnDevError as e:
 
 
       logging.warning(e.args[0])
@@ -511,7 +511,7 @@ class ExpressionEvaluator(object):
 
     name = expression.name()
     result = self.ValueOf(expression.expression())
-    if isinstance(result, unicode):
+    if isinstance(result, str):
       result = result.encode('utf-8')
     if result != None:
       self._doc.expressions[name] = result

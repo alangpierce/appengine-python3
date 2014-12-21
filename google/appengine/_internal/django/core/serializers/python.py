@@ -86,7 +86,7 @@ def Deserializer(object_list, **options):
         m2m_data = {}
 
         # Handle each field
-        for (field_name, field_value) in d["fields"].iteritems():
+        for (field_name, field_value) in d["fields"].items():
             if isinstance(field_value, str):
                 field_value = smart_unicode(field_value, options.get("encoding", settings.DEFAULT_CHARSET), strings_only=True)
 
@@ -138,5 +138,5 @@ def _get_model(model_identifier):
     except TypeError:
         Model = None
     if Model is None:
-        raise base.DeserializationError(u"Invalid model identifier: '%s'" % model_identifier)
+        raise base.DeserializationError("Invalid model identifier: '%s'" % model_identifier)
     return Model

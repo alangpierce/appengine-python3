@@ -22,8 +22,9 @@
 
 import inspect
 import mimetools
-import StringIO
+import io
 import sys
+import collections
 
 
 CONTINUE = 100
@@ -163,7 +164,7 @@ class HTTPConnection:
 
 
 
-    if not isinstance(timeout, (float, int, long)):
+    if not isinstance(timeout, (float, int)):
       timeout = None
     self.timeout = timeout
 
@@ -180,7 +181,7 @@ class HTTPConnection:
     if headers is None:
       headers = []
     elif hasattr(headers, 'items'):
-      headers = headers.items()
+      headers = list(headers.items())
     self.headers = headers
 
   def putrequest(self, request, selector, skip_host=False, skip_accept_encoding=False):
@@ -205,7 +206,7 @@ class HTTPConnection:
 
   @staticmethod
   def _getargspec(callable_object):
-    assert callable(callable_object)
+    assert isinstance(callable_object, collections.Callable)
     try:
 
       return inspect.getargspec(callable_object)
@@ -371,7 +372,7 @@ class HTTPResponse(object):
 
   def __init__(self, fetch_response):
     self._fetch_response = fetch_response
-    self.fp = StringIO.StringIO(fetch_response.content)
+    self.fp = io.StringIO(fetch_response.content)
 
   def __getattr__(self, attr):
     return getattr(self.fp, attr)
@@ -380,7 +381,7 @@ class HTTPResponse(object):
     return self._fetch_response.headers.get(name, default)
 
   def getheaders(self):
-    return self._fetch_response.headers.items()
+    return list(self._fetch_response.headers.items())
 
   @property
   def msg(self):

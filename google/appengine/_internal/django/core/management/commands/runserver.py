@@ -44,11 +44,11 @@ class Command(BaseCommand):
         def inner_run():
             from google.appengine._internal.django.conf import settings
             from google.appengine._internal.django.utils import translation
-            print "Validating models..."
+            print("Validating models...")
             self.validate(display_num_errors=True)
-            print "\nDjango version %s, using settings %r" % (django.get_version(), settings.SETTINGS_MODULE)
-            print "Development server is running at http://%s:%s/" % (addr, port)
-            print "Quit the server with %s." % quit_command
+            print("\nDjango version %s, using settings %r" % (django.get_version(), settings.SETTINGS_MODULE))
+            print("Development server is running at http://%s:%s/" % (addr, port))
+            print("Quit the server with %s." % quit_command)
 
             # django.core.management.base forces the locale to en-us. We should
             # set it up correctly for the first request (particularly important
@@ -58,7 +58,7 @@ class Command(BaseCommand):
             try:
                 handler = AdminMediaHandler(WSGIHandler(), admin_media_path)
                 run(addr, int(port), handler)
-            except WSGIServerException, e:
+            except WSGIServerException as e:
                 # Use helpful error messages instead of ugly tracebacks.
                 ERRORS = {
                     13: "You don't have permission to access that port.",
@@ -74,7 +74,7 @@ class Command(BaseCommand):
                 os._exit(1)
             except KeyboardInterrupt:
                 if shutdown_message:
-                    print shutdown_message
+                    print(shutdown_message)
                 sys.exit(0)
 
         if use_reloader:

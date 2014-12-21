@@ -18,7 +18,7 @@
 
 
 
-import cStringIO
+import io
 import unittest
 import wsgiref.headers
 
@@ -41,7 +41,7 @@ class WSGITestCase(unittest.TestCase):
     """
     if (isinstance(headers, dict) or
         isinstance(headers, wsgiref.headers.Headers)):
-      headers = headers.items()
+      headers = list(headers.items())
 
     return [(name.lower(), value) for name, value in headers]
 
@@ -97,7 +97,7 @@ class WSGITestCase(unittest.TestCase):
     """
 
     # Buffer for 'write' callable
-    write_buffer = cStringIO.StringIO()
+    write_buffer = io.StringIO()
 
     def start_response(status, headers, exc_info=None):
       self.assertEqual(expected_status, status)

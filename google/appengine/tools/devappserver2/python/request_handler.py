@@ -22,12 +22,12 @@ module is the sandboxed version.
 
 
 
-import cStringIO
+import io
 import os
 import sys
 import traceback
-import urllib
-import urlparse
+import urllib.request, urllib.parse, urllib.error
+import urllib.parse
 
 import google
 
@@ -176,7 +176,7 @@ class RequestHandler(object):
     body = environ['wsgi.input'].read(int(environ.get('CONTENT_LENGTH', 0)))
     url = 'http://%s:%s%s?%s' % (user_environ['SERVER_NAME'],
                                  user_environ['SERVER_PORT'],
-                                 urllib.quote(environ['PATH_INFO']),
+                                 urllib.parse.quote(environ['PATH_INFO']),
                                  environ['QUERY_STRING'])
     return runtime.HandleRequest(user_environ, script, url, body,
                                  self.config.application_root,
@@ -203,16 +203,16 @@ class RequestHandler(object):
     user_environ['REQUEST_METHOD'] = 'GET'
     url = 'http://%s:%s%s?%s' % (user_environ['SERVER_NAME'],
                                  user_environ['SERVER_PORT'],
-                                 urllib.quote(environ['PATH_INFO']),
+                                 urllib.parse.quote(environ['PATH_INFO']),
                                  environ['QUERY_STRING'])
 
-    results_io = cStringIO.StringIO()
+    results_io = io.StringIO()
     old_sys_stdout = sys.stdout
 
     try:
       error = logservice.LogsBuffer()
       request_environment.current_request.Init(error, user_environ)
-      url = urlparse.urlsplit(url)
+      url = urllib.parse.urlsplit(url)
       environ.update(runtime.CgiDictFromParsedUrl(url))
       sys.stdout = results_io
       try:

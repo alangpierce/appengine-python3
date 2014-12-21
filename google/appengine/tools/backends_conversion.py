@@ -22,7 +22,7 @@ Uses existing backends.yaml and app.yaml files to create a separate
 <module-name>.yaml file for each module defined in backends.yaml.
 """
 
-from __future__ import with_statement
+
 
 import os
 import sys
@@ -120,13 +120,13 @@ def _MaybeWriteConfigToFile(appinfo_config, application_root,
   contents = _to_yaml_method(appinfo_config)
   if os.path.exists(filepath):
     prompt = 'File %s exists. Overwrite? [y/N] ' % (filename,)
-    result = raw_input(prompt).strip()
+    result = input(prompt).strip()
     if result != 'y':
-      print 'File %s not written.' % (filename,)
-      print 'Contents:'
-      print PRINT_FILE_DELIMITER
-      print contents
-      print PRINT_FILE_DELIMITER
+      print('File %s not written.' % (filename,))
+      print('Contents:')
+      print(PRINT_FILE_DELIMITER)
+      print(contents)
+      print(PRINT_FILE_DELIMITER)
       return
 
   with open(filepath, 'w') as fh:
@@ -212,7 +212,7 @@ def _MaybeSetNotPublic(target, backend_entry):
 
   prompt = ('Backend %s is marked private.\nWould you like to make all '
             'handlers \'login: admin\'? [y/N] ' % (backend_entry.name,))
-  result = raw_input(prompt).strip()
+  result = input(prompt).strip()
   if result == 'y':
     for handler in target.handlers:
       handler.login = LOGIN_ADMIN
@@ -339,7 +339,7 @@ def _GetInstances(name):
       not a positive integer.
   """
   prompt = DYNAMIC_PROMPT_TEXT % (name,)
-  result = raw_input(prompt).strip()
+  result = input(prompt).strip()
   if result == '':
     return 1
 
@@ -350,7 +350,7 @@ def _GetInstances(name):
     pass
 
   if max_instances <= 0:
-    print 'Invalid max_instances value: %r' % (result,)
+    print('Invalid max_instances value: %r' % (result,))
     return
 
   return max_instances
@@ -415,7 +415,7 @@ def main(argv):
   app_config_filename_args = getattr(args, 'app_config_filename', [])
   if (len(backend_config_filename_args) != 1 or
       len(app_config_filename_args) != 1):
-    print >>sys.stderr, MAIN_ERR_MESSAGE
+    print(MAIN_ERR_MESSAGE, file=sys.stderr)
     return 1
 
   ConvertBackendToModules(backend_config_filename_args[0],

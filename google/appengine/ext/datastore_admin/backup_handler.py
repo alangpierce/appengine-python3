@@ -30,12 +30,12 @@ page.
 This module also contains actual mapper code for backing data over.
 """
 
-from __future__ import with_statement
 
 
 
 
-import cStringIO
+
+import io
 import datetime
 import itertools
 import logging
@@ -43,7 +43,7 @@ import os
 import random
 import re
 import time
-import urllib
+import urllib.request, urllib.parse, urllib.error
 import xml.dom.minidom
 
 
@@ -305,7 +305,7 @@ class ConfirmBackupImportHandler(webapp.RequestHandler):
           elif (backup_info_file.endswith('.backup_info')
                 and backup_info_file.count('.') == 1):
             other_backup_info_files.append(backup_info_path)
-      except Exception, ex:
+      except Exception as ex:
         error = 'Failed to read bucket: %s' % ex.message
         logging.exception(ex.message)
     template_params = {
@@ -400,7 +400,7 @@ class BaseDoHandler(webapp.RequestHandler):
     if path:
       dest = '%s/%s' % (dest, path)
     if params:
-      dest = '%s?%s' % (dest, urllib.urlencode(params))
+      dest = '%s?%s' % (dest, urllib.parse.urlencode(params))
     self.redirect(dest)
 
   def post(self):
@@ -417,7 +417,7 @@ class BaseDoHandler(webapp.RequestHandler):
         parameters = self._ProcessPostRequest()
 
 
-      except Exception, e:
+      except Exception as e:
         error = self._HandleException(e)
         parameters = [('error', error)]
 
@@ -601,7 +601,7 @@ class BackupLinkHandler(webapp.RequestHandler):
                       self.request.get('queue'),
                       mapper_params,
                       1000000)
-    except Exception, e:
+    except Exception as e:
       self.errorResponse(e.message)
 
   def errorResponse(self, message):
@@ -642,7 +642,7 @@ class DoBackupHandler(BaseDoHandler):
                                       mapper_params,
                                       10)
       return backup_result
-    except Exception, e:
+    except Exception as e:
       logging.exception(e.message)
       return [('error', e.message)]
 
@@ -769,7 +769,7 @@ class DoBackupDeleteHandler(BaseDoHandler):
         for backup_info in db.get(backup_ids):
           if backup_info:
             delete_backup_info(backup_info)
-      except Exception, e:
+      except Exception as e:
         logging.exception('Failed to delete datastore backup.')
         params = [('error', e.message)]
 
@@ -804,7 +804,7 @@ class DoBackupAbortHandler(BaseDoHandler):
             else:
               utils.AbortAdminOperation(operation.key())
             delete_backup_info(backup_info)
-      except Exception, e:
+      except Exception as e:
         logging.exception('Failed to abort pending datastore backup.')
         params = [('error', e.message)]
 
@@ -914,7 +914,7 @@ class DoBackupImportHandler(BaseDoHandler):
         bucket_name, path = parse_gs_handle(gs_handle)
         file_content = get_gs_object(bucket_name, path)
         entities = parse_backup_info_file(file_content)
-        original_backup_info = entities.next()
+        original_backup_info = next(entities)
         entity = datastore.Entity(BackupInformation.kind())
         entity.update(original_backup_info)
         backup_info = BackupInformation.from_entity(entity)
@@ -931,7 +931,7 @@ class DoBackupImportHandler(BaseDoHandler):
           db.put(kind_files_models, force_writes=True)
         db.run_in_transaction(tx)
         backup_id = str(backup_info.key())
-      except Exception, e:
+      except Exception as e:
         logging.exception('Failed to Import datastore backup information.')
         error = e.message
 
@@ -1079,7 +1079,7 @@ def finalize_backup_info(backup_info_pk, gs_bucket):
 
 def parse_backup_info_file(content):
   """Returns entities iterator from a backup_info file content."""
-  reader = records.RecordsReader(cStringIO.StringIO(content))
+  reader = records.RecordsReader(io.StringIO(content))
   version = reader.read()
   if version != '1':
     raise IOError('Unsupported version')
@@ -1093,7 +1093,7 @@ def drop_empty_files(filenames):
   empty_file_keys = []
   blobs_info = blobstore.BlobInfo.get(
       [files.blobstore.get_blob_key(fn) for fn in filenames])
-  for filename, blob_info in itertools.izip(filenames, blobs_info):
+  for filename, blob_info in zip(filenames, blobs_info):
     if blob_info:
       if blob_info.size > 0:
         non_empty_filenames.append(filename)
@@ -1258,7 +1258,7 @@ class PropertyTypeInfo(json_util.JsonMixin):
     return self.__primitive_types
 
   def embedded_entities_kind_iter(self):
-    return self.__embedded_entities.iterkeys()
+    return iter(self.__embedded_entities.keys())
 
   def get_embedded_entity(self, kind):
     return self.__embedded_entities.get(kind)
@@ -1290,7 +1290,7 @@ class PropertyTypeInfo(json_util.JsonMixin):
       self.__primitive_types = self.__primitive_types.union(
           other.__primitive_types)
       changed = True
-    for kind, other_embedded_entity in other.__embedded_entities.iteritems():
+    for kind, other_embedded_entity in other.__embedded_entities.items():
       embedded_entity = self.__embedded_entities.get(kind)
       if embedded_entity:
         changed = embedded_entity.merge(other_embedded_entity) or changed
@@ -1313,7 +1313,7 @@ class PropertyTypeInfo(json_util.JsonMixin):
     field_type = field.type.add()
     field_type.is_list = self.__is_repeated
     field_type.primitive_type.extend(self.__primitive_types)
-    for embedded_entity in self.__embedded_entities.itervalues():
+    for embedded_entity in self.__embedded_entities.values():
       embedded_entity_schema = field_type.embedded_schema.add()
       embedded_entity.populate_entity_schema(embedded_entity_schema)
 
@@ -1323,7 +1323,7 @@ class PropertyTypeInfo(json_util.JsonMixin):
     json['is_repeated'] = self.__is_repeated
     json['primitive_types'] = list(self.__primitive_types)
     json['embedded_entities'] = [e.to_json() for e in
-                                 self.__embedded_entities.itervalues()]
+                                 self.__embedded_entities.values()]
     return json
 
   @classmethod
@@ -1356,7 +1356,7 @@ class EntityTypeInfo(json_util.JsonMixin):
     return self.__kind
 
   def properties_name_iter(self):
-    return self.__properties.iterkeys()
+    return iter(self.__properties.keys())
 
   def get_property(self, name):
     return self.__properties.get(name)
@@ -1380,7 +1380,7 @@ class EntityTypeInfo(json_util.JsonMixin):
     if other.__kind != self.__kind:
       raise ValueError('Kinds mismatch (%s, %s)' % (self.__kind, other.__kind))
     changed = False
-    for name, other_property in other.__properties.iteritems():
+    for name, other_property in other.__properties.items():
       self_property = self.__properties.get(name)
       if self_property:
         changed = self_property.merge(other_property) or changed
@@ -1397,13 +1397,13 @@ class EntityTypeInfo(json_util.JsonMixin):
     """
     if self.__kind:
       entity_schema.kind = self.__kind
-    for property_type_info in self.__properties.itervalues():
+    for property_type_info in self.__properties.values():
       property_type_info.populate_entity_schema_field(entity_schema)
 
   def to_json(self):
     return {
         'kind': self.__kind,
-        'properties': [p.to_json() for p in self.__properties.itervalues()]
+        'properties': [p.to_json() for p in self.__properties.values()]
     }
 
   @classmethod
@@ -1813,7 +1813,7 @@ def list_bucket_files(bucket_name, prefix, max_keys=1000):
   query = [('max-keys', max_keys)]
   if prefix:
     query.append(('prefix', prefix))
-  url += urllib.urlencode(query)
+  url += urllib.parse.urlencode(query)
   auth_token, _ = app_identity.get_access_token(scope)
   result = urlfetch.fetch(url, method=urlfetch.GET, headers={
       'Authorization': 'OAuth %s' % auth_token,

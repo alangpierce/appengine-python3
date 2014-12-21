@@ -40,7 +40,7 @@ class CacheClass(BaseCache):
         return timeout
 
     def add(self, key, value, timeout=0):
-        if isinstance(value, unicode):
+        if isinstance(value, str):
             value = value.encode('utf-8')
         return self._cache.add(smart_str(key), value, self._get_memcache_timeout(timeout))
 
@@ -57,7 +57,7 @@ class CacheClass(BaseCache):
         self._cache.delete(smart_str(key))
 
     def get_many(self, keys):
-        return self._cache.get_multi(map(smart_str,keys))
+        return self._cache.get_multi(list(map(smart_str,keys)))
 
     def close(self, **kwargs):
         self._cache.disconnect_all()
@@ -91,14 +91,14 @@ class CacheClass(BaseCache):
 
     def set_many(self, data, timeout=0):
         safe_data = {}
-        for key, value in data.items():
-            if isinstance(value, unicode):
+        for key, value in list(data.items()):
+            if isinstance(value, str):
                 value = value.encode('utf-8')
             safe_data[smart_str(key)] = value
         self._cache.set_multi(safe_data, self._get_memcache_timeout(timeout))
 
     def delete_many(self, keys):
-        self._cache.delete_multi(map(smart_str, keys))
+        self._cache.delete_multi(list(map(smart_str, keys)))
 
     def clear(self):
         self._cache.flush_all()

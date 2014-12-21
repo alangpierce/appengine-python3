@@ -20,7 +20,7 @@
 
 """Tools for WSGI applications that dispatch based on an app.yaml."""
 
-from __future__ import with_statement
+
 
 import logging
 import logging.handlers
@@ -31,7 +31,7 @@ import runpy
 import sys
 import threading
 import time
-import urlparse
+import urllib.parse
 from wsgiref import handlers
 
 from google.appengine.api import appinfo
@@ -190,7 +190,7 @@ class _StubOut(object):
     setattr(obj, attr_string, new_attr)
 
   def CleanUp(self):
-    for (obj, field_str), old_value in self._stubs.iteritems():
+    for (obj, field_str), old_value in self._stubs.items():
       setattr(obj, field_str, old_value)
 
 
@@ -474,7 +474,7 @@ class MetaWSGIApp(object):
       The WSGI body text iterable.
     """
     query_string = env.get('QUERY_STRING', '')
-    parameters = urlparse.parse_qs(query_string)
+    parameters = urllib.parse.parse_qs(query_string)
 
     is_last_successful_list = parameters.get('IsLastSuccessful', None)
 

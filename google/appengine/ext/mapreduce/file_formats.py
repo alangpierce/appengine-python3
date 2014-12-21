@@ -37,7 +37,7 @@
 __all__ = ['FileFormat',
            'FORMATS']
 
-import StringIO
+import io
 import zipfile
 
 
@@ -188,7 +188,7 @@ class FileFormat(object):
     if self._kwargs:
       result += (
           '(' +
-          ','.join(k + '=' + v for k, v in sorted(self._kwargs.iteritems())) +
+          ','.join(k + '=' + v for k, v in sorted(self._kwargs.items())) +
           ')')
     return result
 
@@ -274,7 +274,7 @@ class FileFormat(object):
     """
     return file_object
 
-  def next(self):
+  def __next__(self):
     """Returns a file-like object containing next content.
 
     Returns:
@@ -299,10 +299,10 @@ class FileFormat(object):
       self._input_files_stream.advance()
       self._index = 0
       self._cache = {}
-      return self.next()
+      return next(self)
     if isinstance(result, str):
-      result = StringIO.StringIO(result)
-    elif isinstance(result, unicode):
+      result = io.StringIO(result)
+    elif isinstance(result, str):
       raise ValueError('%s can not return unicode object.' %
                        self.__class__.__name__)
     return result
@@ -424,7 +424,7 @@ class _TextFormat(FileFormat):
       content = file_object.read()
       content = content.decode(self._kwargs['encoding'])
       file_object.close()
-      return StringIO.StringIO(content)
+      return io.StringIO(content)
     return file_object
 
 

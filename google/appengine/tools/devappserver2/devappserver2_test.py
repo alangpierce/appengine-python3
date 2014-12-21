@@ -114,7 +114,7 @@ class GetStoragePathTest(unittest.TestCase):
 
   def test_no_path_given_directory_exists(self):
     path1 = tempfile.mkdtemp()
-    os.chmod(path1, 0777)
+    os.chmod(path1, 0o777)
     path2 = tempfile.mkdtemp()  # Made with mode 0700.
 
     devappserver2._generate_storage_paths('example.com_myapp').AndReturn(

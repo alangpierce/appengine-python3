@@ -49,7 +49,7 @@ class ConsoleRequestHandler(admin_request_handler.AdminRequestHandler):
     self.response.content_type = 'text/plain'
     try:
       response = modul.send_interactive_command(self.request.get('code'))
-    except module.InteractiveCommandError, e:
+    except module.InteractiveCommandError as e:
       response = str(e)
 
     self.response.write(response)
@@ -57,7 +57,7 @@ class ConsoleRequestHandler(admin_request_handler.AdminRequestHandler):
   @classmethod
   def quit(cls):
     with cls._modulename_to_shell_module_lock:
-      for shell_module in cls._modulename_to_shell_module.itervalues():
+      for shell_module in cls._modulename_to_shell_module.values():
         shell_module.quit()
 
   @classmethod

@@ -42,7 +42,7 @@ Example:
     --hostname myhost.appspot.com postservice.GreetingsV1
 """
 
-from __future__ import with_statement
+
 
 
 
@@ -59,8 +59,8 @@ except ImportError:
 import os
 import re
 import sys
-import urllib
-import urllib2
+import urllib.request, urllib.parse, urllib.error
+import urllib.request, urllib.error, urllib.parse
 
 from endpoints import api_config
 from protorpc import remote
@@ -200,7 +200,7 @@ def GenApiConfig(service_class_names, config_string_generator=None,
   service_map = collections.OrderedDict()
   config_string_generator = (
       config_string_generator or api_config.ApiConfigGenerator())
-  for api_info, services in api_service_map.iteritems():
+  for api_info, services in api_service_map.items():
     assert len(services) > 0, 'An API must have at least one ProtoRPC service'
 
 
@@ -267,13 +267,13 @@ def _FetchDiscoveryDoc(config, doc_format):
     A list of discovery doc strings.
   """
   body = json.dumps({'config': config}, indent=2, sort_keys=True)
-  request = urllib2.Request(DISCOVERY_DOC_BASE + doc_format, body)
+  request = urllib.request.Request(DISCOVERY_DOC_BASE + doc_format, body)
   request.add_header('content-type', 'application/json')
 
   try:
-    with contextlib.closing(urllib2.urlopen(request)) as response:
+    with contextlib.closing(urllib.request.urlopen(request)) as response:
       return response.read()
-  except urllib2.HTTPError, error:
+  except urllib.error.HTTPError as error:
     raise ServerRequestException(error)
 
 
@@ -300,7 +300,7 @@ def _GenDiscoveryDoc(service_class_names, doc_format,
   output_files = []
   service_configs = GenApiConfig(service_class_names, hostname=hostname,
                                  application_path=application_path)
-  for api_name_version, config in service_configs.iteritems():
+  for api_name_version, config in service_configs.items():
     discovery_doc = _FetchDiscoveryDoc(config, doc_format)
     discovery_name = api_name_version + '.discovery'
     output_files.append(_WriteFile(output_path, discovery_name, discovery_doc))
@@ -355,14 +355,14 @@ def _GenClientLibFromContents(discovery_doc, language, output_path,
     The path to the zipped client library.
   """
 
-  body = urllib.urlencode({'lang': language, 'content': discovery_doc,
+  body = urllib.parse.urlencode({'lang': language, 'content': discovery_doc,
                            'layout': build_system})
-  request = urllib2.Request(CLIENT_LIBRARY_BASE, body)
+  request = urllib.request.Request(CLIENT_LIBRARY_BASE, body)
   try:
-    with contextlib.closing(urllib2.urlopen(request)) as response:
+    with contextlib.closing(urllib.request.urlopen(request)) as response:
       content = response.read()
       return _WriteFile(output_path, client_name, content)
-  except urllib2.HTTPError, error:
+  except urllib.error.HTTPError as error:
     raise ServerRequestException(error)
 
 
@@ -386,7 +386,7 @@ def _GetClientLib(service_class_names, language, output_path, build_system,
   client_libs = []
   service_configs = GenApiConfig(service_class_names, hostname=hostname,
                                  application_path=application_path)
-  for api_name_version, config in service_configs.iteritems():
+  for api_name_version, config in service_configs.items():
     discovery_doc = _FetchDiscoveryDoc(config, 'rest')
     client_name = api_name_version + '.zip'
     client_libs.append(
@@ -407,7 +407,7 @@ def _GenApiConfigCallback(args, api_func=GenApiConfig):
                              hostname=args.hostname,
                              application_path=args.application)
 
-  for api_name_version, config in service_configs.iteritems():
+  for api_name_version, config in service_configs.items():
     _WriteFile(args.output, api_name_version + '.api', config)
 
 
@@ -426,7 +426,7 @@ def _GetClientLibCallback(args, client_func=_GetClientLib):
       hostname=args.hostname, application_path=args.application)
 
   for client_path in client_paths:
-    print 'API client library written to %s' % client_path
+    print('API client library written to %s' % client_path)
 
 
 def _GenDiscoveryDocCallback(args, discovery_func=_GenDiscoveryDoc):
@@ -442,7 +442,7 @@ def _GenDiscoveryDocCallback(args, discovery_func=_GenDiscoveryDoc):
                                    args.output, hostname=args.hostname,
                                    application_path=args.application)
   for discovery_path in discovery_paths:
-    print 'API discovery document written to %s' % discovery_path
+    print('API discovery document written to %s' % discovery_path)
 
 
 def _GenClientLibCallback(args, client_func=_GenClientLib):
@@ -456,7 +456,7 @@ def _GenClientLibCallback(args, client_func=_GenClientLib):
   """
   client_path = client_func(args.discovery_doc[0], args.language, args.output,
                             args.build_system)
-  print 'API client library written to %s' % client_path
+  print('API client library written to %s' % client_path)
 
 
 def MakeParser(prog):

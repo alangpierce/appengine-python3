@@ -17,10 +17,10 @@
 """Service running an App engine app on a Compute Engine VM."""
 
 
-from __future__ import with_statement
+
 
 import logging
-import SocketServer
+import socketserver
 from wsgiref import simple_server
 
 from google.appengine.api import appinfo_includes
@@ -74,7 +74,7 @@ class VmRuntimeWSGIRefServer(VmRuntimeServer):
       logging.error('Could not start server on %s:%s.', self._host, self._port)
       raise
 
-  class _ThreadingWSGIServer(SocketServer.ThreadingMixIn,
+  class _ThreadingWSGIServer(socketserver.ThreadingMixIn,
                              simple_server.WSGIServer):
     daemon_threads = True
 

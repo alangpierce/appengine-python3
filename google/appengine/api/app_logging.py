@@ -75,7 +75,7 @@ class AppLogsHandler(logging.Handler):
                                 self.format(record))
       else:
         message = self._AppLogsMessage(record)
-        if isinstance(message, unicode):
+        if isinstance(message, str):
           message = message.encode("UTF-8")
 
 
@@ -95,7 +95,7 @@ class AppLogsHandler(logging.Handler):
     message = message.replace("\n", NEWLINE_REPLACEMENT)
 
     return "LOG %d %d %s\n" % (self._AppLogsLevel(record.levelno),
-                               long(record.created * 1000 * 1000),
+                               int(record.created * 1000 * 1000),
                                message)
 
   def _AppLogsLevel(self, level):

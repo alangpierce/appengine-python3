@@ -19,25 +19,25 @@
 The Remote API protocol is used for communication.
 """
 
-from __future__ import with_statement
 
 
 
-import BaseHTTPServer
-import httplib
+
+import http.server
+import http.client
 import logging
 import os.path
 import pickle
 import socket
-import SocketServer
+import socketserver
 import subprocess
 import sys
 import tempfile
 import threading
 import time
 import traceback
-import urllib2
-import urlparse
+import urllib.request, urllib.error, urllib.parse
+import urllib.parse
 import wsgiref.headers
 
 import google
@@ -88,7 +88,7 @@ def _ClearDatastoreStorage(datastore_path):
   if os.path.lexists(datastore_path):
     try:
       os.remove(datastore_path)
-    except OSError, e:
+    except OSError as e:
       logging.warning('Failed to remove datastore file %r: %s',
                       datastore_path,
                       e)
@@ -100,7 +100,7 @@ def _ClearProspectiveSearchStorage(prospective_search_path):
   if os.path.lexists(prospective_search_path):
     try:
       os.remove(prospective_search_path)
-    except OSError, e:
+    except OSError as e:
       logging.warning('Failed to remove prospective search file %r: %s',
                       prospective_search_path,
                       e)
@@ -163,7 +163,7 @@ def _ExecuteRequest(request):
   return response_data
 
 
-class APIRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
+class APIRequestHandler(http.server.BaseHTTPRequestHandler):
   """Handler for all API server HTTP requests."""
 
   def log_message(self, format, *args):
@@ -173,10 +173,10 @@ class APIRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
     if self.path == QUIT_PATH:
       self._HandleShutdown()
     else:
-      params = urlparse.parse_qs(urlparse.urlparse(self.path).query)
+      params = urllib.parse.parse_qs(urllib.parse.urlparse(self.path).query)
       rtok = params.get('rtok', ['0'])[0]
 
-      self.send_response(httplib.OK)
+      self.send_response(http.client.OK)
       self.send_header('Content-Type', 'text/plain')
       self.end_headers()
       self.wfile.write(yaml.dump({
@@ -186,7 +186,7 @@ class APIRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
 
   def _HandleShutdown(self):
     """Handles a request for the API Server to exit."""
-    self.send_response(httplib.OK)
+    self.send_response(http.client.OK)
     self.send_header('Content-Type', 'text/plain')
     self.end_headers()
     self.wfile.write('API Server Quitting')
@@ -194,7 +194,7 @@ class APIRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
 
   def do_POST(self):
     """Handles a single API request e.g. memcache.Get()."""
-    self.send_response(httplib.OK)
+    self.send_response(http.client.OK)
     self.send_header('Content-Type', 'application/octet-stream')
     self.end_headers()
 
@@ -208,7 +208,7 @@ class APIRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
           self.rfile.read(int(self.headers['content-length'])))
       api_response = _ExecuteRequest(request).Encode()
       response.set_response(api_response)
-    except Exception, e:
+    except Exception as e:
       logging.debug('Exception while handling %s\n%s',
                     request,
                     traceback.format_exc())
@@ -220,11 +220,11 @@ class APIRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
     self.wfile.write(response.Encode())
 
 
-class APIServer(SocketServer.ThreadingMixIn, BaseHTTPServer.HTTPServer):
+class APIServer(socketserver.ThreadingMixIn, http.server.HTTPServer):
   """Serves API calls over HTTP."""
 
   def __init__(self, server_address, app_id):
-    BaseHTTPServer.HTTPServer.__init__(self, server_address, APIRequestHandler)
+    http.server.HTTPServer.__init__(self, server_address, APIRequestHandler)
     self.app_id = app_id
 
 
@@ -762,8 +762,8 @@ class APIServerProcess(object):
     assert self._process, 'server was not started'
     if self._process.poll() is None:
       try:
-        urllib2.urlopen(self.url + QUIT_PATH)
-      except urllib2.URLError:
+        urllib.request.urlopen(self.url + QUIT_PATH)
+      except urllib.error.URLError:
 
 
         pass
@@ -805,7 +805,7 @@ class ApiServerDispatcher(request_info._LocalFakeDispatcher):
     try:
       header_dict = wsgiref.headers.Headers(headers)
       connection_host = header_dict.get('host')
-      connection = httplib.HTTPConnection(connection_host)
+      connection = http.client.HTTPConnection(connection_host)
 
 
       connection.putrequest(
@@ -824,7 +824,7 @@ class ApiServerDispatcher(request_info._LocalFakeDispatcher):
 
       return request_info.ResponseTuple(
           '%d %s' % (response.status, response.reason), [], '')
-    except (httplib.HTTPException, socket.error):
+    except (http.client.HTTPException, socket.error):
       logging.exception(
           'An error occured while sending a %s request to "%s%s"',
           method, connection_host, relative_url)

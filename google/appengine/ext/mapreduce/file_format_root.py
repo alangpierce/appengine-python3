@@ -30,7 +30,7 @@
 
 """Define file format root."""
 
-from __future__ import with_statement
+
 
 
 
@@ -242,9 +242,9 @@ class FileFormatRoot(json_util.JsonMixin):
 
     return root
 
-  def next(self):
+  def __next__(self):
     """Iterate over inputs."""
-    result = self._formats[-1].next()
+    result = next(self._formats[-1])
     self._formats[-1]._input_files_stream.checkpoint()
     self._formats[-1].checkpoint()
     return result
@@ -274,7 +274,7 @@ class _FilesStream(object):
       offset: the offset to start reading current file.
       next_func: a function that gives back the next file from the stream.
     """
-    self._next_file = next_func or file_format_root._formats[index-1].next
+    self._next_file = next_func or file_format_root._formats[index-1].__next__
     self._preprocess = file_format_root._formats[index].preprocess
 
     self._previous_offset = offset

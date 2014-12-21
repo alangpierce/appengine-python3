@@ -33,7 +33,7 @@ This module also contains actual mapper code for copying data over.
 
 
 import logging
-import urllib
+import urllib.request, urllib.parse, urllib.error
 
 from google.appengine.api import capabilities
 from google.appengine.api import datastore
@@ -179,7 +179,7 @@ class DoCopyHandler(webapp.RequestHandler):
         error = ''
 
 
-      except Exception, e:
+      except Exception as e:
         logging.exception('Handling exception.')
         error = self._HandleException(e)
 
@@ -187,7 +187,7 @@ class DoCopyHandler(webapp.RequestHandler):
       if error:
         parameters.append(('error', error))
 
-    query = urllib.urlencode(parameters)
+    query = urllib.parse.urlencode(parameters)
     self.redirect('%s/%s?%s' % (config.BASE_PATH, self.SUFFIX, query))
 
   def _HandleException(self, e):

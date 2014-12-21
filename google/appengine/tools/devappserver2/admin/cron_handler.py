@@ -40,7 +40,7 @@ class CronHandler(admin_request_handler.AdminRequestHandler):
     values['has_pytz'] = bool(pytz)
     try:
       values['cronjobs'] = self._get_cron_jobs()
-    except (StandardError, yaml_errors.Error):
+    except (Exception, yaml_errors.Error):
       values['cron_error'] = traceback.format_exc()
     self.response.write(self.render('cron.html', values))
 

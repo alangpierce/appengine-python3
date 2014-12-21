@@ -166,7 +166,7 @@ class BlobInfo(model.Model):
   @classmethod
   def get_async(cls, blob_key, **ctx_options):
     """Async version of get()."""
-    if not isinstance(blob_key, (BlobKey, basestring)):
+    if not isinstance(blob_key, (BlobKey, str)):
       raise TypeError('Expected blob key, got %r' % (blob_key,))
     if 'parent' in ctx_options:
       raise TypeError('Parent is not supported')
@@ -190,11 +190,11 @@ class BlobInfo(model.Model):
   def get_multi_async(cls, blob_keys, **ctx_options):
     """Async version of get_multi()."""
     for blob_key in blob_keys:
-      if not isinstance(blob_key, (BlobKey, basestring)):
+      if not isinstance(blob_key, (BlobKey, str)):
         raise TypeError('Expected blob key, got %r' % (blob_key,))
     if 'parent' in ctx_options:
       raise TypeError('Parent is not supported')
-    blob_key_strs = map(str, blob_keys)
+    blob_key_strs = list(map(str, blob_keys))
     keys = [model.Key(BLOB_INFO_KIND, id) for id in blob_key_strs]
     return model.get_multi_async(keys, **ctx_options)
 
@@ -257,7 +257,7 @@ def delete(blob_key, **options):
 @tasklets.tasklet
 def delete_async(blob_key, **options):
   """Async version of delete()."""
-  if not isinstance(blob_key, (basestring, BlobKey)):
+  if not isinstance(blob_key, (str, BlobKey)):
     raise TypeError('Expected blob key, got %r' % (blob_key,))
   rpc = blobstore.create_rpc(**options)
   yield blobstore.delete_async(blob_key, rpc=rpc)
@@ -277,7 +277,7 @@ def delete_multi(blob_keys, **options):
 @tasklets.tasklet
 def delete_multi_async(blob_keys, **options):
   """Async version of delete_multi()."""
-  if isinstance(blob_keys, (basestring, BlobKey)):
+  if isinstance(blob_keys, (str, BlobKey)):
     raise TypeError('Expected a list, got %r' % (blob_key,))
   rpc = blobstore.create_rpc(**options)
   yield blobstore.delete_async(blob_keys, rpc=rpc)
@@ -373,7 +373,7 @@ def parse_blob_info(field_storage):
 
   try:
     creation = blobstore._parse_creation(creation_string, field_name)
-  except blobstore._CreationFormatError, err:
+  except blobstore._CreationFormatError as err:
     raise BlobInfoParseError(str(err))
 
   return BlobInfo(id=blob_key_str,

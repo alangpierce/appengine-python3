@@ -276,12 +276,12 @@ def handler_for_name(fq_name):
     handler instance which is ready to be called.
   """
   resolved_name = for_name(fq_name)
-  if isinstance(resolved_name, (type, types.ClassType)):
+  if isinstance(resolved_name, type):
 
     return resolved_name()
   elif isinstance(resolved_name, types.MethodType):
 
-    return getattr(resolved_name.im_class(), resolved_name.__name__)
+    return getattr(resolved_name.__self__.__class__(), resolved_name.__name__)
   else:
     return resolved_name
 
@@ -338,7 +338,7 @@ def is_generator(obj):
 
   CO_GENERATOR = 0x20
   return bool(((inspect.isfunction(obj) or inspect.ismethod(obj)) and
-               obj.func_code.co_flags & CO_GENERATOR))
+               obj.__code__.co_flags & CO_GENERATOR))
 
 
 def get_short_name(fq_name):

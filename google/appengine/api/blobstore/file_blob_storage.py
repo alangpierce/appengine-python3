@@ -45,8 +45,8 @@ __all__ = ['FileBlobStorage']
 
 
 
-import __builtin__
-_local_open = __builtin__.open
+import builtins
+_local_open = builtins.open
 
 
 class FileBlobStorage(blobstore_stub.BlobStorage):
@@ -66,7 +66,7 @@ class FileBlobStorage(blobstore_stub.BlobStorage):
   def _BlobKey(cls, blob_key):
     """Normalize to instance of BlobKey."""
     if not isinstance(blob_key, blobstore.BlobKey):
-      return blobstore.BlobKey(unicode(blob_key))
+      return blobstore.BlobKey(str(blob_key))
     return blob_key
 
   def _DirectoryForBlob(self, blob_key):
@@ -158,6 +158,6 @@ class FileBlobStorage(blobstore_stub.BlobStorage):
     """
     try:
       os.remove(self._FileForBlob(blob_key))
-    except OSError, e:
+    except OSError as e:
       if e.errno != errno.ENOENT:
         raise e

@@ -170,7 +170,7 @@ class BounceNotification(object):
 
       self.__original_raw_message = mail.InboundEmailMessage(
           post_vars['raw-message'])
-    except KeyError, e:
+    except KeyError as e:
       raise InvalidBounceNotificationError(e[0])
 
   @property

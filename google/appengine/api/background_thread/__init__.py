@@ -26,4 +26,4 @@ terms of service, it is strongly recommended that all new applications use the
 Modules API instead."""
 
 
-from background_thread import *
+from .background_thread import *

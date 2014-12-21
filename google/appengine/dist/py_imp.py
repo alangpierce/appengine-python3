@@ -81,7 +81,7 @@ def load_module(name, file_, pathname, description):
       sys.modules[name] = mod
     filename = os.path.join(pathname, '__init__.py')
     mod.__file__ = filename
-    execfile(filename, mod.__dict__, mod.__dict__)
+    exec(compile(open(filename).read(), filename, 'exec'), mod.__dict__, mod.__dict__)
     return mod
   else:
     raise NotImplementedError('Only importing packages is supported on '

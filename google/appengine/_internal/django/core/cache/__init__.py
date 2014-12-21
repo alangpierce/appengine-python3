@@ -16,7 +16,7 @@ See docs/cache.txt for information on the public API.
 """
 
 try:
-    from urlparse import parse_qsl
+    from urllib.parse import parse_qsl
 except ImportError:
     from cgi import parse_qsl
 

@@ -31,10 +31,10 @@ WSGI interface.
 
 
 
-import cStringIO
-import thread
+import io
+import _thread
 import threading
-import urlparse
+import urllib.parse
 
 from google.appengine.api.logservice import logservice
 from google.appengine.runtime import cgi
@@ -125,7 +125,7 @@ def HandleRequest(environ, handler_name, url, post_data, application_root,
   try:
     error = logservice.LogsBuffer()
     request_environment.current_request.Init(error, environ)
-    url = urlparse.urlsplit(url)
+    url = urllib.parse.urlsplit(url)
     environ.update(CgiDictFromParsedUrl(url))
     if post_data:
 
@@ -142,7 +142,7 @@ def HandleRequest(environ, handler_name, url, post_data, application_root,
         environ['CONTENT_TYPE'] = environ['HTTP_CONTENT_TYPE']
       else:
         environ['CONTENT_TYPE'] = 'application/x-www-form-urlencoded'
-    post_data = cStringIO.StringIO(post_data)
+    post_data = io.StringIO(post_data)
 
     if '/' in handler_name or handler_name.endswith('.py'):
       response = cgi.HandleRequest(environ, handler_name, url, post_data, error,
@@ -178,7 +178,7 @@ def CgiDictFromParsedUrl(url):
   environ['QUERY_STRING'] = url.query
   environ['SERVER_NAME'] = url.hostname
   if url.path:
-    environ['PATH_INFO'] = urlparse.unquote(url.path)
+    environ['PATH_INFO'] = urllib.parse.unquote(url.path)
   else:
     environ['PATH_INFO'] = '/'
   return environ

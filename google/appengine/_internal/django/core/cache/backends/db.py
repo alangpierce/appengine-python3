@@ -5,7 +5,7 @@ from google.appengine._internal.django.db import connections, router, transactio
 import base64, time
 from datetime import datetime
 try:
-    import cPickle as pickle
+    import pickle as pickle
 except ImportError:
     import pickle
 

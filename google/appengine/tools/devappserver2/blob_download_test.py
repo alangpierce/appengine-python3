@@ -17,7 +17,7 @@
 """Tests for devappserver2.blob_download."""
 
 import base64
-import cStringIO
+import io
 import datetime
 import os
 import shutil
@@ -88,7 +88,7 @@ class DownloadTestBase(unittest.TestCase):
     """
     contents = 'a blob'
     blob_key = blobstore.BlobKey('blob-key-1')
-    self.blob_storage.StoreBlob(blob_key, cStringIO.StringIO(contents))
+    self.blob_storage.StoreBlob(blob_key, io.StringIO(contents))
     entity = datastore.Entity(blobstore.BLOB_INFO_KIND,
                               name=str(blob_key),
                               namespace='')
@@ -487,7 +487,7 @@ class BlobDownloadTestGoogleStorage(BlobDownloadTest):
       options['content-type'] = content_type
     blob_key = stub.post_start_creation(filename, options)
     stub.put_continue_creation(blob_key, data, (0, len(data) - 1), len(data))
-    self.blob_storage.StoreBlob(blob_key, cStringIO.StringIO(data))
+    self.blob_storage.StoreBlob(blob_key, io.StringIO(data))
 
     return blob_key
 

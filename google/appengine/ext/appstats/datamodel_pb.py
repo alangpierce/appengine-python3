@@ -19,7 +19,7 @@
 
 from google.net.proto import ProtocolBuffer
 import array
-import dummy_thread as thread
+import _dummy_thread as thread
 
 __pychecker__ = """maxreturns=0 maxbranches=0 no-callinit
                    unusednames=printElemNumber,debug_strs no-special"""
@@ -106,7 +106,7 @@ class AggregateRpcStatsProto(ProtocolBuffer.ProtocolMessage):
     if (x.has_service_call_name()): self.set_service_call_name(x.service_call_name())
     if (x.has_total_amount_of_calls()): self.set_total_amount_of_calls(x.total_amount_of_calls())
     if (x.has_total_cost_of_calls_microdollars()): self.set_total_cost_of_calls_microdollars(x.total_cost_of_calls_microdollars())
-    for i in xrange(x.total_billed_ops_size()): self.add_total_billed_ops().CopyFrom(x.total_billed_ops(i))
+    for i in range(x.total_billed_ops_size()): self.add_total_billed_ops().CopyFrom(x.total_billed_ops(i))
 
   def Equals(self, x):
     if x is self: return 1
@@ -141,7 +141,7 @@ class AggregateRpcStatsProto(ProtocolBuffer.ProtocolMessage):
     n += self.lengthVarInt64(self.total_amount_of_calls_)
     if (self.has_total_cost_of_calls_microdollars_): n += 1 + self.lengthVarInt64(self.total_cost_of_calls_microdollars_)
     n += 1 * len(self.total_billed_ops_)
-    for i in xrange(len(self.total_billed_ops_)): n += self.lengthString(self.total_billed_ops_[i].ByteSize())
+    for i in range(len(self.total_billed_ops_)): n += self.lengthString(self.total_billed_ops_[i].ByteSize())
     return n + 2
 
   def ByteSizePartial(self):
@@ -154,7 +154,7 @@ class AggregateRpcStatsProto(ProtocolBuffer.ProtocolMessage):
       n += self.lengthVarInt64(self.total_amount_of_calls_)
     if (self.has_total_cost_of_calls_microdollars_): n += 1 + self.lengthVarInt64(self.total_cost_of_calls_microdollars_)
     n += 1 * len(self.total_billed_ops_)
-    for i in xrange(len(self.total_billed_ops_)): n += self.lengthString(self.total_billed_ops_[i].ByteSizePartial())
+    for i in range(len(self.total_billed_ops_)): n += self.lengthString(self.total_billed_ops_[i].ByteSizePartial())
     return n
 
   def Clear(self):
@@ -171,7 +171,7 @@ class AggregateRpcStatsProto(ProtocolBuffer.ProtocolMessage):
     if (self.has_total_cost_of_calls_microdollars_):
       out.putVarInt32(32)
       out.putVarInt64(self.total_cost_of_calls_microdollars_)
-    for i in xrange(len(self.total_billed_ops_)):
+    for i in range(len(self.total_billed_ops_)):
       out.putVarInt32(42)
       out.putVarInt32(self.total_billed_ops_[i].ByteSize())
       self.total_billed_ops_[i].OutputUnchecked(out)
@@ -186,7 +186,7 @@ class AggregateRpcStatsProto(ProtocolBuffer.ProtocolMessage):
     if (self.has_total_cost_of_calls_microdollars_):
       out.putVarInt32(32)
       out.putVarInt64(self.total_cost_of_calls_microdollars_)
-    for i in xrange(len(self.total_billed_ops_)):
+    for i in range(len(self.total_billed_ops_)):
       out.putVarInt32(42)
       out.putVarInt32(self.total_billed_ops_[i].ByteSizePartial())
       self.total_billed_ops_[i].OutputPartial(out)
@@ -232,7 +232,7 @@ class AggregateRpcStatsProto(ProtocolBuffer.ProtocolMessage):
 
 
   def _BuildTagLookupTable(sparse, maxtag, default=None):
-    return tuple([sparse.get(i, default) for i in xrange(0, 1+maxtag)])
+    return tuple([sparse.get(i, default) for i in range(0, 1+maxtag)])
 
   kservice_call_name = 1
   ktotal_amount_of_calls = 3
@@ -377,7 +377,7 @@ class KeyValProto(ProtocolBuffer.ProtocolMessage):
 
 
   def _BuildTagLookupTable(sparse, maxtag, default=None):
-    return tuple([sparse.get(i, default) for i in xrange(0, 1+maxtag)])
+    return tuple([sparse.get(i, default) for i in range(0, 1+maxtag)])
 
   kkey = 1
   kvalue = 2
@@ -471,7 +471,7 @@ class StackFrameProto(ProtocolBuffer.ProtocolMessage):
     if (x.has_class_or_file_name()): self.set_class_or_file_name(x.class_or_file_name())
     if (x.has_line_number()): self.set_line_number(x.line_number())
     if (x.has_function_name()): self.set_function_name(x.function_name())
-    for i in xrange(x.variables_size()): self.add_variables().CopyFrom(x.variables(i))
+    for i in range(x.variables_size()): self.add_variables().CopyFrom(x.variables(i))
 
   def Equals(self, x):
     if x is self: return 1
@@ -506,7 +506,7 @@ class StackFrameProto(ProtocolBuffer.ProtocolMessage):
     if (self.has_line_number_): n += 1 + self.lengthVarInt64(self.line_number_)
     n += self.lengthString(len(self.function_name_))
     n += 1 * len(self.variables_)
-    for i in xrange(len(self.variables_)): n += self.lengthString(self.variables_[i].ByteSize())
+    for i in range(len(self.variables_)): n += self.lengthString(self.variables_[i].ByteSize())
     return n + 2
 
   def ByteSizePartial(self):
@@ -519,7 +519,7 @@ class StackFrameProto(ProtocolBuffer.ProtocolMessage):
       n += 1
       n += self.lengthString(len(self.function_name_))
     n += 1 * len(self.variables_)
-    for i in xrange(len(self.variables_)): n += self.lengthString(self.variables_[i].ByteSizePartial())
+    for i in range(len(self.variables_)): n += self.lengthString(self.variables_[i].ByteSizePartial())
     return n
 
   def Clear(self):
@@ -536,7 +536,7 @@ class StackFrameProto(ProtocolBuffer.ProtocolMessage):
       out.putVarInt32(self.line_number_)
     out.putVarInt32(26)
     out.putPrefixedString(self.function_name_)
-    for i in xrange(len(self.variables_)):
+    for i in range(len(self.variables_)):
       out.putVarInt32(34)
       out.putVarInt32(self.variables_[i].ByteSize())
       self.variables_[i].OutputUnchecked(out)
@@ -551,7 +551,7 @@ class StackFrameProto(ProtocolBuffer.ProtocolMessage):
     if (self.has_function_name_):
       out.putVarInt32(26)
       out.putPrefixedString(self.function_name_)
-    for i in xrange(len(self.variables_)):
+    for i in range(len(self.variables_)):
       out.putVarInt32(34)
       out.putVarInt32(self.variables_[i].ByteSizePartial())
       self.variables_[i].OutputPartial(out)
@@ -597,7 +597,7 @@ class StackFrameProto(ProtocolBuffer.ProtocolMessage):
 
 
   def _BuildTagLookupTable(sparse, maxtag, default=None):
-    return tuple([sparse.get(i, default) for i in xrange(0, 1+maxtag)])
+    return tuple([sparse.get(i, default) for i in range(0, 1+maxtag)])
 
   kclass_or_file_name = 1
   kline_number = 2
@@ -765,7 +765,7 @@ class BilledOpProto(ProtocolBuffer.ProtocolMessage):
 
 
   def _BuildTagLookupTable(sparse, maxtag, default=None):
-    return tuple([sparse.get(i, default) for i in xrange(0, 1+maxtag)])
+    return tuple([sparse.get(i, default) for i in range(0, 1+maxtag)])
 
   kop = 1
   knum_ops = 2
@@ -915,9 +915,9 @@ class DatastoreCallDetailsProto(ProtocolBuffer.ProtocolMessage):
     if (x.has_query_ancestor()): self.mutable_query_ancestor().MergeFrom(x.query_ancestor())
     if (x.has_query_thiscursor()): self.set_query_thiscursor(x.query_thiscursor())
     if (x.has_query_nextcursor()): self.set_query_nextcursor(x.query_nextcursor())
-    for i in xrange(x.get_successful_fetch_size()): self.add_get_successful_fetch(x.get_successful_fetch(i))
-    for i in xrange(x.keys_read_size()): self.add_keys_read().CopyFrom(x.keys_read(i))
-    for i in xrange(x.keys_written_size()): self.add_keys_written().CopyFrom(x.keys_written(i))
+    for i in range(x.get_successful_fetch_size()): self.add_get_successful_fetch(x.get_successful_fetch(i))
+    for i in range(x.keys_read_size()): self.add_keys_read().CopyFrom(x.keys_read(i))
+    for i in range(x.keys_written_size()): self.add_keys_written().CopyFrom(x.keys_written(i))
 
   def Equals(self, x):
     if x is self: return 1
@@ -957,9 +957,9 @@ class DatastoreCallDetailsProto(ProtocolBuffer.ProtocolMessage):
     if (self.has_query_nextcursor_): n += 9
     n += 2 * len(self.get_successful_fetch_)
     n += 1 * len(self.keys_read_)
-    for i in xrange(len(self.keys_read_)): n += self.lengthString(self.keys_read_[i].ByteSize())
+    for i in range(len(self.keys_read_)): n += self.lengthString(self.keys_read_[i].ByteSize())
     n += 1 * len(self.keys_written_)
-    for i in xrange(len(self.keys_written_)): n += self.lengthString(self.keys_written_[i].ByteSize())
+    for i in range(len(self.keys_written_)): n += self.lengthString(self.keys_written_[i].ByteSize())
     return n
 
   def ByteSizePartial(self):
@@ -970,9 +970,9 @@ class DatastoreCallDetailsProto(ProtocolBuffer.ProtocolMessage):
     if (self.has_query_nextcursor_): n += 9
     n += 2 * len(self.get_successful_fetch_)
     n += 1 * len(self.keys_read_)
-    for i in xrange(len(self.keys_read_)): n += self.lengthString(self.keys_read_[i].ByteSizePartial())
+    for i in range(len(self.keys_read_)): n += self.lengthString(self.keys_read_[i].ByteSizePartial())
     n += 1 * len(self.keys_written_)
-    for i in xrange(len(self.keys_written_)): n += self.lengthString(self.keys_written_[i].ByteSizePartial())
+    for i in range(len(self.keys_written_)): n += self.lengthString(self.keys_written_[i].ByteSizePartial())
     return n
 
   def Clear(self):
@@ -998,14 +998,14 @@ class DatastoreCallDetailsProto(ProtocolBuffer.ProtocolMessage):
     if (self.has_query_nextcursor_):
       out.putVarInt32(33)
       out.put64(self.query_nextcursor_)
-    for i in xrange(len(self.get_successful_fetch_)):
+    for i in range(len(self.get_successful_fetch_)):
       out.putVarInt32(40)
       out.putBoolean(self.get_successful_fetch_[i])
-    for i in xrange(len(self.keys_read_)):
+    for i in range(len(self.keys_read_)):
       out.putVarInt32(50)
       out.putVarInt32(self.keys_read_[i].ByteSize())
       self.keys_read_[i].OutputUnchecked(out)
-    for i in xrange(len(self.keys_written_)):
+    for i in range(len(self.keys_written_)):
       out.putVarInt32(58)
       out.putVarInt32(self.keys_written_[i].ByteSize())
       self.keys_written_[i].OutputUnchecked(out)
@@ -1024,14 +1024,14 @@ class DatastoreCallDetailsProto(ProtocolBuffer.ProtocolMessage):
     if (self.has_query_nextcursor_):
       out.putVarInt32(33)
       out.put64(self.query_nextcursor_)
-    for i in xrange(len(self.get_successful_fetch_)):
+    for i in range(len(self.get_successful_fetch_)):
       out.putVarInt32(40)
       out.putBoolean(self.get_successful_fetch_[i])
-    for i in xrange(len(self.keys_read_)):
+    for i in range(len(self.keys_read_)):
       out.putVarInt32(50)
       out.putVarInt32(self.keys_read_[i].ByteSizePartial())
       self.keys_read_[i].OutputPartial(out)
-    for i in xrange(len(self.keys_written_)):
+    for i in range(len(self.keys_written_)):
       out.putVarInt32(58)
       out.putVarInt32(self.keys_written_[i].ByteSizePartial())
       self.keys_written_[i].OutputPartial(out)
@@ -1110,7 +1110,7 @@ class DatastoreCallDetailsProto(ProtocolBuffer.ProtocolMessage):
 
 
   def _BuildTagLookupTable(sparse, maxtag, default=None):
-    return tuple([sparse.get(i, default) for i in xrange(0, 1+maxtag)])
+    return tuple([sparse.get(i, default) for i in range(0, 1+maxtag)])
 
   kquery_kind = 1
   kquery_ancestor = 2
@@ -1369,10 +1369,10 @@ class IndividualRpcStatsProto(ProtocolBuffer.ProtocolMessage):
     if (x.has_duration_milliseconds()): self.set_duration_milliseconds(x.duration_milliseconds())
     if (x.has_namespace()): self.set_namespace(x.namespace())
     if (x.has_was_successful()): self.set_was_successful(x.was_successful())
-    for i in xrange(x.call_stack_size()): self.add_call_stack().CopyFrom(x.call_stack(i))
+    for i in range(x.call_stack_size()): self.add_call_stack().CopyFrom(x.call_stack(i))
     if (x.has_datastore_details()): self.mutable_datastore_details().MergeFrom(x.datastore_details())
     if (x.has_call_cost_microdollars()): self.set_call_cost_microdollars(x.call_cost_microdollars())
-    for i in xrange(x.billed_ops_size()): self.add_billed_ops().CopyFrom(x.billed_ops(i))
+    for i in range(x.billed_ops_size()): self.add_billed_ops().CopyFrom(x.billed_ops(i))
 
   def Equals(self, x):
     if x is self: return 1
@@ -1435,11 +1435,11 @@ class IndividualRpcStatsProto(ProtocolBuffer.ProtocolMessage):
     if (self.has_namespace_): n += 1 + self.lengthString(len(self.namespace_))
     if (self.has_was_successful_): n += 2
     n += 1 * len(self.call_stack_)
-    for i in xrange(len(self.call_stack_)): n += self.lengthString(self.call_stack_[i].ByteSize())
+    for i in range(len(self.call_stack_)): n += self.lengthString(self.call_stack_[i].ByteSize())
     if (self.has_datastore_details_): n += 1 + self.lengthString(self.datastore_details_.ByteSize())
     if (self.has_call_cost_microdollars_): n += 1 + self.lengthVarInt64(self.call_cost_microdollars_)
     n += 1 * len(self.billed_ops_)
-    for i in xrange(len(self.billed_ops_)): n += self.lengthString(self.billed_ops_[i].ByteSize())
+    for i in range(len(self.billed_ops_)): n += self.lengthString(self.billed_ops_[i].ByteSize())
     return n + 2
 
   def ByteSizePartial(self):
@@ -1458,11 +1458,11 @@ class IndividualRpcStatsProto(ProtocolBuffer.ProtocolMessage):
     if (self.has_namespace_): n += 1 + self.lengthString(len(self.namespace_))
     if (self.has_was_successful_): n += 2
     n += 1 * len(self.call_stack_)
-    for i in xrange(len(self.call_stack_)): n += self.lengthString(self.call_stack_[i].ByteSizePartial())
+    for i in range(len(self.call_stack_)): n += self.lengthString(self.call_stack_[i].ByteSizePartial())
     if (self.has_datastore_details_): n += 1 + self.lengthString(self.datastore_details_.ByteSizePartial())
     if (self.has_call_cost_microdollars_): n += 1 + self.lengthVarInt64(self.call_cost_microdollars_)
     n += 1 * len(self.billed_ops_)
-    for i in xrange(len(self.billed_ops_)): n += self.lengthString(self.billed_ops_[i].ByteSizePartial())
+    for i in range(len(self.billed_ops_)): n += self.lengthString(self.billed_ops_[i].ByteSizePartial())
     return n
 
   def Clear(self):
@@ -1503,7 +1503,7 @@ class IndividualRpcStatsProto(ProtocolBuffer.ProtocolMessage):
     if (self.has_was_successful_):
       out.putVarInt32(72)
       out.putBoolean(self.was_successful_)
-    for i in xrange(len(self.call_stack_)):
+    for i in range(len(self.call_stack_)):
       out.putVarInt32(82)
       out.putVarInt32(self.call_stack_[i].ByteSize())
       self.call_stack_[i].OutputUnchecked(out)
@@ -1517,7 +1517,7 @@ class IndividualRpcStatsProto(ProtocolBuffer.ProtocolMessage):
     if (self.has_call_cost_microdollars_):
       out.putVarInt32(104)
       out.putVarInt64(self.call_cost_microdollars_)
-    for i in xrange(len(self.billed_ops_)):
+    for i in range(len(self.billed_ops_)):
       out.putVarInt32(114)
       out.putVarInt32(self.billed_ops_[i].ByteSize())
       self.billed_ops_[i].OutputUnchecked(out)
@@ -1547,7 +1547,7 @@ class IndividualRpcStatsProto(ProtocolBuffer.ProtocolMessage):
     if (self.has_was_successful_):
       out.putVarInt32(72)
       out.putBoolean(self.was_successful_)
-    for i in xrange(len(self.call_stack_)):
+    for i in range(len(self.call_stack_)):
       out.putVarInt32(82)
       out.putVarInt32(self.call_stack_[i].ByteSizePartial())
       self.call_stack_[i].OutputPartial(out)
@@ -1561,7 +1561,7 @@ class IndividualRpcStatsProto(ProtocolBuffer.ProtocolMessage):
     if (self.has_call_cost_microdollars_):
       out.putVarInt32(104)
       out.putVarInt64(self.call_cost_microdollars_)
-    for i in xrange(len(self.billed_ops_)):
+    for i in range(len(self.billed_ops_)):
       out.putVarInt32(114)
       out.putVarInt32(self.billed_ops_[i].ByteSizePartial())
       self.billed_ops_[i].OutputPartial(out)
@@ -1659,7 +1659,7 @@ class IndividualRpcStatsProto(ProtocolBuffer.ProtocolMessage):
 
 
   def _BuildTagLookupTable(sparse, maxtag, default=None):
-    return tuple([sparse.get(i, default) for i in xrange(0, 1+maxtag)])
+    return tuple([sparse.get(i, default) for i in range(0, 1+maxtag)])
 
   kservice_call_name = 1
   krequest_data_summary = 3
@@ -1945,12 +1945,12 @@ class RequestStatProto(ProtocolBuffer.ProtocolMessage):
     if (x.has_duration_milliseconds()): self.set_duration_milliseconds(x.duration_milliseconds())
     if (x.has_api_mcycles()): self.set_api_mcycles(x.api_mcycles())
     if (x.has_processor_mcycles()): self.set_processor_mcycles(x.processor_mcycles())
-    for i in xrange(x.rpc_stats_size()): self.add_rpc_stats().CopyFrom(x.rpc_stats(i))
-    for i in xrange(x.cgi_env_size()): self.add_cgi_env().CopyFrom(x.cgi_env(i))
+    for i in range(x.rpc_stats_size()): self.add_rpc_stats().CopyFrom(x.rpc_stats(i))
+    for i in range(x.cgi_env_size()): self.add_cgi_env().CopyFrom(x.cgi_env(i))
     if (x.has_overhead_walltime_milliseconds()): self.set_overhead_walltime_milliseconds(x.overhead_walltime_milliseconds())
     if (x.has_user_email()): self.set_user_email(x.user_email())
     if (x.has_is_admin()): self.set_is_admin(x.is_admin())
-    for i in xrange(x.individual_stats_size()): self.add_individual_stats().CopyFrom(x.individual_stats(i))
+    for i in range(x.individual_stats_size()): self.add_individual_stats().CopyFrom(x.individual_stats(i))
 
   def Equals(self, x):
     if x is self: return 1
@@ -2016,14 +2016,14 @@ class RequestStatProto(ProtocolBuffer.ProtocolMessage):
     if (self.has_api_mcycles_): n += 1 + self.lengthVarInt64(self.api_mcycles_)
     if (self.has_processor_mcycles_): n += 1 + self.lengthVarInt64(self.processor_mcycles_)
     n += 1 * len(self.rpc_stats_)
-    for i in xrange(len(self.rpc_stats_)): n += self.lengthString(self.rpc_stats_[i].ByteSize())
+    for i in range(len(self.rpc_stats_)): n += self.lengthString(self.rpc_stats_[i].ByteSize())
     n += 2 * len(self.cgi_env_)
-    for i in xrange(len(self.cgi_env_)): n += self.lengthString(self.cgi_env_[i].ByteSize())
+    for i in range(len(self.cgi_env_)): n += self.lengthString(self.cgi_env_[i].ByteSize())
     if (self.has_overhead_walltime_milliseconds_): n += 2 + self.lengthVarInt64(self.overhead_walltime_milliseconds_)
     if (self.has_user_email_): n += 2 + self.lengthString(len(self.user_email_))
     if (self.has_is_admin_): n += 3
     n += 2 * len(self.individual_stats_)
-    for i in xrange(len(self.individual_stats_)): n += self.lengthString(self.individual_stats_[i].ByteSize())
+    for i in range(len(self.individual_stats_)): n += self.lengthString(self.individual_stats_[i].ByteSize())
     return n + 2
 
   def ByteSizePartial(self):
@@ -2041,14 +2041,14 @@ class RequestStatProto(ProtocolBuffer.ProtocolMessage):
     if (self.has_api_mcycles_): n += 1 + self.lengthVarInt64(self.api_mcycles_)
     if (self.has_processor_mcycles_): n += 1 + self.lengthVarInt64(self.processor_mcycles_)
     n += 1 * len(self.rpc_stats_)
-    for i in xrange(len(self.rpc_stats_)): n += self.lengthString(self.rpc_stats_[i].ByteSizePartial())
+    for i in range(len(self.rpc_stats_)): n += self.lengthString(self.rpc_stats_[i].ByteSizePartial())
     n += 2 * len(self.cgi_env_)
-    for i in xrange(len(self.cgi_env_)): n += self.lengthString(self.cgi_env_[i].ByteSizePartial())
+    for i in range(len(self.cgi_env_)): n += self.lengthString(self.cgi_env_[i].ByteSizePartial())
     if (self.has_overhead_walltime_milliseconds_): n += 2 + self.lengthVarInt64(self.overhead_walltime_milliseconds_)
     if (self.has_user_email_): n += 2 + self.lengthString(len(self.user_email_))
     if (self.has_is_admin_): n += 3
     n += 2 * len(self.individual_stats_)
-    for i in xrange(len(self.individual_stats_)): n += self.lengthString(self.individual_stats_[i].ByteSizePartial())
+    for i in range(len(self.individual_stats_)): n += self.lengthString(self.individual_stats_[i].ByteSizePartial())
     return n
 
   def Clear(self):
@@ -2090,11 +2090,11 @@ class RequestStatProto(ProtocolBuffer.ProtocolMessage):
     if (self.has_processor_mcycles_):
       out.putVarInt32(64)
       out.putVarInt64(self.processor_mcycles_)
-    for i in xrange(len(self.rpc_stats_)):
+    for i in range(len(self.rpc_stats_)):
       out.putVarInt32(74)
       out.putVarInt32(self.rpc_stats_[i].ByteSize())
       self.rpc_stats_[i].OutputUnchecked(out)
-    for i in xrange(len(self.cgi_env_)):
+    for i in range(len(self.cgi_env_)):
       out.putVarInt32(810)
       out.putVarInt32(self.cgi_env_[i].ByteSize())
       self.cgi_env_[i].OutputUnchecked(out)
@@ -2107,7 +2107,7 @@ class RequestStatProto(ProtocolBuffer.ProtocolMessage):
     if (self.has_is_admin_):
       out.putVarInt32(832)
       out.putBoolean(self.is_admin_)
-    for i in xrange(len(self.individual_stats_)):
+    for i in range(len(self.individual_stats_)):
       out.putVarInt32(858)
       out.putVarInt32(self.individual_stats_[i].ByteSize())
       self.individual_stats_[i].OutputUnchecked(out)
@@ -2137,11 +2137,11 @@ class RequestStatProto(ProtocolBuffer.ProtocolMessage):
     if (self.has_processor_mcycles_):
       out.putVarInt32(64)
       out.putVarInt64(self.processor_mcycles_)
-    for i in xrange(len(self.rpc_stats_)):
+    for i in range(len(self.rpc_stats_)):
       out.putVarInt32(74)
       out.putVarInt32(self.rpc_stats_[i].ByteSizePartial())
       self.rpc_stats_[i].OutputPartial(out)
-    for i in xrange(len(self.cgi_env_)):
+    for i in range(len(self.cgi_env_)):
       out.putVarInt32(810)
       out.putVarInt32(self.cgi_env_[i].ByteSizePartial())
       self.cgi_env_[i].OutputPartial(out)
@@ -2154,7 +2154,7 @@ class RequestStatProto(ProtocolBuffer.ProtocolMessage):
     if (self.has_is_admin_):
       out.putVarInt32(832)
       out.putBoolean(self.is_admin_)
-    for i in xrange(len(self.individual_stats_)):
+    for i in range(len(self.individual_stats_)):
       out.putVarInt32(858)
       out.putVarInt32(self.individual_stats_[i].ByteSizePartial())
       self.individual_stats_[i].OutputPartial(out)
@@ -2260,7 +2260,7 @@ class RequestStatProto(ProtocolBuffer.ProtocolMessage):
 
 
   def _BuildTagLookupTable(sparse, maxtag, default=None):
-    return tuple([sparse.get(i, default) for i in xrange(0, 1+maxtag)])
+    return tuple([sparse.get(i, default) for i in range(0, 1+maxtag)])
 
   kstart_timestamp_milliseconds = 1
   khttp_method = 2

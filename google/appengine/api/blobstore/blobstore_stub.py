@@ -37,7 +37,7 @@ Class:
 import base64
 import os
 import time
-import urlparse
+import urllib.parse
 
 from google.appengine.api import apiproxy_stub
 from google.appengine.api import blobstore
@@ -289,7 +289,7 @@ class BlobstoreServiceStub(apiproxy_stub.APIProxyStub):
                                   max_bytes_total,
                                   bucket_name)
 
-    protocol, host, _, _, _, _ = urlparse.urlparse(
+    protocol, host, _, _, _, _ = urllib.parse.urlparse(
         self.request_data.get_request_url(request_id))
 
     response.set_url('%s://%s/%s%s' % (protocol, host, self.__uploader_path,

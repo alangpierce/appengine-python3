@@ -17,7 +17,7 @@ class BlockContext(object):
         self.blocks = {}
 
     def add_blocks(self, blocks):
-        for name, block in blocks.iteritems():
+        for name, block in blocks.items():
             if name in self.blocks:
                 self.blocks[name].insert(0, block)
             else:

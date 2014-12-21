@@ -738,7 +738,7 @@ class TestBackendConfiguration(unittest.TestCase):
       if not field.startswith('_'):
         self.assertTrue(hasattr(config, field), 'Missing field: %s' % field)
         value = getattr(module_config, field)
-        if field not in whitelist_fields and not callable(value):
+        if field not in whitelist_fields and not isinstance(value, collections.Callable):
           # Check that the attributes other than those in the whitelist have
           # equal values in the BackendConfiguration to the ModuleConfiguration
           # from which it inherits.

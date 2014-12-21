@@ -274,7 +274,7 @@ class DatabaseWrapper(base.DatabaseWrapper):
               "You must specify a '%s' for database '%s'" %
               (settings_key, self.alias))
       self.connection = Connect(**kwargs)
-      encoders = {safestring.SafeUnicode: self.connection.encoders[unicode],
+      encoders = {safestring.SafeUnicode: self.connection.encoders[str],
                   safestring.SafeString: self.connection.encoders[str]}
       self.connection.encoders.update(encoders)
       signals.connection_created.send(sender=self.__class__, connection=self)

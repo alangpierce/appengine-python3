@@ -130,7 +130,7 @@ def EpochTime(date):
     td = date - BASE_DATE
   else:
     td = date - BASE_DATE.date()
-  milliseconds_since_epoch = long(
+  milliseconds_since_epoch = int(
       (td.microseconds + (td.seconds + td.days * 24 * 3600) * 10**6) / 10**3)
   return milliseconds_since_epoch
 
@@ -146,7 +146,7 @@ def DeserializeDate(date_str):
   if re.match(r'^\d+\-\d+\-\d+$', date_str):
     return datetime.datetime.strptime(date_str, '%Y-%m-%d')
   else:
-    dt = BASE_DATE + datetime.timedelta(milliseconds=long(date_str))
+    dt = BASE_DATE + datetime.timedelta(milliseconds=int(date_str))
     return dt
 
 

@@ -16,7 +16,7 @@
 #
 """Handlers that display full-text search indexes and documents."""
 
-import urllib
+import urllib.request, urllib.parse, urllib.error
 
 from google.appengine.api import search
 from google.appengine.tools.devappserver2.admin import admin_request_handler
@@ -116,7 +116,7 @@ class SearchIndexHandler(BaseSearchHandler):
 
     index = search.Index(name=index_name, namespace=namespace)
     index.delete(docs)
-    self.redirect('/search/index?%s' % urllib.urlencode(
+    self.redirect('/search/index?%s' % urllib.parse.urlencode(
         {'namespace': namespace,
          'index': index_name,
          'start': start}))

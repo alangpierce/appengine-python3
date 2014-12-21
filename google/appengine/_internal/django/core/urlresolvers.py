@@ -18,6 +18,7 @@ from google.appengine._internal.django.utils.functional import memoize
 from google.appengine._internal.django.utils.importlib import import_module
 from google.appengine._internal.django.utils.regex_helper import normalize
 from google.appengine._internal.django.utils.thread_support import currentThread
+import collections
 
 _resolver_cache = {} # Maps URLconf modules to RegexURLResolver instances.
 _callable_cache = {} # Maps view and url pattern names to their view functions.
@@ -47,14 +48,14 @@ def get_callable(lookup_view, can_fail=False):
     If can_fail is True, lookup_view might be a URL pattern label, so errors
     during the import fail and the string is returned.
     """
-    if not callable(lookup_view):
+    if not isinstance(lookup_view, collections.Callable):
         try:
             # Bail early for non-ASCII strings (they can't be functions).
             lookup_view = lookup_view.encode('ascii')
             mod_name, func_name = get_mod_func(lookup_view)
             if func_name != '':
                 lookup_view = getattr(import_module(mod_name), func_name)
-                if not callable(lookup_view):
+                if not isinstance(lookup_view, collections.Callable):
                     raise AttributeError("'%s.%s' is not a callable." % (mod_name, func_name))
         except (ImportError, AttributeError):
             if not can_fail:
@@ -87,7 +88,7 @@ class RegexURLPattern(object):
         # which represents the path to a module and a view function name, or a
         # callable object (view).
         self.regex = re.compile(regex, re.UNICODE)
-        if callable(callback):
+        if isinstance(callback, collections.Callable):
             self._callback = callback
         else:
             self._callback = None
@@ -127,10 +128,10 @@ class RegexURLPattern(object):
             return self._callback
         try:
             self._callback = get_callable(self._callback_str)
-        except ImportError, e:
+        except ImportError as e:
             mod_name, _ = get_mod_func(self._callback_str)
             raise ViewDoesNotExist("Could not import %s. Error was: %s" % (mod_name, str(e)))
-        except AttributeError, e:
+        except AttributeError as e:
             mod_name, func_name = get_mod_func(self._callback_str)
             raise ViewDoesNotExist("Tried %s in module %s. Error was: %s" % (func_name, mod_name, str(e)))
         return self._callback
@@ -142,7 +143,7 @@ class RegexURLResolver(object):
         # urlconf_name is a string representing the module containing URLconfs.
         self.regex = re.compile(regex, re.UNICODE)
         self.urlconf_name = urlconf_name
-        if not isinstance(urlconf_name, basestring):
+        if not isinstance(urlconf_name, str):
             self._urlconf_module = self.urlconf_name
         self.callback = None
         self.default_kwargs = default_kwargs or {}
@@ -176,9 +177,9 @@ class RegexURLResolver(object):
                             for piece, p_args in parent:
                                 new_matches.extend([(piece + suffix, p_args + args) for (suffix, args) in matches])
                             lookups.appendlist(name, (new_matches, p_pattern + pat))
-                    for namespace, (prefix, sub_pattern) in pattern.namespace_dict.items():
+                    for namespace, (prefix, sub_pattern) in list(pattern.namespace_dict.items()):
                         namespaces[namespace] = (p_pattern + prefix, sub_pattern)
-                    for app_name, namespace_list in pattern.app_dict.items():
+                    for app_name, namespace_list in list(pattern.app_dict.items()):
                         apps.setdefault(app_name, []).extend(namespace_list)
             else:
                 bits = normalize(p_pattern)
@@ -215,7 +216,7 @@ class RegexURLResolver(object):
             for pattern in self.url_patterns:
                 try:
                     sub_match = pattern.resolve(new_path)
-                except Resolver404, e:
+                except Resolver404 as e:
                     sub_tried = e.args[0].get('tried')
                     if sub_tried is not None:
                         tried.extend([(pattern.regex.pattern + '   ' + t) for t in sub_tried])
@@ -223,9 +224,9 @@ class RegexURLResolver(object):
                         tried.append(pattern.regex.pattern)
                 else:
                     if sub_match:
-                        sub_match_dict = dict([(smart_str(k), v) for k, v in match.groupdict().items()])
+                        sub_match_dict = dict([(smart_str(k), v) for k, v in list(match.groupdict().items())])
                         sub_match_dict.update(self.default_kwargs)
-                        for k, v in sub_match[2].iteritems():
+                        for k, v in sub_match[2].items():
                             sub_match_dict[smart_str(k)] = v
                         return sub_match[0], sub_match[1], sub_match_dict
                     tried.append(pattern.regex.pattern)
@@ -253,7 +254,7 @@ class RegexURLResolver(object):
         callback = getattr(self.urlconf_module, 'handler%s' % view_type)
         try:
             return get_callable(callback), {}
-        except (ImportError, AttributeError), e:
+        except (ImportError, AttributeError) as e:
             raise ViewDoesNotExist("Tried %s. Error was: %s" % (callback, str(e)))
 
     def resolve404(self):
@@ -267,7 +268,7 @@ class RegexURLResolver(object):
             raise ValueError("Don't mix *args and **kwargs in call to reverse()!")
         try:
             lookup_view = get_callable(lookup_view, True)
-        except (ImportError, AttributeError), e:
+        except (ImportError, AttributeError) as e:
             raise NoReverseMatch("Error importing '%s': %s." % (lookup_view, e))
         possibilities = self.reverse_dict.getlist(lookup_view)
         for possibility, pattern in possibilities:
@@ -276,13 +277,13 @@ class RegexURLResolver(object):
                     if len(args) != len(params):
                         continue
                     unicode_args = [force_unicode(val) for val in args]
-                    candidate =  result % dict(zip(params, unicode_args))
+                    candidate =  result % dict(list(zip(params, unicode_args)))
                 else:
                     if set(kwargs.keys()) != set(params):
                         continue
-                    unicode_kwargs = dict([(k, force_unicode(v)) for (k, v) in kwargs.items()])
+                    unicode_kwargs = dict([(k, force_unicode(v)) for (k, v) in list(kwargs.items())])
                     candidate = result % unicode_kwargs
-                if re.search(u'^%s' % pattern, candidate, re.UNICODE):
+                if re.search('^%s' % pattern, candidate, re.UNICODE):
                     return candidate
         # lookup_view can be URL label, or dotted path, or callable, Any of
         # these can be passed in at the top, but callables are not friendly in
@@ -311,7 +312,7 @@ def reverse(viewname, urlconf=None, args=None, kwargs=None, prefix=None, current
     if prefix is None:
         prefix = get_script_prefix()
 
-    if not isinstance(viewname, basestring):
+    if not isinstance(viewname, str):
         view = viewname
     else:
         parts = viewname.split(':')
@@ -341,13 +342,13 @@ def reverse(viewname, urlconf=None, args=None, kwargs=None, prefix=None, current
                 extra, resolver = resolver.namespace_dict[ns]
                 resolved_path.append(ns)
                 prefix = prefix + extra
-            except KeyError, key:
+            except KeyError as key:
                 if resolved_path:
                     raise NoReverseMatch("%s is not a registered namespace inside '%s'" % (key, ':'.join(resolved_path)))
                 else:
                     raise NoReverseMatch("%s is not a registered namespace" % key)
 
-    return iri_to_uri(u'%s%s' % (prefix, resolver.reverse(view,
+    return iri_to_uri('%s%s' % (prefix, resolver.reverse(view,
             *args, **kwargs)))
 
 def clear_url_caches():
@@ -370,7 +371,7 @@ def get_script_prefix():
     wishes to construct their own URLs manually (although accessing the request
     instance is normally going to be a lot cleaner).
     """
-    return _prefixes.get(currentThread(), u'/')
+    return _prefixes.get(currentThread(), '/')
 
 def set_urlconf(urlconf_name):
     """

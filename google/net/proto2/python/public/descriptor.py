@@ -833,5 +833,5 @@ def MakeDescriptor(desc_proto, package='', build_file_if_cpp=True):
 
   desc_name = '.'.join(full_message_name)
   return Descriptor(desc_proto.name, desc_name, None, None, fields,
-                    nested_types.values(), enum_types.values(), [],
+                    list(nested_types.values()), list(enum_types.values()), [],
                     options=desc_proto.options)

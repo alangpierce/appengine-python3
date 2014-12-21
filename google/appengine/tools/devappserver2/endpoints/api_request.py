@@ -16,7 +16,7 @@
 #
 """Cloud Endpoints API request-related data and functions."""
 
-from __future__ import with_statement
+
 
 
 
@@ -28,7 +28,7 @@ import cgi
 import copy
 import json
 import logging
-import urllib
+import urllib.request, urllib.parse, urllib.error
 
 from google.appengine.tools.devappserver2 import util
 
@@ -101,8 +101,8 @@ class ApiRequest(object):
     Returns:
       The portion of the URL from the request after the server and port.
     """
-    url = urllib.quote(environ.get('SCRIPT_NAME', ''))
-    url += urllib.quote(environ.get('PATH_INFO', ''))
+    url = urllib.parse.quote(environ.get('SCRIPT_NAME', ''))
+    url += urllib.parse.quote(environ.get('PATH_INFO', ''))
     if environ.get('QUERY_STRING'):
       url += '?' + environ['QUERY_STRING']
     return url

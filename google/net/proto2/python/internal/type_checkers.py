@@ -97,9 +97,9 @@ class IntValueChecker(object):
   """Checker used for integer fields.  Performs type-check and range check."""
 
   def CheckValue(self, proposed_value):
-    if not isinstance(proposed_value, (int, long)):
+    if not isinstance(proposed_value, int):
       message = ('%.1024r has type %s, but expected one of: %s' %
-                 (proposed_value, type(proposed_value), (int, long)))
+                 (proposed_value, type(proposed_value), (int, int)))
       raise TypeError(message)
     if not self._MIN <= proposed_value <= self._MAX:
       raise ValueError('Value out of range: %d' % proposed_value)
@@ -118,9 +118,9 @@ class EnumValueChecker(object):
     self._enum_type = enum_type
 
   def CheckValue(self, proposed_value):
-    if not isinstance(proposed_value, (int, long)):
+    if not isinstance(proposed_value, int):
       message = ('%.1024r has type %s, but expected one of: %s' %
-                 (proposed_value, type(proposed_value), (int, long)))
+                 (proposed_value, type(proposed_value), (int, int)))
       raise TypeError(message)
     if proposed_value not in self._enum_type.values_by_number:
       raise ValueError('Unknown enum value: %d' % proposed_value)
@@ -135,9 +135,9 @@ class UnicodeValueChecker(object):
   """
 
   def CheckValue(self, proposed_value):
-    if not isinstance(proposed_value, (bytes, unicode)):
+    if not isinstance(proposed_value, (bytes, str)):
       message = ('%.1024r has type %s, but expected one of: %s' %
-                 (proposed_value, type(proposed_value), (bytes, unicode)))
+                 (proposed_value, type(proposed_value), (bytes, str)))
       raise TypeError(message)
 
 
@@ -169,13 +169,13 @@ class Uint32ValueChecker(IntValueChecker):
 class Int64ValueChecker(IntValueChecker):
   _MIN = -(1 << 63)
   _MAX = (1 << 63) - 1
-  _TYPE = long
+  _TYPE = int
 
 
 class Uint64ValueChecker(IntValueChecker):
   _MIN = 0
   _MAX = (1 << 64) - 1
-  _TYPE = long
+  _TYPE = int
 
 
 
@@ -185,9 +185,9 @@ _VALUE_CHECKERS = {
     _FieldDescriptor.CPPTYPE_UINT32: Uint32ValueChecker(),
     _FieldDescriptor.CPPTYPE_UINT64: Uint64ValueChecker(),
     _FieldDescriptor.CPPTYPE_DOUBLE: TypeChecker(
-        float, int, long),
+        float, int, int),
     _FieldDescriptor.CPPTYPE_FLOAT: TypeChecker(
-        float, int, long),
+        float, int, int),
     _FieldDescriptor.CPPTYPE_BOOL: TypeChecker(bool, int),
     _FieldDescriptor.CPPTYPE_STRING: TypeChecker(bytes),
     }

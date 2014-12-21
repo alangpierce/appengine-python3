@@ -145,7 +145,7 @@ def URLFreqRespTime(urlstatsdict):
 
   binner = _ExponentialBinner(10, 2)
   maxbins = 0
-  for url, urlstats in urlstatsdict.iteritems():
+  for url, urlstats in urlstatsdict.items():
     urlresptime = sorted(urlstats.GetResponseTimeList())
     urlbin = binner.Bin(urlresptime)
 
@@ -308,7 +308,7 @@ def SortedRPCSummaries(urlstats, summary_percentile):
     summary = _GetPercentile(sorted(rpcsummary[label].times),
                              summary_percentile)
     rpcsummary[label].summary_time = summary
-  rpcsummary_sort = sorted(rpcsummary.iteritems(),
+  rpcsummary_sort = sorted(iter(rpcsummary.items()),
                            key=lambda pair: pair[1].summary_time,
                            reverse=True)
   return rpcsummary_sort
@@ -372,7 +372,7 @@ def SplitByKind(freqdict):
 
 
   kinds = {}
-  for kind_fullname, freq in freqdict.items():
+  for kind_fullname, freq in list(freqdict.items()):
     (kind, fullname) = kind_fullname.split(',')
     if not kind in kinds:
       kinds[kind] = []
@@ -386,7 +386,7 @@ def SplitByKind(freqdict):
 
     kinds[kind].sort(key=lambda ent: ent[1] + ent[2], reverse=True)
 
-  kinds_bycount = sorted(kinds.iteritems(),
+  kinds_bycount = sorted(iter(kinds.items()),
                          key=lambda pair: len(pair[1]), reverse=True)
 
   maxcount = 0

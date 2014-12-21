@@ -53,8 +53,8 @@ class Command(base.NoArgsCommand):
                       flow.step1_get_authorize_url('oob'))
     accepted = 'n'
     while accepted.lower() == 'n':
-      accepted = raw_input('Have you authorized me? (y/n) ')
-    code = raw_input('What is the verification code? ').strip()
+      accepted = input('Have you authorized me? (y/n) ')
+    code = input('What is the verification code? ').strip()
     try:
       credential = flow.step2_exchange(code)
     except client.FlowExchangeError:

@@ -129,7 +129,7 @@ class ZipHandler(webapp.RequestHandler):
     if zipfile_object is None:
       try:
         zipfile_object = zipfile.ZipFile(zipfilename)
-      except (IOError, RuntimeError, zipfile.BadZipfile), err:
+      except (IOError, RuntimeError, zipfile.BadZipfile) as err:
 
 
         logging.error('Can\'t open zipfile %s: %s', zipfilename, err)
@@ -141,7 +141,7 @@ class ZipHandler(webapp.RequestHandler):
       return
     try:
       data = zipfile_object.read(name)
-    except (KeyError, RuntimeError), err:
+    except (KeyError, RuntimeError) as err:
       self.error(404)
       self.response.out.write('Not found')
       return

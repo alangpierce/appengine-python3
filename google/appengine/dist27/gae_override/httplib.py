@@ -4,9 +4,10 @@
 # Contributed by Ian and subsequently modified here at Google.
 """Copyright 2008 Python Software Foundation, Ian Bicking, and Google."""
 
-import cStringIO
+import io
 import inspect
 import mimetools
+import collections
 
 HTTP_PORT = 80
 HTTPS_PORT = 443
@@ -261,7 +262,7 @@ class HTTPResponse:
                method=None,
                buffering=False):
     self._fetch_response = fetch_response
-    self.fp = cStringIO.StringIO(fetch_response.content)  # For the HTTP class.
+    self.fp = io.StringIO(fetch_response.content)  # For the HTTP class.
 
     self.debuglevel = debuglevel
     self.strict = strict
@@ -330,7 +331,7 @@ class HTTPResponse:
     """Return list of (header, value) tuples."""
     if self.msg is None:
       raise ResponseNotReady()
-    return self.msg.items()
+    return list(self.msg.items())
 
 class HTTPConnection:
   # App Engine Note: The public interface is identical to the interface provided
@@ -373,7 +374,7 @@ class HTTPConnection:
     # The default is set to socket.GLOBAL_DEFAULT_TIMEOUT which is an object.
     # We only accept float, int or long values, otherwise it can be
     # silently ignored.
-    if not isinstance(timeout, (float, int, long)):
+    if not isinstance(timeout, (float, int)):
       timeout = None
     self.timeout = timeout
     # Both 'strict' and 'source_address' are ignored.
@@ -456,12 +457,12 @@ class HTTPConnection:
     if headers is None:
       headers = []
     elif hasattr(headers, 'items'):
-      headers = headers.items()
+      headers = list(headers.items())
     self.headers = headers
 
   @staticmethod
   def _getargspec(callable_object):
-    assert callable(callable_object)
+    assert isinstance(callable_object, collections.Callable)
     try:
       # Methods and lambdas.
       return inspect.getargspec(callable_object)
@@ -518,17 +519,17 @@ class HTTPConnection:
                                    self._follow_redirects,
                                    deadline,
                                    **extra_kwargs)
-    except urlfetch.InvalidURLError, e:
+    except urlfetch.InvalidURLError as e:
       raise InvalidURL(str(e))
-    except (urlfetch.ResponseTooLargeError, urlfetch.DeadlineExceededError), e:
+    except (urlfetch.ResponseTooLargeError, urlfetch.DeadlineExceededError) as e:
       raise HTTPException(str(e))
-    except urlfetch.SSLCertificateError, e:
+    except urlfetch.SSLCertificateError as e:
       # Should be ssl.SSLError but the ssl module isn't available.
       # Continue to support this exception for versions of _fetch that do not
       # support validate_certificates. Also, in production App Engine defers
       # specific semantics so leaving this in just in case.
       raise HTTPException(str(e))
-    except urlfetch.DownloadError, e:
+    except urlfetch.DownloadError as e:
       # One of the following occured: UNSPECIFIED_ERROR, FETCH_ERROR
       raise socket.error(
           'An error occured while connecting to the server: %s' % e)

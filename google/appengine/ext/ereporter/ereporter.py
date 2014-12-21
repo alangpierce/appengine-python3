@@ -84,7 +84,7 @@ import logging
 import os
 import sha
 import traceback
-import urllib
+import urllib.request, urllib.parse, urllib.error
 
 from google.appengine.api import memcache
 from google.appengine.api import namespace_manager
@@ -195,8 +195,8 @@ class ExceptionRecordingHandler(logging.Handler):
     else:
       scheme = 'https://'
     host = os.environ['SERVER_NAME']
-    script_name = urllib.quote(os.environ['SCRIPT_NAME'])
-    path_info = urllib.quote(os.environ['PATH_INFO'])
+    script_name = urllib.parse.quote(os.environ['SCRIPT_NAME'])
+    path_info = urllib.parse.quote(os.environ['PATH_INFO'])
     qs = os.environ.get('QUERY_STRING', '')
     if qs:
       qs = '?' + qs

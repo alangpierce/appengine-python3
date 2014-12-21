@@ -18,7 +18,7 @@
 
 
 
-import __builtin__
+import builtins
 import imp
 import os
 import re
@@ -171,8 +171,8 @@ def enable_sandbox(config):
                                    path_override_hook.extra_accessible_paths)
   stubs.FakeFile.set_skip_files(config.skip_files)
   stubs.FakeFile.set_static_files(config.static_files)
-  __builtin__.file = stubs.FakeFile
-  __builtin__.open = stubs.FakeFile
+  builtins.file = stubs.FakeFile
+  builtins.open = stubs.FakeFile
   types.FileType = stubs.FakeFile
   if _open_hooks:
     for install_open_hook in _open_hooks:
@@ -182,7 +182,7 @@ def enable_sandbox(config):
     # alternate open techniques, not to circumvent the sandbox). It does mean
     # that open requests that make it to FakeFile have their path checked
     # twice but that doesn't break anything.
-    __builtin__.open = stubs.RestrictedPathFunction(__builtin__.open, IOError)
+    builtins.open = stubs.RestrictedPathFunction(builtins.open, IOError)
   sys.platform = 'linux3'
   enabled_library_regexes = [
       NAME_TO_CMODULE_WHITELIST_REGEX[lib.name] for lib in config.libraries
@@ -664,7 +664,7 @@ class ModuleOverridePolicy(object):
                whitelist=None,
                overrides=None,
                deletes=None,
-               constant_types=(str, int, long, BaseException),
+               constant_types=(str, int, int, BaseException),
                default_pass_through=False):
     self.default_stub = default_stub
     self.whitelist = whitelist or []
@@ -687,7 +687,7 @@ class ModuleOverridePolicy(object):
     Args:
       module_dict: The module dict to be filtered.
     """
-    for symbol in module_dict.keys():
+    for symbol in list(module_dict.keys()):
       if symbol in self.overrides:
         module_dict[symbol] = self.overrides[symbol]
       elif symbol in self.deletes:

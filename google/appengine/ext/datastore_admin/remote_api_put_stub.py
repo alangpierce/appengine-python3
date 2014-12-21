@@ -139,7 +139,7 @@ class RemoteApiDatastoreStub(object):
                                          urlfetch.POST, self.extra_headers,
                                          follow_redirects=False,
                                          deadline=10)
-    except Exception, e:
+    except Exception as e:
 
 
       logging.exception('Fetch failed to %s', self.remote_url)
@@ -260,7 +260,7 @@ def get_remote_app_id(remote_url, extra_headers=None):
     urlfetch_response = urlfetch.fetch(url, None, urlfetch.GET,
                                        extra_headers, follow_redirects=False,
                                        deadline=10)
-  except Exception, e:
+  except Exception as e:
 
 
     logging.exception('Fetch failed to %s', remote_url)

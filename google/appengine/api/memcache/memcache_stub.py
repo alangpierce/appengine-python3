@@ -61,9 +61,9 @@ class CacheEntry(object):
       cas_id: Unique Compare-And-Set ID.
       gettime: Used for testing. Function that works like time.time().
     """
-    assert isinstance(value, basestring)
+    assert isinstance(value, str)
     assert len(value) <= memcache.MAX_VALUE_SIZE
-    assert isinstance(expiration, (int, long))
+    assert isinstance(expiration, int)
 
     self._gettime = gettime
     self.value = value
@@ -303,7 +303,7 @@ class MemcacheServiceStub(apiproxy_stub.APIProxyStub):
       assert entry is not None
 
     try:
-      old_value = long(entry.value)
+      old_value = int(entry.value)
       if old_value < 0:
 
 
@@ -382,9 +382,9 @@ class MemcacheServiceStub(apiproxy_stub.APIProxyStub):
     stats.set_byte_hits(self._byte_hits)
     items = 0
     total_bytes = 0
-    for namespace in self._the_cache.itervalues():
+    for namespace in self._the_cache.values():
       items += len(namespace)
-      for entry in namespace.itervalues():
+      for entry in namespace.values():
         total_bytes += len(entry.value)
     stats.set_items(items)
     stats.set_bytes(total_bytes)

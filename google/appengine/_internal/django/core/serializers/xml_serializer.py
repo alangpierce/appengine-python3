@@ -157,7 +157,7 @@ class Deserializer(base.Deserializer):
         self.event_stream = pulldom.parse(self.stream)
         self.db = options.pop('using', DEFAULT_DB_ALIAS)
 
-    def next(self):
+    def __next__(self):
         for event, node in self.event_stream:
             if event == "START_ELEMENT" and node.nodeName == "object":
                 self.event_stream.expandNode(node)
@@ -292,4 +292,4 @@ def getInnerText(node):
             inner_text.extend(getInnerText(child))
         else:
            pass
-    return u"".join(inner_text)
+    return "".join(inner_text)

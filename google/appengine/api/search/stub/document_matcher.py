@@ -63,7 +63,7 @@ class DistanceMatcher(object):
     if op == QueryParser.LESSTHAN or op == QueryParser.LE:
       return distance <= self._distance
     else:
-      raise AssertionError, 'unexpected op %s' % str(op)
+      raise AssertionError('unexpected op %s' % str(op))
 
   def IsMatch(self, field_values, op):
     self._CheckOp(op)
@@ -138,8 +138,8 @@ class DocumentMatcher(object):
 
 
 
-      match_words = zip(ExtractWords(field_text[position:]),
-                        ExtractWords(phrase))
+      match_words = list(zip(ExtractWords(field_text[position:]),
+                        ExtractWords(phrase)))
       if len(match_words) != len(phrase):
         continue
 
@@ -367,9 +367,9 @@ class DocumentMatcher(object):
     if name.getText() == 'distance':
       x, y = args.children
       x, y = self._ResolveDistanceArg(x), self._ResolveDistanceArg(y)
-      if isinstance(x, geo_util.LatLng) and isinstance(y, basestring):
+      if isinstance(x, geo_util.LatLng) and isinstance(y, str):
         x, y = y, x
-      if isinstance(x, basestring) and isinstance(y, geo_util.LatLng):
+      if isinstance(x, str) and isinstance(y, geo_util.LatLng):
         distance = float(query_parser.GetQueryNodeText(match))
         matcher = DistanceMatcher(y, distance)
         return self._MatchGeoField(x, matcher, operator, document)

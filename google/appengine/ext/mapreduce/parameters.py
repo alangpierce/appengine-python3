@@ -64,7 +64,7 @@ class _JobConfigMeta(type):
     """
     options = {}
     required = set()
-    for name, option in class_dict.iteritems():
+    for name, option in class_dict.items():
       if isinstance(option, _Option):
         options[name] = option
         if option.required:
@@ -86,7 +86,7 @@ class _JobConfigMeta(type):
           parent_options.update(c.__dict__[mcs._OPTIONS])
         if mcs._REQUIRED in c.__dict__:
           required.update(c.__dict__[mcs._REQUIRED])
-      for k, v in parent_options.iteritems():
+      for k, v in parent_options.items():
         if k not in options:
           options[k] = v
     return cls
@@ -116,10 +116,8 @@ class _Option(object):
     self.can_be_none = can_be_none
 
 
-class _Config(object):
+class _Config(object, metaclass=_JobConfigMeta):
   """Root class for all per job configuration."""
-
-  __metaclass__ = _JobConfigMeta
 
   def __init__(self, _lenient=False, **kwds):
     """Init.
@@ -143,7 +141,7 @@ class _Config(object):
         raise ValueError("Options %s are required." % tuple(missing))
 
   def _set_values(self, kwds, _lenient):
-    for k, option in self._options.iteritems():
+    for k, option in self._options.items():
       v = kwds.get(k)
       if v is None and option.default_factory:
         v = option.default_factory()

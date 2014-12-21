@@ -25,8 +25,8 @@ Use this classes to test functionality depending on webapp framework.
 
 
 
-import StringIO
-import urlparse
+import io
+import urllib.parse
 
 
 class MockHeaders(dict):
@@ -79,13 +79,13 @@ class MockRequest(object):
 
     Parses the URL and sets path, scheme, host and parameters correctly.
     """
-    o = urlparse.urlparse(url)
+    o = urllib.parse.urlparse(url)
     self.scheme = o.scheme or self.scheme
     self.host = o.netloc or self.host
     self.path = o.path
     self.update_properties()
 
-    for (name, value) in urlparse.parse_qs(o.query).items():
+    for (name, value) in list(urllib.parse.parse_qs(o.query).items()):
       assert len(value) == 1
       self.set(name, value[0])
 
@@ -167,7 +167,7 @@ class MockRequest(object):
       value: The string value of the query parameter. Pass None to remove
         query parameter.
     """
-    self.params_list = filter(lambda p: p[0] != argument_name, self.params_list)
+    self.params_list = [p for p in self.params_list if p[0] != argument_name]
 
     if value is not None:
       self.params[argument_name] = value
@@ -183,7 +183,7 @@ class MockRequest(object):
   def relative_url(self, other_url, to_application=False):
     """Return an absolute (!) URL by combining self.path with other_url."""
     url = '%s://%s/' % (self.scheme, self.host)
-    return urlparse.urljoin(url, other_url)
+    return urllib.parse.urljoin(url, other_url)
 
   def update_properties(self):
     """Update url, path_qs property to be in sync with path and params."""
@@ -215,7 +215,7 @@ class MockResponse(object):
   """
 
   def __init__(self):
-    self.out = StringIO.StringIO()
+    self.out = io.StringIO()
     self.headers = MockHeaders()
     self.status = 200
     self.status_message = 'OK'

@@ -99,7 +99,7 @@ class Command(BaseCommand):
                 compression_formats = [parts[-1]]
                 parts = parts[:-1]
             else:
-                compression_formats = compression_types.keys()
+                compression_formats = list(compression_types.keys())
 
             if len(parts) == 1:
                 fixture_name = parts[0]
@@ -186,8 +186,8 @@ class Command(BaseCommand):
                                 else:
                                     self.stderr.write(
                                         self.style.ERROR("Problem installing fixture '%s': %s\n" %
-                                             (full_path, ''.join(traceback.format_exception(sys.exc_type,
-                                                 sys.exc_value, sys.exc_traceback)))))
+                                             (full_path, ''.join(traceback.format_exception(sys.exc_info()[0],
+                                                 sys.exc_info()[1], sys.exc_info()[2])))))
                                 return
                             fixture.close()
 
@@ -202,7 +202,7 @@ class Command(BaseCommand):
                                     transaction.leave_transaction_management(using=using)
                                 return
 
-                    except Exception, e:
+                    except Exception as e:
                         if verbosity > 1:
                             self.stdout.write("No %s fixture '%s' in %s.\n" % (format, fixture_name, humanize(fixture_dir)))
 

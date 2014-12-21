@@ -20,7 +20,7 @@ import collections
 import logging
 import socket
 import threading
-import urlparse
+import urllib.parse
 import wsgiref.headers
 
 from google.appengine.api import appinfo
@@ -220,7 +220,7 @@ class Dispatcher(request_info.Dispatcher):
     self._quit_event.set()
     if self._dispatch_server:
       self._dispatch_server.quit()
-    for _module in self._module_name_to_module.values():
+    for _module in list(self._module_name_to_module.values()):
       _module.quit()
 
   def _create_module(self, module_configuration, port):
@@ -265,7 +265,7 @@ class Dispatcher(request_info.Dispatcher):
 
   @property
   def modules(self):
-    return self._module_name_to_module.values()
+    return list(self._module_name_to_module.values())
 
   def get_hostname(self, module_name, version, instance_id=None):
     """Returns the hostname for a (module, version, instance_id) tuple.
@@ -437,7 +437,7 @@ class Dispatcher(request_info.Dispatcher):
         # If there is no default module, but there are other modules, take any.
         # This is somewhat of a hack, and can be removed if we ever enforce the
         # existence of a default module.
-        module_name = self._module_name_to_module.keys()[0]
+        module_name = list(self._module_name_to_module.keys())[0]
       else:
         raise request_info.ModuleDoesNotExistError(module_name)
     if (version is not None and
@@ -569,7 +569,7 @@ class Dispatcher(request_info.Dispatcher):
     if module_name:
       _module = self._get_module_with_soft_routing(module_name, version)
     else:
-      _module = self._module_for_request(urlparse.urlsplit(relative_url).path)
+      _module = self._module_for_request(urllib.parse.urlsplit(relative_url).path)
     inst = _module.get_instance(instance_id) if instance_id else None
     port = _module.get_instance_port(instance_id) if instance_id else (
         _module.balanced_port)
@@ -617,7 +617,7 @@ class Dispatcher(request_info.Dispatcher):
     else:
       headers_dict = wsgiref.headers.Headers(headers)
       _module, inst = self._resolve_target(
-          headers_dict['Host'], urlparse.urlsplit(relative_url).path)
+          headers_dict['Host'], urllib.parse.urlsplit(relative_url).path)
     if inst:
       try:
         port = _module.get_instance_port(inst.instance_id)

@@ -19,7 +19,7 @@
 
 
 import datetime
-import urllib
+import urllib.request, urllib.parse, urllib.error
 
 from google.appengine.api import apiproxy_stub_map
 from google.appengine.api.taskqueue import taskqueue_service_pb
@@ -89,8 +89,8 @@ class TaskQueueTasksHandler(admin_request_handler.AdminRequestHandler):
     return response.result()
 
   def get(self, queue_name):
-    queue_info = taskqueue_utils.QueueInfo.get(
-        queue_names=frozenset([queue_name])).next()
+    queue_info = next(taskqueue_utils.QueueInfo.get(
+        queue_names=frozenset([queue_name])))
     tasks = list(self._get_tasks(queue_name, count=_TASKS_TO_LOAD))
 
     self.response.write(
@@ -122,5 +122,5 @@ class TaskQueueTasksHandler(admin_request_handler.AdminRequestHandler):
       message = ''
     self.redirect(
         '%s?%s' % (self.request.path_url,
-                   urllib.urlencode({'page': self.request.get('page'),
+                   urllib.parse.urlencode({'page': self.request.get('page'),
                                      'message': message})))

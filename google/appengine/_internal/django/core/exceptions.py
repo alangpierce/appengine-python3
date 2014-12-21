@@ -1,6 +1,7 @@
 """
 Global Django exception and warning classes.
 """
+from functools import reduce
 
 class DjangoRuntimeWarning(RuntimeWarning):
    pass
@@ -50,7 +51,7 @@ class ValidationError(Exception):
         if isinstance(message, dict):
             self.message_dict = message
             # Reduce each list of messages into a single list.
-            message = reduce(operator.add, message.values())
+            message = reduce(operator.add, list(message.values()))
 
         if isinstance(message, list):
             self.messages = [force_unicode(msg) for msg in message]
@@ -77,7 +78,7 @@ class ValidationError(Exception):
     def update_error_dict(self, error_dict):
         if hasattr(self, 'message_dict'):
             if error_dict:
-                for k, v in self.message_dict.items():
+                for k, v in list(self.message_dict.items()):
                     error_dict.setdefault(k, []).extend(v)
             else:
                 error_dict = self.message_dict

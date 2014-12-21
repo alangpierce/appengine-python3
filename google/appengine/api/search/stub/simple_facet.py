@@ -123,9 +123,9 @@ class SimpleFacet(object):
 
 
 
-    for facet in manual_facets.values():
+    for facet in list(manual_facets.values()):
       self._FillResponseForSingleFacet(facet, response.add_facet_result())
-    for facet in  _GetTopN(discovered_facets.values(),
+    for facet in  _GetTopN(list(discovered_facets.values()),
                            self._params.auto_discover_facet_count()):
       self._FillResponseForSingleFacet(facet, response.add_facet_result())
 
@@ -184,7 +184,7 @@ class SimpleFacet(object):
 
 
     return all([self._MatchFacetRefinementSameName(doc, ref_same_names)
-                for ref_same_names in ref_groups.values()])
+                for ref_same_names in list(ref_groups.values())])
 
   def _MatchFacetRefinementSameName(self, doc, ref_same_names):
 
@@ -333,7 +333,7 @@ class _Facet(object):
     self._count += count
 
   def GetTopValues(self, n):
-    return _GetTopN(self._values.values(), n)
+    return _GetTopN(list(self._values.values()), n)
 
   def __repr__(self):
     return '_Facet(name=%s, count=%d, values=%s)' % (

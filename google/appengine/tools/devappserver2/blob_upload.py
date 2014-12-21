@@ -24,7 +24,7 @@ contents into the blob store.
 
 import base64
 import cgi
-import cStringIO
+import io
 import datetime
 import email.generator
 import email.message
@@ -36,7 +36,7 @@ import random
 import re
 import sys
 import time
-import urlparse
+import urllib.parse
 
 import google
 import webob.exc
@@ -284,13 +284,13 @@ class Application(object):
       _InvalidMetadataError: when metadata are not utf-8 encoded.
     """
     if base64_encoding:
-      blob_file = cStringIO.StringIO(base64.urlsafe_b64decode(blob_file.read()))
+      blob_file = io.StringIO(base64.urlsafe_b64decode(blob_file.read()))
 
     # If content_type or filename are bytes, assume UTF-8 encoding.
     try:
-      if not isinstance(content_type, unicode):
+      if not isinstance(content_type, str):
         content_type = content_type.decode('utf-8')
-      if filename and not isinstance(filename, unicode):
+      if filename and not isinstance(filename, str):
         filename = filename.decode('utf-8')
     except UnicodeDecodeError:
       raise _InvalidMetadataError(
@@ -371,7 +371,7 @@ class Application(object):
 
         try:
           main_type, sub_type = _split_mime_type(form_item.type)
-        except _InvalidMIMETypeFormatError, ex:
+        except _InvalidMIMETypeFormatError as ex:
           mime_type_error = str(ex)
           break
 
@@ -431,7 +431,7 @@ class Application(object):
           gs_filename = '%s/fake-%s' % (bucket_name, random_key)
           headers[blobstore.CLOUD_STORAGE_OBJECT_HEADER] = (
               blobstore.GS_PREFIX + gs_filename)
-        for key, value in headers.iteritems():
+        for key, value in headers.items():
           external.add_header(key, value)
         # Add disposition parameters (a clone of the outer message's field).
         if not external.get('Content-Disposition'):
@@ -490,7 +490,7 @@ class Application(object):
             invalid_field, _MAX_STRING_NAME_LENGTH)
         self.abort(400, detail=detail)
 
-    message_out = cStringIO.StringIO()
+    message_out = io.StringIO()
     gen = email.generator.Generator(message_out, maxheaderlen=0)
     gen.flatten(message, unixfrom=False)
 
@@ -571,7 +571,7 @@ class Application(object):
 
     # Forward on to success_path. Like production, only the path and query
     # matter.
-    parsed_url = urlparse.urlsplit(success_path)
+    parsed_url = urllib.parse.urlsplit(success_path)
     environ['PATH_INFO'] = parsed_url.path
     if parsed_url.query:
       environ['QUERY_STRING'] = parsed_url.query
@@ -580,7 +580,7 @@ class Application(object):
     environ[constants.FAKE_IS_ADMIN_HEADER] = '1'
 
     # Set the wsgi variables
-    environ['wsgi.input'] = cStringIO.StringIO(content_text)
+    environ['wsgi.input'] = io.StringIO(content_text)
 
   def __call__(self, environ, start_response):
     """Handles WSGI requests.
@@ -596,7 +596,7 @@ class Application(object):
     # the user's application.
     try:
       self.store_blob_and_transform_request(environ)
-    except webob.exc.HTTPException, e:
+    except webob.exc.HTTPException as e:
 
       def start_response_with_exc_info(status, headers,
                                        exc_info=sys.exc_info()):

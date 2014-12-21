@@ -85,4 +85,4 @@ def get_request_state(request_id):
 def get_request_states():
   """Returns a list of RequestState instances for all current requests."""
   with _request_states_lock:
-    return _request_states.values()
+    return list(_request_states.values())

@@ -82,7 +82,7 @@ from . import utils
 
 __all__ = ['Key']
 
-_MAX_LONG = 2L ** 63  # Use 2L, see issue 65.  http://goo.gl/ELczz
+_MAX_LONG = 2 ** 63  # Use 2L, see issue 65.  http://goo.gl/ELczz
 _MAX_KEYPART_BYTES = 500
 
 
@@ -231,25 +231,25 @@ class Key(object):
       if len(flat) % 2:
         raise ValueError('Key() must have an even number of positional '
                          'arguments.')
-      pairs = [(flat[i], flat[i + 1]) for i in xrange(0, len(flat), 2)]
+      pairs = [(flat[i], flat[i + 1]) for i in range(0, len(flat), 2)]
     else:
       pairs = list(pairs)
     if not pairs:
       raise TypeError('Key must consist of at least one pair.')
     for i, (kind, id) in enumerate(pairs):
-      if isinstance(id, unicode):
+      if isinstance(id, str):
         id = id.encode('utf8')
       elif id is None:
         if i + 1 < len(pairs):
           raise datastore_errors.BadArgumentError(
             'Incomplete Key entry must be last')
       else:
-        if not isinstance(id, (int, long, str)):
+        if not isinstance(id, (int, str)):
           raise TypeError('Key id must be a string or a number; received %r' %
                           id)
       if isinstance(kind, type):
         kind = kind._get_kind()
-      if isinstance(kind, unicode):
+      if isinstance(kind, str):
         kind = kind.encode('utf8')
       if not isinstance(kind, str):
           raise TypeError('Key kind must be a string or Model class; '
@@ -296,7 +296,7 @@ class Key(object):
     for item in self.flat():
       if not item:
         args.append('None')
-      elif isinstance(item, basestring):
+      elif isinstance(item, str):
         if not isinstance(item, str):
           raise TypeError('Key item is not an 8-bit string %r' % item)
         args.append(repr(item))
@@ -436,7 +436,7 @@ class Key(object):
     """
     if self.__reference is None:
       id = self.id()
-      if not isinstance(id, basestring):
+      if not isinstance(id, str):
         id = None
       return id
     elem = self.__reference.path().element(-1)
@@ -450,7 +450,7 @@ class Key(object):
     """
     if self.__reference is None:
       id = self.id()
-      if not isinstance(id, (int, long)):
+      if not isinstance(id, int):
         id = None
       return id
     elem = self.__reference.path().element(-1)
@@ -606,7 +606,7 @@ def _ConstructReference(cls, pairs=None, flat=None,
       if len(flat) % 2:
         raise TypeError('_ConstructReference() must have an even number of '
                         'positional arguments.')
-      pairs = [(flat[i], flat[i + 1]) for i in xrange(0, len(flat), 2)]
+      pairs = [(flat[i], flat[i + 1]) for i in range(0, len(flat), 2)]
     elif parent is not None:
       pairs = list(pairs)
     if not pairs:
@@ -680,7 +680,7 @@ def _ReferenceFromPairs(pairs, reference=None, app=None, namespace=None):
     t = type(kind)
     if t is str:
       pass
-    elif t is unicode:
+    elif t is str:
       kind = kind.encode('utf8')
     else:
       if issubclass(t, type):
@@ -694,11 +694,11 @@ def _ReferenceFromPairs(pairs, reference=None, app=None, namespace=None):
         t = type(kind)
       if t is str:
         pass
-      elif t is unicode:
+      elif t is str:
         kind = kind.encode('utf8')
       elif issubclass(t, str):
         pass
-      elif issubclass(t, unicode):
+      elif issubclass(t, str):
         kind = kind.encode('utf8')
       else:
         raise TypeError('Key kind must be either a string or subclass of Model;'
@@ -710,7 +710,7 @@ def _ReferenceFromPairs(pairs, reference=None, app=None, namespace=None):
     elem = path.add_element()
     elem.set_type(kind)
     t = type(idorname)
-    if t is int or t is long:
+    if t is int or t is int:
       if not (1 <= idorname < _MAX_LONG):
         raise ValueError('Key id number is too long; received %i' % idorname)
       elem.set_id(idorname)
@@ -720,7 +720,7 @@ def _ReferenceFromPairs(pairs, reference=None, app=None, namespace=None):
                          'bytes; received %s' %
                          (_MAX_KEYPART_BYTES, idorname))
       elem.set_name(idorname)
-    elif t is unicode:
+    elif t is str:
       idorname = idorname.encode('utf8')
       if not (1 <= len(idorname) <= _MAX_KEYPART_BYTES):
         raise ValueError('Key name unicode strings must be non-empty strings up'
@@ -729,12 +729,12 @@ def _ReferenceFromPairs(pairs, reference=None, app=None, namespace=None):
       elem.set_name(idorname)
     elif idorname is None:
       last = True
-    elif issubclass(t, (int, long)):
+    elif issubclass(t, (int, int)):
       if not (1 <= idorname < _MAX_LONG):
         raise ValueError('Key id number is too long; received %i' % idorname)
       elem.set_id(idorname)
-    elif issubclass(t, basestring):
-      if issubclass(t, unicode):
+    elif issubclass(t, str):
+      if issubclass(t, str):
         idorname = idorname.encode('utf8')
       if not (1 <= len(idorname) <= _MAX_KEYPART_BYTES):
         raise ValueError('Key name strings must be non-empty strings up to %i '
@@ -766,9 +766,9 @@ def _ReferenceFromReference(reference):
 
 def _ReferenceFromSerialized(serialized):
   """Construct a Reference from a serialized Reference."""
-  if not isinstance(serialized, basestring):
+  if not isinstance(serialized, str):
     raise TypeError('serialized must be a string; received %r' % serialized)
-  elif isinstance(serialized, unicode):
+  elif isinstance(serialized, str):
     serialized = serialized.encode('utf8')
   return entity_pb.Reference(serialized)
 
@@ -778,9 +778,9 @@ def _DecodeUrlSafe(urlsafe):
 
   This returns the decoded string.
   """
-  if not isinstance(urlsafe, basestring):
+  if not isinstance(urlsafe, str):
     raise TypeError('urlsafe must be a string; received %r' % urlsafe)
-  if isinstance(urlsafe, unicode):
+  if isinstance(urlsafe, str):
     urlsafe = urlsafe.encode('utf8')
   mod = len(urlsafe) % 4
   if mod:

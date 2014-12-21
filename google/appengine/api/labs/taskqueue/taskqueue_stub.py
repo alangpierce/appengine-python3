@@ -38,7 +38,7 @@ application's queues and tasks.
 
 
 
-import StringIO
+import io
 import base64
 import bisect
 import datetime
@@ -262,7 +262,7 @@ class _DummyTaskStore(object):
                           ('foo', 'bar'),
                           ('content-type', 'text/plain'),
                           ('from', 'user@email.com')]
-        for _ in xrange(random.randint(1, 4)):
+        for _ in range(random.randint(1, 4)):
           elem = random.randint(0, len(random_headers)-1)
           key, value = random_headers.pop(elem)
           header_proto = task.add_header()
@@ -521,7 +521,7 @@ class TaskQueueServiceStub(apiproxy_stub.APIProxyStub):
     try:
       apiproxy_stub_map.MakeSyncCall(
           'datastore_v3', 'AddActions', request, api_base_pb.VoidProto())
-    except apiproxy_errors.ApplicationError, e:
+    except apiproxy_errors.ApplicationError as e:
       raise apiproxy_errors.ApplicationError(
           e.application_error +
           taskqueue_service_pb.TaskQueueServiceError.DATASTORE_ERROR,
@@ -544,7 +544,7 @@ class TaskQueueServiceStub(apiproxy_stub.APIProxyStub):
                                         response.taskresult_list()):
       try:
         store.Add(add_request)
-      except apiproxy_errors.ApplicationError, e:
+      except apiproxy_errors.ApplicationError as e:
         task_result.set_result(e.application_error)
       else:
         task_result.set_result(taskqueue_service_pb.TaskQueueServiceError.OK)
@@ -634,8 +634,8 @@ class TaskQueueServiceStub(apiproxy_stub.APIProxyStub):
 
     class FakeConnection(object):
       def __init__(self, input_buffer):
-        self.rfile = StringIO.StringIO(input_buffer)
-        self.wfile = StringIO.StringIO()
+        self.rfile = io.StringIO(input_buffer)
+        self.wfile = io.StringIO()
         self.wfile_close = self.wfile.close
         self.wfile.close = self.connection_done
 
@@ -673,7 +673,7 @@ class TaskQueueServiceStub(apiproxy_stub.APIProxyStub):
         else:
           return self.rfile
 
-    payload = StringIO.StringIO()
+    payload = io.StringIO()
     payload.write('%s %s HTTP/1.1\r\n' % (task['method'], task['url']))
     for key, value in task['headers']:
       payload.write('%s: %s\r\n' % (key, value))
@@ -1081,7 +1081,7 @@ class TaskQueueServiceStub(apiproxy_stub.APIProxyStub):
     queues = self._app_queues.get(request.app_id(), {})
 
 
-    for queue in queues.iterkeys():
+    for queue in queues.keys():
       store = self.GetDummyTaskStore(request.app_id(), queue)
       for task in store.Lookup(store.Count()):
         store.Delete(task.task_name())

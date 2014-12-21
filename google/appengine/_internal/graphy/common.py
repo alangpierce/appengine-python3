@@ -109,7 +109,7 @@ class DataSeries(object):
       # Attempt to fix it for them.  If they also passed a style, honor it.
       if style is None:
         style = _BasicStyle(color)
-    if style is not None and isinstance(style, basestring):
+    if style is not None and isinstance(style, str):
       warnings.warn('Your code is broken! Style is a string, not an object. '
                     'Maybe you are passing a color?  Passing color is '
                     'deprecated; pass a style object instead.',
@@ -289,7 +289,7 @@ class BaseChart(object):
       orig_values[name] = getattr(self, name)
       setattr(self, name, None)
     clone = copy.deepcopy(self)
-    for name, orig_value in orig_values.iteritems():
+    for name, orig_value in orig_values.items():
       setattr(self, name, orig_value)
     return clone
 

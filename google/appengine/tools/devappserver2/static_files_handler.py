@@ -20,7 +20,7 @@
 
 import base64
 import errno
-import httplib
+import http.client
 import mimetypes
 import os
 import os.path
@@ -180,7 +180,7 @@ class StaticContentHandler(url_handler.UserConfiguredURLHandler):
       if user_headers.Get('Cache-Control') is None:
         headers.append(('Cache-Control', 'no-cache'))
 
-      for name, value in user_headers.iteritems():
+      for name, value in user_headers.items():
         # "name" will always be unicode due to the way that ValidatedDict works.
         headers.append((str(name), value))
 
@@ -265,8 +265,8 @@ class StaticContentHandler(url_handler.UserConfiguredURLHandler):
 
   @staticmethod
   def _not_found_404(environ, start_response):
-    status = httplib.NOT_FOUND
-    start_response('%d %s' % (status, httplib.responses[status]),
+    status = http.client.NOT_FOUND
+    start_response('%d %s' % (status, http.client.responses[status]),
                    [('Content-Type', 'text/plain')])
     return ['%s not found' % environ['PATH_INFO']]
 
@@ -292,7 +292,7 @@ class StaticFilesHandler(StaticContentHandler):
     """
     try:
       url_pattern = re.compile('%s$' % url_map.url)
-    except re.error, e:
+    except re.error as e:
       raise errors.InvalidAppConfigError(
           'invalid url %r in static_files handler: %s' % (url_map.url, e))
 
@@ -345,7 +345,7 @@ class StaticDirHandler(StaticContentHandler):
 
     try:
       url_pattern = re.compile('%s(?P<file>.*)$' % url)
-    except re.error, e:
+    except re.error as e:
       raise errors.InvalidAppConfigError(
           'invalid url %r in static_dir handler: %s' % (url, e))
 

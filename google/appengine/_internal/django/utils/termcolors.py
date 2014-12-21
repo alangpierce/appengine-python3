@@ -41,7 +41,7 @@ def colorize(text='', opts=(), **kwargs):
     code_list = []
     if text == '' and len(opts) == 1 and opts[0] == 'reset':
         return '\x1b[%sm' % RESET
-    for k, v in kwargs.iteritems():
+    for k, v in kwargs.items():
         if k == 'fg':
             code_list.append(foreground[v])
         elif k == 'bg':
@@ -182,7 +182,7 @@ def parse_color_setting(config_string):
                 definition['bg'] = colors[-1]
 
             # All remaining instructions are options
-            opts = tuple(s for s in styles if s in opt_dict.keys())
+            opts = tuple(s for s in styles if s in list(opt_dict.keys()))
             if opts:
                 definition['opts'] = opts
 

@@ -22,7 +22,7 @@
 
 
 
-import httplib
+import http.client
 import json
 import logging
 
@@ -48,7 +48,7 @@ class DiscoveryApiProxy(object):
     """
     full_path = self._DISCOVERY_API_PATH_PREFIX + path
     headers = {'Content-type': 'application/json'}
-    connection = httplib.HTTPSConnection(self._DISCOVERY_PROXY_HOST)
+    connection = http.client.HTTPSConnection(self._DISCOVERY_PROXY_HOST)
     try:
       connection.request('POST', full_path, body, headers)
       response = connection.getresponse()
@@ -108,7 +108,7 @@ class DiscoveryApiProxy(object):
           proxy host.
         response_body: A string containing the response body.
     """
-    connection = httplib.HTTPSConnection(self._STATIC_PROXY_HOST)
+    connection = http.client.HTTPSConnection(self._STATIC_PROXY_HOST)
     try:
       connection.request('GET', path, None, {})
       response = connection.getresponse()

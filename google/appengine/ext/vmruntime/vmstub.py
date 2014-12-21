@@ -21,7 +21,7 @@
 
 """An APIProxy stub that communicates with VMEngine service bridges."""
 
-from __future__ import with_statement
+
 
 
 
@@ -31,7 +31,7 @@ import multiprocessing.dummy
 import os
 import sys
 import threading
-import urlparse
+import urllib.parse
 
 from google.appengine.api import apiproxy_rpc
 from google.appengine.api import apiproxy_stub_map
@@ -208,7 +208,7 @@ class VMEngineRPC(apiproxy_rpc.RPC):
     api_host = os.environ.get('API_HOST', SERVICE_BRIDGE_HOST)
     api_port = os.environ.get('API_PORT', API_PORT)
 
-    endpoint_url = urlparse.urlunparse(
+    endpoint_url = urllib.parse.urlunparse(
         ('http', '%s:%s' % (api_host, api_port), PROXY_PATH,
          '', '', ''))
 

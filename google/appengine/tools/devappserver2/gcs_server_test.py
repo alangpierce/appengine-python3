@@ -16,8 +16,8 @@
 #
 """Tests for google.appengine.tools.devappserver2.gcs_server."""
 
-import cStringIO
-import httplib
+import io
+import http.client
 import unittest
 
 import google
@@ -55,10 +55,10 @@ class GCSTest(wsgi_test_utils.WSGITestCase):
         'PATH_INFO': path,
         'QUERY_STRING': query,
         'wsgi.url_scheme': 'http',
-        'wsgi.input': cStringIO.StringIO(body),
+        'wsgi.input': io.StringIO(body),
     }
 
-    for k, v in headers.iteritems():
+    for k, v in headers.items():
       environ['HTTP_%s' % k.upper()] = v
 
     self.mox.ReplayAll()
@@ -110,7 +110,7 @@ class GCSTest(wsgi_test_utils.WSGITestCase):
 
   def test_dispatch_value_error(self):
     """Tests that ValueError raised by dispatch stub is handled properly."""
-    error = ValueError('Invalid Token', httplib.BAD_REQUEST)
+    error = ValueError('Invalid Token', http.client.BAD_REQUEST)
     stub_dispatcher.dispatch(mox.IgnoreArg(), mox.IgnoreArg(), mox.IgnoreArg(),
                              mox.IgnoreArg()).AndRaise(error)
 

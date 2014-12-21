@@ -151,8 +151,8 @@ class PropertyRange(object):
           model_class._properties[
               range_property])
     supported_properties = (
-        _DISCRETE_PROPERTY_SPLIT_FUNCTIONS.keys() +
-        _CONTINUOUS_PROPERTY_SPLIT_FUNCTIONS.keys())
+        list(_DISCRETE_PROPERTY_SPLIT_FUNCTIONS.keys()) +
+        list(_CONTINUOUS_PROPERTY_SPLIT_FUNCTIONS.keys()))
     if not isinstance(property_obj, tuple(supported_properties)):
       raise errors.BadReaderParamsError(
           "Filtered property %s is not supported by sharding.", range_property)
@@ -295,7 +295,7 @@ def _split_string_property(start, end, n, include_start, include_end):
   try:
     start = start.encode("ascii")
     end = end.encode("ascii")
-  except UnicodeEncodeError, e:
+  except UnicodeEncodeError as e:
     raise ValueError("Only ascii str is supported.", e)
 
   return _split_byte_string_property(start, end, n, include_start, include_end)

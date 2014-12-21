@@ -207,7 +207,7 @@ def invalid_email_reason(email_address, field):
 
   if isinstance(email_address, users.User):
     email_address = email_address.email()
-  if not isinstance(email_address, basestring):
+  if not isinstance(email_address, str):
     return 'Invalid email address type for %s.' % field
   stripped_address = email_address.strip()
   if not stripped_address:
@@ -270,10 +270,10 @@ def invalid_headers_reason(headers):
     return 'Headers dictionary was None.'
   if not isinstance(headers, dict):
     return 'Invalid type for headers. Should be a dictionary.'
-  for k, v in headers.iteritems():
-    if not isinstance(k, basestring):
+  for k, v in headers.items():
+    if not isinstance(k, str):
       return 'Header names should be strings.'
-    if not isinstance(v, basestring):
+    if not isinstance(v, str):
       return 'Header values should be strings.'
     if not is_ascii(k):
       return 'Header name should be an ASCII string.'
@@ -309,7 +309,7 @@ def _email_check_and_list(emails, field):
   Raises:
     InvalidEmailError if any email addresses are invalid.
   """
-  if isinstance(emails, types.StringTypes):
+  if isinstance(emails, str):
     check_email_valid(value)
   else:
     for address in iter(emails):
@@ -329,7 +329,7 @@ def _email_sequence(emails):
     Single tuple with email in it if only one email string provided,
     else returns emails as is.
   """
-  if isinstance(emails, basestring):
+  if isinstance(emails, str):
     return emails,
   return emails
 
@@ -347,7 +347,7 @@ def _attachment_sequence(attachments):
     Single tuple with attachment tuple in it if only one attachment provided,
     else returns attachments as is.
   """
-  if len(attachments) == 2 and isinstance(attachments[0], basestring):
+  if len(attachments) == 2 and isinstance(attachments[0], str):
     attachments = attachments,
   for attachment in attachments:
     if isinstance(attachment, Attachment):
@@ -367,7 +367,7 @@ def _parse_mime_message(mime_message):
   """
   if isinstance(mime_message, email.Message.Message):
     return mime_message
-  elif isinstance(mime_message, basestring):
+  elif isinstance(mime_message, str):
     return email.message_from_string(mime_message)
   else:
 
@@ -574,12 +574,12 @@ def _to_str(value):
   Returns:
     UTF-8 encoded str of value, otherwise value unchanged.
   """
-  if isinstance(value, unicode):
+  if isinstance(value, str):
     return value.encode('utf-8')
   return value
 
 
-def _decode_and_join_header(header, separator=u' '):
+def _decode_and_join_header(header, separator=' '):
   """Helper function to decode RFC2047 encoded headers.
 
   Args:
@@ -593,7 +593,7 @@ def _decode_and_join_header(header, separator=u' '):
   if not header:
 
     return header
-  return separator.join(unicode(s, c or 'us-ascii')
+  return separator.join(str(s, c or 'us-ascii')
                         for s, c in email.header.decode_header(header))
 
 
@@ -612,7 +612,7 @@ def _decode_address_list_field(address_list):
   if len(address_list) == 1:
     return _decode_and_join_header(address_list[0])
   else:
-    return map(_decode_and_join_header, address_list)
+    return list(map(_decode_and_join_header, address_list))
 
 
 
@@ -789,7 +789,7 @@ class EncodedPayload(object):
         payload = payload.decode(self.encoding)
       except LookupError:
         raise UnknownEncodingError('Unknown decoding %s.' % self.encoding)
-      except (Exception, Error), e:
+      except (Exception, Error) as e:
         raise PayloadEncodingError('Could not decode payload: %s' % e)
 
 
@@ -798,7 +798,7 @@ class EncodedPayload(object):
         payload = payload.decode(str(self.charset))
       except LookupError:
         raise UnknownCharsetError('Unknown charset %s.' % self.charset)
-      except (Exception, Error), e:
+      except (Exception, Error) as e:
         raise PayloadEncodingError('Could read characters: %s' % e)
 
     return payload
@@ -929,7 +929,7 @@ class _EmailMessageBase(object):
     Args:
       kw: List of keyword properties as defined by PROPERTIES.
     """
-    for name, value in kw.iteritems():
+    for name, value in kw.items():
       setattr(self, name, value)
 
 
@@ -1110,7 +1110,7 @@ class _EmailMessageBase(object):
 
     try:
       make_sync_call('mail', self._API_CALL, message, response)
-    except apiproxy_errors.ApplicationError, e:
+    except apiproxy_errors.ApplicationError as e:
       if e.application_error in ERROR_MAP:
         raise ERROR_MAP[e.application_error](e.error_detail)
       raise e
@@ -1121,8 +1121,8 @@ class _EmailMessageBase(object):
 
   def _check_attachment(self, attachment):
 
-    if not (isinstance(attachment.filename, basestring) or
-            isinstance(attachment.payload, basestring)):
+    if not (isinstance(attachment.filename, str) or
+            isinstance(attachment.payload, str)):
       raise TypeError()
 
   def _check_attachments(self, attachments):
@@ -1234,7 +1234,7 @@ class _EmailMessageBase(object):
           except AttributeError:
             self.attachments = [attachment]
           else:
-            if isinstance(attachments[0], basestring):
+            if isinstance(attachments[0], str):
               self.attachments = [attachments]
               attachments = self.attachments
             attachments.append(attachment)
@@ -1266,7 +1266,7 @@ class _EmailMessageBase(object):
     if reply_to:
       self.reply_to = reply_to
 
-    subject = _decode_and_join_header(mime_message['subject'], separator=u'')
+    subject = _decode_and_join_header(mime_message['subject'], separator='')
     if subject:
       self.subject = subject
 
@@ -1355,7 +1355,7 @@ class EmailMessage(_EmailMessageBase):
       if hasattr(self, attribute):
         for address in _email_sequence(getattr(self, attribute)):
           adder(_to_str(address))
-    for name, value in getattr(self, 'headers', {}).iteritems():
+    for name, value in getattr(self, 'headers', {}).items():
       header = message.add_header()
       header.set_name(name)
       header.set_value(_to_str(value))
@@ -1365,7 +1365,7 @@ class EmailMessage(_EmailMessageBase):
     """Provides additional checks on recipient fields."""
 
     if attr in ['to', 'cc', 'bcc']:
-      if isinstance(value, basestring):
+      if isinstance(value, str):
         if value == '' and getattr(self, 'ALLOW_BLANK_EMAIL', False):
           return
         check_email_valid(value, attr)
@@ -1464,7 +1464,7 @@ class InboundEmailMessage(EmailMessage):
 
   PROPERTIES = frozenset(_EmailMessageBase.PROPERTIES |
                          set(('alternate_bodies',)) |
-                         set(__HEADER_PROPERTIES.iterkeys()))
+                         set(__HEADER_PROPERTIES.keys()))
 
   ALLOW_BLANK_EMAIL = True
 
@@ -1479,7 +1479,7 @@ class InboundEmailMessage(EmailMessage):
     mime_message = _parse_mime_message(mime_message)
     super(InboundEmailMessage, self).update_from_mime_message(mime_message)
 
-    for property, header in InboundEmailMessage.__HEADER_PROPERTIES.iteritems():
+    for property, header in InboundEmailMessage.__HEADER_PROPERTIES.items():
       value = mime_message[header]
       if value:
         setattr(self, property, value)
@@ -1557,7 +1557,7 @@ class InboundEmailMessage(EmailMessage):
     """
     mime_message = super(InboundEmailMessage, self).to_mime_message()
 
-    for property, header in InboundEmailMessage.__HEADER_PROPERTIES.iteritems():
+    for property, header in InboundEmailMessage.__HEADER_PROPERTIES.items():
       try:
         mime_message[header] = getattr(self, property)
       except AttributeError:

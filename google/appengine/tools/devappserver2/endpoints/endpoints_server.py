@@ -31,7 +31,7 @@ configuration has changed.
 
 
 
-import httplib
+import http.client
 import json
 import logging
 import re
@@ -319,7 +319,7 @@ class EndpointsDispatcher(object):
     url = _SPI_ROOT_FORMAT % spi_request.path
     spi_request.headers['Content-Type'] = 'application/json'
     response = self._dispatcher.add_request('POST', url,
-                                            spi_request.headers.items(),
+                                            list(spi_request.headers.items()),
                                             spi_request.body,
                                             spi_request.source_ip)
     return self.handle_spi_response(orig_request, spi_request, response,
@@ -522,7 +522,7 @@ class EndpointsDispatcher(object):
         path and query parameters in a request.
       source: A dictionary parsed from the body of the request.
     """
-    for key, value in source.iteritems():
+    for key, value in source.items():
       destination_value = destination.get(key)
       if isinstance(value, dict) and isinstance(destination_value, dict):
         self._update_from_body(destination_value, value)
@@ -574,7 +574,7 @@ class EndpointsDispatcher(object):
     body_json = {}
 
     # Handle parameters from the URL path.
-    for key, value in params.iteritems():
+    for key, value in params.items():
       # Values need to be in a list to interact with query parameter values
       # and to account for case of repeated parameters
       body_json[key] = [value]
@@ -582,7 +582,7 @@ class EndpointsDispatcher(object):
     # Add in parameters from the query string.
     if request.parameters:
       # For repeated elements, query and path work together
-      for key, value in request.parameters.iteritems():
+      for key, value in request.parameters.items():
         if key in body_json:
           body_json[key] = value + body_json[key]
         else:
@@ -592,7 +592,7 @@ class EndpointsDispatcher(object):
     # parameters to nested parameters.  We don't use iteritems since we may
     # modify body_json within the loop.  For instance, 'a.b' is not a valid key
     # and would be replaced with 'a'.
-    for key, value in body_json.items():
+    for key, value in list(body_json.items()):
       current_parameter = method_parameters.get(key, {})
       repeated = current_parameter.get('repeated', False)
 
@@ -746,7 +746,7 @@ class EndpointsDispatcher(object):
       body = error.rest_error()
 
     response_status = '%d %s' % (status_code,
-                                 httplib.responses.get(status_code,
+                                 http.client.responses.get(status_code,
                                                        'Unknown Error'))
     cors_handler = EndpointsDispatcher.__CheckCorsHeaders(orig_request)
     return util.send_wsgi_response(response_status, headers, body,

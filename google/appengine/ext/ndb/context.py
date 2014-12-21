@@ -57,21 +57,21 @@ class ContextOptions(datastore_rpc.Configuration):
 
   @datastore_rpc.ConfigOption
   def memcache_timeout(value):
-    if not isinstance(value, (int, long)):
+    if not isinstance(value, int):
       raise datastore_errors.BadArgumentError(
         'memcache_timeout should be an integer (%r)' % (value,))
     return value
 
   @datastore_rpc.ConfigOption
   def max_memcache_items(value):
-    if not isinstance(value, (int, long)):
+    if not isinstance(value, int):
       raise datastore_errors.BadArgumentError(
         'max_memcache_items should be an integer (%r)' % (value,))
     return value
 
   @datastore_rpc.ConfigOption
   def memcache_deadline(value):
-    if not isinstance(value, (int, long)):
+    if not isinstance(value, int):
       raise datastore_errors.BadArgumentError(
         'memcache_deadline should be an integer (%r)' % (value,))
     return value
@@ -595,7 +595,7 @@ class Context(object):
       if modelclass is not None:
         policy = getattr(modelclass, '_memcache_timeout', None)
         if policy is not None:
-          if isinstance(policy, (int, long)):
+          if isinstance(policy, int):
             timeout = policy
           else:
             timeout = policy(key)
@@ -614,7 +614,7 @@ class Context(object):
     """
     if func is None:
       func = self.default_memcache_timeout_policy
-    elif isinstance(func, (int, long)):
+    elif isinstance(func, int):
       func = lambda unused_key, flag=func: flag
     self._memcache_timeout_policy = func
 
@@ -890,7 +890,7 @@ class Context(object):
           mfut.putq(val)
       except GeneratorExit:
         raise
-      except Exception, err:
+      except Exception as err:
         _, _, tb = sys.exc_info()
         mfut.set_exception(err, tb)
         raise
@@ -973,7 +973,7 @@ class Context(object):
     if retries is None:
       retries = 3
     yield parent.flush()
-    for _ in xrange(1 + max(0, retries)):
+    for _ in range(1 + max(0, retries)):
       transaction = yield parent._conn.async_begin_transaction(options, app)
       tconn = datastore_rpc.TransactionalConnection(
         adapter=parent._conn.adapter,
@@ -1010,7 +1010,7 @@ class Context(object):
             # TODO: Raise value using tasklets.get_return_value(t)?
             return
           else:
-            raise t, e, tb
+            raise t(e).with_traceback(tb)
         else:
           ok = yield tconn.async_commit(options)
           if ok:
@@ -1160,7 +1160,7 @@ class Context(object):
       A Future (!) whose return value is the value retrieved from
       memcache, or None.
     """
-    if not isinstance(key, basestring):
+    if not isinstance(key, str):
       raise TypeError('key must be a string; received %r' % key)
     if not isinstance(for_cas, bool):
       raise TypeError('for_cas must be a bool; received %r' % for_cas)
@@ -1181,9 +1181,9 @@ class Context(object):
 
   def memcache_set(self, key, value, time=0, namespace=None, use_cache=False,
                    deadline=None):
-    if not isinstance(key, basestring):
+    if not isinstance(key, str):
       raise TypeError('key must be a string; received %r' % key)
-    if not isinstance(time, (int, long)):
+    if not isinstance(time, int):
       raise TypeError('time must be a number; received %r' % time)
     if namespace is None:
       namespace = namespace_manager.get_namespace()
@@ -1195,9 +1195,9 @@ class Context(object):
       return batcher.add((key, value), options)
 
   def memcache_add(self, key, value, time=0, namespace=None, deadline=None):
-    if not isinstance(key, basestring):
+    if not isinstance(key, str):
       raise TypeError('key must be a string; received %r' % key)
-    if not isinstance(time, (int, long)):
+    if not isinstance(time, int):
       raise TypeError('time must be a number; received %r' % time)
     if namespace is None:
       namespace = namespace_manager.get_namespace()
@@ -1205,9 +1205,9 @@ class Context(object):
                                           ('add', time, namespace, deadline))
 
   def memcache_replace(self, key, value, time=0, namespace=None, deadline=None):
-    if not isinstance(key, basestring):
+    if not isinstance(key, str):
       raise TypeError('key must be a string; received %r' % key)
-    if not isinstance(time, (int, long)):
+    if not isinstance(time, int):
       raise TypeError('time must be a number; received %r' % time)
     if namespace is None:
       namespace = namespace_manager.get_namespace()
@@ -1215,9 +1215,9 @@ class Context(object):
     return self._memcache_set_batcher.add((key, value), options)
 
   def memcache_cas(self, key, value, time=0, namespace=None, deadline=None):
-    if not isinstance(key, basestring):
+    if not isinstance(key, str):
       raise TypeError('key must be a string; received %r' % key)
-    if not isinstance(time, (int, long)):
+    if not isinstance(time, int):
       raise TypeError('time must be a number; received %r' % time)
     if namespace is None:
       namespace = namespace_manager.get_namespace()
@@ -1225,9 +1225,9 @@ class Context(object):
                                           ('cas', time, namespace, deadline))
 
   def memcache_delete(self, key, seconds=0, namespace=None, deadline=None):
-    if not isinstance(key, basestring):
+    if not isinstance(key, str):
       raise TypeError('key must be a string; received %r' % key)
-    if not isinstance(seconds, (int, long)):
+    if not isinstance(seconds, int):
       raise TypeError('seconds must be a number; received %r' % seconds)
     if namespace is None:
       namespace = namespace_manager.get_namespace()
@@ -1235,11 +1235,11 @@ class Context(object):
 
   def memcache_incr(self, key, delta=1, initial_value=None, namespace=None,
                     deadline=None):
-    if not isinstance(key, basestring):
+    if not isinstance(key, str):
       raise TypeError('key must be a string; received %r' % key)
-    if not isinstance(delta, (int, long)):
+    if not isinstance(delta, int):
       raise TypeError('delta must be a number; received %r' % delta)
-    if initial_value is not None and not isinstance(initial_value, (int, long)):
+    if initial_value is not None and not isinstance(initial_value, int):
       raise TypeError('initial_value must be a number or None; received %r' %
                        initial_value)
     if namespace is None:
@@ -1249,11 +1249,11 @@ class Context(object):
 
   def memcache_decr(self, key, delta=1, initial_value=None, namespace=None,
                     deadline=None):
-    if not isinstance(key, basestring):
+    if not isinstance(key, str):
       raise TypeError('key must be a string; received %r' % key)
-    if not isinstance(delta, (int, long)):
+    if not isinstance(delta, int):
       raise TypeError('delta must be a number; received %r' % delta)
-    if initial_value is not None and not isinstance(initial_value, (int, long)):
+    if initial_value is not None and not isinstance(initial_value, int):
       raise TypeError('initial_value must be a number or None; received %r' %
                        initial_value)
     if namespace is None:

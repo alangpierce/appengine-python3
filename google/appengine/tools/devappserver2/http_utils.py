@@ -17,7 +17,7 @@
 """HTTP utils for devappserver."""
 
 import contextlib
-import httplib
+import http.client
 import socket
 import time
 
@@ -45,11 +45,11 @@ def wait_for_connection(host, port, retries=1):
         retries.
   """
   def ping():
-    connection = httplib.HTTPConnection(host, port)
+    connection = http.client.HTTPConnection(host, port)
     with contextlib.closing(connection):
       try:
         connection.connect()
-      except (socket.error, httplib.HTTPException):
+      except (socket.error, http.client.HTTPException):
         return False
       else:
         return True

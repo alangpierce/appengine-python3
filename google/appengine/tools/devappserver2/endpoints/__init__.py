@@ -16,4 +16,4 @@
 #
 """Cloud Endpoints module."""
 
-from endpoints_server import *
+from .endpoints_server import *

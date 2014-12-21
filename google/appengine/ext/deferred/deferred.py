@@ -141,7 +141,7 @@ def run(data):
   """
   try:
     func, args, kwds = pickle.loads(data)
-  except Exception, e:
+  except Exception as e:
     raise PermanentTaskFailure(e)
   else:
     return func(*args, **kwds)
@@ -207,17 +207,17 @@ def _curry_callable(obj, *args, **kwargs):
     ValueError: If the passed in object is not of a valid callable type.
   """
   if isinstance(obj, types.MethodType):
-    return (invoke_member, (obj.im_self, obj.im_func.__name__) + args, kwargs)
+    return (invoke_member, (obj.__self__, obj.__func__.__name__) + args, kwargs)
   elif isinstance(obj, types.BuiltinMethodType):
     if not obj.__self__:
 
       return (obj, args, kwargs)
     else:
       return (invoke_member, (obj.__self__, obj.__name__) + args, kwargs)
-  elif isinstance(obj, types.ObjectType) and hasattr(obj, "__call__"):
+  elif isinstance(obj, object) and hasattr(obj, "__call__"):
     return (obj, args, kwargs)
   elif isinstance(obj, (types.FunctionType, types.BuiltinFunctionType,
-                        types.ClassType, types.UnboundMethodType)):
+                        type, types.UnboundMethodType)):
     return (obj, args, kwargs)
   else:
     raise ValueError("obj must be callable")
@@ -298,7 +298,7 @@ class TaskHandler(webapp.RequestHandler):
       return
 
 
-    headers = ["%s:%s" % (k, v) for k, v in self.request.headers.items()
+    headers = ["%s:%s" % (k, v) for k, v in list(self.request.headers.items())
                if k.lower().startswith("x-appengine-")]
     logging.log(_DEFAULT_LOG_LEVEL, ", ".join(headers))
 
@@ -314,7 +314,7 @@ class TaskHandler(webapp.RequestHandler):
       logging.debug("Failure executing task, task retry forced")
       self.response.set_status(408)
       return
-    except PermanentTaskFailure, e:
+    except PermanentTaskFailure as e:
 
       logging.exception("Permanent failure attempting to execute task")
 

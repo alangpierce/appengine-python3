@@ -20,7 +20,7 @@
 
 """Utilities for generating and updating index.yaml."""
 
-from __future__ import with_statement
+
 
 
 
@@ -91,7 +91,7 @@ def GenerateIndexDictFromHistory(query_history,
   indexes = dict((key, 0) for key in all_keys - manual_keys)
 
 
-  for query, count in query_history.iteritems():
+  for query, count in query_history.items():
     required, kind, ancestor, props = (
         datastore_index.CompositeIndexForQuery(query))
     if required:
@@ -132,7 +132,7 @@ def GenerateIndexFromHistory(query_history,
 
 
   res = []
-  for (kind, ancestor, props), _ in sorted(indexes.iteritems()):
+  for (kind, ancestor, props), _ in sorted(indexes.items()):
 
     res.append('')
     res.append(datastore_index.IndexYamlForQuery(kind, ancestor, props))
@@ -252,11 +252,11 @@ class IndexYamlUpdater(object):
     else:
       try:
         all_indexes = datastore_index.ParseIndexDefinitions(index_yaml_data)
-      except yaml_errors.EventListenerError, e:
+      except yaml_errors.EventListenerError as e:
 
         logging.error('Error parsing %s:\n%s', index_yaml_file, e)
         return
-      except Exception, err:
+      except Exception as err:
 
         logging.error('Error parsing %s:\n%s.%s: %s', index_yaml_file,
                       err.__class__.__module__, err.__class__.__name__, err)
@@ -273,7 +273,7 @@ class IndexYamlUpdater(object):
 
       try:
         manual_indexes = datastore_index.ParseIndexDefinitions(manual_part)
-      except Exception, err:
+      except Exception as err:
         logging.error('Error parsing manual part of %s: %s',
                       index_yaml_file, err)
         return
@@ -292,7 +292,7 @@ class IndexYamlUpdater(object):
 
     try:
       fh = openfile(index_yaml_file, 'w')
-    except IOError, err:
+    except IOError as err:
       logging.error('Can\'t write index.yaml: %s', err)
       return
 
@@ -309,7 +309,7 @@ class IndexYamlUpdater(object):
 
     try:
       self.index_yaml_mtime = os.path.getmtime(index_yaml_file)
-    except os.error, err:
+    except os.error as err:
       logging.error('Can\'t stat index.yaml we just wrote: %s', err)
       self.index_yaml_mtime = None
 
@@ -379,7 +379,7 @@ class DatastoreIndexesAutoXmlUpdater(object):
     try:
       with open(datastore_indexes_auto_xml_file) as f:
         datastore_indexes_auto_xml = f.read()
-    except IOError, err:
+    except IOError as err:
       datastore_indexes_auto_xml = None
 
     if self.datastore_indexes_xml:
@@ -387,7 +387,7 @@ class DatastoreIndexesAutoXmlUpdater(object):
         manual_index_definitions = (
             datastore_index_xml.IndexesXmlToIndexDefinitions(
                 self.datastore_indexes_xml))
-      except validation.ValidationError, e:
+      except validation.ValidationError as e:
         logging.error('Error parsing %s: %s',
                       datastore_indexes_xml_file, e)
         return
@@ -399,7 +399,7 @@ class DatastoreIndexesAutoXmlUpdater(object):
         prev_auto_index_definitions = (
             datastore_index_xml.IndexesXmlToIndexDefinitions(
                 datastore_indexes_auto_xml))
-      except validation.ValidationError, e:
+      except validation.ValidationError as e:
         logging.error('Error parsing %s: %s',
                       datastore_indexes_auto_xml_file, e)
         return
@@ -424,7 +424,7 @@ class DatastoreIndexesAutoXmlUpdater(object):
         os.mkdir(appengine_generated)
       with open(datastore_indexes_auto_xml_file, 'w') as f:
         f.write(self._IndexXmlFromIndexes(auto_indexes, counts))
-    except os.error, err:
+    except os.error as err:
       logging.error(
           'Could not update %s: %s', datastore_indexes_auto_xml_file, err)
 
@@ -443,7 +443,7 @@ class DatastoreIndexesAutoXmlUpdater(object):
     """
     indexes = []
     counts = []
-    for (kind, ancestor, props), count in sorted(index_dict.iteritems()):
+    for (kind, ancestor, props), count in sorted(index_dict.items()):
       properties = []
       for name, direction_code in props:
         direction = (

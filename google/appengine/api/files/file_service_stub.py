@@ -28,7 +28,7 @@ import hashlib
 import os
 import random
 import string
-import StringIO
+import io
 import tempfile
 import time
 
@@ -168,7 +168,7 @@ class GoogleStorage(object):
     writable_name = '%s%s' % (
         _GS_UPLOAD_PREFIX, base64.urlsafe_b64encode(random_str))
     self.uploads[writable_name] = self._Upload(
-        StringIO.StringIO(), mime_type, gs_filename)
+        io.StringIO(), mime_type, gs_filename)
     self.sequence_keys[writable_name] = None
 
 

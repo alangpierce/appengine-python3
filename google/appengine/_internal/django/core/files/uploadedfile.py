@@ -4,9 +4,9 @@ Classes representing uploaded files.
 
 import os
 try:
-    from cStringIO import StringIO
+    from io import StringIO
 except ImportError:
-    from StringIO import StringIO
+    from io import StringIO
 
 from google.appengine._internal.django.conf import settings
 from google.appengine._internal.django.core.files.base import File
@@ -75,7 +75,7 @@ class TemporaryUploadedFile(UploadedFile):
     def close(self):
         try:
             return self.file.close()
-        except OSError, e:
+        except OSError as e:
             if e.errno != 2:
                 # Means the file was moved or deleted before the tempfile
                 # could unlink it.  Still sets self.file.close_called and

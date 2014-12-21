@@ -19,9 +19,9 @@
 
 
 import collections
-import cStringIO
+import io
 import functools
-import httplib
+import http.client
 import logging
 import math
 import os.path
@@ -30,8 +30,8 @@ import re
 import string
 import threading
 import time
-import urllib
-import urlparse
+import urllib.request, urllib.parse, urllib.error
+import urllib.parse
 import wsgiref.headers
 
 from concurrent import futures
@@ -154,7 +154,7 @@ class _ScriptHandler(url_handler.UserConfiguredURLHandler):
     """
     try:
       url_pattern = re.compile('%s$' % url_map.url)
-    except re.error, e:
+    except re.error as e:
       raise errors.InvalidAppConfigError(
           'invalid url %r in script handler: %s' % (url_map.url, e))
 
@@ -326,7 +326,7 @@ class Module(object):
     for library in self._module_configuration.normalized_libraries:
       runtime_config.libraries.add(name=library.name, version=library.version)
 
-    for key, value in (self._module_configuration.env_variables or {}).items():
+    for key, value in list((self._module_configuration.env_variables or {}).items()):
       runtime_config.environ.add(key=str(key), value=str(value))
 
     if self._cloud_sql_config:
@@ -626,11 +626,11 @@ class Module(object):
   def _error_response(self, environ, start_response, status, body=None):
     if body:
       start_response(
-          '%d %s' % (status, httplib.responses[status]),
+          '%d %s' % (status, http.client.responses[status]),
           [('Content-Type', 'text/html'),
            ('Content-Length', str(len(body)))])
       return body
-    start_response('%d %s' % (status, httplib.responses[status]), [])
+    start_response('%d %s' % (status, http.client.responses[status]), [])
     return []
 
   def _handle_request(self, environ, start_response, inst=None,
@@ -676,10 +676,10 @@ class Module(object):
           hostname = '%s:%s' % (environ['SERVER_NAME'], environ['SERVER_PORT'])
 
         if environ.get('QUERY_STRING'):
-          resource = '%s?%s' % (urllib.quote(environ['PATH_INFO']),
+          resource = '%s?%s' % (urllib.parse.quote(environ['PATH_INFO']),
                                 environ['QUERY_STRING'])
         else:
-          resource = urllib.quote(environ['PATH_INFO'])
+          resource = urllib.parse.quote(environ['PATH_INFO'])
         email, _, _ = login.get_user_info(environ.get('HTTP_COOKIE', ''))
         method = environ.get('REQUEST_METHOD', 'GET')
         http_version = environ.get('SERVER_PROTOCOL', 'HTTP/1.0')
@@ -746,8 +746,8 @@ class Module(object):
 
         if content_length <= _MAX_UPLOAD_NO_TRIGGER_BAD_CLIENT_BYTES:
           environ['wsgi.input'].read(content_length)
-        status = '%d %s' % (httplib.REQUEST_ENTITY_TOO_LARGE,
-                            httplib.responses[httplib.REQUEST_ENTITY_TOO_LARGE])
+        status = '%d %s' % (http.client.REQUEST_ENTITY_TOO_LARGE,
+                            http.client.responses[http.client.REQUEST_ENTITY_TOO_LARGE])
         wrapped_start_response(status, [])
         return ['Upload limited to %d megabytes.' % _MAX_UPLOAD_MEGABYTES]
 
@@ -795,7 +795,7 @@ class Module(object):
               return handler.handle(match, environ, wrapped_start_response)
         return self._no_handler_for_request(environ, wrapped_start_response,
                                             request_id)
-      except StandardError, e:
+      except Exception as e:
         logging.exception('Request to %r failed', path_info)
         wrapped_start_response('500 Internal Server Error', [], e)
         return []
@@ -824,15 +824,15 @@ class Module(object):
   def _quote_querystring(qs):
     """Quote a query string to protect against XSS."""
 
-    parsed_qs = urlparse.parse_qs(qs, keep_blank_values=True)
+    parsed_qs = urllib.parse.parse_qs(qs, keep_blank_values=True)
     # urlparse.parse returns a dictionary with values as lists while
     # urllib.urlencode does not handle those. Expand to a list of
     # key values.
     expanded_qs = []
-    for key, multivalue in parsed_qs.items():
+    for key, multivalue in list(parsed_qs.items()):
       for value in multivalue:
         expanded_qs.append((key, value))
-    return urllib.urlencode(expanded_qs)
+    return urllib.parse.urlencode(expanded_qs)
 
   def _redirect_302_path_info(self, updated_path_info, environ, start_response):
     """Redirect to an updated path.
@@ -852,21 +852,21 @@ class Module(object):
     Returns:
       WSGI-compatible iterable object representing the body of the response.
     """
-    correct_url = urlparse.urlunsplit(
+    correct_url = urllib.parse.urlunsplit(
         (environ['wsgi.url_scheme'],
          environ['HTTP_HOST'],
-         urllib.quote(updated_path_info),
+         urllib.parse.quote(updated_path_info),
          self._quote_querystring(environ['QUERY_STRING']),
          None))
 
     content_type = 'text/html; charset=utf-8'
     output = _REDIRECT_HTML % {
         'content-type': content_type,
-        'status': httplib.FOUND,
+        'status': http.client.FOUND,
         'correct-url': correct_url
     }
 
-    start_response('%d %s' % (httplib.FOUND, httplib.responses[httplib.FOUND]),
+    start_response('%d %s' % (http.client.FOUND, http.client.responses[http.client.FOUND]),
                    [('Content-Type', content_type),
                     ('Location', correct_url),
                     ('Content-Length', str(len(output)))])
@@ -990,10 +990,10 @@ class Module(object):
 
   def build_request_environ(self, method, relative_url, headers, body,
                             source_ip, port, fake_login=False):
-    if isinstance(body, unicode):
+    if isinstance(body, str):
       body = body.encode('ascii')
 
-    url = urlparse.urlsplit(relative_url)
+    url = urllib.parse.urlsplit(relative_url)
     if port != 80:
       host = '%s:%s' % (self.host, port)
     else:
@@ -1009,10 +1009,10 @@ class Module(object):
                'SERVER_PROTOCOL': 'HTTP/1.1',
                'wsgi.version': (1, 0),
                'wsgi.url_scheme': 'http',
-               'wsgi.errors': cStringIO.StringIO(),
+               'wsgi.errors': io.StringIO(),
                'wsgi.multithread': True,
                'wsgi.multiprocess': True,
-               'wsgi.input': cStringIO.StringIO(body)}
+               'wsgi.input': io.StringIO(body)}
     if fake_login:
       environ[constants.FAKE_LOGGED_IN_HEADER] = '1'
     util.put_headers_in_environ(headers, environ)
@@ -1634,7 +1634,7 @@ class ManualScalingModule(Module):
                                     self._initial_num_instances)
       else:
         initial_num_instances = self._initial_num_instances
-      for _ in xrange(initial_num_instances):
+      for _ in range(initial_num_instances):
         self._add_instance()
 
   def quit(self):
@@ -1839,13 +1839,13 @@ class ManualScalingModule(Module):
       logging.debug('Sent start request: %s', inst)
       with self._condition:
         self._condition.notify(self.max_instance_concurrent_requests)
-    except Exception, e:  # pylint: disable=broad-except
+    except Exception as e:  # pylint: disable=broad-except
       logging.exception('Internal error while handling start request: %s', e)
 
   def _do_health_check(self, wsgi_servr, inst, start_response,
                        is_last_successful):
     is_last_successful = 'yes' if is_last_successful else 'no'
-    url = '/_ah/health?%s' % urllib.urlencode(
+    url = '/_ah/health?%s' % urllib.parse.urlencode(
         [('IsLastSuccessful', is_last_successful)])
     environ = self.build_request_environ(
         'GET', url, [], '', '', wsgi_servr.port,
@@ -1916,7 +1916,7 @@ class ManualScalingModule(Module):
           instances_to_quit = self._instances[instances:]
           del self._instances[instances:]
       if running_instances < instances:
-        for _ in xrange(instances - running_instances):
+        for _ in range(instances - running_instances):
           self._add_instance()
     if running_instances > instances:
       for inst, wsgi_servr in zip(instances_to_quit, wsgi_servers_to_quit):
@@ -1938,7 +1938,7 @@ class ManualScalingModule(Module):
         raise request_info.VersionAlreadyStoppedError()
       self._suspended = True
       with self._condition:
-        instances_to_stop = zip(self._instances, self._wsgi_servers)
+        instances_to_stop = list(zip(self._instances, self._wsgi_servers))
         for wsgi_servr in self._wsgi_servers:
           wsgi_servr.set_error(404)
     for inst, wsgi_servr in instances_to_stop:
@@ -2195,7 +2195,7 @@ class BasicScalingModule(Module):
     # self._instances has been or is being started.
     self._instance_running = []  # Protected by self._condition.
 
-    for instance_id in xrange(self._max_instances):
+    for instance_id in range(self._max_instances):
       inst = self._instance_factory.new_instance(instance_id,
                                                  expect_ready_request=True)
       self._instances.append(inst)

@@ -15,7 +15,7 @@ class EscapeString(str, EscapeData):
     """
     pass
 
-class EscapeUnicode(unicode, EscapeData):
+class EscapeUnicode(str, EscapeData):
     """
     A unicode object that should be HTML-escaped when output.
     """
@@ -56,7 +56,7 @@ class SafeString(str, SafeData):
 
     decode = curry(_proxy_method, method = str.decode)
 
-class SafeUnicode(unicode, SafeData):
+class SafeUnicode(str, SafeData):
     """
     A unicode subclass that has been specifically marked as "safe" for HTML
     output purposes.
@@ -84,7 +84,7 @@ class SafeUnicode(unicode, SafeData):
         else:
             return SafeUnicode(data)
 
-    encode = curry(_proxy_method, method = unicode.encode)
+    encode = curry(_proxy_method, method = str.encode)
 
 def mark_safe(s):
     """
@@ -97,7 +97,7 @@ def mark_safe(s):
         return s
     if isinstance(s, str) or (isinstance(s, Promise) and s._delegate_str):
         return SafeString(s)
-    if isinstance(s, (unicode, Promise)):
+    if isinstance(s, (str, Promise)):
         return SafeUnicode(s)
     return SafeString(str(s))
 
@@ -113,7 +113,7 @@ def mark_for_escaping(s):
         return s
     if isinstance(s, str) or (isinstance(s, Promise) and s._delegate_str):
         return EscapeString(s)
-    if isinstance(s, (unicode, Promise)):
+    if isinstance(s, (str, Promise)):
         return EscapeUnicode(s)
     return EscapeString(str(s))
 

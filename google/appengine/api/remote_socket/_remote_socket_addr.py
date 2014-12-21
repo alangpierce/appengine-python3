@@ -87,7 +87,7 @@ def ntohs(integer):
   """
   if sys.byteorder == 'big':
     return integer
-  if not isinstance(integer, (int, long)):
+  if not isinstance(integer, int):
     raise TypeError('an integer is required')
   if integer < 0:
     raise OverflowError("can't convert negative number to unsigned long")
@@ -105,7 +105,7 @@ def ntohl(integer):
   """
   if sys.byteorder == 'big':
     return integer
-  if not isinstance(integer, (int, long)):
+  if not isinstance(integer, int):
     raise TypeError('expected int/long, %s found' % _TypeName(integer))
   if integer < 0:
     raise OverflowError('can\'t convert negative number to unsigned long')
@@ -141,7 +141,7 @@ def inet_aton(ip_string):
   binary format used in low-level network functions.
   """
 
-  if not isinstance(ip_string, basestring):
+  if not isinstance(ip_string, str):
     raise error('inet_aton() argument 1 must be string, not %s' %
                 _TypeName(ip_string))
   try:
@@ -166,7 +166,7 @@ def inet_ntoa(packed_ip):
   Convert an IP address from 32-bit packed binary format to string format
   """
 
-  if not isinstance(packed_ip, basestring):
+  if not isinstance(packed_ip, str):
     raise TypeError('inet_ntoa() argument 1 must be string or read-only '
                     'buffer, not %s' % _TypeName(packed_ip))
   if len(packed_ip) != 4:
@@ -181,9 +181,9 @@ def inet_pton(af, ip):
   for use with low-level network functions.
   """
 
-  if not isinstance(af, (int, long)):
+  if not isinstance(af, int):
     raise TypeError('an integer is required')
-  if not isinstance(ip, basestring):
+  if not isinstance(ip, str):
     raise TypeError('inet_pton() argument 2 must be string, not %s' %
                     _TypeName(ip))
   if af == AF_INET:
@@ -236,9 +236,9 @@ def inet_ntop(af, packed_ip):
 
   Convert a packed IP address of the given family to string format.
   """
-  if not isinstance(af, (int, long)):
+  if not isinstance(af, int):
     raise TypeError('an integer is required')
-  if not isinstance(packed_ip, basestring):
+  if not isinstance(packed_ip, str):
     raise TypeError('inet_ntop() argument 2 must be string or read-only '
                     'buffer, not %s' % _TypeName(packed_ip))
   if af == AF_INET:

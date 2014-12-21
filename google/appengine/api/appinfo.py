@@ -663,7 +663,7 @@ class HttpHeadersDict(validation.ValidatedDict):
       original_name = name
 
 
-      if isinstance(name, unicode):
+      if isinstance(name, str):
         try:
           name = name.encode('ascii')
         except UnicodeEncodeError:
@@ -725,7 +725,7 @@ class HttpHeadersDict(validation.ValidatedDict):
           HTTP header value.
       """
 
-      if isinstance(value, unicode):
+      if isinstance(value, str):
         try:
           value = value.encode('ascii')
         except UnicodeEncodeError:
@@ -955,7 +955,7 @@ class URLMap(HandlerBase):
 
       mapping_type = HANDLER_API_ENDPOINT
     else:
-      for id_field in URLMap.ALLOWED_FIELDS.iterkeys():
+      for id_field in URLMap.ALLOWED_FIELDS.keys():
 
         if getattr(self, id_field) is not None:
 
@@ -970,7 +970,7 @@ class URLMap(HandlerBase):
 
 
 
-    for attribute in self.ATTRIBUTES.iterkeys():
+    for attribute in self.ATTRIBUTES.keys():
       if (getattr(self, attribute) is not None and
           not (attribute in allowed_fields or
                attribute in URLMap.COMMON_FIELDS or
@@ -1354,7 +1354,7 @@ class CpuUtilization(validation.Validated):
       CPU_UTILIZATION_UTILIZATION: validation.Optional(
           validation.Range(1e-6, 1.0, float)),
       CPU_UTILIZATION_AGGREGATION_WINDOW_LENGTH_SEC: validation.Optional(
-          validation.Range(1, sys.maxint)),
+          validation.Range(1, sys.maxsize)),
   }
 
 
@@ -1368,10 +1368,10 @@ class AutomaticScaling(validation.Validated):
       MAXIMUM_CONCURRENT_REQUEST: validation.Optional(
           _CONCURRENT_REQUESTS_REGEX),
 
-      MIN_NUM_INSTANCES: validation.Optional(validation.Range(1, sys.maxint)),
-      MAX_NUM_INSTANCES: validation.Optional(validation.Range(1, sys.maxint)),
+      MIN_NUM_INSTANCES: validation.Optional(validation.Range(1, sys.maxsize)),
+      MAX_NUM_INSTANCES: validation.Optional(validation.Range(1, sys.maxsize)),
       COOL_DOWN_PERIOD_SEC: validation.Optional(
-          validation.Range(60, sys.maxint, int)),
+          validation.Range(60, sys.maxsize, int)),
       CPU_UTILIZATION: validation.Optional(CpuUtilization),
   }
 
@@ -1530,11 +1530,11 @@ class VmHealthCheck(validation.Validated):
 
   ATTRIBUTES = {
       ENABLE_HEALTH_CHECK: validation.Optional(validation.TYPE_BOOL),
-      CHECK_INTERVAL_SEC: validation.Optional(validation.Range(0, sys.maxint)),
-      TIMEOUT_SEC: validation.Optional(validation.Range(0, sys.maxint)),
-      UNHEALTHY_THRESHOLD: validation.Optional(validation.Range(0, sys.maxint)),
-      HEALTHY_THRESHOLD: validation.Optional(validation.Range(0, sys.maxint)),
-      RESTART_THRESHOLD: validation.Optional(validation.Range(0, sys.maxint)),
+      CHECK_INTERVAL_SEC: validation.Optional(validation.Range(0, sys.maxsize)),
+      TIMEOUT_SEC: validation.Optional(validation.Range(0, sys.maxsize)),
+      UNHEALTHY_THRESHOLD: validation.Optional(validation.Range(0, sys.maxsize)),
+      HEALTHY_THRESHOLD: validation.Optional(validation.Range(0, sys.maxsize)),
+      RESTART_THRESHOLD: validation.Optional(validation.Range(0, sys.maxsize)),
       HOST: validation.Optional(validation.TYPE_STR)}
 
 

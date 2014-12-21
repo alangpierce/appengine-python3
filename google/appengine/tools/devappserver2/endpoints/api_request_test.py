@@ -22,7 +22,7 @@
 
 
 
-import cStringIO
+import io
 import json
 import unittest
 
@@ -40,7 +40,7 @@ class RequestTest(unittest.TestCase):
     self.assertEqual('', request.body)
     self.assertEqual({}, request.body_json)
     self.assertEqual([('CONTENT-TYPE', 'application/json')],
-                     request.headers.items())
+                     list(request.headers.items()))
     self.assertEqual(None, request.request_id)
 
   def test_parse_with_body(self):
@@ -52,7 +52,7 @@ class RequestTest(unittest.TestCase):
     self.assertEqual('{"test": "body"}', request.body)
     self.assertEqual({'test': 'body'}, request.body_json)
     self.assertEqual([('CONTENT-TYPE', 'application/json')],
-                     request.headers.items())
+                     list(request.headers.items()))
     self.assertEqual(None, request.request_id)
 
   def test_parse_empty_values(self):
@@ -63,7 +63,7 @@ class RequestTest(unittest.TestCase):
     self.assertEqual('', request.body)
     self.assertEqual({}, request.body_json)
     self.assertEqual([('CONTENT-TYPE', 'application/json')],
-                     request.headers.items())
+                     list(request.headers.items()))
     self.assertEqual(None, request.request_id)
 
   def test_parse_multiple_values(self):
@@ -75,7 +75,7 @@ class RequestTest(unittest.TestCase):
     self.assertEqual('', request.body)
     self.assertEqual({}, request.body_json)
     self.assertEqual([('CONTENT-TYPE', 'application/json')],
-                     request.headers.items())
+                     list(request.headers.items()))
     self.assertEqual(None, request.request_id)
 
   def test_is_rpc(self):
@@ -116,7 +116,7 @@ class RequestTest(unittest.TestCase):
     path = '/_ah/api/guestbook/v1/greetings'
     env = {'SERVER_PORT': 42, 'REQUEST_METHOD': 'GET',
            'SERVER_NAME': 'localhost', 'HTTP_CONTENT_TYPE': 'application/json',
-           'PATH_INFO': path, 'wsgi.input': cStringIO.StringIO(body)}
+           'PATH_INFO': path, 'wsgi.input': io.StringIO(body)}
 
     request = api_request.ApiRequest(env)
     self.assertEqual(request.source_ip, None)
@@ -129,7 +129,7 @@ class RequestTest(unittest.TestCase):
     request = test_utils.build_request('/_ah/api/foo?bar=baz',
                                        '{"test": "body"}')
     copied = request.copy()
-    self.assertEqual(request.headers.items(), copied.headers.items())
+    self.assertEqual(list(request.headers.items()), list(copied.headers.items()))
     self.assertEqual(request.body, copied.body)
     self.assertEqual(request.body_json, copied.body_json)
     self.assertEqual(request.path, copied.path)
@@ -139,7 +139,7 @@ class RequestTest(unittest.TestCase):
     copied.body_json = {'new': 'body'}
     copied.path = 'And/a/new/path/'
 
-    self.assertNotEqual(request.headers.items(), copied.headers.items())
+    self.assertNotEqual(list(request.headers.items()), list(copied.headers.items()))
     self.assertNotEqual(request.body, copied.body)
     self.assertNotEqual(request.body_json, copied.body_json)
     self.assertNotEqual(request.path, copied.path)

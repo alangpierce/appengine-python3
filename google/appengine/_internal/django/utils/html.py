@@ -31,7 +31,7 @@ def escape(html):
     Returns the given HTML with ampersands, quotes and angle brackets encoded.
     """
     return mark_safe(force_unicode(html).replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;').replace('"', '&quot;').replace("'", '&#39;'))
-escape = allow_lazy(escape, unicode)
+escape = allow_lazy(escape, str)
 
 _base_js_escapes = (
     ('\\', r'\u005C'),
@@ -43,8 +43,8 @@ _base_js_escapes = (
     ('=', r'\u003D'),
     ('-', r'\u002D'),
     (';', r'\u003B'),
-    (u'\u2028', r'\u2028'),
-    (u'\u2029', r'\u2029')
+    ('\u2028', r'\u2028'),
+    ('\u2029', r'\u2029')
 )
 
 # Escape every ASCII character with a value less than 32.
@@ -56,7 +56,7 @@ def escapejs(value):
     for bad, good in _js_escapes:
         value = mark_safe(force_unicode(value).replace(bad, good))
     return value
-escapejs = allow_lazy(escapejs, unicode)
+escapejs = allow_lazy(escapejs, str)
 
 def conditional_escape(html):
     """
@@ -72,11 +72,11 @@ def linebreaks(value, autoescape=False):
     value = re.sub(r'\r\n|\r|\n', '\n', force_unicode(value)) # normalize newlines
     paras = re.split('\n{2,}', value)
     if autoescape:
-        paras = [u'<p>%s</p>' % escape(p).replace('\n', '<br />') for p in paras]
+        paras = ['<p>%s</p>' % escape(p).replace('\n', '<br />') for p in paras]
     else:
-        paras = [u'<p>%s</p>' % p.replace('\n', '<br />') for p in paras]
-    return u'\n\n'.join(paras)
-linebreaks = allow_lazy(linebreaks, unicode)
+        paras = ['<p>%s</p>' % p.replace('\n', '<br />') for p in paras]
+    return '\n\n'.join(paras)
+linebreaks = allow_lazy(linebreaks, str)
 
 def strip_tags(value):
     """Returns the given HTML with all tags stripped."""
@@ -86,17 +86,17 @@ strip_tags = allow_lazy(strip_tags)
 def strip_spaces_between_tags(value):
     """Returns the given HTML with spaces between tags removed."""
     return re.sub(r'>\s+<', '><', force_unicode(value))
-strip_spaces_between_tags = allow_lazy(strip_spaces_between_tags, unicode)
+strip_spaces_between_tags = allow_lazy(strip_spaces_between_tags, str)
 
 def strip_entities(value):
     """Returns the given HTML with all entities (&something;) stripped."""
     return re.sub(r'&(?:\w+|#\d+);', '', force_unicode(value))
-strip_entities = allow_lazy(strip_entities, unicode)
+strip_entities = allow_lazy(strip_entities, str)
 
 def fix_ampersands(value):
     """Returns the given HTML with all unencoded ampersands encoded correctly."""
     return unencoded_ampersands_re.sub('&amp;', force_unicode(value))
-fix_ampersands = allow_lazy(fix_ampersands, unicode)
+fix_ampersands = allow_lazy(fix_ampersands, str)
 
 def urlize(text, trim_url_limit=None, nofollow=False, autoescape=False):
     """
@@ -151,8 +151,8 @@ def urlize(text, trim_url_limit=None, nofollow=False, autoescape=False):
             words[i] = mark_safe(word)
         elif autoescape:
             words[i] = escape(word)
-    return u''.join(words)
-urlize = allow_lazy(urlize, unicode)
+    return ''.join(words)
+urlize = allow_lazy(urlize, str)
 
 def clean_html(text):
     """
@@ -180,10 +180,10 @@ def clean_html(text):
         s = match.group().replace('</p>', '</li>')
         for d in DOTS:
             s = s.replace('<p>%s' % d, '<li>')
-        return u'<ul>\n%s\n</ul>' % s
+        return '<ul>\n%s\n</ul>' % s
     text = hard_coded_bullets_re.sub(replace_p_tags, text)
     # Remove stuff like "<p>&nbsp;&nbsp;</p>", but only if it's at the bottom
     # of the text.
     text = trailing_empty_content_re.sub('', text)
     return text
-clean_html = allow_lazy(clean_html, unicode)
+clean_html = allow_lazy(clean_html, str)

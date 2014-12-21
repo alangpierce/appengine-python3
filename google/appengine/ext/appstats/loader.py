@@ -29,7 +29,7 @@ as SQLLite etc.
 
 
 
-import cPickle as pickle
+import pickle as pickle
 import logging
 import time
 from google.appengine.ext.appstats import datamodel_pb

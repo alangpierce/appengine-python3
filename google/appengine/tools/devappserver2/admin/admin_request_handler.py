@@ -21,7 +21,7 @@
 import os.path
 import random
 import string
-import urllib
+import urllib.request, urllib.parse, urllib.error
 
 import google
 import jinja2
@@ -31,10 +31,10 @@ from google.appengine.tools import sdk_update_checker
 
 
 def _urlencode_filter(value):
-  if isinstance(value, basestring):
-    return urllib.quote(value)
+  if isinstance(value, str):
+    return urllib.parse.quote(value)
   else:
-    return urllib.urlencode(value)
+    return urllib.parse.urlencode(value)
 
 
 def _byte_size_format(value):
@@ -141,7 +141,7 @@ class AdminRequestHandler(webapp2.RequestHandler):
 
     params.update(add)
     return str('%s?%s' % (self.request.path,
-                          urllib.urlencode(sorted(params.iteritems()))))
+                          urllib.parse.urlencode(sorted(params.items()))))
 
   @property
   def dispatcher(self):

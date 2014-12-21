@@ -16,7 +16,7 @@
 #
 """Handles dynamic serving of images from blobstore."""
 
-import httplib
+import http.client
 import logging
 import re
 
@@ -182,7 +182,7 @@ class Application(object):
     state = request_rewriter.RewriterState(environ, '200 OK', [
         (blobstore.BLOB_KEY_HEADER, blobkey)], [])
     blob_download.blobstore_download_rewriter(state)
-    start_response(state.status, state.headers.items())
+    start_response(state.status, list(state.headers.items()))
     return state.body
 
   def serve_image(self, environ, start_response):
@@ -197,7 +197,7 @@ class Application(object):
       logging.error('The blobkey %s has not registered for image '
                     'serving. Please ensure get_serving_url is '
                     'called before attempting to serve blobs.', blobkey)
-      start_response('404 %s' % httplib.responses[404], [])
+      start_response('404 %s' % http.client.responses[404], [])
       return []
 
     resize, crop = self._parse_options(options)
@@ -218,10 +218,10 @@ class Application(object):
 
   def __call__(self, environ, start_response):
     if environ['REQUEST_METHOD'] != 'GET':
-      start_response('405 %s' % httplib.responses[405], [])
+      start_response('405 %s' % http.client.responses[405], [])
       return []
     try:
       return self.serve_image(environ, start_response)
     except InvalidRequestError:
-      start_response('400 %s' % httplib.responses[400], [])
+      start_response('400 %s' % http.client.responses[400], [])
       return []

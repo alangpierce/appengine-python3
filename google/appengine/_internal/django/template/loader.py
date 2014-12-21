@@ -89,15 +89,15 @@ def find_template_loader(loader):
         loader, args = loader[0], loader[1:]
     else:
         args = []
-    if isinstance(loader, basestring):
+    if isinstance(loader, str):
         module, attr = loader.rsplit('.', 1)
         try:
             mod = import_module(module)
-        except ImportError, e:
+        except ImportError as e:
             raise ImproperlyConfigured('Error importing template source loader %s: "%s"' % (loader, e))
         try:
             TemplateLoader = getattr(mod, attr)
-        except AttributeError, e:
+        except AttributeError as e:
             raise ImproperlyConfigured('Error importing template source loader %s: "%s"' % (loader, e))
 
         if hasattr(TemplateLoader, 'load_template_source'):

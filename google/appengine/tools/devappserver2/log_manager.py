@@ -20,11 +20,11 @@ Should be accessed by get() function.
 """
 
 import atexit
-import httplib
+import http.client
 import logging
 import os
 import threading
-import urllib
+import urllib.request, urllib.parse, urllib.error
 
 import google
 
@@ -116,7 +116,7 @@ class _LogManager(_LogManagerDisabled):
     http_utils.wait_for_connection(self._server.host, self._server.port, 100)
 
   def stop(self):
-    for c in self._containers.itervalues():
+    for c in self._containers.values():
       c.Stop()
     self._server.Stop()
 
@@ -125,7 +125,7 @@ class _LogManager(_LogManagerDisabled):
 
     def _create_table(log_type):
       """Sends a request to log-server container to create a table if needed."""
-      params = urllib.urlencode({
+      params = urllib.parse.urlencode({
           'app': _escape(app), 'module': _escape(module),
           'version': _escape(version), 'instance': _escape(instance),
           'log_type': log_type})
@@ -133,7 +133,7 @@ class _LogManager(_LogManagerDisabled):
           'Content-Type': 'application/x-www-form-urlencoded',
           'Accept': 'text/plain'}
 
-      conn = httplib.HTTPConnection(self._server.host, self._server.port)
+      conn = http.client.HTTPConnection(self._server.host, self._server.port)
       conn.request('POST', '/submit', params, headers)
       response = conn.getresponse()
       logging.debug(

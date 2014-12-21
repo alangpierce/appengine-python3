@@ -139,8 +139,8 @@ def main():
   if config.python_config and config.python_config.startup_script:
     global_vars = {'config': config}
     try:
-      execfile(config.python_config.startup_script, global_vars)
-    except Exception, e:
+      exec(compile(open(config.python_config.startup_script).read(), config.python_config.startup_script, 'exec'), global_vars)
+    except Exception as e:
       debugging_app = StartupScriptFailureApplication(config,
                                                       str(e),
                                                       traceback.format_exc())
@@ -161,7 +161,7 @@ def main():
         request_rewriter.runtime_rewriter_middleware(
             request_handler.RequestHandler(config)))
   server.start()
-  print >>child_out, server.port
+  print(server.port, file=child_out)
   child_out.close()
   try:
     while True:

@@ -38,7 +38,7 @@ def propagate_environs(src, dst):
       src: source environ dict.
       dst: destination environ dict.
   """
-  for key, value in src.iteritems():
+  for key, value in src.items():
     if key in _ENVIRONS_TO_PROPAGATE_FULL_NAMES:
       dst[key[len(http_runtime_constants.APPENGINE_ENVIRON_PREFIX):]] = value
     elif (key.startswith('HTTP_') and not

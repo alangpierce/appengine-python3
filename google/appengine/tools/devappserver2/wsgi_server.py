@@ -20,7 +20,7 @@
 
 import collections
 import errno
-import httplib
+import http.client
 import logging
 import select
 import socket
@@ -268,7 +268,7 @@ class _SingleAddressWsgiServer(wsgiserver.CherryPyWSGIServer):
     if app:
       return app(environ, start_response)
     else:
-      start_response('%d %s' % (error, httplib.responses[error]), [])
+      start_response('%d %s' % (error, http.client.responses[error]), [])
       return []
 
 

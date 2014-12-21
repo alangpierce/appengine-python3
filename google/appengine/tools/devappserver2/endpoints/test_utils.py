@@ -22,9 +22,9 @@
 
 
 
-import cStringIO
+import io
 import unittest
-import urlparse
+import urllib.parse
 
 from google.appengine.tools.devappserver2.endpoints import api_request
 
@@ -41,10 +41,10 @@ def build_request(path, body='', http_headers=None):
     An ApiRequest object built based on the incoming parameters.
   """
   (unused_scheme, unused_netloc, path, query,
-   unused_fragment) = urlparse.urlsplit(path)
+   unused_fragment) = urllib.parse.urlsplit(path)
   env = {'SERVER_PORT': 42, 'REQUEST_METHOD': 'GET',
          'SERVER_NAME': 'localhost', 'HTTP_CONTENT_TYPE': 'application/json',
-         'PATH_INFO': path, 'wsgi.input': cStringIO.StringIO(body)}
+         'PATH_INFO': path, 'wsgi.input': io.StringIO(body)}
   if query:
     env['QUERY_STRING'] = query
 

@@ -16,13 +16,13 @@ def format(number, decimal_sep, decimal_pos, grouping=0, thousand_sep=''):
     use_grouping = settings.USE_L10N and settings.USE_THOUSAND_SEPARATOR and grouping
     # Make the common case fast:
     if isinstance(number, int) and not use_grouping and not decimal_pos:
-        return mark_safe(unicode(number))
+        return mark_safe(str(number))
     # sign
     if float(number) < 0:
         sign = '-'
     else:
         sign = ''
-    str_number = unicode(number)
+    str_number = str(number)
     if str_number[0] == '-':
         str_number = str_number[1:]
     # decimal part

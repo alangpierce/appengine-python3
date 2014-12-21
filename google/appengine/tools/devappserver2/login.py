@@ -31,10 +31,10 @@ supply no parameters.
 
 
 import cgi
-import Cookie
+import http.cookies
 import hashlib
 import logging
-import urllib
+import urllib.request, urllib.parse, urllib.error
 
 import google
 import webapp2
@@ -70,11 +70,11 @@ def get_user_info(http_cookie, cookie_name=_COOKIE_NAME):
       user_id: The user ID, if any.
   """
   try:
-    cookie = Cookie.SimpleCookie(http_cookie)
-  except Cookie.CookieError:
+    cookie = http.cookies.SimpleCookie(http_cookie)
+  except http.cookies.CookieError:
     return '', False, ''
 
-  cookie_dict = dict((k, v.value) for k, v in cookie.iteritems())
+  cookie_dict = dict((k, v.value) for k, v in cookie.items())
   return _get_user_info_from_dict(cookie_dict, cookie_name)
 
 
@@ -131,7 +131,7 @@ def _set_user_info_cookie(email, admin, cookie_name=_COOKIE_NAME):
     Set-Cookie value for setting the user info of the requestor.
   """
   cookie_value = _create_cookie_data(email, admin)
-  cookie = Cookie.SimpleCookie()
+  cookie = http.cookies.SimpleCookie()
   cookie[cookie_name] = cookie_value
   cookie[cookie_name]['path'] = '/'
   return cookie[cookie_name].OutputString()
@@ -146,7 +146,7 @@ def _clear_user_info_cookie(cookie_name=_COOKIE_NAME):
   Returns:
     A Set-Cookie value for clearing the user info of the requestor.
   """
-  cookie = Cookie.SimpleCookie()
+  cookie = http.cookies.SimpleCookie()
   cookie[cookie_name] = ''
   cookie[cookie_name]['path'] = '/'
   cookie[cookie_name]['max-age'] = '0'
@@ -244,7 +244,7 @@ def login_redirect(application_url, continue_url, start_response):
   if not application_url.endswith('/'):
     application_url += '/'
   redirect_url = '%s%s?%s=%s' % (application_url, LOGIN_URL_RELATIVE,
-                                 CONTINUE_PARAM, urllib.quote(continue_url))
+                                 CONTINUE_PARAM, urllib.parse.quote(continue_url))
   start_response('302 Requires login',
                  [('Location', redirect_url)])
   return []
@@ -271,7 +271,7 @@ class Handler(webapp2.RequestHandler):
 
       redirect_url = continue_url or login_url
       # URLs should be ASCII-only byte strings.
-      if isinstance(redirect_url, unicode):
+      if isinstance(redirect_url, str):
         redirect_url = redirect_url.encode('ascii')
 
       self.response.status = 302

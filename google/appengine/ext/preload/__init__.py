@@ -48,24 +48,24 @@ os.urandom = _original_os_urandom
 random._urandom = _original_os_urandom
 
 
-import BaseHTTPServer
+import http.server
 import Bastion
-import CGIHTTPServer
-import ConfigParser
-import Cookie
-import DocXMLRPCServer
-import HTMLParser
+import http.server
+import configparser
+import http.cookies
+import xmlrpc.server
+import html.parser
 import MimeWriter
-import Queue
-import SimpleHTTPServer
-import SimpleXMLRPCServer
-import SocketServer
-import StringIO
+import queue
+import http.server
+import xmlrpc.server
+import socketserver
+import io
 import UserDict
-import UserList
-import UserString
+import collections
+import collections
 import aifc
-import anydbm
+import dbm
 
 
 import atexit
@@ -85,12 +85,12 @@ import code
 import codecs
 import codeop
 import colorsys
-import commands
+import subprocess
 
 
-import cookielib
+import http.cookiejar
 import copy
-import copy_reg
+import copyreg
 import csv
 import datetime
 
@@ -99,7 +99,7 @@ import difflib
 import dircache
 import dis
 import doctest
-import dumbdbm
+import dbm.dumb
 import filecmp
 import fileinput
 import fnmatch
@@ -116,9 +116,9 @@ import gzip
 
 import heapq
 import hmac
-import htmlentitydefs
+import html.entities
 import htmllib
-import httplib
+import http.client
 
 import imaplib
 import imghdr
@@ -132,7 +132,7 @@ import macpath
 import macurl2path
 import mailbox
 import mailcap
-import markupbase
+import _markupbase
 import math
 import md5
 import mhlib
@@ -169,11 +169,11 @@ import pyclbr
 import pydoc
 import quopri
 import re
-import repr
+import reprlib
 
 import rfc822
 
-import robotparser
+import urllib.robotparser
 
 import sched
 import sets
@@ -219,9 +219,9 @@ import traceback
 
 import types
 import unittest
-import urllib
-import urllib2
-import urlparse
+import urllib.request, urllib.parse, urllib.error
+import urllib.request, urllib.error, urllib.parse
+import urllib.parse
 
 import uu
 import uuid
@@ -229,13 +229,13 @@ import warnings
 import wave
 import weakref
 
-import whichdb
+import dbm
 import xdrlib
 import xml.parsers.expat
 import xml.dom
 import xml.sax
 
-import xmlrpclib
+import xmlrpc.client
 import zipfile
 import zlib
 

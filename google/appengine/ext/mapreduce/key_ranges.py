@@ -80,7 +80,7 @@ class KeyRanges(object):
   def __iter__(self):
     return self
 
-  def next(self):
+  def __next__(self):
     """Iterator iteraface."""
     raise NotImplementedError()
 
@@ -109,7 +109,7 @@ class _KeyRangesFromList(KeyRanges):
       return False
     return self._key_ranges == other._key_ranges
 
-  def next(self):
+  def __next__(self):
     if self._key_ranges:
       return self._key_ranges.pop()
     raise StopIteration()
@@ -151,11 +151,11 @@ class _KeyRangesFromNSRange(KeyRanges):
   def __str__(self):
     return str(self._ns_range)
 
-  def next(self):
+  def __next__(self):
     if self._ns_range is None:
       raise StopIteration()
 
-    self._last_ns = self._iter.next()
+    self._last_ns = next(self._iter)
     current_ns_range = self._ns_range
     if self._last_ns == self._ns_range.namespace_end:
       self._ns_range = None

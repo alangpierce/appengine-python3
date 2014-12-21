@@ -61,7 +61,7 @@ class Command(NoArgsCommand):
                 pythonrc = os.environ.get("PYTHONSTARTUP")
                 if pythonrc and os.path.isfile(pythonrc):
                     try:
-                        execfile(pythonrc)
+                        exec(compile(open(pythonrc).read(), pythonrc, 'exec'))
                     except NameError:
                         pass
                 # This will import .pythonrc.py as a side-effect

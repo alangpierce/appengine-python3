@@ -33,7 +33,7 @@ class LogsHandler(admin_request_handler.AdminRequestHandler):
     try:
       ps = self.request.params
       params = dict([(p, ps[p]) for p in self._REQUIRED_PARAMS])
-    except KeyError, e:
+    except KeyError as e:
       self.abort(404, detail='Missing log request parameter %s.' % e.message)
 
     # Forward request to LogServer

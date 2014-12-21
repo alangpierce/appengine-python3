@@ -59,7 +59,7 @@ def EntityListKind(keylist):
     Kind of entity. Returns 'None' if list is empty and 'Multi' if
     entities in the list are of different kinds.
   """
-  kinds = map(EntityKind, keylist)
+  kinds = list(map(EntityKind, keylist))
   unique_kinds = set(kinds)
   numkinds = len(unique_kinds)
   if numkinds > 1:

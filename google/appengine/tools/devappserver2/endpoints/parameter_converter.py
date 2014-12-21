@@ -55,7 +55,7 @@ def _check_enum(parameter_name, value, parameter_config):
       enum values in the field parameter.
   """
   enum_values = [enum['backendValue']
-                 for enum in parameter_config['enum'].values()
+                 for enum in list(parameter_config['enum'].values())
                  if 'backendValue' in enum]
   if value not in enum_values:
     raise errors.EnumRejectionError(parameter_name, value, enum_values)

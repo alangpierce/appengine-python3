@@ -77,7 +77,7 @@ INADDR_LOOPBACK = 0x7f000001
 INADDR_NONE = 0xffffffff
 
 (AI_PASSIVE, AI_CANONNAME, AI_NUMERICHOST, AI_NUMERICSERV, AI_V4MAPPED, AI_ALL,
- AI_ADDRCONFIG) = map(lambda x: 1 << x, range(7))
+ AI_ADDRCONFIG) = [1 << x for x in range(7)]
 
 RemoteSocketServiceError = remote_socket_service_pb.RemoteSocketServiceError
 
@@ -228,7 +228,7 @@ def _ResolveName(name, address_families=(AF_INET6, AF_INET)):
 
   try:
     apiproxy_stub_map.MakeSyncCall('remote_socket', 'Resolve', request, reply)
-  except apiproxy_errors.ApplicationError, e:
+  except apiproxy_errors.ApplicationError as e:
     raise _SystemExceptionFromAppError(e)
 
   canonical_name = reply.canonical_name()
@@ -308,7 +308,7 @@ def getaddrinfo(host, service, family=AF_UNSPEC, socktype=0, proto=0, flags=0):
 
   Resolve host and port into addrinfo struct.
   """
-  if isinstance(host, unicode):
+  if isinstance(host, str):
     host = host.encode('idna')
   if host == '*':
     host = ''
@@ -317,12 +317,12 @@ def getaddrinfo(host, service, family=AF_UNSPEC, socktype=0, proto=0, flags=0):
   if not host and not service:
     raise gaierror(EAI_NONAME, 'nodename nor servname provided, or not known')
 
-  families = [f for f in _ADDRESS_FAMILY_MAP.keys()
+  families = [f for f in list(_ADDRESS_FAMILY_MAP.keys())
               if family in (AF_UNSPEC, f)]
   if not families:
     raise gaierror(EAI_FAMILY, 'ai_family not supported')
 
-  sock_proto = [sp for sp in _SOCK_PROTO_MAP.keys()
+  sock_proto = [sp for sp in list(_SOCK_PROTO_MAP.keys())
                 if socktype in (0, sp[0]) and proto in (0, sp[1])]
   if not sock_proto:
     raise gaierror(EAI_BADHINTS, 'Bad hints')
@@ -412,7 +412,7 @@ def setdefaulttimeout(timeout):
 
 
 def _GetSocket(value):
-  if isinstance(value, (int, long)):
+  if isinstance(value, int):
     fileno = value
   else:
     try:
@@ -489,7 +489,7 @@ def select(rlist, wlist, xlist, timeout=None):
 
     try:
       apiproxy_stub_map.MakeSyncCall('remote_socket', 'Poll', request, reply)
-    except apiproxy_errors.ApplicationError, e:
+    except apiproxy_errors.ApplicationError as e:
       raise _SystemExceptionFromAppError(e)
 
     for event in reply.events_list():
@@ -596,7 +596,7 @@ class socket(object):
       o = request.add_socket_options()
       o.set_level(level)
       o.set_option(option)
-      if isinstance(value, (int, long)):
+      if isinstance(value, int):
         o.set_value(struct.pack('=L', value))
       else:
         o.set_value(value)
@@ -607,7 +607,7 @@ class socket(object):
     try:
       apiproxy_stub_map.MakeSyncCall(
           'remote_socket', 'CreateSocket', request, reply)
-    except apiproxy_errors.ApplicationError, e:
+    except apiproxy_errors.ApplicationError as e:
       raise _SystemExceptionFromAppError(e)
 
     self._socket_descriptor = reply.socket_descriptor()
@@ -672,7 +672,7 @@ class socket(object):
 
     try:
       apiproxy_stub_map.MakeSyncCall('remote_socket', 'Bind', request, reply)
-    except apiproxy_errors.ApplicationError, e:
+    except apiproxy_errors.ApplicationError as e:
       raise _SystemExceptionFromAppError(e)
 
   def listen(self, backlog):
@@ -701,7 +701,7 @@ class socket(object):
 
     try:
       apiproxy_stub_map.MakeSyncCall('remote_socket', 'Listen', request, reply)
-    except apiproxy_errors.ApplicationError, e:
+    except apiproxy_errors.ApplicationError as e:
       raise _SystemExceptionFromAppError(e)
 
   def accept(self):
@@ -727,7 +727,7 @@ class socket(object):
 
     try:
       apiproxy_stub_map.MakeSyncCall('remote_socket', 'Accept', request, reply)
-    except apiproxy_errors.ApplicationError, e:
+    except apiproxy_errors.ApplicationError as e:
       raise _SystemExceptionFromAppError(e)
 
     ret = socket(self.family, self.type, self.proto)
@@ -772,7 +772,7 @@ class socket(object):
 
     try:
       apiproxy_stub_map.MakeSyncCall('remote_socket', 'Connect', request, reply)
-    except apiproxy_errors.ApplicationError, e:
+    except apiproxy_errors.ApplicationError as e:
       translated_e = _SystemExceptionFromAppError(e)
       if translated_e.errno == errno.EISCONN:
         self._bound = True
@@ -792,7 +792,7 @@ class socket(object):
     """
     try:
       self.connect(address)
-    except error, e:
+    except error as e:
       return e.errno
     return 0
 
@@ -817,7 +817,7 @@ class socket(object):
     try:
       apiproxy_stub_map.MakeSyncCall(
           'remote_socket', 'GetPeerName', request, reply)
-    except apiproxy_errors.ApplicationError, e:
+    except apiproxy_errors.ApplicationError as e:
       raise _SystemExceptionFromAppError(e)
 
     if self._connect_in_progress:
@@ -847,7 +847,7 @@ class socket(object):
     try:
       apiproxy_stub_map.MakeSyncCall(
           'remote_socket', 'GetSocketName', request, reply)
-    except apiproxy_errors.ApplicationError, e:
+    except apiproxy_errors.ApplicationError as e:
       raise _SystemExceptionFromAppError(e)
 
     return (
@@ -902,7 +902,7 @@ class socket(object):
 
     try:
       apiproxy_stub_map.MakeSyncCall('remote_socket', 'Receive', request, reply)
-    except apiproxy_errors.ApplicationError, e:
+    except apiproxy_errors.ApplicationError as e:
       e = _SystemExceptionFromAppError(e)
       if not self._shutdown_read or e.errno != errno.EAGAIN:
         raise e
@@ -996,7 +996,7 @@ class socket(object):
 
     try:
       apiproxy_stub_map.MakeSyncCall('remote_socket', 'Send', request, reply)
-    except apiproxy_errors.ApplicationError, e:
+    except apiproxy_errors.ApplicationError as e:
       raise _SystemExceptionFromAppError(e)
 
     if self._connect_in_progress:
@@ -1072,7 +1072,7 @@ class socket(object):
     o = request.add_options()
     o.set_level(level)
     o.set_option(option)
-    if isinstance(value, (int, long)):
+    if isinstance(value, int):
       o.set_value(struct.pack('=L', value))
     else:
       o.set_value(value)
@@ -1082,7 +1082,7 @@ class socket(object):
     try:
       apiproxy_stub_map.MakeSyncCall(
           'remote_socket', 'SetSocketOptions', request, reply)
-    except apiproxy_errors.ApplicationError, e:
+    except apiproxy_errors.ApplicationError as e:
       raise _SystemExceptionFromAppError(e)
 
   def getsockopt(self, level, option, buffersize=0):
@@ -1109,7 +1109,7 @@ class socket(object):
     try:
       apiproxy_stub_map.MakeSyncCall(
           'remote_socket', 'GetSocketOptions', request, reply)
-    except apiproxy_errors.ApplicationError, e:
+    except apiproxy_errors.ApplicationError as e:
       raise _SystemExceptionFromAppError(e)
 
     if not buffersize:
@@ -1144,7 +1144,7 @@ class socket(object):
     try:
       apiproxy_stub_map.MakeSyncCall(
           'remote_socket', 'ShutDown', request, reply)
-    except apiproxy_errors.ApplicationError, e:
+    except apiproxy_errors.ApplicationError as e:
       raise _SystemExceptionFromAppError(e)
 
     if flag == SHUT_RD or flag == SHUT_RDWR:
@@ -1168,7 +1168,7 @@ class socket(object):
 
     try:
       apiproxy_stub_map.MakeSyncCall('remote_socket', 'Close', request, reply)
-    except apiproxy_errors.ApplicationError, e:
+    except apiproxy_errors.ApplicationError as e:
       raise _SystemExceptionFromAppError(e)
 
     self._Clear()

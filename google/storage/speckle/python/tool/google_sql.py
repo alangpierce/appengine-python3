@@ -178,7 +178,7 @@ class GoogleSqlCmd(sqlcmd.SQLCmd):
 
     for i, col in enumerate(rows[0]):
       table.set_field_align(
-          column_names[i], isinstance(col, basestring) and 'l' or 'r')
+          column_names[i], isinstance(col, str) and 'l' or 'r')
 
     for row in rows:
       table.add_row(row)
@@ -190,17 +190,17 @@ class GoogleSqlCmd(sqlcmd.SQLCmd):
     table = self._BuildTable(cursor)
     if table:
       output = table.get_string()
-      if isinstance(output, unicode):
-        print output.encode(self.output_encoding)
+      if isinstance(output, str):
+        print(output.encode(self.output_encoding))
       else:
-        print output
+        print(output)
 
 
 def _CreateConfigDir():
   """Creates the sqlcmd config directory if necessary."""
   directory = sqlcmd.DEFAULT_CONFIG_DIR
   if not os.access(directory, os.R_OK | os.W_OK | os.X_OK):
-    old_umask = os.umask(077)
+    old_umask = os.umask(0o77)
     os.makedirs(sqlcmd.DEFAULT_CONFIG_DIR)
     os.umask(old_umask)
 

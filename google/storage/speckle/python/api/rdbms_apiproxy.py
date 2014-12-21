@@ -65,7 +65,7 @@ class ApiProxyConnection(rdbms.Connection):
     response = self._CreateResponse(stub_method)
     try:
       apiproxy_stub_map.MakeSyncCall('rdbms', stub_method, request, response)
-    except apiproxy_errors.ApplicationError, e:
+    except apiproxy_errors.ApplicationError as e:
       raise OperationalError('could not connect: ' + str(e))
     return response
 

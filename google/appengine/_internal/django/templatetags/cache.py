@@ -24,7 +24,7 @@ class CacheNode(Node):
         except (ValueError, TypeError):
             raise TemplateSyntaxError('"cache" tag got a non-integer timeout value: %r' % expire_time)
         # Build a unicode key for this fragment and all vary-on's.
-        args = md5_constructor(u':'.join([urlquote(resolve_variable(var, context)) for var in self.vary_on]))
+        args = md5_constructor(':'.join([urlquote(resolve_variable(var, context)) for var in self.vary_on]))
         cache_key = 'template.cache.%s.%s' % (self.fragment_name, args.hexdigest())
         value = cache.get(cache_key)
         if value is None:
@@ -57,7 +57,7 @@ def do_cache(parser, token):
     parser.delete_first_token()
     tokens = token.contents.split()
     if len(tokens) < 3:
-        raise TemplateSyntaxError(u"'%r' tag requires at least 2 arguments." % tokens[0])
+        raise TemplateSyntaxError("'%r' tag requires at least 2 arguments." % tokens[0])
     return CacheNode(nodelist, tokens[1], tokens[2], tokens[3:])
 
 register.tag('cache', do_cache)

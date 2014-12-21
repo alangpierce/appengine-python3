@@ -99,7 +99,7 @@ def _normalize_key(value):
     return None
   if getattr(value, "key", None):
     return value.key()
-  elif isinstance(value, basestring):
+  elif isinstance(value, str):
     return datastore.Key(value)
   else:
     return value
@@ -170,7 +170,7 @@ class _ItemList(object):
         self.__flush_function(self.items, options)
         self.clear()
         break
-      except db.Timeout, e:
+      except db.Timeout as e:
         logging.warning(e)
         logging.warning("Flushing '%s' timed out. Will retry for the %s time.",
                         self, retry)
@@ -190,7 +190,7 @@ class _ItemList(object):
 
     sizes = [len(self.__repr_function(i)) for i in self.items]
     largest = heapq.nlargest(self._LARGEST_ITEMS_TO_LOG,
-                             zip(sizes, self.items),
+                             list(zip(sizes, self.items)),
                              lambda t: t[0])
 
     self._largest = [(s, self.__repr_function(i)) for s, i in largest]
@@ -451,7 +451,7 @@ class Context(object):
 
   def flush(self):
     """Flush all information recorded in context."""
-    for pool in self._pools.values():
+    for pool in list(self._pools.values()):
       pool.flush()
 
   def register_pool(self, key, pool):

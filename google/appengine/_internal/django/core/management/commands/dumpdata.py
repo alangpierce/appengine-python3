@@ -53,7 +53,7 @@ class Command(BaseCommand):
                     if model is None:
                         raise CommandError("Unknown model: %s.%s" % (app_label, model_label))
 
-                    if app in app_list.keys():
+                    if app in list(app_list.keys()):
                         if app_list[app] and model not in app_list[app]:
                             app_list[app].append(model)
                     else:
@@ -79,14 +79,14 @@ class Command(BaseCommand):
 
         # Now collate the objects to be serialized.
         objects = []
-        for model in sort_dependencies(app_list.items()):
+        for model in sort_dependencies(list(app_list.items())):
             if not model._meta.proxy and router.allow_syncdb(using, model):
                 objects.extend(model._default_manager.using(using).all())
 
         try:
             return serializers.serialize(format, objects, indent=indent,
                         use_natural_keys=use_natural_keys)
-        except Exception, e:
+        except Exception as e:
             if show_traceback:
                 raise
             raise CommandError("Unable to serialize database: %s" % e)

@@ -27,7 +27,7 @@ NOTE: This is just provided for compatibility.  You might as well just
 use the threading module directly.
 """
 
-from __future__ import with_statement
+
 
 
 
@@ -42,7 +42,7 @@ __all__ = ['start_new_background_thread',
           ]
 
 import os
-import thread
+import _thread
 import threading
 
 from google.appengine.api.logservice import logservice
@@ -50,7 +50,7 @@ from google.appengine.runtime import request_environment
 
 
 
-_original_start_new_thread = thread.start_new_thread
+_original_start_new_thread = _thread.start_new_thread
 
 
 _ENVIRON_KEYS = [
@@ -77,7 +77,7 @@ _filtered_environ = {}
 def _capture_environ():
   global _filtered_environ
   _filtered_environ = dict((k, v)
-                           for k, v in os.environ.iteritems()
+                           for k, v in os.environ.items()
                            if k in _ENVIRON_KEYS)
 
 

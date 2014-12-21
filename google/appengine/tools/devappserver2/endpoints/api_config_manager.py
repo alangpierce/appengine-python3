@@ -91,7 +91,7 @@ class ApiConfigManager(object):
 
     try:
       response_obj = json.loads(body)
-    except ValueError, unused_err:
+    except ValueError as unused_err:
       logging.error('Cannot parse BackendService.getApiConfigs response: %s',
                     body)
     else:
@@ -100,7 +100,7 @@ class ApiConfigManager(object):
         for api_config_json in response_obj.get('items', []):
           try:
             config = json.loads(api_config_json)
-          except ValueError, unused_err:
+          except ValueError as unused_err:
             logging.error('Can not parse API config: %s',
                           api_config_json)
           else:
@@ -108,7 +108,7 @@ class ApiConfigManager(object):
             self._convert_https_to_http(config)
             self._configs[lookup_key] = config
 
-        for config in self._configs.itervalues():
+        for config in self._configs.values():
           name = config.get('name', '')
           version = config.get('version', '')
           sorted_methods = self._get_sorted_methods(config.get('methods', {}))
@@ -195,7 +195,7 @@ class ApiConfigManager(object):
                           method_info2[1].get('httpMethod', ''))
       return method_result
 
-    return sorted(methods.items(), _sorted_methods_comparison)
+    return sorted(list(methods.items()), _sorted_methods_comparison)
 
   @staticmethod
   def _get_path_params(match):
@@ -208,7 +208,7 @@ class ApiConfigManager(object):
       A dictionary containing the variable names converted from base64.
     """
     result = {}
-    for var_name, value in match.groupdict().iteritems():
+    for var_name, value in match.groupdict().items():
       actual_var_name = ApiConfigManager._from_safe_path_param_name(var_name)
       result[actual_var_name] = value
     return result

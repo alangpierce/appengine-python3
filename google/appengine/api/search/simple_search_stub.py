@@ -33,7 +33,7 @@
 import base64
 import bisect
 import copy
-import cPickle as pickle
+import pickle as pickle
 import datetime
 import functools
 import hashlib
@@ -44,7 +44,7 @@ import random
 import string
 import tempfile
 import threading
-import urllib
+import urllib.request, urllib.parse, urllib.error
 import uuid
 
 from google.appengine.datastore import document_pb
@@ -205,7 +205,7 @@ class _DocumentStatistics(object):
     self._term_stats = {}
 
   def __iter__(self):
-    for item in self._term_stats.items():
+    for item in list(self._term_stats.items()):
       yield item
 
   def IncrementTermCount(self, term):
@@ -250,7 +250,7 @@ class FieldTypesDict(object):
     for f in self._field_types:
       if name == f.name():
         return f
-    raise KeyError, name
+    raise KeyError(name)
 
   def IsType(self, name, field_type):
     if name not in self:
@@ -403,7 +403,7 @@ class SimpleIndex(object):
 
       try:
         search._NewDocumentFromPb(document)
-      except ValueError, e:
+      except ValueError as e:
         new_status = response.add_status()
         new_status.set_code(search_service_pb.SearchServiceError.INVALID_REQUEST)
         new_status.set_error_detail(e.message)
@@ -435,7 +435,7 @@ class SimpleIndex(object):
 
   def Documents(self):
     """Returns the documents in the index."""
-    return self._documents.values()
+    return list(self._documents.values())
 
   def _TermFrequency(self, term, document):
     """Return the term frequency in the document."""
@@ -506,7 +506,7 @@ class SimpleIndex(object):
     """Retrieve scored results for a search query."""
     doc_match = document_matcher.DocumentMatcher(node, self._inverted_index)
 
-    matched_documents = doc_match.FilterDocuments(self._documents.itervalues())
+    matched_documents = doc_match.FilterDocuments(iter(self._documents.values()))
     terms = self._CollectTerms(node)
     scored_documents = [
         _ScoredDocument(doc, self._ScoreDocument(doc, score, terms))
@@ -556,7 +556,7 @@ class SimpleIndex(object):
               scored_doc, self._inverted_index, True).ValueOf(
                   sort_spec.sort_expression(), default_value=default_numeric,
                   return_type=search_util.EXPRESSION_RETURN_TYPE_NUMERIC)
-        except expression_evaluator.QueryExpressionEvaluationError, e:
+        except expression_evaluator.QueryExpressionEvaluationError as e:
           raise expression_evaluator.ExpressionEvaluationError(
               _FAILED_TO_PARSE_SEARCH_REQUEST % (query, e))
         if isinstance(num_val, datetime.datetime):
@@ -597,14 +597,14 @@ class SimpleIndex(object):
 
   def Search(self, search_request):
     """Searches the simple index for ."""
-    query = urllib.unquote(search_request.query())
+    query = urllib.parse.unquote(search_request.query())
     query = query.strip()
     score = _ScoreRequested(search_request)
     if not query:
-      docs = [_ScoredDocument(doc, 0.0) for doc in self._documents.values()]
+      docs = [_ScoredDocument(doc, 0.0) for doc in list(self._documents.values())]
     else:
-      if not isinstance(query, unicode):
-        query = unicode(query, 'utf-8')
+      if not isinstance(query, str):
+        query = str(query, 'utf-8')
       query_tree = query_parser.ParseAndSimplify(query)
       docs = self._Evaluate(query_tree, score=score)
     docs = self._Sort(docs, search_request, query, score)
@@ -735,12 +735,12 @@ class SearchServiceStub(apiproxy_stub.APIProxyStub):
       if random.choice([True] + [False] * 9):
         raise apiproxy_errors.ResponseTooLargeError()
 
-      for _ in xrange(random.randint(0, 2) * random.randint(5, 15)):
+      for _ in range(random.randint(0, 2) * random.randint(5, 15)):
         new_index_spec = response.add_index_metadata().mutable_index_spec()
         new_index_spec.set_name(
             random.choice(list(_VISIBLE_PRINTABLE_ASCII - set('!'))) +
             ''.join(random.choice(list(_VISIBLE_PRINTABLE_ASCII))
-                    for _ in xrange(random.randint(
+                    for _ in range(random.randint(
                         0, search.MAXIMUM_INDEX_NAME_LENGTH))))
       response.mutable_status().set_code(
           random.choice([search_service_pb.SearchServiceError.OK] * 10 +
@@ -755,8 +755,8 @@ class SearchServiceStub(apiproxy_stub.APIProxyStub):
     if namespace not in self.__indexes or not self.__indexes[namespace]:
       return
 
-    keys, indexes = zip(*sorted(
-        self.__indexes[namespace].iteritems(), key=lambda v: v[0]))
+    keys, indexes = list(zip(*sorted(
+        iter(self.__indexes[namespace].items()), key=lambda v: v[0])))
     position = 0
     params = request.params()
     if params.has_start_index_name():
@@ -883,9 +883,9 @@ class SearchServiceStub(apiproxy_stub.APIProxyStub):
 
     def RandomText(charset, min_len, max_len):
       return ''.join(random.choice(charset)
-                     for _ in xrange(random.randint(min_len, max_len)))
+                     for _ in range(random.randint(min_len, max_len)))
 
-    for i in xrange(nresults):
+    for i in range(nresults):
       seed = '%s:%s' % (params.query(), i + offset)
       random.seed(seed)
       result = response.add_result()
@@ -914,7 +914,7 @@ class SearchServiceStub(apiproxy_stub.APIProxyStub):
           RandomText(string.printable, 0, 15) + params.query() +
           RandomText(string.printable + 10 * string.whitespace, 5, 5000))
 
-      for i in xrange(random.randint(0, 2)):
+      for i in range(random.randint(0, 2)):
         field = doc.add_field()
         field.set_name(RandomText(string.letters, 3, 7))
         value = field.mutable_value()
@@ -925,7 +925,7 @@ class SearchServiceStub(apiproxy_stub.APIProxyStub):
 
   def _DefaultFillSearchResponse(self, params, results, response):
     """Fills the SearchResponse with the first set of results."""
-    position_range = range(0, min(params.limit(), len(results)))
+    position_range = list(range(0, min(params.limit(), len(results))))
     self._FillSearchResponse(results, position_range, params.cursor_type(),
                              _ScoreRequested(params), response)
 
@@ -953,11 +953,11 @@ class SearchServiceStub(apiproxy_stub.APIProxyStub):
         search_result.set_cursor(self._EncodeCursor(result.document))
       if score:
         search_result.add_score(result.score)
-      for field, expression in result.expressions.iteritems():
+      for field, expression in result.expressions.items():
         expr = search_result.add_expression()
         expr.set_name(field)
         if (isinstance(expression, float) or
-            isinstance(expression, long) or
+            isinstance(expression, int) or
             isinstance(expression, int)):
           expr.mutable_value().set_string_value(repr(float(expression)))
           expr.mutable_value().set_type(document_pb.FieldValue.NUMBER)
@@ -986,15 +986,15 @@ class SearchServiceStub(apiproxy_stub.APIProxyStub):
     params = request.params()
     try:
       results = index.Search(params)
-    except query_parser.QueryException, e:
+    except query_parser.QueryException as e:
       self._InvalidRequest(response.mutable_status(), e)
       response.set_matched_count(0)
       return
-    except expression_evaluator.ExpressionEvaluationError, e:
+    except expression_evaluator.ExpressionEvaluationError as e:
       self._InvalidRequest(response.mutable_status(), e)
       response.set_matched_count(0)
       return
-    except document_matcher.ExpressionTreeException, e:
+    except document_matcher.ExpressionTreeException as e:
       self._InvalidRequest(response.mutable_status(), e)
       response.set_matched_count(0)
       return
@@ -1006,7 +1006,7 @@ class SearchServiceStub(apiproxy_stub.APIProxyStub):
     if params.has_cursor():
       try:
         doc_id = self._DecodeCursor(params.cursor())
-      except _InvalidCursorException, e:
+      except _InvalidCursorException as e:
         self._InvalidRequest(response.mutable_status(), e)
         response.set_matched_count(0)
         return
@@ -1035,9 +1035,9 @@ class SearchServiceStub(apiproxy_stub.APIProxyStub):
         if params.cursor_type() == search_service_pb.SearchParams.SINGLE:
           document = results[range_end - 1].document
           response.set_cursor(self._EncodeCursor(document))
-      result_range = range(offset, range_end)
+      result_range = list(range(offset, range_end))
     else:
-      result_range = range(0)
+      result_range = list(range(0))
     field_names = params.field_spec().name_list()
     self._FillSearchResponse(results, result_range, params.cursor_type(),
                              _ScoreRequested(params), response, field_names,
@@ -1114,7 +1114,7 @@ class SearchServiceStub(apiproxy_stub.APIProxyStub):
         logging.warning(
             'Could not read search indexes from %s', self.__index_file)
     except (AttributeError, LookupError, ImportError, NameError, TypeError,
-            ValueError, pickle.PickleError, IOError), e:
+            ValueError, pickle.PickleError, IOError) as e:
       logging.warning(
           'Could not read indexes from %s. Try running with the '
           '--clear_search_index flag. Cause:\n%r' % (self.__index_file, e))

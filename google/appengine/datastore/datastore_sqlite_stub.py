@@ -60,8 +60,8 @@ except ImportError:
   import sqlite3
 
 
-import __builtin__
-buffer = __builtin__.buffer
+import builtins
+buffer = builtins.buffer
 
 
 
@@ -288,10 +288,10 @@ def MakeEntityForQuery(query, *path):
     pseudo_pk.set_name_space(query.name_space())
 
 
-  for i in xrange(0, len(path), 2):
+  for i in range(0, len(path), 2):
     pseudo_pe = pseudo_pk.mutable_path().add_element()
     pseudo_pe.set_type(path[i])
-    if isinstance(path[i + 1], basestring):
+    if isinstance(path[i + 1], str):
       pseudo_pe.set_name(path[i + 1])
     else:
       pseudo_pe.set_id(path[i + 1])
@@ -301,7 +301,7 @@ def MakeEntityForQuery(query, *path):
 
 def ToUtf8(s):
   """Encoded s in utf-8 if it is an unicode string."""
-  if isinstance(s, unicode):
+  if isinstance(s, str):
     return s.encode('utf-8')
   else:
     return s
@@ -606,7 +606,7 @@ class DatastoreSqliteStub(datastore_stub_util.BaseDatastore,
 
 
 
-    self.__connection.text_factory = lambda x: unicode(x, 'utf-8', 'ignore')
+    self.__connection.text_factory = lambda x: str(x, 'utf-8', 'ignore')
 
 
     self.__connection_lock = threading.RLock()
@@ -624,7 +624,7 @@ class DatastoreSqliteStub(datastore_stub_util.BaseDatastore,
 
     try:
       self.__Init()
-    except sqlite3.DatabaseError, e:
+    except sqlite3.DatabaseError as e:
       raise apiproxy_errors.ApplicationError(datastore_pb.Error.INTERNAL_ERROR,
                                              self.READ_ERROR_MSG %
                                                  (self.__datastore_file, e))
@@ -945,7 +945,7 @@ class DatastoreSqliteStub(datastore_stub_util.BaseDatastore,
     try:
       apiproxy_stub.APIProxyStub.MakeSyncCall(self, service, call, request,
                                               response, request_id)
-    except sqlite3.OperationalError, e:
+    except sqlite3.OperationalError as e:
       raise apiproxy_errors.ApplicationError(datastore_pb.Error.INTERNAL_ERROR,
                                              e.args[0])
     self.AssertPbIsInitialized(response)
@@ -1125,7 +1125,7 @@ class DatastoreSqliteStub(datastore_stub_util.BaseDatastore,
       (query, params): An SQL query string and list of parameters for it.
     """
     filter_sets = []
-    for name, filter_ops in filter_info.items():
+    for name, filter_ops in list(filter_info.items()):
 
       filter_sets.extend((name, [x]) for x in filter_ops
                          if x[0] == datastore_pb.Query_Filter.EQUAL)
@@ -1186,7 +1186,7 @@ class DatastoreSqliteStub(datastore_stub_util.BaseDatastore,
     select_arg = 'Entities.__path__, Entities.entity '
 
     if query.property_name_list():
-      for value_i in join_name_map.values():
+      for value_i in list(join_name_map.values()):
         select_arg += ', %s.name, %s.value' % (value_i, value_i)
 
     params = []
@@ -1213,7 +1213,7 @@ class DatastoreSqliteStub(datastore_stub_util.BaseDatastore,
     if not query.has_kind():
       return None
 
-    for filter_ops in filter_info.values():
+    for filter_ops in list(filter_info.values()):
       for op, _ in filter_ops:
         if op != datastore_pb.Query_Filter.EQUAL:
           return None
@@ -1350,7 +1350,7 @@ class DatastoreSqliteStub(datastore_stub_util.BaseDatastore,
 
 
         if filter_predicate:
-          filtered_entities = filter(filter_predicate, filtered_entities)
+          filtered_entities = list(filter(filter_predicate, filtered_entities))
 
         cursor = datastore_stub_util.ListCursor(
             query, dsquery, orders, index_list, filtered_entities)
@@ -1420,7 +1420,7 @@ class DatastoreSqliteStub(datastore_stub_util.BaseDatastore,
                                                  'IdSeq')
       else:
         start, end = self.__AdvanceIdCounter(conn, prefix, max_id, 'IdSeq')
-      return long(start), long(end)
+      return int(start), int(end)
     finally:
       self._ReleaseConnection(conn)
 

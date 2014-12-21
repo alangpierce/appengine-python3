@@ -209,7 +209,7 @@ class GoogleApiConnection(rdbms.Connection):
     """
     try:
       response = getattr(self._client, stub_method)(request)
-    except (errors.Error, client.Error, httplib2.HttpLib2Error), e:
+    except (errors.Error, client.Error, httplib2.HttpLib2Error) as e:
       raise OperationalError('could not connect: ' + str(e))
     return response
 

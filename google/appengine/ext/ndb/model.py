@@ -282,7 +282,7 @@ __author__ = 'guido@google.com (Guido van Rossum)'
 
 import collections
 import copy
-import cPickle as pickle
+import pickle as pickle
 import datetime
 import logging
 import zlib
@@ -449,7 +449,7 @@ class _NestedCounter(object):
     if parts:
       return self.__sub_counters[parts[0]].get(parts[1:])
     if self.__is_parent_node():
-      return max(v.get() for v in self.__sub_counters.itervalues())
+      return max(v.get() for v in self.__sub_counters.values())
     return self.__counter
 
   def increment(self, parts=None):
@@ -467,7 +467,7 @@ class _NestedCounter(object):
   def _set(self, value):
     """Updates all descendants to a specified value."""
     if self.__is_parent_node():
-      for child in self.__sub_counters.itervalues():
+      for child in self.__sub_counters.values():
         child._set(value)
     else:
       self.__counter = value
@@ -864,7 +864,7 @@ class Property(ModelAttribute):
                verbose_name=None):
     """Constructor.  For arguments see the module docstring."""
     if name is not None:
-      if isinstance(name, unicode):
+      if isinstance(name, str):
         name = name.encode('utf-8')
       if not isinstance(name, str):
         raise TypeError('Name %r is not a string' % (name,))
@@ -1312,7 +1312,7 @@ class Property(ModelAttribute):
         value = []
         self._store_value(entity, value)
       else:
-        value[:] = map(function, value)
+        value[:] = list(map(function, value))
     else:
       if value is not None:
         newvalue = function(value)
@@ -1551,13 +1551,13 @@ class IntegerProperty(Property):
   """A Property whose value is a Python int or long (or bool)."""
 
   def _validate(self, value):
-    if not isinstance(value, (int, long)):
+    if not isinstance(value, int):
       raise datastore_errors.BadValueError('Expected integer, got %r' %
                                            (value,))
     return int(value)
 
   def _db_set_value(self, v, unused_p, value):
-    if not isinstance(value, (bool, int, long)):
+    if not isinstance(value, (bool, int)):
       raise TypeError('IntegerProperty %s can only be set to integer values; '
                       'received %r' % (self._name, value))
     v.set_int64value(value)
@@ -1575,13 +1575,13 @@ class FloatProperty(Property):
   """
 
   def _validate(self, value):
-    if not isinstance(value, (int, long, float)):
+    if not isinstance(value, (int, float)):
       raise datastore_errors.BadValueError('Expected float, got %r' %
                                            (value,))
     return float(value)
 
   def _db_set_value(self, v, unused_p, value):
-    if not isinstance(value, (bool, int, long, float)):
+    if not isinstance(value, (bool, int, float)):
       raise TypeError('FloatProperty %s can only be set to integer or float '
                       'values; received %r' % (self._name, value))
     v.set_doublevalue(float(value))
@@ -1706,11 +1706,11 @@ class TextProperty(BlobProperty):
     if isinstance(value, str):
       # Decode from UTF-8 -- if this fails, we can't write it.
       try:
-        value = unicode(value, 'utf-8')
+        value = str(value, 'utf-8')
       except UnicodeError:
         raise datastore_errors.BadValueError('Expected valid UTF-8, got %r' %
                                              (value,))
-    elif not isinstance(value, unicode):
+    elif not isinstance(value, str):
       raise datastore_errors.BadValueError('Expected string, got %r' %
                                            (value,))
     if self._indexed and len(value) > _MAX_STRING_LENGTH:
@@ -1719,13 +1719,13 @@ class TextProperty(BlobProperty):
         (self._name, _MAX_STRING_LENGTH))
 
   def _to_base_type(self, value):
-    if isinstance(value, unicode):
+    if isinstance(value, str):
       return value.encode('utf-8')
 
   def _from_base_type(self, value):
     if isinstance(value, str):
       try:
-        return unicode(value, 'utf-8')
+        return str(value, 'utf-8')
       except UnicodeDecodeError:
         # Since older versions of NDB could write non-UTF-8 TEXT
         # properties, we can't just reject these.  But _validate() now
@@ -1772,14 +1772,14 @@ class GeoPtProperty(Property):
 def _unpack_user(v):
   """Internal helper to unpack a User value from a protocol buffer."""
   uv = v.uservalue()
-  email = unicode(uv.email().decode('utf-8'))
-  auth_domain = unicode(uv.auth_domain().decode('utf-8'))
+  email = str(uv.email().decode('utf-8'))
+  auth_domain = str(uv.auth_domain().decode('utf-8'))
   obfuscated_gaiaid = uv.obfuscated_gaiaid().decode('utf-8')
-  obfuscated_gaiaid = unicode(obfuscated_gaiaid)
+  obfuscated_gaiaid = str(obfuscated_gaiaid)
 
   federated_identity = None
   if uv.has_federated_identity():
-    federated_identity = unicode(
+    federated_identity = str(
         uv.federated_identity().decode('utf-8'))
 
   value = users.User(email=email,
@@ -1906,7 +1906,7 @@ class KeyProperty(Property):
     name = kind = None
 
     for arg in args:
-      if isinstance(arg, basestring):
+      if isinstance(arg, str):
         if name is not None:
           raise TypeError('You can only specify one name')
         name = arg
@@ -1930,7 +1930,7 @@ class KeyProperty(Property):
     if kind is not None:
       if isinstance(kind, type) and issubclass(kind, Model):
         kind = kind._get_kind()
-      if isinstance(kind, unicode):
+      if isinstance(kind, str):
         kind = kind.encode('utf-8')
       if not isinstance(kind, str):
         raise TypeError('kind must be a Model class or a string')
@@ -2207,7 +2207,7 @@ class StructuredProperty(_StructuredGetForDictMixin):
     # We're done if we have a hit and _code_name matches.
     if prop is None or prop._code_name != attrname:
       # Otherwise, use linear search looking for a matching _code_name.
-      for prop in self._modelclass._properties.values():
+      for prop in list(self._modelclass._properties.values()):
         if prop._code_name == attrname:
           break
       else:
@@ -2242,7 +2242,7 @@ class StructuredProperty(_StructuredGetForDictMixin):
     filters = []
     match_keys = []
     # TODO: Why not just iterate over value._values?
-    for prop in self._modelclass._properties.itervalues():
+    for prop in self._modelclass._properties.values():
       vals = prop._get_base_value_unwrapped_as_list(value)
       if prop._repeated:
         if vals:
@@ -2324,7 +2324,7 @@ class StructuredProperty(_StructuredGetForDictMixin):
     for value in values:
       if value is not None:
         # TODO: Avoid re-sorting for repeated values.
-        for unused_name, prop in sorted(value._properties.iteritems()):
+        for unused_name, prop in sorted(value._properties.items()):
           prop._serialize(value, pb, prefix + self._name + '.',
                           self._repeated or parent_repeated,
                           projection=projection)
@@ -2563,7 +2563,7 @@ class GenericProperty(Property):
       return zlib.decompress(value.z_val)
 
   def _validate(self, value):
-    if (isinstance(value, basestring) and
+    if (isinstance(value, str) and
         self._indexed and
         len(value) > _MAX_STRING_LENGTH):
       raise datastore_errors.BadValueError(
@@ -2598,7 +2598,7 @@ class GenericProperty(Property):
           # If this passes, don't return unicode.
         except UnicodeDecodeError:
           try:
-            sval = unicode(sval.decode('utf-8'))
+            sval = str(sval.decode('utf-8'))
           except UnicodeDecodeError:
             pass
       return sval
@@ -2635,13 +2635,13 @@ class GenericProperty(Property):
       v.set_stringvalue(value)
       # TODO: Set meaning to BLOB or BYTESTRING if it's not UTF-8?
       # (Or TEXT if unindexed.)
-    elif isinstance(value, unicode):
+    elif isinstance(value, str):
       v.set_stringvalue(value.encode('utf8'))
       if not self._indexed:
         p.set_meaning(entity_pb.Property.TEXT)
     elif isinstance(value, bool):  # Must test before int!
       v.set_booleanvalue(value)
-    elif isinstance(value, (int, long)):
+    elif isinstance(value, int):
       if not (-_MAX_LONG <= value < _MAX_LONG):
         raise TypeError('Property %s can only accept 64-bit integers; '
                         'received %s' % value)
@@ -2775,12 +2775,12 @@ class MetaModel(type):
 
   def __repr__(cls):
     props = []
-    for _, prop in sorted(cls._properties.iteritems()):
+    for _, prop in sorted(cls._properties.items()):
       props.append('%s=%r' % (prop._code_name, prop))
     return '%s<%s>' % (cls.__name__, ', '.join(props))
 
 
-class Model(_NotEqualMixin):
+class Model(_NotEqualMixin, metaclass=MetaModel):
   """A class describing datastore entities.
 
   Model instances are usually called entities.  All model classes
@@ -2806,8 +2806,6 @@ class Model(_NotEqualMixin):
       def _get_kind(cls):
         return 'AnotherKind'
   """
-
-  __metaclass__ = MetaModel
 
   # Class variables updated by _fix_up_properties()
   _properties = None
@@ -2911,7 +2909,7 @@ class Model(_NotEqualMixin):
     Expando overrides this.
     """
     cls = self.__class__
-    for name, value in kwds.iteritems():
+    for name, value in kwds.items():
       prop = getattr(cls, name)  # Raises AttributeError for unknown properties.
       if not isinstance(prop, Property):
         raise TypeError('Cannot set non-property %s' % name)
@@ -2924,7 +2922,7 @@ class Model(_NotEqualMixin):
       A set of property names.
     """
     return set(name
-               for name, prop in self._properties.iteritems()
+               for name, prop in self._properties.items()
                if not prop._is_initialized(self))
 
   def _check_initialized(self):
@@ -2941,7 +2939,7 @@ class Model(_NotEqualMixin):
   def __repr__(self):
     """Return an unambiguous string representation of an entity."""
     args = []
-    for prop in self._properties.itervalues():
+    for prop in self._properties.values():
       if prop._has_value(self):
         val = prop._retrieve_value(self)
         if val is None:
@@ -3000,7 +2998,7 @@ class Model(_NotEqualMixin):
     """Clear the kind map.  Useful for testing."""
     # Preserve "system" kinds, like __namespace__
     keep = {}
-    for name, value in cls._kind_map.iteritems():
+    for name, value in cls._kind_map.items():
       if name.startswith('__') and name.endswith('__'):
         keep[name] = value
     cls._kind_map.clear()
@@ -3062,8 +3060,8 @@ class Model(_NotEqualMixin):
     # It's all about determining inequality early.
     if len(self._properties) != len(other._properties):
       return False  # Can only happen for Expandos.
-    my_prop_names = set(self._properties.iterkeys())
-    their_prop_names = set(other._properties.iterkeys())
+    my_prop_names = set(self._properties.keys())
+    their_prop_names = set(other._properties.keys())
     if my_prop_names != their_prop_names:
       return False  # Again, only possible for Expandos.
     if self._projection:
@@ -3088,7 +3086,7 @@ class Model(_NotEqualMixin):
       # TODO: Move the key stuff into ModelAdapter.entity_to_pb()?
       self._key_to_pb(pb)
 
-    for unused_name, prop in sorted(self._properties.iteritems()):
+    for unused_name, prop in sorted(self._properties.items()):
       prop._serialize(self, pb, projection=self._projection)
 
     return pb
@@ -3148,7 +3146,7 @@ class Model(_NotEqualMixin):
         else:
           by_prefix[head] = [tail]
     self._projection = tuple(projection)
-    for propname, proj in by_prefix.iteritems():
+    for propname, proj in by_prefix.items():
       prop = self._properties.get(propname)
       subval = prop._get_base_value_unwrapped_as_list(self)
       for item in subval:
@@ -3211,7 +3209,7 @@ class Model(_NotEqualMixin):
         not isinstance(exclude, (list, tuple, set, frozenset))):
       raise TypeError('exclude should be a list, tuple or set')
     values = {}
-    for prop in self._properties.itervalues():
+    for prop in self._properties.values():
       name = prop._code_name
       if include is not None and name not in include:
         continue
@@ -3233,7 +3231,7 @@ class Model(_NotEqualMixin):
     """
     # Verify that _get_kind() returns an 8-bit string.
     kind = cls._get_kind()
-    if not isinstance(kind, basestring):
+    if not isinstance(kind, str):
       raise KindError('Class %s defines a _get_kind() method that returns '
                       'a non-string (%r)' % (cls.__name__, kind))
     if not isinstance(kind, str):
@@ -3269,7 +3267,7 @@ class Model(_NotEqualMixin):
 
   def _prepare_for_put(self):
     if self._properties:
-      for prop in self._properties.itervalues():
+      for prop in self._properties.values():
         prop._prepare_for_put(self)
 
   @classmethod
@@ -3290,7 +3288,7 @@ class Model(_NotEqualMixin):
     """
     assert isinstance(property_names, (list, tuple)), repr(property_names)
     for name in property_names:
-      assert isinstance(name, basestring), repr(name)
+      assert isinstance(name, str), repr(name)
       if '.' in name:
         name, rest = name.split('.', 1)
       else:
@@ -3441,7 +3439,7 @@ class Model(_NotEqualMixin):
     context_options = get_arg(kwds, 'context_options')
     # (End of super-special argument parsing.)
     # TODO: Test the heck out of this, in all sorts of evil scenarios.
-    if not isinstance(name, basestring):
+    if not isinstance(name, str):
       raise TypeError('name must be a string; received %r' % name)
     elif not name:
       raise ValueError('name cannot be an empty string.')
@@ -3609,7 +3607,7 @@ class Model(_NotEqualMixin):
       raise TypeError('Default hooks for ndb.model.Model must be callable')
     if not hasattr(hook, '__call__'):
       raise TypeError('Hooks must be callable')
-    return default_hook.im_func is hook.im_func
+    return default_hook.__func__ is hook.__func__
 
 
 class Expando(Model):
@@ -3623,7 +3621,7 @@ class Expando(Model):
   _default_indexed = True
 
   def _set_attributes(self, kwds):
-    for name, value in kwds.iteritems():
+    for name, value in kwds.items():
       setattr(self, name, value)
 
   @classmethod
@@ -3929,7 +3927,7 @@ def get_indexes(**ctx_options):
 
 
 # Update __all__ to contain all Property and Exception subclasses.
-for _name, _object in globals().items():
+for _name, _object in list(globals().items()):
   if ((_name.endswith('Property') and issubclass(_object, Property)) or
       (_name.endswith('Error') and issubclass(_object, Exception))):
     __all__.append(_name)

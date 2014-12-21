@@ -30,7 +30,7 @@ Utilities for interacting with the Python Runtime."""
 
 
 
-from __future__ import with_statement
+
 
 
 
@@ -38,6 +38,7 @@ import threading
 
 from google.appengine.api import apiproxy_stub_map
 from google.appengine.api.system import system_service_pb
+import collections
 
 
 def cpu_usage():
@@ -106,7 +107,7 @@ def set_shutdown_hook(hook):
   In some cases it may not be possible to run the shutdown hook
   before the server exits.
   """
-  if hook is not None and not callable(hook):
+  if hook is not None and not isinstance(hook, collections.Callable):
     raise TypeError("hook must be callable, got %s" % hook.__class__)
   global __shutdown_hook
   with __shutdown_mutex:

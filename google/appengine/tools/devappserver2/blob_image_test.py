@@ -16,7 +16,7 @@
 #
 """Tests for google.appengine.tools.devappserver2.blob_image."""
 
-import httplib
+import http.client
 import os
 import unittest
 
@@ -411,21 +411,21 @@ class BlobImageTest(wsgi_test_utils.WSGITestCase):
   def test_not_get(self):
     """Tests POSTing to a url."""
     self._environ['REQUEST_METHOD'] = 'POST'
-    self.assertResponse('405 %s' % httplib.responses[405], [], '', self.app,
+    self.assertResponse('405 %s' % http.client.responses[405], [], '', self.app,
                         self._environ)
 
   def test_key_not_found(self):
     """Tests an image request for a key that doesn't exist."""
     self.expect_datatore_lookup('SomeBlobKey', False)
     self.mox.ReplayAll()
-    self.assertResponse('404 %s' % httplib.responses[404], [], '', self.app,
+    self.assertResponse('404 %s' % http.client.responses[404], [], '', self.app,
                         self._environ)
 
   def test_invalid_url(self):
     """Tests an image request with an invalid path."""
     self._environ['PATH_INFO'] = '/_ah/img/'
     self.mox.ReplayAll()
-    self.assertResponse('400 %s' % httplib.responses[400], [], '', self.app,
+    self.assertResponse('400 %s' % http.client.responses[400], [], '', self.app,
                         self._environ)
 
   def test_invalid_options(self):
@@ -434,7 +434,7 @@ class BlobImageTest(wsgi_test_utils.WSGITestCase):
     self.expect_open_image('SomeBlobKey', (1600, 1200))
     self._environ['PATH_INFO'] += '=s%s' % (blob_image._SIZE_LIMIT + 1)
     self.mox.ReplayAll()
-    self.assertResponse('400 %s' % httplib.responses[400], [], '', self.app,
+    self.assertResponse('400 %s' % http.client.responses[400], [], '', self.app,
                         self._environ)
 
 

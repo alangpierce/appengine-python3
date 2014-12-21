@@ -70,17 +70,17 @@ class DebugNodeList(NodeList):
     def render_node(self, node, context):
         try:
             result = node.render(context)
-        except TemplateSyntaxError, e:
+        except TemplateSyntaxError as e:
             if not hasattr(e, 'source'):
                 e.source = node.source
             raise
-        except Exception, e:
+        except Exception as e:
             from sys import exc_info
-            wrapped = TemplateSyntaxError(u'Caught %s while rendering: %s' %
+            wrapped = TemplateSyntaxError('Caught %s while rendering: %s' %
                 (e.__class__.__name__, force_unicode(e, errors='replace')))
             wrapped.source = node.source
             wrapped.exc_info = exc_info()
-            raise wrapped, None, wrapped.exc_info[2]
+            raise wrapped.with_traceback(wrapped.exc_info[2])
         return result
 
 class DebugVariableNode(VariableNode):
@@ -89,7 +89,7 @@ class DebugVariableNode(VariableNode):
             output = self.filter_expression.resolve(context)
             output = localize(output)
             output = force_unicode(output)
-        except TemplateSyntaxError, e:
+        except TemplateSyntaxError as e:
             if not hasattr(e, 'source'):
                 e.source = self.source
             raise

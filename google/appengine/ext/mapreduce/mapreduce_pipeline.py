@@ -30,7 +30,7 @@
 
 """Pipelines for mapreduce library."""
 
-from __future__ import with_statement
+
 
 
 
@@ -219,7 +219,7 @@ class MapreducePipeline(pipeline_base._OutputSlotsMixin,
       try:
         mapper_params["bucket_name"] = (
             app_identity.get_default_gcs_bucket_name())
-      except Exception, e:
+      except Exception as e:
         raise errors.Error("Unable to get the GCS default bucket name. "
                            "Check to see that GCS is properly activated. "
                            + str(e))

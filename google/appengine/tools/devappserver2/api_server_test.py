@@ -18,12 +18,12 @@
 
 
 
-import cStringIO
+import io
 import pickle
 import re
 import tempfile
 import unittest
-import urllib
+import urllib.request, urllib.parse, urllib.error
 import wsgiref.util
 
 from google.net.rpc.python.testing import rpc_test_harness
@@ -147,7 +147,7 @@ class TestAPIServer(wsgi_test_utils.WSGITestCase):
 
       environ = {'CONTENT_LENGTH': len(remote_payload),
                  'REQUEST_METHOD': 'POST',
-                 'wsgi.input': cStringIO.StringIO(remote_payload)}
+                 'wsgi.input': io.StringIO(remote_payload)}
 
       expected_headers = {'Content-Type': 'application/octet-stream'}
       self.assertResponse('200 OK',
@@ -159,7 +159,7 @@ class TestAPIServer(wsgi_test_utils.WSGITestCase):
   def test_user_api_call(self):
     logout_response = user_service_pb.CreateLogoutURLResponse()
     logout_response.set_logout_url(
-        USER_LOGOUT_URL % urllib.quote('http://machine:8080/crazy_logout'))
+        USER_LOGOUT_URL % urllib.parse.quote('http://machine:8080/crazy_logout'))
 
     expected_remote_response = remote_api_pb.Response()
     expected_remote_response.set_response(logout_response.Encode())
@@ -190,7 +190,7 @@ class TestAPIServer(wsgi_test_utils.WSGITestCase):
     harness = rpc_test_harness.RpcTestHarness(
         datastore_v4_pb.DatastoreV4Service)
     deprecated = ['Get', 'Write']
-    methods = set([k for k in harness.__dict__.keys()
+    methods = set([k for k in list(harness.__dict__.keys())
                    if k not in deprecated and not k.startswith('_')])
     self.assertEqual(methods, set(api_server._DATASTORE_V4_METHODS.keys()))
 

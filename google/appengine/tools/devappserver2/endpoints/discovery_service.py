@@ -133,7 +133,7 @@ class DiscoveryService(object):
       A string containing the response body.
     """
     api_configs = []
-    for api_config in self._config_manager.configs.itervalues():
+    for api_config in self._config_manager.configs.values():
       if not api_config == self.API_CONFIG:
         api_configs.append(json.dumps(api_config))
     directory = self._discovery_proxy.generate_directory(api_configs)

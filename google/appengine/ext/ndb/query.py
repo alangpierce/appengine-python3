@@ -122,7 +122,7 @@ in a tasklet, properly yielding when appropriate:
     print emp.name, emp.age
 """
 
-from __future__ import with_statement
+
 del with_statement  # No need to export this.
 
 __author__ = 'guido@google.com (Guido van Rossum)'
@@ -238,7 +238,7 @@ class RepeatedStructuredPropertyPredicate(datastore_query.FilterPredicate):
         return False  # If any column is empty there can be no match.
       columns.append(column)
     # Use izip to transpose the columns into rows.
-    return self.match_values in itertools.izip(*columns)
+    return self.match_values in zip(*columns)
 
   # Don't implement _prune()!  It would mess up the row correspondence
   # within columns.
@@ -274,7 +274,7 @@ class Parameter(ParameterizedThing):
     Args:
       key: The Parameter key, must be either an integer or a string.
     """
-    if not isinstance(key, (int, long, basestring)):
+    if not isinstance(key, (int, str)):
       raise TypeError('Parameter key must be an integer or string, not %s' %
                       (key,))
     self.__key = key
@@ -594,10 +594,9 @@ class ConjunctionNode(Node):
     return self.__nodes == other.__nodes
 
   def _to_filter(self, post=False):
-    filters = filter(None,
-                     (node._to_filter(post=post)
+    filters = [_f for _f in (node._to_filter(post=post)
                       for node in self.__nodes
-                      if isinstance(node, PostFilterNode) == post))
+                      if isinstance(node, PostFilterNode) == post) if _f]
     if not filters:
       return None
     if len(filters) == 1:
@@ -680,7 +679,7 @@ def _args_to_val(func, args):
   from .google_imports import gql  # Late import, to avoid name conflict.
   vals = []
   for arg in args:
-    if isinstance(arg, (int, long, basestring)):
+    if isinstance(arg, (int, str)):
       val = Parameter(arg)
     elif isinstance(arg, gql.Literal):
       val = arg.Get()
@@ -1347,7 +1346,7 @@ class Query(object):
     it = self.iter(limit=page_size + 1, **q_options)
     results = []
     while (yield it.has_next_async()):
-      results.append(it.next())
+      results.append(next(it))
       if len(results) >= page_size:
         break
     try:
@@ -1383,7 +1382,7 @@ class Query(object):
       try:
         q_options['projection'] = self._to_property_names(
           q_options['projection'])
-      except TypeError, e:
+      except TypeError as e:
         raise datastore_errors.BadArgumentError(e)
       self._check_properties(q_options['projection'])
     options = QueryOptions(**q_options)
@@ -1405,7 +1404,7 @@ class Query(object):
       properties = [properties]  # It will be type-checked below.
     fixed = []
     for proj in properties:
-      if isinstance(proj, basestring):
+      if isinstance(proj, str):
         fixed.append(proj)
       elif isinstance(proj, model.Property):
         fixed.append(proj._name)
@@ -1452,7 +1451,7 @@ class Query(object):
     if filters is not None:
       filters = filters.resolve(bindings, used)
     unused = []
-    for i in xrange(1, 1 + len(args)):
+    for i in range(1, 1 + len(args)):
       if i not in used:
         unused.append(i)
     if unused:
@@ -1747,7 +1746,7 @@ class QueryIterator(object):
       flag = False
     raise tasklets.Return(flag)
 
-  def next(self):
+  def __next__(self):
     """Iterator protocol: get next item or raise StopIteration."""
     if self._fut is None:
       self._fut = self._iter.getq()

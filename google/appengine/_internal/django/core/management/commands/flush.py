@@ -39,7 +39,7 @@ class Command(NoArgsCommand):
         sql_list = sql_flush(self.style, connection, only_django=True)
 
         if interactive:
-            confirm = raw_input("""You have requested a flush of the database.
+            confirm = input("""You have requested a flush of the database.
 This will IRREVERSIBLY DESTROY all data currently in the %r database,
 and return each table to the state it was in after syncdb.
 Are you sure you want to do this?
@@ -53,7 +53,7 @@ Are you sure you want to do this?
                 cursor = connection.cursor()
                 for sql in sql_list:
                     cursor.execute(sql)
-            except Exception, e:
+            except Exception as e:
                 transaction.rollback_unless_managed(using=db)
                 raise CommandError("""Database %s couldn't be flushed. Possible reasons:
   * The database isn't running or isn't configured correctly.
@@ -80,4 +80,4 @@ The full error: %s""" % (connection.settings_dict['NAME'], e))
             call_command('loaddata', 'initial_data', **kwargs)
 
         else:
-            print "Flush cancelled."
+            print("Flush cancelled.")

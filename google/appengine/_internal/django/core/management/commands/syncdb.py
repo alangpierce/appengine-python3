@@ -37,7 +37,7 @@ class Command(NoArgsCommand):
         for app_name in settings.INSTALLED_APPS:
             try:
                 import_module('.management', app_name)
-            except ImportError, exc:
+            except ImportError as exc:
                 # This is slightly hackish. We want to ignore ImportErrors
                 # if the "management" module itself is missing -- but we don't
                 # want to ignore the exception if the management module exists
@@ -75,26 +75,26 @@ class Command(NoArgsCommand):
                 (opts.auto_created and converter(opts.auto_created._meta.db_table) in tables))
 
         manifest = SortedDict(
-            (app_name, filter(model_installed, model_list))
+            (app_name, list(filter(model_installed, model_list)))
             for app_name, model_list in all_models
         )
 
         # Create the tables for each model
-        for app_name, model_list in manifest.items():
+        for app_name, model_list in list(manifest.items()):
             for model in model_list:
                 # Create the model's database table, if it doesn't already exist.
                 if verbosity >= 2:
-                    print "Processing %s.%s model" % (app_name, model._meta.object_name)
+                    print("Processing %s.%s model" % (app_name, model._meta.object_name))
                 sql, references = connection.creation.sql_create_model(model, self.style, seen_models)
                 seen_models.add(model)
                 created_models.add(model)
-                for refto, refs in references.items():
+                for refto, refs in list(references.items()):
                     pending_references.setdefault(refto, []).extend(refs)
                     if refto in seen_models:
                         sql.extend(connection.creation.sql_for_pending_references(refto, self.style, pending_references))
                 sql.extend(connection.creation.sql_for_pending_references(model, self.style, pending_references))
                 if verbosity >= 1 and sql:
-                    print "Creating table %s" % model._meta.db_table
+                    print("Creating table %s" % model._meta.db_table)
                 for statement in sql:
                     cursor.execute(statement)
                 tables.append(connection.introspection.table_name_converter(model._meta.db_table))
@@ -111,17 +111,17 @@ class Command(NoArgsCommand):
 
         # Install custom SQL for the app (but only if this
         # is a model we've just created)
-        for app_name, model_list in manifest.items():
+        for app_name, model_list in list(manifest.items()):
             for model in model_list:
                 if model in created_models:
                     custom_sql = custom_sql_for_model(model, self.style, connection)
                     if custom_sql:
                         if verbosity >= 1:
-                            print "Installing custom SQL for %s.%s model" % (app_name, model._meta.object_name)
+                            print("Installing custom SQL for %s.%s model" % (app_name, model._meta.object_name))
                         try:
                             for sql in custom_sql:
                                 cursor.execute(sql)
-                        except Exception, e:
+                        except Exception as e:
                             sys.stderr.write("Failed to install custom SQL for %s.%s model: %s\n" % (app_name, model._meta.object_name, e))
                             if show_traceback:
                                 import traceback
@@ -131,20 +131,20 @@ class Command(NoArgsCommand):
                             transaction.commit_unless_managed(using=db)
                     else:
                         if verbosity >= 2:
-                            print "No custom SQL for %s.%s model" % (app_name, model._meta.object_name)
+                            print("No custom SQL for %s.%s model" % (app_name, model._meta.object_name))
 
         # Install SQL indicies for all newly created models
-        for app_name, model_list in manifest.items():
+        for app_name, model_list in list(manifest.items()):
             for model in model_list:
                 if model in created_models:
                     index_sql = connection.creation.sql_indexes_for_model(model, self.style)
                     if index_sql:
                         if verbosity >= 1:
-                            print "Installing index for %s.%s model" % (app_name, model._meta.object_name)
+                            print("Installing index for %s.%s model" % (app_name, model._meta.object_name))
                         try:
                             for sql in index_sql:
                                 cursor.execute(sql)
-                        except Exception, e:
+                        except Exception as e:
                             sys.stderr.write("Failed to install index for %s.%s model: %s\n" % (app_name, model._meta.object_name, e))
                             transaction.rollback_unless_managed(using=db)
                         else:

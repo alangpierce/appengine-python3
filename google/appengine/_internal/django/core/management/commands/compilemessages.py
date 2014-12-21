@@ -16,7 +16,7 @@ def compile_messages(stderr, locale=None):
         basedirs.extend(settings.LOCALE_PATHS)
 
     # Gather existing directories.
-    basedirs = set(map(os.path.abspath, filter(os.path.isdir, basedirs)))
+    basedirs = set(map(os.path.abspath, list(filter(os.path.isdir, basedirs))))
 
     if not basedirs:
         raise CommandError("This script should be run from the Django SVN tree or your project or app tree, or with the settings module specified.")

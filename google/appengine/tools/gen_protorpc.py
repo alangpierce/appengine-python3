@@ -71,7 +71,7 @@ def open_input_file(filename):
   else:
     try:
       return open(filename, 'rb')
-    except IOError, err:
+    except IOError as err:
       fatal_error(str(err))
 
 
@@ -111,7 +111,7 @@ def generate_file_descriptor(dest_dir, file_descriptor, force_overwrite):
 
   try:
     os.makedirs(directory_name)
-  except OSError, err:
+  except OSError as err:
     if err.errno != errno.EEXIST:
       raise
 
@@ -255,7 +255,7 @@ def make_opt_parser():
   usage message for them with all their required and optional parameters.
   """
   command_descriptions = []
-  for name in sorted(commands.iterkeys()):
+  for name in sorted(commands.keys()):
     command = commands[name]
     params = ' '.join(['<%s>' % param for param in command.required] +
                       ['[<%s>]' % param for param in command.optional])

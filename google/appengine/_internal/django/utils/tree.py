@@ -68,7 +68,7 @@ class Node(object):
         """
         return len(self.children)
 
-    def __nonzero__(self):
+    def __bool__(self):
         """
         For truth value testing.
         """

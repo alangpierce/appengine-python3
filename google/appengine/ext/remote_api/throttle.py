@@ -68,8 +68,8 @@ import logging
 import os
 import threading
 import time
-import urllib2
-import urlparse
+import urllib.request, urllib.error, urllib.parse
+import urllib.parse
 
 
 if os.environ.get('APPENGINE_RUNTIME') == 'python27':
@@ -181,13 +181,13 @@ class Throttle(object):
     self.rotate_mutex[name] = threading.Lock()
 
   def AddThrottles(self, layout):
-    for key, value in layout.iteritems():
+    for key, value in layout.items():
       self.AddThrottle(key, value)
 
   def Register(self, thread):
     """Register this thread with the throttler."""
     thread_id = id(thread)
-    for throttle_name in self.throttles.iterkeys():
+    for throttle_name in self.throttles.keys():
       self.transferred[throttle_name][thread_id] = 0
       self.prior_block[throttle_name][thread_id] = 0
       self.totals[throttle_name][thread_id] = 0
@@ -255,7 +255,7 @@ class Throttle(object):
 
 
       total = 0
-      for count in self.prior_block[throttle_name].values():
+      for count in list(self.prior_block[throttle_name].values()):
         total += count
 
 
@@ -265,7 +265,7 @@ class Throttle(object):
 
 
 
-      for count in self.transferred[throttle_name].values():
+      for count in list(self.transferred[throttle_name].values()):
         total += count
 
 
@@ -331,7 +331,7 @@ class Throttle(object):
       if next_rotate_time >= self.get_time():
         return
 
-      for name, count in self.transferred[throttle_name].items():
+      for name, count in list(self.transferred[throttle_name].items()):
 
 
 
@@ -370,9 +370,9 @@ class Throttle(object):
     """
     total = 0
 
-    for count in self.totals[throttle_name].values():
+    for count in list(self.totals[throttle_name].values()):
       total += count
-    for count in self.transferred[throttle_name].values():
+    for count in list(self.transferred[throttle_name].values()):
       total += count
     return total, self.get_time() - self.start_time
 
@@ -422,11 +422,11 @@ NO_LIMITS = {
 def DefaultThrottle(multiplier=1.0):
   """Return a Throttle instance with multiplier * the quota limits."""
   layout = dict([(name, multiplier * limit)
-                 for (name, limit) in DEFAULT_LIMITS.iteritems()])
+                 for (name, limit) in DEFAULT_LIMITS.items()])
   return Throttle(layout=layout)
 
 
-class ThrottleHandler(urllib2.BaseHandler):
+class ThrottleHandler(urllib.request.BaseHandler):
   """A urllib2 handler for http and https requests that adds to a throttle."""
 
   def __init__(self, throttle):
@@ -446,13 +446,13 @@ class ThrottleHandler(urllib2.BaseHandler):
       req: The request whose size will be added to the throttle.
     """
     size = 0
-    for key, value in req.headers.iteritems():
+    for key, value in req.headers.items():
       size += len('%s: %s\n' % (key, value))
-    for key, value in req.unredirected_hdrs.iteritems():
+    for key, value in req.unredirected_hdrs.items():
       size += len('%s: %s\n' % (key, value))
     (unused_scheme,
      unused_host_port, url_path,
-     unused_query, unused_fragment) = urlparse.urlsplit(req.get_full_url())
+     unused_query, unused_fragment) = urllib.parse.urlsplit(req.get_full_url())
     size += len('%s %s HTTP/1.1\n' % (req.get_method(), url_path))
     data = req.get_data()
     if data:
@@ -474,7 +474,7 @@ class ThrottleHandler(urllib2.BaseHandler):
     res.read = ReturnContent
     size = len(content)
     headers = res.info()
-    for key, value in headers.items():
+    for key, value in list(headers.items()):
       size += len('%s: %s\n' % (key, value))
     self.throttle.AddTransfer(throttle_name, size)
 

@@ -270,9 +270,9 @@ class DescriptorPool(object):
 
       for dependency in built_deps:
         scope.update(self._ExtractSymbols(
-            dependency.message_types_by_name.values()))
+            list(dependency.message_types_by_name.values())))
         scope.update((_PrefixWithDot(enum.full_name), enum)
-                     for enum in dependency.enum_types_by_name.values())
+                     for enum in list(dependency.enum_types_by_name.values()))
 
       for message_type in file_proto.message_type:
         message_desc = self._ConvertMessageDescriptor(
@@ -490,7 +490,7 @@ class DescriptorPool(object):
       self.SetFieldType(field_proto, field_desc, nested_package, scope)
 
     for extension_proto, extension_desc in (
-        zip(desc_proto.extension, main_desc.extensions)):
+        list(zip(desc_proto.extension, main_desc.extensions))):
       extension_desc.containing_type = self._GetTypeFromScope(
           nested_package, extension_proto.extendee, scope)
       self.SetFieldType(extension_proto, extension_desc, nested_package, scope)

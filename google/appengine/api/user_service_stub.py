@@ -25,8 +25,8 @@
 
 
 import os
-import urllib
-import urlparse
+import urllib.request, urllib.parse, urllib.error
+import urllib.parse
 from google.appengine.api import apiproxy_stub
 from google.appengine.api import user_service_pb
 
@@ -127,7 +127,7 @@ class UserServiceStub(apiproxy_stub.APIProxyStub):
     """
     response.set_login_url(
         self._login_url %
-        urllib.quote(self._AddHostToContinueURL(request.destination_url(),
+        urllib.parse.quote(self._AddHostToContinueURL(request.destination_url(),
                                                 request_id)))
 
   def _Dynamic_CreateLogoutURL(self, request, response, request_id):
@@ -141,7 +141,7 @@ class UserServiceStub(apiproxy_stub.APIProxyStub):
     """
     response.set_logout_url(
         self._logout_url %
-        urllib.quote(self._AddHostToContinueURL(request.destination_url(),
+        urllib.parse.quote(self._AddHostToContinueURL(request.destination_url(),
                                                 request_id)))
 
   def _Dynamic_GetOAuthUser(self, request, response, request_id):
@@ -198,13 +198,13 @@ class UserServiceStub(apiproxy_stub.APIProxyStub):
     Returns:
       string
     """
-    (protocol, host, path, parameters, query, fragment) = urlparse.urlparse(continue_url)
+    (protocol, host, path, parameters, query, fragment) = urllib.parse.urlparse(continue_url)
 
     if host and protocol:
       return continue_url
 
     try:
-      protocol, host, _, _, _, _ = urlparse.urlparse(
+      protocol, host, _, _, _, _ = urllib.parse.urlparse(
           self.request_data.get_request_url(request_id))
     except KeyError:
 
@@ -216,5 +216,5 @@ class UserServiceStub(apiproxy_stub.APIProxyStub):
     if path == '':
       path = '/'
 
-    return urlparse.urlunparse(
+    return urllib.parse.urlunparse(
       (protocol, host, path, parameters, query, fragment))

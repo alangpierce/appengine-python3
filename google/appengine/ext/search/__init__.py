@@ -247,18 +247,18 @@ class SearchableEntity(datastore.Entity):
 
 
       if not properties_to_index:
-        properties_to_index = self.keys()
+        properties_to_index = list(self.keys())
 
       index = set()
       for name in properties_to_index:
-        if not self.has_key(name):
+        if name not in self:
           continue
 
         values = self[name]
         if not isinstance(values, list):
           values = [values]
 
-        if (isinstance(values[0], basestring) and
+        if (isinstance(values[0], str) and
             not isinstance(values[0], datastore_types.Blob)):
           for value in values:
             index.update(SearchableEntity._FullTextIndex(
@@ -287,14 +287,14 @@ class SearchableEntity(datastore.Entity):
       word_delimiter_regex = cls._word_delimiter_regex
 
     if text:
-      datastore_types.ValidateString(text, 'text', max_len=sys.maxint)
+      datastore_types.ValidateString(text, 'text', max_len=sys.maxsize)
 
 
       text = word_delimiter_regex.sub(' ', text)
       words = text.lower().split()
 
 
-      words = set(unicode(w) for w in words)
+      words = set(str(w) for w in words)
 
 
       words -= cls._FULL_TEXT_STOP_WORDS

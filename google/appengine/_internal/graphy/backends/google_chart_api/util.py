@@ -20,7 +20,7 @@ Not intended for end users, use the methods in __init__ instead."""
 
 import cgi
 import string
-import urllib
+import urllib.request, urllib.parse, urllib.error
 
 
 # TODO: Find a better representation
@@ -132,9 +132,9 @@ class EnhancedDataEncoder:
 def EncodeUrl(base, params, escape_url, use_html_entities):
   """Escape params, combine and append them to base to generate a full URL."""
   real_params = []
-  for key, value in params.iteritems():
+  for key, value in params.items():
     if escape_url:
-      value = urllib.quote(value)
+      value = urllib.parse.quote(value)
     if value:
       real_params.append('%s=%s' % (key, value))
   if real_params:
@@ -149,7 +149,7 @@ def EncodeUrl(base, params, escape_url, use_html_entities):
 def ShortenParameterNames(params):
   """Shorten long parameter names (like size) to short names (like chs)."""
   out = {}
-  for name, value in params.iteritems():
+  for name, value in params.items():
     short_name = LONG_NAMES.get(name, name)
     if short_name in out:
       # params can't have duplicate keys, so the caller  must have specified
@@ -176,7 +176,7 @@ def JoinLists(**args):
       A dictionary {long_name:joined_value} entries.
   """
   out = {}
-  for key, val in args.items():
+  for key, val in list(args.items()):
     if val:
       out[key] = StrJoin(JOIN_DELIMS[key], val)
     else:
@@ -227,4 +227,4 @@ def ScaleData(data, old_min, old_max, new_min, new_max):
   else:
     scale = (new_max - new_min) / float(old_max - old_min)
   translate = new_min - scale * old_min
-  return map(ScalePoint, data)
+  return list(map(ScalePoint, data))

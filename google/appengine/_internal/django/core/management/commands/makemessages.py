@@ -161,12 +161,12 @@ def make_messages(locale=None, domain='django', verbosity='1', all=False,
     if locale is not None:
         languages.append(locale)
     elif all:
-        locale_dirs = filter(os.path.isdir, glob.glob('%s/*' % localedir))
+        locale_dirs = list(filter(os.path.isdir, glob.glob('%s/*' % localedir)))
         languages = [os.path.basename(l) for l in locale_dirs]
 
     for locale in languages:
         if verbosity > 0:
-            print "processing language", locale
+            print("processing language", locale)
         basedir = os.path.join(localedir, locale, 'LC_MESSAGES')
         if not os.path.isdir(basedir):
             os.makedirs(basedir)
@@ -220,7 +220,7 @@ def make_messages(locale=None, domain='django', verbosity='1', all=False,
                             f.write(templatize(src))
                         finally:
                             f.close()
-                    except SyntaxError, msg:
+                    except SyntaxError as msg:
                         msg = "%s (file: %s)" % (msg, os.path.join(dirpath, file))
                         raise SyntaxError(msg)
                 if verbosity > 1:

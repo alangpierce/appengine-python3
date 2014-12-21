@@ -19,14 +19,14 @@
 
 
 import base64
-import cStringIO
-import httplib
+import io
+import http.client
 import logging
 import os
 import subprocess
 import sys
 import time
-import urllib
+import urllib.request, urllib.parse, urllib.error
 
 import google
 
@@ -113,7 +113,7 @@ class PHPRuntime(object):
     # (http://php.net/manual/en/reserved.variables.server.php) using part of
     # the process described in PEP-333
     # (http://www.python.org/dev/peps/pep-0333/#url-reconstruction).
-    user_environ['REQUEST_URI'] = urllib.quote(user_environ['PATH_INFO'])
+    user_environ['REQUEST_URI'] = urllib.parse.quote(user_environ['PATH_INFO'])
     if user_environ['QUERY_STRING']:
       user_environ['REQUEST_URI'] += '?' + user_environ['QUERY_STRING']
 
@@ -185,17 +185,17 @@ class PHPRuntime(object):
     if p.returncode:
       if request_type == 'interactive':
         start_response('200 OK', [('Content-Type', 'text/plain')])
-        message = httplib.HTTPMessage(cStringIO.StringIO(stdout))
+        message = http.client.HTTPMessage(io.StringIO(stdout))
         return [message.fp.read()]
       else:
         logging.error('php failure (%r) with:\nstdout:\n%sstderr:\n%s',
                       p.returncode, stdout, stderr)
         start_response('500 Internal Server Error',
                        [(http_runtime_constants.ERROR_CODE_HEADER, '1')])
-        message = httplib.HTTPMessage(cStringIO.StringIO(stdout))
+        message = http.client.HTTPMessage(io.StringIO(stdout))
         return [message.fp.read()]
 
-    message = httplib.HTTPMessage(cStringIO.StringIO(stdout))
+    message = http.client.HTTPMessage(io.StringIO(stdout))
 
     if 'Status' in message:
       status = message['Status']
@@ -221,7 +221,7 @@ def main():
       ('localhost', 0),
       request_rewriter.runtime_rewriter_middleware(PHPRuntime(config)))
   server.start()
-  print server.port
+  print(server.port)
   sys.stdout.close()
   sys.stdout = sys.stderr
   try:

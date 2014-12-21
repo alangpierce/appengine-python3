@@ -335,8 +335,8 @@ def OsEnvSetupMiddleware(app, appengine_config):
     request_environment.PatchOsEnviron()
     os.environ.clear()
     os.environ.update(original_environ)
-    for key, val in wsgi_env.iteritems():
-      if isinstance(val, basestring):
+    for key, val in wsgi_env.items():
+      if isinstance(val, str):
         os.environ[key] = val
 
     os.environ['SERVER_SOFTWARE'] = appengine_config.server_software

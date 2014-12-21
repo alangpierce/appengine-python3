@@ -38,10 +38,10 @@ This module contains all support classes for AST construction and tree parsers.
 # lot's of docstrings are missing, don't complain for now...
 # pylint: disable-msg=C0111
 
-from treewizard import TreeWizard
+from .treewizard import TreeWizard
 
 try:
     from google.appengine._internal.antlr3.dottreegen import toDOT
-except ImportError, exc:
+except ImportError as exc:
     def toDOT(*args, **kwargs):
         raise exc

@@ -37,14 +37,14 @@ except ImportError:
   pass
 
 import gzip
-import httplib
+import http.client
 import logging
 import os
 import socket
-import StringIO
+import io
 import sys
-import urllib
-import urlparse
+import urllib.request, urllib.parse, urllib.error
+import urllib.parse
 
 from google.appengine.api import apiproxy_stub
 from google.appengine.api import urlfetch
@@ -61,10 +61,10 @@ MAX_RESPONSE_SIZE = 2 ** 25
 MAX_REDIRECTS = urlfetch.MAX_REDIRECTS
 
 REDIRECT_STATUSES = frozenset([
-  httplib.MOVED_PERMANENTLY,
-  httplib.FOUND,
-  httplib.SEE_OTHER,
-  httplib.TEMPORARY_REDIRECT,
+  http.client.MOVED_PERMANENTLY,
+  http.client.FOUND,
+  http.client.SEE_OTHER,
+  http.client.TEMPORARY_REDIRECT,
 ])
 
 PRESERVE_ON_REDIRECT = frozenset(['GET', 'HEAD'])
@@ -129,7 +129,7 @@ def _IsAllowedPort(port):
     return True
   try:
     port = int(port)
-  except ValueError, e:
+  except ValueError as e:
     return False
 
 
@@ -179,7 +179,7 @@ class URLFetchServiceStub(apiproxy_stub.APIProxyStub):
       raise apiproxy_errors.ApplicationError(
           urlfetch_service_pb.URLFetchServiceError.INVALID_URL)
 
-    (protocol, host, path, query, fragment) = urlparse.urlsplit(request.url())
+    (protocol, host, path, query, fragment) = urllib.parse.urlsplit(request.url())
 
     payload = None
     if request.method() == urlfetch_service_pb.URLFetchRequest.GET:
@@ -275,11 +275,11 @@ class URLFetchServiceStub(apiproxy_stub.APIProxyStub):
     """
     last_protocol = ''
     last_host = ''
-    if isinstance(payload, unicode):
+    if isinstance(payload, str):
       payload = payload.encode('utf-8')
 
-    for redirect_number in xrange(MAX_REDIRECTS + 1):
-      parsed = urlparse.urlsplit(url)
+    for redirect_number in range(MAX_REDIRECTS + 1):
+      parsed = urllib.parse.urlsplit(url)
       protocol, host, path, query, fragment = parsed
 
 
@@ -288,7 +288,7 @@ class URLFetchServiceStub(apiproxy_stub.APIProxyStub):
 
 
 
-      port = urllib.splitport(urllib.splituser(host)[1])[1]
+      port = urllib.parse.splitport(urllib.parse.splituser(host)[1])[1]
 
       if not _IsAllowedPort(port):
         logging.error(
@@ -355,7 +355,7 @@ class URLFetchServiceStub(apiproxy_stub.APIProxyStub):
                     host, url, escaped_payload, adjusted_headers)
       try:
         if protocol == 'http':
-          connection_class = httplib.HTTPConnection
+          connection_class = http.client.HTTPConnection
         elif protocol == 'https':
           if (validate_certificate and _CanValidateCerts() and
               CERT_PATH):
@@ -363,7 +363,7 @@ class URLFetchServiceStub(apiproxy_stub.APIProxyStub):
             connection_class = fancy_urllib.create_fancy_connection(
                 ca_certs=CERT_PATH)
           else:
-            connection_class = httplib.HTTPSConnection
+            connection_class = http.client.HTTPSConnection
         else:
 
           error_msg = 'Redirect specified invalid protocol: "%s"' % protocol
@@ -408,11 +408,11 @@ class URLFetchServiceStub(apiproxy_stub.APIProxyStub):
           if not _CONNECTION_SUPPORTS_TIMEOUT:
             socket.setdefaulttimeout(orig_timeout)
           connection.close()
-      except _fancy_urllib_InvalidCertException, e:
+      except _fancy_urllib_InvalidCertException as e:
         raise apiproxy_errors.ApplicationError(
           urlfetch_service_pb.URLFetchServiceError.SSL_CERTIFICATE_ERROR,
           str(e))
-      except _fancy_urllib_SSLError, e:
+      except _fancy_urllib_SSLError as e:
 
 
 
@@ -423,10 +423,10 @@ class URLFetchServiceStub(apiproxy_stub.APIProxyStub):
             if 'timed out' in e.message else
             urlfetch_service_pb.URLFetchServiceError.SSL_CERTIFICATE_ERROR)
         raise apiproxy_errors.ApplicationError(app_error, str(e))
-      except socket.timeout, e:
+      except socket.timeout as e:
         raise apiproxy_errors.ApplicationError(
           urlfetch_service_pb.URLFetchServiceError.DEADLINE_EXCEEDED, str(e))
-      except (httplib.error, socket.error, IOError), e:
+      except (http.client.error, socket.error, IOError) as e:
         raise apiproxy_errors.ApplicationError(
           urlfetch_service_pb.URLFetchServiceError.FETCH_ERROR, str(e))
 
@@ -445,7 +445,7 @@ class URLFetchServiceStub(apiproxy_stub.APIProxyStub):
 
 
 
-        if (http_response.status != httplib.TEMPORARY_REDIRECT and
+        if (http_response.status != http.client.TEMPORARY_REDIRECT and
             method not in PRESERVE_ON_REDIRECT):
           logging.warn('Received a %s to a %s. Redirecting with a GET',
                        http_response.status, method)
@@ -455,13 +455,13 @@ class URLFetchServiceStub(apiproxy_stub.APIProxyStub):
         response.set_statuscode(http_response.status)
         if (http_response.getheader('content-encoding') == 'gzip' and
             not passthrough_content_encoding):
-          gzip_stream = StringIO.StringIO(http_response_data)
+          gzip_stream = io.StringIO(http_response_data)
           gzip_file = gzip.GzipFile(fileobj=gzip_stream)
           http_response_data = gzip_file.read()
         response.set_content(http_response_data[:MAX_RESPONSE_SIZE])
 
 
-        for header_key in http_response.msg.keys():
+        for header_key in list(http_response.msg.keys()):
           for header_value in http_response.msg.getheaders(header_key):
             if (header_key.lower() == 'content-encoding' and
                 header_value == 'gzip' and
@@ -503,6 +503,6 @@ class URLFetchServiceStub(apiproxy_stub.APIProxyStub):
       logging.warn('Stripped prohibited headers from URLFetch request: %s',
                    prohibited_headers)
 
-      for index in reversed(xrange(len(headers))):
+      for index in reversed(range(len(headers))):
         if headers[index].key().lower() in untrusted_headers:
           del headers[index]

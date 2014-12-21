@@ -27,7 +27,7 @@
 
 import os
 import re
-import urllib
+import urllib.request, urllib.parse, urllib.error
 
 from google.appengine.api import capabilities
 from google.appengine.api import datastore
@@ -194,7 +194,7 @@ class DoDeleteHandler(webapp.RequestHandler):
           error = ''
 
 
-        except Exception, e:
+        except Exception as e:
           error = self._HandleException(e)
 
         parameters = [('job', job) for job in jobs]
@@ -203,7 +203,7 @@ class DoDeleteHandler(webapp.RequestHandler):
       else:
         parameters = [('xsrf_error', '1')]
 
-    query = urllib.urlencode(parameters)
+    query = urllib.parse.urlencode(parameters)
 
     self.redirect('%s/%s?%s' % (config.BASE_PATH, self.SUFFIX, query))
 

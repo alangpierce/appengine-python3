@@ -47,7 +47,7 @@ try:
 except ImportError:
   pytz = None
 
-import groc
+from . import groc
 
 HOURS = 'hours'
 MINUTES = 'minutes'
@@ -547,7 +547,7 @@ class SpecificTimeSpecification(TimeSpecification):
       months = self._NextMonthGenerator(start_time.month, self.months)
     while True:
 
-      month, yearwraps = months.next()
+      month, yearwraps = next(months)
       candidate_month = start_time.replace(day=1, month=month,
                                            year=start_time.year + yearwraps)
 

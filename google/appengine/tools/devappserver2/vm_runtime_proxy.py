@@ -236,8 +236,8 @@ class VMRuntimeProxy(instance.RuntimeProxy):
 
     # Handle user defined environment variables
     if self._module_configuration.env_variables:
-      ev = (environment.viewkeys() &
-            self._module_configuration.env_variables.viewkeys())
+      ev = (environment.keys() &
+            self._module_configuration.env_variables.keys())
       if ev:
         raise InvalidEnvVariableError(
             'Environment variables [%s] are reserved for App Engine use' %
@@ -255,7 +255,7 @@ class VMRuntimeProxy(instance.RuntimeProxy):
     # Publish forwarded ports
     # NOTE: fowarded ports are mapped as host_port => container_port,
     # port_bindings are mapped the other way around.
-    for h, c in self._module_configuration.forwarded_ports.iteritems():
+    for h, c in self._module_configuration.forwarded_ports.items():
       if c in port_bindings:
         raise InvalidForwardedPortError(
             'Port {port} is already used by debugger or runtime specific '

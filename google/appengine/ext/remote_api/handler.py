@@ -404,7 +404,7 @@ class ApiCallHandler(webapp.RequestHandler):
       response_data = self.ExecuteRequest(request)
       response.set_response(response_data.Encode())
       self.response.set_status(200)
-    except Exception, e:
+    except Exception as e:
       logging.exception('Exception while handling %s', request)
       self.response.set_status(200)
 

@@ -19,7 +19,7 @@
 
 
 import functools
-import httplib
+import http.client
 import logging
 import os
 import re
@@ -338,7 +338,7 @@ class BuildRequestEnvironTest(unittest.TestCase):
         'wsgi.multiprocess': True}
     environ = self.module.build_request_environ(
         'PUT', '/foo?bar=baz', [('Header', 'Value'), ('Other', 'Values')],
-        u'body', '1.2.3.4', 80)
+        'body', '1.2.3.4', 80)
     self.assertEqual('', environ.pop('wsgi.errors').getvalue())
     self.assertEqual('body', environ.pop('wsgi.input').getvalue())
     self.assertEqual(expected_environ, environ)
@@ -2662,7 +2662,7 @@ class TestInteractiveCommandModule(unittest.TestCase):
   def test_handle_script_request_restart(self):
     def restart_and_raise(*args):
       self.servr._inst = None
-      raise httplib.BadStatusLine('line')
+      raise http.client.BadStatusLine('line')
 
     start_response = start_response_utils.CapturingStartResponse()
     self.servr._instance_factory.new_instance(
@@ -2700,11 +2700,11 @@ class TestInteractiveCommandModule(unittest.TestCase):
         self.url_map,
         self.match,
         self.request_id,
-        instance.INTERACTIVE_REQUEST).AndRaise(httplib.BadStatusLine('line'))
+        instance.INTERACTIVE_REQUEST).AndRaise(http.client.BadStatusLine('line'))
 
     self.mox.ReplayAll()
     self.assertRaises(
-        httplib.BadStatusLine,
+        http.client.BadStatusLine,
         self.servr._handle_script_request,
         self.environ,
         self.start_response,

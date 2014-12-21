@@ -236,7 +236,7 @@ def parse_mapreduce_yaml(contents):
     listener.Parse(contents)
 
     mr_info = handler.GetResults()
-  except (ValueError, yaml_errors.EventError), e:
+  except (ValueError, yaml_errors.EventError) as e:
     raise errors.BadYamlError(e)
 
   if len(mr_info) < 1:

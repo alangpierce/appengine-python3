@@ -132,7 +132,7 @@ class _Parser(object):
 
   def _parse_parameterized_format(self):
     """Parses parameterized_format."""
-    format_name = self._tokenizer.next()
+    format_name = next(self._tokenizer)
     self._validate_string(format_name)
 
     arguments = {}
@@ -158,10 +158,10 @@ class _Parser(object):
       if not comma_exist:
         raise ValueError('Arguments should be separated by comma at index %d.'
                          % self._tokenizer.index)
-      key = self._tokenizer.next()
+      key = next(self._tokenizer)
       self._validate_string(key)
       self._tokenizer.consume('=')
-      value = self._tokenizer.next()
+      value = next(self._tokenizer)
       comma_exist = self._tokenizer.consume_if(',')
       if key in arguments:
         raise ValueError('Argument %s defined more than once.' % key)
@@ -245,7 +245,7 @@ class _Tokenizer(object):
     Raises:
       ValueError: raised when the next token doesn't match expected_token.
     """
-    token = self.next()
+    token = next(self)
     if token != expected_token:
       raise ValueError('Expect "%s" but got "%s" at offset %d' %
                        (expected_token, token, self.index))

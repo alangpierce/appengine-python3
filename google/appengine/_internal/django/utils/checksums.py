@@ -12,7 +12,7 @@ def luhn(candidate):
     algorithm (used in validation of, for example, credit cards).
     Both numeric and string candidates are accepted.
     """
-    if not isinstance(candidate, basestring):
+    if not isinstance(candidate, str):
         candidate = str(candidate)
     try:
         evens = sum([int(c) for c in candidate[-1::-2]])

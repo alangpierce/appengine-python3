@@ -1,6 +1,6 @@
 import os
 import errno
-import urlparse
+import urllib.parse
 import itertools
 
 from google.appengine._internal.django.conf import settings
@@ -72,7 +72,7 @@ class Storage(object):
         count = itertools.count(1)
         while self.exists(name):
             # file_ext includes the dot.
-            name = os.path.join(dir_name, "%s_%s%s" % (file_root, count.next(), file_ext))
+            name = os.path.join(dir_name, "%s_%s%s" % (file_root, next(count), file_ext))
 
         return name
 
@@ -170,7 +170,7 @@ class FileSystemStorage(Storage):
                     finally:
                         locks.unlock(fd)
                         os.close(fd)
-            except OSError, e:
+            except OSError as e:
                 if e.errno == errno.EEXIST:
                     # Ooops, the file exists. We need a new file name.
                     name = self.get_available_name(name)
@@ -218,7 +218,7 @@ class FileSystemStorage(Storage):
     def url(self, name):
         if self.base_url is None:
             raise ValueError("This file is not accessible via a URL.")
-        return urlparse.urljoin(self.base_url, filepath_to_uri(name))
+        return urllib.parse.urljoin(self.base_url, filepath_to_uri(name))
 
 def get_storage_class(import_path=None):
     if import_path is None:
@@ -230,7 +230,7 @@ def get_storage_class(import_path=None):
     module, classname = import_path[:dot], import_path[dot+1:]
     try:
         mod = import_module(module)
-    except ImportError, e:
+    except ImportError as e:
         raise ImproperlyConfigured('Error importing storage module %s: "%s"' % (module, e))
     try:
         return getattr(mod, classname)

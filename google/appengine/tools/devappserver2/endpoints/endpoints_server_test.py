@@ -22,7 +22,7 @@
 
 
 
-import httplib
+import http.client
 import json
 import logging
 import unittest
@@ -341,7 +341,7 @@ class DevAppserverEndpointsServerTest(test_utils.TestsWithStartResponse):
         discovery_api_proxy.DiscoveryApiProxy)
     self.mox.StubOutWithMock(discovery_api_proxy, 'DiscoveryApiProxy')
     discovery_api_proxy.DiscoveryApiProxy().AndReturn(discovery_api)
-    static_response = self.mox.CreateMock(httplib.HTTPResponse)
+    static_response = self.mox.CreateMock(http.client.HTTPResponse)
     static_response.status = 200
     static_response.reason = 'OK'
     static_response.getheader('Content-Type').AndReturn('test/type')
@@ -369,7 +369,7 @@ class DevAppserverEndpointsServerTest(test_utils.TestsWithStartResponse):
         discovery_api_proxy.DiscoveryApiProxy)
     self.mox.StubOutWithMock(discovery_api_proxy, 'DiscoveryApiProxy')
     discovery_api_proxy.DiscoveryApiProxy().AndReturn(discovery_api)
-    static_response = self.mox.CreateMock(httplib.HTTPResponse)
+    static_response = self.mox.CreateMock(http.client.HTTPResponse)
     static_response.status = 404
     static_response.reason = 'Not Found'
     static_response.getheaders().AndReturn([('Content-Type', 'test/type')])

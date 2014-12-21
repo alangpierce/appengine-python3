@@ -46,12 +46,12 @@ class JobConfig(parameters._Config):
   will be used.
   """
 
-  job_name = _Option(basestring, required=True)
+  job_name = _Option(str, required=True)
 
 
 
 
-  job_id = _Option(basestring, default_factory=util._get_descending_key)
+  job_id = _Option(str, default_factory=util._get_descending_key)
 
 
   mapper = _Option(mapper_module.Mapper, required=True)
@@ -82,7 +82,7 @@ class JobConfig(parameters._Config):
 
 
   queue_name = _Option(
-      basestring, default_factory=lambda: parameters.config.QUEUE_NAME)
+      str, default_factory=lambda: parameters.config.QUEUE_NAME)
 
 
   shard_max_attempts = _Option(
@@ -90,12 +90,12 @@ class JobConfig(parameters._Config):
 
 
 
-  done_callback_url = _Option(basestring, can_be_none=True)
+  done_callback_url = _Option(str, can_be_none=True)
 
 
   _force_writes = _Option(bool, default_factory=lambda: False)
 
-  _base_path = _Option(basestring,
+  _base_path = _Option(str,
                        default_factory=lambda: parameters.config.BASE_PATH)
 
   _task_max_attempts = _Option(
@@ -107,7 +107,7 @@ class JobConfig(parameters._Config):
 
   _hooks_cls = _Option(hooks.Hooks, can_be_none=True)
 
-  _app = _Option(basestring, can_be_none=True)
+  _app = _Option(str, can_be_none=True)
 
   _api_version = _Option(int, default_factory=lambda: _API_VERSION)
 

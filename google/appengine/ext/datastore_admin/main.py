@@ -114,7 +114,7 @@ def _GetDatastoreStats(kinds_list, use_stats_kinds=False):
         and kind_ent.count > 0):
       results[kind_ent.kind_name] = _PresentatableKindStats(kind_ent)
 
-  utils.CacheStats(results.values())
+  utils.CacheStats(list(results.values()))
 
 
 
@@ -123,7 +123,7 @@ def _GetDatastoreStats(kinds_list, use_stats_kinds=False):
       results[kind_str] = {'kind_name': kind_str}
 
   return (global_ts,
-          sorted(results.values(), key=lambda x: x['kind_name']))
+          sorted(list(results.values()), key=lambda x: x['kind_name']))
 
 
 def _KindsListToTuple(kinds_list):
@@ -160,7 +160,7 @@ class RouteByActionHandler(webapp.RequestHandler):
       if not kinds:
         use_stats_kinds = True
         logging.warning('Found no kinds. Using datastore stats instead.')
-    except datastore_errors.Error, e:
+    except datastore_errors.Error as e:
       logging.exception(e)
       use_stats_kinds = True
 

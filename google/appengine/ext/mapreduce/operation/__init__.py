@@ -40,8 +40,8 @@ on recieving from handler function.
 
 
 
-import db
-import counters
-from base import Operation
+from . import db
+from . import counters
+from .base import Operation
 
 __all__ = ['db', 'counters', 'Operation']

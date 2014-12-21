@@ -290,7 +290,7 @@ class BlobstoreDownloadHandler(webapp.RequestHandler):
     self.response.headers[blobstore.BLOB_KEY_HEADER] = str(blob_key)
 
     if content_type:
-      if isinstance(content_type, unicode):
+      if isinstance(content_type, str):
         content_type = content_type.encode('utf-8')
       self.response.headers['Content-Type'] = content_type
     else:
@@ -299,13 +299,13 @@ class BlobstoreDownloadHandler(webapp.RequestHandler):
       del self.response.headers['Content-Type']
 
     def send_attachment(filename):
-      if isinstance(filename, unicode):
+      if isinstance(filename, str):
         filename = filename.encode('utf-8')
       self.response.headers['Content-Disposition'] = (
           _CONTENT_DISPOSITION_FORMAT % filename)
 
     if save_as:
-      if isinstance(save_as, basestring):
+      if isinstance(save_as, str):
         send_attachment(save_as)
       elif blob_info and save_as is True:
         send_attachment(blob_info.filename)
@@ -373,7 +373,7 @@ class BlobstoreUploadHandler(webapp.RequestHandler):
     """
     if self.__uploads is None:
       self.__uploads = collections.defaultdict(list)
-      for key, value in self.request.params.items():
+      for key, value in list(self.request.params.items()):
         if isinstance(value, cgi.FieldStorage):
           if 'blob-key' in value.type_options:
             self.__uploads[key].append(blobstore.parse_blob_info(value))
@@ -382,7 +382,7 @@ class BlobstoreUploadHandler(webapp.RequestHandler):
       return list(self.__uploads.get(field_name, []))
     else:
       results = []
-      for uploads in self.__uploads.itervalues():
+      for uploads in self.__uploads.values():
         results.extend(uploads)
       return results
 
@@ -399,7 +399,7 @@ class BlobstoreUploadHandler(webapp.RequestHandler):
     """
     if self.__file_infos is None:
       self.__file_infos = collections.defaultdict(list)
-      for key, value in self.request.params.items():
+      for key, value in list(self.request.params.items()):
         if isinstance(value, cgi.FieldStorage):
           if 'blob-key' in value.type_options:
             self.__file_infos[key].append(blobstore.parse_file_info(value))
@@ -408,6 +408,6 @@ class BlobstoreUploadHandler(webapp.RequestHandler):
       return list(self.__file_infos.get(field_name, []))
     else:
       results = []
-      for uploads in self.__file_infos.itervalues():
+      for uploads in self.__file_infos.values():
         results.extend(uploads)
       return results

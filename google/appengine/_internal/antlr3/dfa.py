@@ -71,7 +71,7 @@ class DFA(object):
         mark = input.mark()
         s = 0 # we always start at s0
         try:
-            for _ in xrange(50000):
+            for _ in range(50000):
                 #print "***Current state = %d" % s
 
                 specialState = self.special[s]

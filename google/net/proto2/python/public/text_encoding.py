@@ -22,7 +22,7 @@ import re
 import sys
 
 
-_cescape_utf8_to_str = [chr(i) for i in xrange(0, 256)]
+_cescape_utf8_to_str = [chr(i) for i in range(0, 256)]
 _cescape_utf8_to_str[9] = r'\t'
 _cescape_utf8_to_str[10] = r'\n'
 _cescape_utf8_to_str[13] = r'\r'
@@ -32,9 +32,9 @@ _cescape_utf8_to_str[34] = r'\"'
 _cescape_utf8_to_str[92] = r'\\'
 
 
-_cescape_byte_to_str = ([r'\%03o' % i for i in xrange(0, 32)] +
-                        [chr(i) for i in xrange(32, 127)] +
-                        [r'\%03o' % i for i in xrange(127, 256)])
+_cescape_byte_to_str = ([r'\%03o' % i for i in range(0, 32)] +
+                        [chr(i) for i in range(32, 127)] +
+                        [r'\%03o' % i for i in range(127, 256)])
 _cescape_byte_to_str[9] = r'\t'
 _cescape_byte_to_str[10] = r'\n'
 _cescape_byte_to_str[13] = r'\r'
@@ -61,7 +61,7 @@ def CEscape(text, as_utf8):
   """
 
 
-  Ord = ord if isinstance(text, basestring) else lambda x: x
+  Ord = ord if isinstance(text, str) else lambda x: x
   if as_utf8:
     return ''.join(_cescape_utf8_to_str[Ord(c)] for c in text)
   return ''.join(_cescape_byte_to_str[Ord(c)] for c in text)

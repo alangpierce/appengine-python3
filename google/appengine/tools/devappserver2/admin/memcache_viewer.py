@@ -29,7 +29,7 @@ information. Java, PHP and Python map types in inconsistent ways, see:
 
 import datetime
 import logging
-import urllib
+import urllib.request, urllib.parse, urllib.error
 
 from google.appengine.api import apiproxy_stub_map
 from google.appengine.api import memcache
@@ -96,7 +96,7 @@ class StringValueConverter(object):
 class UnicodeValueConverter(object):
   memcache_type = memcache.TYPE_UNICODE
   # Hello world in Japanese.
-  placeholder = u'\u3053\u3093\u306b\u3061\u306f\u4e16\u754c'
+  placeholder = '\u3053\u3093\u306b\u3061\u306f\u4e16\u754c'
   can_edit = True
   friendly_type_name = 'Unicode String'
 
@@ -284,9 +284,9 @@ class MemcacheViewerRequestHandler(admin_request_handler.AdminRequestHandler):
     Returns:
       String.
     """
-    return '&'.join('%s=%s' % (urllib.quote_plus(k.encode('utf8')),
-                               urllib.quote_plus(v.encode('utf8')))
-                    for k, v in query.iteritems())
+    return '&'.join('%s=%s' % (urllib.parse.quote_plus(k.encode('utf8')),
+                               urllib.parse.quote_plus(v.encode('utf8')))
+                    for k, v in query.items())
 
   def post(self):
     """Handle modifying actions and/or redirect to GET page."""

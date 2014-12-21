@@ -144,7 +144,7 @@ def blobstore_download_rewriter(state):
   del state.headers[blobstore.BLOB_KEY_HEADER]
 
   blob_size, blob_content_type, blob_open_key = _get_blob_metadata(blob_key)
-  if isinstance(blob_content_type, unicode):
+  if isinstance(blob_content_type, str):
     blob_content_type = blob_content_type.encode('ascii')
 
   range_header = state.headers.get(blobstore.BLOB_RANGE_HEADER)

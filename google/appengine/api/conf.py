@@ -97,7 +97,7 @@ class Config(db.Expando):
     Args:
       parse_config: A YAMLConfiguration.
     """
-    for key, value in parsed_config.parameters.iteritems():
+    for key, value in parsed_config.parameters.items():
       setattr(self, key, value)
 
 
@@ -148,7 +148,7 @@ class _Scalar(validation.Validator):
   We only allow scalars that are well supported by both the datastore and YAML.
   """
   ALLOWED_PARAMETER_VALUE_TYPES = frozenset(
-      [bool, int, long, float, str, unicode])
+      [bool, int, int, float, str, str])
 
   def Validate(self, value, key):
     """Check that all parameters are scalar values.

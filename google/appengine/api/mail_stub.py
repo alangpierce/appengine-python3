@@ -35,7 +35,7 @@ from email import MIMEBase
 from email import MIMEMultipart
 from email import MIMEText
 import logging
-import mail
+from . import mail
 import mimetypes
 import re
 import subprocess
@@ -173,7 +173,7 @@ class MailServiceStub(apiproxy_stub.APIProxyStub):
       return re.search(to, recipient)
 
     if to:
-      messages = [m for m in messages if filter(recipient_matches, m.to_list())]
+      messages = [m for m in messages if list(filter(recipient_matches, m.to_list()))]
     if sender:
       messages = [m for m in messages if re.search(sender, m.sender())]
     if subject:
@@ -239,7 +239,7 @@ class MailServiceStub(apiproxy_stub.APIProxyStub):
       for to in ('To', 'Cc', 'Bcc'):
         if mime_message[to]:
           tos.extend("'%s'" % addr.strip().replace("'", r"'\''")
-                     for addr in unicode(mime_message[to]).split(','))
+                     for addr in str(mime_message[to]).split(','))
 
       command = '%s %s' % (sendmail_command, ' '.join(tos))
 
@@ -248,7 +248,7 @@ class MailServiceStub(apiproxy_stub.APIProxyStub):
                       shell=True,
                       stdin=subprocess.PIPE,
                       stdout=subprocess.PIPE)
-      except (IOError, OSError), e:
+      except (IOError, OSError) as e:
         logging.error('Unable to open pipe to sendmail')
         raise
       try:
@@ -260,7 +260,7 @@ class MailServiceStub(apiproxy_stub.APIProxyStub):
         while child.poll() is None:
           child.stdout.read(100)
         child.stdout.close()
-    except (IOError, OSError), e:
+    except (IOError, OSError) as e:
       logging.error('Error sending mail using sendmail: ' + str(e))
 
   def _Send(self, request, response, log=logging.info,

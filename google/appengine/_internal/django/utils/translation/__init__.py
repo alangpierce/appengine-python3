@@ -59,8 +59,8 @@ def ungettext(singular, plural, number):
 
 ngettext_lazy = lazy(ngettext, str)
 gettext_lazy = lazy(gettext, str)
-ungettext_lazy = lazy(ungettext, unicode)
-ugettext_lazy = lazy(ugettext, unicode)
+ungettext_lazy = lazy(ungettext, str)
+ugettext_lazy = lazy(ugettext, str)
 
 def activate(language):
     return real_activate(language)
@@ -100,5 +100,5 @@ def _string_concat(*strings):
     Lazy variant of string concatenation, needed for translations that are
     constructed from multiple parts.
     """
-    return u''.join([force_unicode(s) for s in strings])
-string_concat = lazy(_string_concat, unicode)
+    return ''.join([force_unicode(s) for s in strings])
+string_concat = lazy(_string_concat, str)

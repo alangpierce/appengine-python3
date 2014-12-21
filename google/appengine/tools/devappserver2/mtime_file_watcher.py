@@ -78,7 +78,7 @@ class MtimeFileWatcher(object):
     try:
       self._refresh()
       diff_items = set(self._filename_to_mtime.items()).symmetric_difference(
-          old_filename_to_mtime.items())
+          list(old_filename_to_mtime.items()))
       # returns immediately if we found a difference.
       if diff_items or timeout_ms == 0:
         return {k for k, _ in diff_items}

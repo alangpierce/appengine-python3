@@ -91,7 +91,7 @@ class PortManager(object):
     Returns:
       A dictionary with forwarding rules as external_port => local_port.
     """
-    if isinstance(ports, basestring):
+    if isinstance(ports, str):
       # split a csv
       ports = [port.strip() for port in ports.split(',')]
     port_translations = {}
@@ -158,7 +158,7 @@ class PortManager(object):
     # Map container port to port 8080 on the VM (default to 8080 if not set)
     port_map[VM_PORT_FOR_CONTAINER] = int(self.container_port)
     result = ''
-    for k, v in port_map.iteritems():
+    for k, v in port_map.items():
       result += '--publish=%d:%s ' % (k, v)
     return result
 

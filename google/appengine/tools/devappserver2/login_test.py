@@ -18,9 +18,9 @@
 
 
 
-import Cookie
+import http.cookies
 import unittest
-import urllib
+import urllib.request, urllib.parse, urllib.error
 import wsgiref.util
 
 from google.appengine.tools.devappserver2 import login
@@ -309,8 +309,8 @@ class LoginPageTest(unittest.TestCase):
     environ['PATH_INFO'] = path_info
     environ['REQUEST_METHOD'] = method
     if cookie_dict:
-      cookie = Cookie.SimpleCookie(cookie_dict)
-      cookie_value = ';'.join(m.OutputString() for m in cookie.values())
+      cookie = http.cookies.SimpleCookie(cookie_dict)
+      cookie_value = ';'.join(m.OutputString() for m in list(cookie.values()))
       environ['HTTP_COOKIE'] = cookie_value
     query_dict = {}
     if action:
@@ -322,7 +322,7 @@ class LoginPageTest(unittest.TestCase):
     if continue_url:
       query_dict['continue'] = continue_url
     if query_dict:
-      environ['QUERY_STRING'] = urllib.urlencode(query_dict)
+      environ['QUERY_STRING'] = urllib.parse.urlencode(query_dict)
 
     response_dict = {}
 

@@ -76,7 +76,7 @@ import os, sys, warnings
 
 # GOOGLE NOTE: Use StringIO rather than cStringIO so that sockets can be
 # pickled.
-from StringIO import StringIO
+from io import StringIO
 
 try:
     import errno
@@ -324,7 +324,7 @@ class _fileobject(object):
     def writelines(self, list):
         # XXX We could do better here for very long lists
         # XXX Should really reject non-string non-buffers
-        lines = filter(None, map(str, list))
+        lines = [_f for _f in map(str, list) if _f]
         self._wbuf_len += sum(map(len, lines))
         self._wbuf.extend(lines)
         if (self._wbufsize <= 1 or
@@ -347,7 +347,7 @@ class _fileobject(object):
             while True:
                 try:
                     data = self._sock.recv(rbufsize)
-                except error, e:
+                except error as e:
                     if e.args[0] == EINTR:
                         continue
                     raise
@@ -376,7 +376,7 @@ class _fileobject(object):
                 # fragmentation issues on many platforms.
                 try:
                     data = self._sock.recv(left)
-                except error, e:
+                except error as e:
                     if e.args[0] == EINTR:
                         continue
                     raise
@@ -429,7 +429,7 @@ class _fileobject(object):
                             if not data:
                                 break
                             buffers.append(data)
-                    except error, e:
+                    except error as e:
                         # The try..except to catch EINTR was moved outside the
                         # recv loop to avoid the per byte overhead.
                         if e.args[0] == EINTR:
@@ -443,7 +443,7 @@ class _fileobject(object):
             while True:
                 try:
                     data = self._sock.recv(self._rbufsize)
-                except error, e:
+                except error as e:
                     if e.args[0] == EINTR:
                         continue
                     raise
@@ -472,7 +472,7 @@ class _fileobject(object):
             while True:
                 try:
                     data = self._sock.recv(self._rbufsize)
-                except error, e:
+                except error as e:
                     if e.args[0] == EINTR:
                         continue
                     raise
@@ -524,7 +524,7 @@ class _fileobject(object):
     def __iter__(self):
         return self
 
-    def next(self):
+    def __next__(self):
         line = self.readline()
         if not line:
             raise StopIteration

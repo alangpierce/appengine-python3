@@ -4,12 +4,13 @@ Serialize data to/from JSON
 
 import datetime
 import decimal
-from StringIO import StringIO
+from io import StringIO
 
 from google.appengine._internal.django.core.serializers.python import Serializer as PythonSerializer
 from google.appengine._internal.django.core.serializers.python import Deserializer as PythonDeserializer
 from google.appengine._internal.django.utils import datetime_safe
 from google.appengine._internal.django.utils import simplejson
+import collections
 
 class Serializer(PythonSerializer):
     """
@@ -21,14 +22,14 @@ class Serializer(PythonSerializer):
         simplejson.dump(self.objects, self.stream, cls=DjangoJSONEncoder, **self.options)
 
     def getvalue(self):
-        if callable(getattr(self.stream, 'getvalue', None)):
+        if isinstance(getattr(self.stream, 'getvalue', None), collections.Callable):
             return self.stream.getvalue()
 
 def Deserializer(stream_or_string, **options):
     """
     Deserialize a stream or string of JSON data.
     """
-    if isinstance(stream_or_string, basestring):
+    if isinstance(stream_or_string, str):
         stream = StringIO(stream_or_string)
     else:
         stream = stream_or_string

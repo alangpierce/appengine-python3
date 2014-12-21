@@ -50,7 +50,7 @@ def _remove_pred(lst, pred):
 
   # Walk the list in reverse because once an item is deleted,
   # the indexes of any subsequent items change.
-  for idx in reversed(xrange(len(lst))):
+  for idx in reversed(range(len(lst))):
     if pred(lst[idx]):
       del lst[idx]
 

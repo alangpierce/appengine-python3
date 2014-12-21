@@ -216,7 +216,7 @@ def _swap_settings(new):
   """
   settings = django.conf.settings
   old = {}
-  for key, value in new.iteritems():
+  for key, value in new.items():
     old[key] = getattr(settings, key, None)
     setattr(settings, key, value)
   return old

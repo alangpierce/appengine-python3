@@ -2,11 +2,11 @@ import re
 from google.appengine._internal.django.utils.encoding import force_unicode
 from google.appengine._internal.django.utils.functional import allow_lazy
 from google.appengine._internal.django.utils.translation import ugettext_lazy
-from htmlentitydefs import name2codepoint
+from html.entities import name2codepoint
 
 # Capitalizes the first letter of a string.
 capfirst = lambda x: x and force_unicode(x)[0].upper() + force_unicode(x)[1:]
-capfirst = allow_lazy(capfirst, unicode)
+capfirst = allow_lazy(capfirst, str)
 
 def wrap(text, width):
     """
@@ -16,7 +16,7 @@ def wrap(text, width):
     text = force_unicode(text)
     def _generator():
         it = iter(text.split(' '))
-        word = it.next()
+        word = next(it)
         yield word
         pos = len(word) - word.rfind('\n') - 1
         for word in it:
@@ -33,8 +33,8 @@ def wrap(text, width):
                 if len(lines) > 1:
                     pos = len(lines[-1])
             yield word
-    return u''.join(_generator())
-wrap = allow_lazy(wrap, unicode)
+    return ''.join(_generator())
+wrap = allow_lazy(wrap, str)
 
 def truncate_words(s, num, end_text='...'):
     """Truncates a string after a certain number of words. Takes an optional
@@ -50,8 +50,8 @@ def truncate_words(s, num, end_text='...'):
         words = words[:length]
         if not words[-1].endswith(end_text):
             words.append(end_text)
-    return u' '.join(words)
-truncate_words = allow_lazy(truncate_words, unicode)
+    return ' '.join(words)
+truncate_words = allow_lazy(truncate_words, str)
 
 def truncate_html_words(s, num, end_text='...'):
     """Truncates HTML to a certain number of words (not counting tags and
@@ -64,7 +64,7 @@ def truncate_html_words(s, num, end_text='...'):
     s = force_unicode(s)
     length = int(num)
     if length <= 0:
-        return u''
+        return ''
     html4_singlets = ('br', 'col', 'link', 'base', 'img', 'param', 'area', 'hr', 'input')
     # Set up regular expressions
     re_words = re.compile(r'&.*?;|<.*?>|(\w[\w-]*)', re.U)
@@ -118,7 +118,7 @@ def truncate_html_words(s, num, end_text='...'):
         out += '</%s>' % tag
     # Return string
     return out
-truncate_html_words = allow_lazy(truncate_html_words, unicode)
+truncate_html_words = allow_lazy(truncate_html_words, str)
 
 def get_valid_filename(s):
     """
@@ -131,9 +131,9 @@ def get_valid_filename(s):
     """
     s = force_unicode(s).strip().replace(' ', '_')
     return re.sub(r'(?u)[^-\w.]', '', s)
-get_valid_filename = allow_lazy(get_valid_filename, unicode)
+get_valid_filename = allow_lazy(get_valid_filename, str)
 
-def get_text_list(list_, last_word=ugettext_lazy(u'or')):
+def get_text_list(list_, last_word=ugettext_lazy('or')):
     """
     >>> get_text_list(['a', 'b', 'c', 'd'])
     u'a, b, c or d'
@@ -146,14 +146,14 @@ def get_text_list(list_, last_word=ugettext_lazy(u'or')):
     >>> get_text_list([])
     u''
     """
-    if len(list_) == 0: return u''
+    if len(list_) == 0: return ''
     if len(list_) == 1: return force_unicode(list_[0])
-    return u'%s %s %s' % (', '.join([force_unicode(i) for i in list_][:-1]), force_unicode(last_word), force_unicode(list_[-1]))
-get_text_list = allow_lazy(get_text_list, unicode)
+    return '%s %s %s' % (', '.join([force_unicode(i) for i in list_][:-1]), force_unicode(last_word), force_unicode(list_[-1]))
+get_text_list = allow_lazy(get_text_list, str)
 
 def normalize_newlines(text):
     return force_unicode(re.sub(r'\r\n|\r|\n', '\n', text))
-normalize_newlines = allow_lazy(normalize_newlines, unicode)
+normalize_newlines = allow_lazy(normalize_newlines, str)
 
 def recapitalize(text):
     "Recapitalizes text, placing caps after end-of-sentence punctuation."
@@ -177,14 +177,14 @@ phone2numeric = allow_lazy(phone2numeric)
 # From http://www.xhaus.com/alan/python/httpcomp.html#gzip
 # Used with permission.
 def compress_string(s):
-    import cStringIO, gzip
-    zbuf = cStringIO.StringIO()
+    import io, gzip
+    zbuf = io.StringIO()
     zfile = gzip.GzipFile(mode='wb', compresslevel=6, fileobj=zbuf)
     zfile.write(s)
     zfile.close()
     return zbuf.getvalue()
 
-ustring_re = re.compile(u"([\u0080-\uffff])")
+ustring_re = re.compile("([\u0080-\uffff])")
 
 def javascript_quote(s, quote_double_quotes=False):
 
@@ -193,7 +193,7 @@ def javascript_quote(s, quote_double_quotes=False):
 
     if type(s) == str:
         s = s.decode('utf-8')
-    elif type(s) != unicode:
+    elif type(s) != str:
         raise TypeError(s)
     s = s.replace('\\', '\\\\')
     s = s.replace('\r', '\\r')
@@ -203,7 +203,7 @@ def javascript_quote(s, quote_double_quotes=False):
     if quote_double_quotes:
         s = s.replace('"', '&quot;')
     return str(ustring_re.sub(fix, s))
-javascript_quote = allow_lazy(javascript_quote, unicode)
+javascript_quote = allow_lazy(javascript_quote, str)
 
 # Expression to match some_token and some_token="with spaces" (and similarly
 # for single-quoted strings).
@@ -235,23 +235,23 @@ def smart_split(text):
     text = force_unicode(text)
     for bit in smart_split_re.finditer(text):
         yield bit.group(0)
-smart_split = allow_lazy(smart_split, unicode)
+smart_split = allow_lazy(smart_split, str)
 
 def _replace_entity(match):
     text = match.group(1)
-    if text[0] == u'#':
+    if text[0] == '#':
         text = text[1:]
         try:
-            if text[0] in u'xX':
+            if text[0] in 'xX':
                 c = int(text[1:], 16)
             else:
                 c = int(text)
-            return unichr(c)
+            return chr(c)
         except ValueError:
             return match.group(0)
     else:
         try:
-            return unichr(name2codepoint[text])
+            return chr(name2codepoint[text])
         except (ValueError, KeyError):
             return match.group(0)
 
@@ -259,7 +259,7 @@ _entity_re = re.compile(r"&(#?[xX]?(?:[0-9a-fA-F]+|\w{1,8}));")
 
 def unescape_entities(text):
     return _entity_re.sub(_replace_entity, text)
-unescape_entities = allow_lazy(unescape_entities, unicode)
+unescape_entities = allow_lazy(unescape_entities, str)
 
 def unescape_string_literal(s):
     r"""

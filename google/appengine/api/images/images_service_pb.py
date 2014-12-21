@@ -19,7 +19,7 @@
 
 from google.net.proto import ProtocolBuffer
 import array
-import dummy_thread as thread
+import _dummy_thread as thread
 
 __pychecker__ = """maxreturns=0 maxbranches=0 no-callinit
                    unusednames=printElemNumber,debug_strs no-special"""
@@ -106,7 +106,7 @@ class ImagesServiceError(ProtocolBuffer.ProtocolMessage):
 
 
   def _BuildTagLookupTable(sparse, maxtag, default=None):
-    return tuple([sparse.get(i, default) for i in xrange(0, 1+maxtag)])
+    return tuple([sparse.get(i, default) for i in range(0, 1+maxtag)])
 
 
   _TEXT = _BuildTagLookupTable({
@@ -192,7 +192,7 @@ class ImagesServiceTransform(ProtocolBuffer.ProtocolMessage):
 
 
   def _BuildTagLookupTable(sparse, maxtag, default=None):
-    return tuple([sparse.get(i, default) for i in xrange(0, 1+maxtag)])
+    return tuple([sparse.get(i, default) for i in range(0, 1+maxtag)])
 
 
   _TEXT = _BuildTagLookupTable({
@@ -687,7 +687,7 @@ class Transform(ProtocolBuffer.ProtocolMessage):
 
 
   def _BuildTagLookupTable(sparse, maxtag, default=None):
-    return tuple([sparse.get(i, default) for i in xrange(0, 1+maxtag)])
+    return tuple([sparse.get(i, default) for i in range(0, 1+maxtag)])
 
   kwidth = 1
   kheight = 2
@@ -919,7 +919,7 @@ class ImageData(ProtocolBuffer.ProtocolMessage):
 
 
   def _BuildTagLookupTable(sparse, maxtag, default=None):
-    return tuple([sparse.get(i, default) for i in xrange(0, 1+maxtag)])
+    return tuple([sparse.get(i, default) for i in range(0, 1+maxtag)])
 
   kcontent = 1
   kblob_key = 2
@@ -1098,7 +1098,7 @@ class InputSettings(ProtocolBuffer.ProtocolMessage):
 
 
   def _BuildTagLookupTable(sparse, maxtag, default=None):
-    return tuple([sparse.get(i, default) for i in xrange(0, 1+maxtag)])
+    return tuple([sparse.get(i, default) for i in range(0, 1+maxtag)])
 
   kcorrect_exif_orientation = 1
   kparse_metadata = 2
@@ -1245,7 +1245,7 @@ class OutputSettings(ProtocolBuffer.ProtocolMessage):
 
 
   def _BuildTagLookupTable(sparse, maxtag, default=None):
-    return tuple([sparse.get(i, default) for i in xrange(0, 1+maxtag)])
+    return tuple([sparse.get(i, default) for i in range(0, 1+maxtag)])
 
   kmime_type = 1
   kquality = 2
@@ -1334,7 +1334,7 @@ class ImagesTransformRequest(ProtocolBuffer.ProtocolMessage):
   def MergeFrom(self, x):
     assert x is not self
     if (x.has_image()): self.mutable_image().MergeFrom(x.image())
-    for i in xrange(x.transform_size()): self.add_transform().CopyFrom(x.transform(i))
+    for i in range(x.transform_size()): self.add_transform().CopyFrom(x.transform(i))
     if (x.has_output()): self.mutable_output().MergeFrom(x.output())
     if (x.has_input()): self.mutable_input().MergeFrom(x.input())
 
@@ -1372,7 +1372,7 @@ class ImagesTransformRequest(ProtocolBuffer.ProtocolMessage):
     n = 0
     n += self.lengthString(self.image_.ByteSize())
     n += 1 * len(self.transform_)
-    for i in xrange(len(self.transform_)): n += self.lengthString(self.transform_[i].ByteSize())
+    for i in range(len(self.transform_)): n += self.lengthString(self.transform_[i].ByteSize())
     n += self.lengthString(self.output_.ByteSize())
     if (self.has_input_): n += 1 + self.lengthString(self.input_.ByteSize())
     return n + 2
@@ -1383,7 +1383,7 @@ class ImagesTransformRequest(ProtocolBuffer.ProtocolMessage):
       n += 1
       n += self.lengthString(self.image_.ByteSizePartial())
     n += 1 * len(self.transform_)
-    for i in xrange(len(self.transform_)): n += self.lengthString(self.transform_[i].ByteSizePartial())
+    for i in range(len(self.transform_)): n += self.lengthString(self.transform_[i].ByteSizePartial())
     if (self.has_output_):
       n += 1
       n += self.lengthString(self.output_.ByteSizePartial())
@@ -1400,7 +1400,7 @@ class ImagesTransformRequest(ProtocolBuffer.ProtocolMessage):
     out.putVarInt32(10)
     out.putVarInt32(self.image_.ByteSize())
     self.image_.OutputUnchecked(out)
-    for i in xrange(len(self.transform_)):
+    for i in range(len(self.transform_)):
       out.putVarInt32(18)
       out.putVarInt32(self.transform_[i].ByteSize())
       self.transform_[i].OutputUnchecked(out)
@@ -1417,7 +1417,7 @@ class ImagesTransformRequest(ProtocolBuffer.ProtocolMessage):
       out.putVarInt32(10)
       out.putVarInt32(self.image_.ByteSizePartial())
       self.image_.OutputPartial(out)
-    for i in xrange(len(self.transform_)):
+    for i in range(len(self.transform_)):
       out.putVarInt32(18)
       out.putVarInt32(self.transform_[i].ByteSizePartial())
       self.transform_[i].OutputPartial(out)
@@ -1489,7 +1489,7 @@ class ImagesTransformRequest(ProtocolBuffer.ProtocolMessage):
 
 
   def _BuildTagLookupTable(sparse, maxtag, default=None):
-    return tuple([sparse.get(i, default) for i in xrange(0, 1+maxtag)])
+    return tuple([sparse.get(i, default) for i in range(0, 1+maxtag)])
 
   kimage = 1
   ktransform = 2
@@ -1633,7 +1633,7 @@ class ImagesTransformResponse(ProtocolBuffer.ProtocolMessage):
 
 
   def _BuildTagLookupTable(sparse, maxtag, default=None):
-    return tuple([sparse.get(i, default) for i in xrange(0, 1+maxtag)])
+    return tuple([sparse.get(i, default) for i in range(0, 1+maxtag)])
 
   kimage = 1
   ksource_metadata = 2
@@ -1905,7 +1905,7 @@ class CompositeImageOptions(ProtocolBuffer.ProtocolMessage):
 
 
   def _BuildTagLookupTable(sparse, maxtag, default=None):
-    return tuple([sparse.get(i, default) for i in xrange(0, 1+maxtag)])
+    return tuple([sparse.get(i, default) for i in range(0, 1+maxtag)])
 
   ksource_index = 1
   kx_offset = 2
@@ -2124,7 +2124,7 @@ class ImagesCanvas(ProtocolBuffer.ProtocolMessage):
 
 
   def _BuildTagLookupTable(sparse, maxtag, default=None):
-    return tuple([sparse.get(i, default) for i in xrange(0, 1+maxtag)])
+    return tuple([sparse.get(i, default) for i in range(0, 1+maxtag)])
 
   kwidth = 1
   kheight = 2
@@ -2203,8 +2203,8 @@ class ImagesCompositeRequest(ProtocolBuffer.ProtocolMessage):
 
   def MergeFrom(self, x):
     assert x is not self
-    for i in xrange(x.image_size()): self.add_image().CopyFrom(x.image(i))
-    for i in xrange(x.options_size()): self.add_options().CopyFrom(x.options(i))
+    for i in range(x.image_size()): self.add_image().CopyFrom(x.image(i))
+    for i in range(x.options_size()): self.add_options().CopyFrom(x.options(i))
     if (x.has_canvas()): self.mutable_canvas().MergeFrom(x.canvas())
 
   def Equals(self, x):
@@ -2235,18 +2235,18 @@ class ImagesCompositeRequest(ProtocolBuffer.ProtocolMessage):
   def ByteSize(self):
     n = 0
     n += 1 * len(self.image_)
-    for i in xrange(len(self.image_)): n += self.lengthString(self.image_[i].ByteSize())
+    for i in range(len(self.image_)): n += self.lengthString(self.image_[i].ByteSize())
     n += 1 * len(self.options_)
-    for i in xrange(len(self.options_)): n += self.lengthString(self.options_[i].ByteSize())
+    for i in range(len(self.options_)): n += self.lengthString(self.options_[i].ByteSize())
     n += self.lengthString(self.canvas_.ByteSize())
     return n + 1
 
   def ByteSizePartial(self):
     n = 0
     n += 1 * len(self.image_)
-    for i in xrange(len(self.image_)): n += self.lengthString(self.image_[i].ByteSizePartial())
+    for i in range(len(self.image_)): n += self.lengthString(self.image_[i].ByteSizePartial())
     n += 1 * len(self.options_)
-    for i in xrange(len(self.options_)): n += self.lengthString(self.options_[i].ByteSizePartial())
+    for i in range(len(self.options_)): n += self.lengthString(self.options_[i].ByteSizePartial())
     if (self.has_canvas_):
       n += 1
       n += self.lengthString(self.canvas_.ByteSizePartial())
@@ -2258,11 +2258,11 @@ class ImagesCompositeRequest(ProtocolBuffer.ProtocolMessage):
     self.clear_canvas()
 
   def OutputUnchecked(self, out):
-    for i in xrange(len(self.image_)):
+    for i in range(len(self.image_)):
       out.putVarInt32(10)
       out.putVarInt32(self.image_[i].ByteSize())
       self.image_[i].OutputUnchecked(out)
-    for i in xrange(len(self.options_)):
+    for i in range(len(self.options_)):
       out.putVarInt32(18)
       out.putVarInt32(self.options_[i].ByteSize())
       self.options_[i].OutputUnchecked(out)
@@ -2271,11 +2271,11 @@ class ImagesCompositeRequest(ProtocolBuffer.ProtocolMessage):
     self.canvas_.OutputUnchecked(out)
 
   def OutputPartial(self, out):
-    for i in xrange(len(self.image_)):
+    for i in range(len(self.image_)):
       out.putVarInt32(10)
       out.putVarInt32(self.image_[i].ByteSizePartial())
       self.image_[i].OutputPartial(out)
-    for i in xrange(len(self.options_)):
+    for i in range(len(self.options_)):
       out.putVarInt32(18)
       out.putVarInt32(self.options_[i].ByteSizePartial())
       self.options_[i].OutputPartial(out)
@@ -2337,7 +2337,7 @@ class ImagesCompositeRequest(ProtocolBuffer.ProtocolMessage):
 
 
   def _BuildTagLookupTable(sparse, maxtag, default=None):
-    return tuple([sparse.get(i, default) for i in xrange(0, 1+maxtag)])
+    return tuple([sparse.get(i, default) for i in range(0, 1+maxtag)])
 
   kimage = 1
   koptions = 2
@@ -2447,7 +2447,7 @@ class ImagesCompositeResponse(ProtocolBuffer.ProtocolMessage):
 
 
   def _BuildTagLookupTable(sparse, maxtag, default=None):
-    return tuple([sparse.get(i, default) for i in xrange(0, 1+maxtag)])
+    return tuple([sparse.get(i, default) for i in range(0, 1+maxtag)])
 
   kimage = 1
 
@@ -2551,7 +2551,7 @@ class ImagesHistogramRequest(ProtocolBuffer.ProtocolMessage):
 
 
   def _BuildTagLookupTable(sparse, maxtag, default=None):
-    return tuple([sparse.get(i, default) for i in xrange(0, 1+maxtag)])
+    return tuple([sparse.get(i, default) for i in range(0, 1+maxtag)])
 
   kimage = 1
 
@@ -2625,9 +2625,9 @@ class ImagesHistogram(ProtocolBuffer.ProtocolMessage):
 
   def MergeFrom(self, x):
     assert x is not self
-    for i in xrange(x.red_size()): self.add_red(x.red(i))
-    for i in xrange(x.green_size()): self.add_green(x.green(i))
-    for i in xrange(x.blue_size()): self.add_blue(x.blue(i))
+    for i in range(x.red_size()): self.add_red(x.red(i))
+    for i in range(x.green_size()): self.add_green(x.green(i))
+    for i in range(x.blue_size()): self.add_blue(x.blue(i))
 
   def Equals(self, x):
     if x is self: return 1
@@ -2649,21 +2649,21 @@ class ImagesHistogram(ProtocolBuffer.ProtocolMessage):
   def ByteSize(self):
     n = 0
     n += 1 * len(self.red_)
-    for i in xrange(len(self.red_)): n += self.lengthVarInt64(self.red_[i])
+    for i in range(len(self.red_)): n += self.lengthVarInt64(self.red_[i])
     n += 1 * len(self.green_)
-    for i in xrange(len(self.green_)): n += self.lengthVarInt64(self.green_[i])
+    for i in range(len(self.green_)): n += self.lengthVarInt64(self.green_[i])
     n += 1 * len(self.blue_)
-    for i in xrange(len(self.blue_)): n += self.lengthVarInt64(self.blue_[i])
+    for i in range(len(self.blue_)): n += self.lengthVarInt64(self.blue_[i])
     return n
 
   def ByteSizePartial(self):
     n = 0
     n += 1 * len(self.red_)
-    for i in xrange(len(self.red_)): n += self.lengthVarInt64(self.red_[i])
+    for i in range(len(self.red_)): n += self.lengthVarInt64(self.red_[i])
     n += 1 * len(self.green_)
-    for i in xrange(len(self.green_)): n += self.lengthVarInt64(self.green_[i])
+    for i in range(len(self.green_)): n += self.lengthVarInt64(self.green_[i])
     n += 1 * len(self.blue_)
-    for i in xrange(len(self.blue_)): n += self.lengthVarInt64(self.blue_[i])
+    for i in range(len(self.blue_)): n += self.lengthVarInt64(self.blue_[i])
     return n
 
   def Clear(self):
@@ -2672,24 +2672,24 @@ class ImagesHistogram(ProtocolBuffer.ProtocolMessage):
     self.clear_blue()
 
   def OutputUnchecked(self, out):
-    for i in xrange(len(self.red_)):
+    for i in range(len(self.red_)):
       out.putVarInt32(8)
       out.putVarInt32(self.red_[i])
-    for i in xrange(len(self.green_)):
+    for i in range(len(self.green_)):
       out.putVarInt32(16)
       out.putVarInt32(self.green_[i])
-    for i in xrange(len(self.blue_)):
+    for i in range(len(self.blue_)):
       out.putVarInt32(24)
       out.putVarInt32(self.blue_[i])
 
   def OutputPartial(self, out):
-    for i in xrange(len(self.red_)):
+    for i in range(len(self.red_)):
       out.putVarInt32(8)
       out.putVarInt32(self.red_[i])
-    for i in xrange(len(self.green_)):
+    for i in range(len(self.green_)):
       out.putVarInt32(16)
       out.putVarInt32(self.green_[i])
-    for i in xrange(len(self.blue_)):
+    for i in range(len(self.blue_)):
       out.putVarInt32(24)
       out.putVarInt32(self.blue_[i])
 
@@ -2735,7 +2735,7 @@ class ImagesHistogram(ProtocolBuffer.ProtocolMessage):
 
 
   def _BuildTagLookupTable(sparse, maxtag, default=None):
-    return tuple([sparse.get(i, default) for i in xrange(0, 1+maxtag)])
+    return tuple([sparse.get(i, default) for i in range(0, 1+maxtag)])
 
   kred = 1
   kgreen = 2
@@ -2845,7 +2845,7 @@ class ImagesHistogramResponse(ProtocolBuffer.ProtocolMessage):
 
 
   def _BuildTagLookupTable(sparse, maxtag, default=None):
-    return tuple([sparse.get(i, default) for i in xrange(0, 1+maxtag)])
+    return tuple([sparse.get(i, default) for i in range(0, 1+maxtag)])
 
   khistogram = 1
 
@@ -2976,7 +2976,7 @@ class ImagesGetUrlBaseRequest(ProtocolBuffer.ProtocolMessage):
 
 
   def _BuildTagLookupTable(sparse, maxtag, default=None):
-    return tuple([sparse.get(i, default) for i in xrange(0, 1+maxtag)])
+    return tuple([sparse.get(i, default) for i in range(0, 1+maxtag)])
 
   kblob_key = 1
   kcreate_secure_url = 2
@@ -3079,7 +3079,7 @@ class ImagesGetUrlBaseResponse(ProtocolBuffer.ProtocolMessage):
 
 
   def _BuildTagLookupTable(sparse, maxtag, default=None):
-    return tuple([sparse.get(i, default) for i in xrange(0, 1+maxtag)])
+    return tuple([sparse.get(i, default) for i in range(0, 1+maxtag)])
 
   kurl = 1
 
@@ -3179,7 +3179,7 @@ class ImagesDeleteUrlBaseRequest(ProtocolBuffer.ProtocolMessage):
 
 
   def _BuildTagLookupTable(sparse, maxtag, default=None):
-    return tuple([sparse.get(i, default) for i in xrange(0, 1+maxtag)])
+    return tuple([sparse.get(i, default) for i in range(0, 1+maxtag)])
 
   kblob_key = 1
 
@@ -3247,7 +3247,7 @@ class ImagesDeleteUrlBaseResponse(ProtocolBuffer.ProtocolMessage):
 
 
   def _BuildTagLookupTable(sparse, maxtag, default=None):
-    return tuple([sparse.get(i, default) for i in xrange(0, 1+maxtag)])
+    return tuple([sparse.get(i, default) for i in range(0, 1+maxtag)])
 
 
   _TEXT = _BuildTagLookupTable({

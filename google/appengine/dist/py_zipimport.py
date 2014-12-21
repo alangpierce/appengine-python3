@@ -131,7 +131,7 @@ class zipimporter:
 
       try:
         self.zipfile = zipfile.ZipFile(self.archive)
-      except (EnvironmentError, zipfile.BadZipfile), err:
+      except (EnvironmentError, zipfile.BadZipfile) as err:
 
 
         msg = 'Can\'t open zipfile %s: %s: %s' % (self.archive,
@@ -255,7 +255,7 @@ class zipimporter:
       mod.__name__ = fullmodname
       if is_package:
         mod.__path__ = [os.path.dirname(mod.__file__)]
-      exec code in mod.__dict__
+      exec(code, mod.__dict__)
     except:
       if fullmodname in sys.modules:
         del sys.modules[fullmodname]
@@ -327,7 +327,7 @@ class ZipDirectoryCache(UserDict.DictMixin):
   """Helper class to export _zip_directory_cache."""
 
   def keys(self):
-    return _zipfile_cache.keys()
+    return list(_zipfile_cache.keys())
 
   def __getitem__(self, archive):
     return ZipFileCache(archive)

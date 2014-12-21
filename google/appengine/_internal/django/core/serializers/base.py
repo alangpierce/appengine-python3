@@ -2,11 +2,12 @@
 Module for abstract serializer/unserializer base classes.
 """
 
-from StringIO import StringIO
+from io import StringIO
 
 from google.appengine._internal.django.db import models
 from google.appengine._internal.django.utils.encoding import smart_str, smart_unicode
 from google.appengine._internal.django.utils import datetime_safe
+import collections
 
 class SerializationError(Exception):
     """Something bad happened during serialization."""
@@ -107,7 +108,7 @@ class Serializer(object):
         Return the fully serialized queryset (or None if the output stream is
         not seekable).
         """
-        if callable(getattr(self.stream, 'getvalue', None)):
+        if isinstance(getattr(self.stream, 'getvalue', None), collections.Callable):
             return self.stream.getvalue()
 
 class Deserializer(object):
@@ -120,7 +121,7 @@ class Deserializer(object):
         Init this serializer given a stream or a string
         """
         self.options = options
-        if isinstance(stream_or_string, basestring):
+        if isinstance(stream_or_string, str):
             self.stream = StringIO(stream_or_string)
         else:
             self.stream = stream_or_string
@@ -132,7 +133,7 @@ class Deserializer(object):
     def __iter__(self):
         return self
 
-    def next(self):
+    def __next__(self):
         """Iteration iterface -- return the next item in the stream"""
         raise NotImplementedError
 
@@ -164,7 +165,7 @@ class DeserializedObject(object):
         # methods.
         models.Model.save_base(self.object, using=using, raw=True)
         if self.m2m_data and save_m2m:
-            for accessor_name, object_list in self.m2m_data.items():
+            for accessor_name, object_list in list(self.m2m_data.items()):
                 setattr(self.object, accessor_name, object_list)
 
         # prevent a second (possibly accidental) call to save() from saving

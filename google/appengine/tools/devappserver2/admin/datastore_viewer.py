@@ -23,7 +23,7 @@ import datetime
 import math
 import time
 import types
-import urllib
+import urllib.request, urllib.parse, urllib.error
 
 from google.appengine.api import apiproxy_stub_map
 from google.appengine.api import datastore
@@ -51,7 +51,7 @@ def _format_datastore_key(key):
   for i in range(0, len(path)//2):
     kind = path[i*2]
     value = path[i*2 + 1]
-    if isinstance(value, (int, long)):
+    if isinstance(value, int):
       parts.append('%s: id=%d' % (kind, value))
     else:
       parts.append('%s: name=%s' % (kind, value))
@@ -76,7 +76,7 @@ def _property_name_to_values(entities):
   """
   property_name_to_values = {}
   for entity in entities:
-    for property_name, value in entity.iteritems():
+    for property_name, value in entity.items():
       property_name_to_values.setdefault(property_name, []).append(value)
 
   return property_name_to_values
@@ -100,7 +100,7 @@ def _property_name_to_value(entities):
     entities.
   """
   return {key: values[0]
-          for (key, values) in _property_name_to_values(entities).iteritems()}
+          for (key, values) in _property_name_to_values(entities).items()}
 
 
 def _get_entities(kind, namespace, order, start, count):
@@ -169,7 +169,7 @@ class DataType(object):
       return ''
 
   def format(self, value):
-    if isinstance(value, types.StringTypes):
+    if isinstance(value, str):
       return value
     else:
       return str(value)
@@ -402,7 +402,7 @@ class ReferenceType(DataType):
     if value:
       html += '<br><a href="/datastore/edit/%s?next=%s">%s</a>' % (
           cgi.escape(string_value, True),
-          urllib.quote_plus(back_uri),
+          urllib.parse.quote_plus(back_uri),
           cgi.escape(_format_datastore_key(value), True))
     return html
 
@@ -508,21 +508,21 @@ class BlobKeyType(StringType):
 
 # Maps Pyathon/datatstore types to DataType instances
 _DATA_TYPES = {
-    types.NoneType: NoneType(),
-    types.StringType: StringType(),
-    types.UnicodeType: StringType(),
+    type(None): NoneType(),
+    bytes: StringType(),
+    str: StringType(),
     datastore_types.Text: TextType(),
     datastore_types.Blob: BlobType(),
     datastore_types.EmbeddedEntity: EmbeddedEntityType(),
-    types.BooleanType: BoolType(),
-    types.IntType: IntType(),
-    types.LongType: IntType(),
-    types.FloatType: FloatType(),
+    bool: BoolType(),
+    int: IntType(),
+    int: IntType(),
+    float: FloatType(),
     datetime.datetime: TimeType(),
     datastore_types._OverflowDateTime: OverflowTimeType(),
     users.User: UserType(),
     datastore_types.Key: ReferenceType(),
-    types.ListType: ListType(),
+    list: ListType(),
     datastore_types.Email: EmailType(),
     datastore_types.Category: CategoryType(),
     datastore_types.Link: LinkType(),
@@ -536,7 +536,7 @@ _DATA_TYPES = {
 }
 
 _NAMED_DATA_TYPES = {}
-for _data_type in _DATA_TYPES.values():
+for _data_type in list(_DATA_TYPES.values()):
   _NAMED_DATA_TYPES[_data_type.name()] = _data_type
 
 
@@ -548,7 +548,7 @@ class DatastoreRequestHandler(admin_request_handler.AdminRequestHandler):
   @staticmethod
   def _calculate_writes_for_built_in_indices(entity):
     writes = 0
-    for prop_name in entity.keys():
+    for prop_name in list(entity.keys()):
       if not prop_name in entity.unindexed_properties():
         # 2 writes per property value, one for EntitiesByProperty and one for
         # EntitiesbyPropertyDesc
@@ -564,7 +564,7 @@ class DatastoreRequestHandler(admin_request_handler.AdminRequestHandler):
   def _calculate_writes_for_composite_index(entity, index):
     composite_index_value_count = 1
     for prop_name, _ in index.Properties():
-      if not prop_name in entity.keys() or (
+      if not prop_name in list(entity.keys()) or (
           prop_name in entity.unindexed_properties()):
         return 0
       prop_vals = entity[prop_name]
@@ -638,7 +638,7 @@ class DatastoreRequestHandler(admin_request_handler.AdminRequestHandler):
                            'short_value': short_value,
                           })
       edit_uri = '/datastore/edit/%s?next=%s' % (
-          entity.key(), urllib.quote(request_uri))
+          entity.key(), urllib.parse.quote(request_uri))
       template_entities.append(
           {'attributes': attributes,
            'edit_uri': edit_uri,
@@ -761,7 +761,7 @@ class DatastoreEditRequestHandler(admin_request_handler.AdminRequestHandler):
 
       if not entities:
         self.redirect('/datastore?%s' % (
-            urllib.urlencode(
+            urllib.parse.urlencode(
                 [('kind', kind),
                  ('message',
                   'Cannot create the kind "%s" in the "%s" namespace because '
@@ -771,7 +771,7 @@ class DatastoreEditRequestHandler(admin_request_handler.AdminRequestHandler):
 
     property_name_to_values = _property_name_to_values(entities)
     fields = []
-    for property_name, values in sorted(property_name_to_values.iteritems()):
+    for property_name, values in sorted(property_name_to_values.items()):
       data_type = DataType.get(values[0])
       field = data_type.input_field('%s|%s' % (data_type.name(), property_name),
                                     values[0] if entity_key else None,

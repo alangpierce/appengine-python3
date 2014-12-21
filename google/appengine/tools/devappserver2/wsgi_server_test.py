@@ -24,7 +24,7 @@ import select
 import socket
 import time
 import unittest
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 
 import google
 
@@ -50,7 +50,7 @@ class _SingleAddressWsgiServerTest(unittest.TestCase):
     self.server.quit()
 
   def test_serve(self):
-    result = urllib2.urlopen('http://localhost:%d/foo?bar=baz' %
+    result = urllib.request.urlopen('http://localhost:%d/foo?bar=baz' %
                              self.server.port)
     body = result.read()
     environ = json.loads(body)
@@ -71,7 +71,7 @@ class _SingleAddressWsgiServerTest(unittest.TestCase):
 
   def test_set_app(self):
     self.server.set_app(self.other_wsgi_application)
-    result = urllib2.urlopen('http://localhost:%d/foo?bar=baz' %
+    result = urllib.request.urlopen('http://localhost:%d/foo?bar=baz' %
                              self.server.port)
     body = result.read()
     self.assertEqual(200, result.code)
@@ -79,7 +79,7 @@ class _SingleAddressWsgiServerTest(unittest.TestCase):
 
   def test_set_error(self):
     self.server.set_error(204)
-    result = urllib2.urlopen('http://localhost:%d/foo?bar=baz' %
+    result = urllib.request.urlopen('http://localhost:%d/foo?bar=baz' %
                              self.server.port)
     self.assertEqual(204, result.code)
 

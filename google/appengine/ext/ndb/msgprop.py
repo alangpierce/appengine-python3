@@ -160,7 +160,7 @@ class EnumProperty(model.IntegerProperty):
     if default is not None:
       self._validate(default)
     if choices is not None:
-      map(self._validate, choices)
+      list(map(self._validate, choices))
     super(EnumProperty, self).__init__(name, default=default,
                                        choices=choices, **kwds)
 
@@ -212,7 +212,7 @@ def _analyze_indexed_fields(indexed_fields):
   """
   result = {}
   for field_name in indexed_fields:
-    if not isinstance(field_name, basestring):
+    if not isinstance(field_name, str):
       raise TypeError('Field names must be strings; got %r' % (field_name,))
     if '.' not in field_name:
       if field_name in result:
@@ -252,7 +252,7 @@ def _make_model_class(message_type, indexed_fields, **props):
     ValueError if an undotted field name designates a MessageField.
   """
   analyzed = _analyze_indexed_fields(indexed_fields)
-  for field_name, sub_fields in analyzed.iteritems():
+  for field_name, sub_fields in analyzed.items():
     if field_name in props:
       raise ValueError('field name %s is reserved' % field_name)
     try:
@@ -389,7 +389,7 @@ def _message_to_entity(msg, modelclass):
     An instance of modelclass.
   """
   ent = modelclass()
-  for prop_name, prop in modelclass._properties.iteritems():
+  for prop_name, prop in modelclass._properties.items():
     if prop._code_name == 'blob_':  # TODO: Devise a cleaner test.
       continue  # That's taken care of later.
     value = getattr(msg, prop_name)
@@ -414,7 +414,7 @@ def _projected_entity_to_message(ent, message_type):
   """
   msg = message_type()
   analyzed = _analyze_indexed_fields(ent._projection)
-  for name, sublist in analyzed.iteritems():
+  for name, sublist in analyzed.items():
     prop = ent._properties[name]
     val = prop._get_value(ent)
     assert isinstance(prop, model.StructuredProperty) == bool(sublist)
