@@ -3,7 +3,7 @@
 # begin[licence]
 #
 # [The "BSD licence"]
-# Copyright (c) 2005-2008 Terence Parr
+# Copyright (c) 2005-2012 Terence Parr
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -30,6 +30,8 @@
 #
 # end[licence]
 
+compatible_api_versions = ['HEAD', 1]
+
 EOF = -1
 
 ## All tokens go to the parser (unless skip() is called in that rule)
@@ -51,7 +53,7 @@ DOWN = 2
 #imaginary tree navigation type; finish with a child list
 UP = 3
 
-MIN_TOKEN_TYPE = UP+1
+MIN_TOKEN_TYPE = UP + 1
 	
 INVALID_TOKEN_TYPE = 0
 

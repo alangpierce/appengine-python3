@@ -1,9 +1,16 @@
+
+import sys
+if sys.version_info < (3, 2):
+    print('This antlr3 module requires Python 3.2 or later. You can '
+          'download Python 3 from\nhttps://python.org/, '
+          'or visit http://www.antlr.org/ for the Python target.')
+    sys.exit(1)
+
 # bootstrapping setuptools
 import ez_setup
 ez_setup.use_setuptools()
 
 import os
-import sys
 import textwrap
 from distutils.errors import *
 from distutils.command.clean import clean as _clean
@@ -13,7 +20,6 @@ from distutils import log
 
 from distutils.core import setup
 
-
 class clean(_clean):
     """Also cleanup local temp files."""
 
@@ -21,7 +27,7 @@ class clean(_clean):
         _clean.run(self)
 
         import fnmatch
-        
+
         # kill temporary files
         patterns = [
             # generic tempfiles
@@ -31,12 +37,12 @@ class clean(_clean):
             't[0-9]*Lexer.py', 't[0-9]*Parser.py',
             '*.tokens', '*__.g',
             ]
-            
+
         for path in ('antlr3', 'unittests', 'tests'):
             path = os.path.join(os.path.dirname(__file__), path)
             if os.path.isdir(path):
                 for root, dirs, files in os.walk(path, topdown=True):
-                    graveyard = []                    
+                    graveyard = []
                     for pat in patterns:
                         graveyard.extend(fnmatch.filter(files, pat))
 
@@ -46,13 +52,13 @@ class clean(_clean):
                         try:
                             log.info("removing '%s'", filePath)
                             os.unlink(filePath)
-                        except OSError, exc:
+                        except OSError as exc:
                             log.warn(
                                 "Failed to delete '%s': %s",
                                 filePath, exc
                                 )
 
-            
+
 class TestError(DistutilsError):
     pass
 
@@ -67,21 +73,20 @@ class unittest(Command):
 
     description = "run unit tests for package"
 
-    user_options = [
-        ]
+    user_options = []
     boolean_options = []
 
     def initialize_options(self):
         pass
-    
+
     def finalize_options(self):
         pass
-    
+
     def run(self):
         testDir = os.path.join(os.path.dirname(__file__), 'unittests')
         if not os.path.isdir(testDir):
             raise DistutilsFileError(
-                "There is not 'unittests' directory. Did you fetch the "
+                "There is no 'unittests' directory. Did you fetch the "
                 "development version?",
                 )
 
@@ -89,11 +94,11 @@ class unittest(Command):
         import imp
         import unittest
         import traceback
-        import StringIO
-        
+        import io
+
         suite = unittest.TestSuite()
         loadFailures = []
-        
+
         # collect tests from all unittests/test*.py files
         testFiles = []
         for testPath in glob.glob(os.path.join(testDir, 'test*.py')):
@@ -110,36 +115,35 @@ class unittest(Command):
                 testMod = imp.load_module(
                     testID, modFile, modPathname, modDescription
                     )
-                
+
                 suite.addTests(
                     unittest.defaultTestLoader.loadTestsFromModule(testMod)
                     )
-                
+
             except Exception:
-                buf = StringIO.StringIO()
+                buf = io.StringIO()
                 traceback.print_exc(file=buf)
-                
+
                 loadFailures.append(
                     (os.path.basename(testPath), buf.getvalue())
-                    )              
-                
-            
+                    )
+
         runner = unittest.TextTestRunner(verbosity=2)
         result = runner.run(suite)
 
         for testName, error in loadFailures:
             sys.stderr.write('\n' + '='*70 + '\n')
             sys.stderr.write(
-                "Failed to load test module %s\n" % testName
+                "Failed to load test module {}\n".format(testName)
                 )
             sys.stderr.write(error)
             sys.stderr.write('\n')
-            
+
         if not result.wasSuccessful() or loadFailures:
             raise TestError(
                 "Unit test suite failed!",
                 )
-            
+
 
 class functest(Command):
     """Run functional tests for package"""
@@ -151,26 +155,27 @@ class functest(Command):
          "testcase to run [default: run all]"),
         ('antlr-version=', None,
          "ANTLR version to use [default: HEAD (in ../../build)]"),
+        ('antlr-jar=', None,
+         "Explicit path to an antlr jar (overrides --antlr-version)"),
         ]
-    
+
     boolean_options = []
 
     def initialize_options(self):
         self.testcase = None
         self.antlr_version = 'HEAD'
+        self.antlr_jar = None
 
-    
     def finalize_options(self):
         pass
 
-    
     def run(self):
         import glob
         import imp
         import unittest
         import traceback
-        import StringIO
-        
+        import io
+
         testDir = os.path.join(os.path.dirname(__file__), 'tests')
         if not os.path.isdir(testDir):
             raise DistutilsFileError(
@@ -184,21 +189,23 @@ class functest(Command):
         rootDir = os.path.abspath(
             os.path.join(os.path.dirname(__file__), '..', '..'))
 
-        if self.antlr_version == 'HEAD':
+        if self.antlr_jar is not None:
+            classpath = [self.antlr_jar]
+        elif self.antlr_version == 'HEAD':
             classpath = [
-                os.path.join(rootDir, 'build', 'classes'),
-                os.path.join(rootDir, 'build', 'rtclasses')
+                os.path.join(rootDir, 'tool', 'target', 'classes'),
+                os.path.join(rootDir, 'runtime', 'Java', 'target', 'classes')
                 ]
         else:
             classpath = [
                 os.path.join(rootDir, 'archive',
-                             'antlr-%s.jar' % self.antlr_version)
+                             'antlr-{}.jar'.format(self.antlr_version))
                 ]
 
         classpath.extend([
-            os.path.join(rootDir, 'lib', 'antlr-2.7.7.jar'),
-            os.path.join(rootDir, 'lib', 'stringtemplate-3.2.jar'),
-            os.path.join(rootDir, 'lib', 'junit-4.2.jar')
+            os.path.join(rootDir, 'lib', 'antlr-3.4.1-SNAPSHOT.jar'),
+            os.path.join(rootDir, 'lib', 'antlr-runtime-3.4.jar'),
+            os.path.join(rootDir, 'lib', 'ST-4.0.5.jar'),
             ])
         os.environ['CLASSPATH'] = ':'.join(classpath)
 
@@ -206,22 +213,20 @@ class functest(Command):
 
         suite = unittest.TestSuite()
         loadFailures = []
-        
+
         # collect tests from all tests/t*.py files
         testFiles = []
-        for testPath in glob.glob(os.path.join(testDir, 't*.py')):
-            if (testPath.endswith('Lexer.py')
-                or testPath.endswith('Parser.py')
-                ):
+        test_glob = 't[0-9][0-9][0-9]*.py'
+        for testPath in glob.glob(os.path.join(testDir, test_glob)):
+            if testPath.endswith('Lexer.py') or testPath.endswith('Parser.py'):
                 continue
 
             # if a single testcase has been selected, filter out all other
             # tests
             if (self.testcase is not None
-                and os.path.basename(testPath)[:-3] != self.testcase
-                ):
+                and not os.path.basename(testPath)[:-3].startswith(self.testcase)):
                 continue
-            
+
             testFiles.append(testPath)
 
         testFiles.sort()
@@ -233,45 +238,42 @@ class functest(Command):
                          = imp.find_module(testID, [testDir])
 
                 testMod = imp.load_module(
-                    testID, modFile, modPathname, modDescription
-                    )
-                
+                    testID, modFile, modPathname, modDescription)
+
                 suite.addTests(
-                    unittest.defaultTestLoader.loadTestsFromModule(testMod)
-                    )
-                
+                    unittest.defaultTestLoader.loadTestsFromModule(testMod))
+
             except Exception:
-                buf = StringIO.StringIO()
+                buf = io.StringIO()
                 traceback.print_exc(file=buf)
-                
+
                 loadFailures.append(
-                    (os.path.basename(testPath), buf.getvalue())
-                    )              
-                
-            
+                    (os.path.basename(testPath), buf.getvalue()))
+
         runner = unittest.TextTestRunner(verbosity=2)
+
         result = runner.run(suite)
 
         for testName, error in loadFailures:
             sys.stderr.write('\n' + '='*70 + '\n')
             sys.stderr.write(
-                "Failed to load test module %s\n" % testName
+                "Failed to load test module {}\n".format(testName)
                 )
             sys.stderr.write(error)
             sys.stderr.write('\n')
-            
+
         if not result.wasSuccessful() or loadFailures:
             raise TestError(
                 "Functional test suite failed!",
                 )
-            
 
-setup(name='antlr_python_runtime',
-      version='3.1.1',
+
+setup(name='antlr_python3_runtime',
+      version='3.4',
       packages=['antlr3'],
 
-      author="Benjamin Niemann",
-      author_email="pink@odahoda.de",
+      author="Benjamin S Wolf",
+      author_email="jokeserver+antlr3@gmail.com",
       url="http://www.antlr.org/",
       download_url="http://www.antlr.org/download.html",
       license="BSD",
@@ -280,8 +282,6 @@ setup(name='antlr_python_runtime',
       This is the runtime package for ANTLR3, which is required to use parsers
       generated by ANTLR3.
       '''),
-      
-      
       cmdclass={'unittest': unittest,
                 'functest': functest,
                 'clean': clean

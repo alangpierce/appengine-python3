@@ -17,8 +17,7 @@
 
 
 import sys
-from google.appengine._internal.antlr3 import *
-from google.appengine._internal.antlr3.compat import set, frozenset
+from antlr3 import *
 
 
 
@@ -73,7 +72,7 @@ NE=20
 class QueryLexer(Lexer):
 
     grammarFileName = ""
-    antlr_version = version_str_to_tuple("3.1.1")
+    antlr_version = (3, 1, 1, sys.maxsize)
     antlr_version_str = "3.1.1"
 
     def __init__(self, input=None, state=None):
