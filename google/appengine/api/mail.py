@@ -35,10 +35,10 @@ for their applications.  Also provides a few utility methods.
 
 
 import email
-from email import MIMEBase
-from email import MIMEMultipart
-from email import MIMEText
-from email import Parser
+import email.mime.base
+import email.mime.multipart
+import email.mime.text
+import email.parser
 import email.header
 import logging
 
@@ -514,11 +514,11 @@ def mail_message_to_mime_message(protocol_message):
   """
   parts = []
   if protocol_message.has_textbody():
-    parts.append(MIMEText.MIMEText(
+    parts.append(email.mime.text.MIMEText(
         protocol_message.textbody(),
         _charset=_GuessCharset(protocol_message.textbody())))
   if protocol_message.has_htmlbody():
-    parts.append(MIMEText.MIMEText(
+    parts.append(email.mime.text.MIMEText(
         protocol_message.htmlbody(), _subtype='html',
         _charset=_GuessCharset(protocol_message.htmlbody())))
 
@@ -527,15 +527,15 @@ def mail_message_to_mime_message(protocol_message):
     payload = parts
   else:
 
-    payload = [MIMEMultipart.MIMEMultipart('alternative', _subparts=parts)]
+    payload = [email.mime.multipart.MIMEMultipart('alternative', _subparts=parts)]
 
-  result = MIMEMultipart.MIMEMultipart(_subparts=payload)
+  result = email.mime.multipart.MIMEMultipart(_subparts=payload)
 
   for attachment in protocol_message.attachment_list():
     file_name = attachment.filename()
     mime_type = _GetMimeType(file_name)
     maintype, subtype = mime_type.split('/')
-    mime_attachment = MIMEBase.MIMEBase(maintype, subtype)
+    mime_attachment = email.mime.base.MIMEBase(maintype, subtype)
     mime_attachment.add_header('Content-Disposition',
                                'attachment',
                                filename=attachment.filename())
@@ -1574,5 +1574,5 @@ class InboundEmailMessage(EmailMessage):
 
 
 
-Parser.Parser
+email.parser.Parser
 
