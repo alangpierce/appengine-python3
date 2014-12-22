@@ -909,10 +909,11 @@ class Regex(Validator):
       ValidationError: when value does not match regular expression or
         when value does not match provided string type.
     """
-    if self.re.match(value) is None:
+    cast_value = str(value)
+    if self.re.match(cast_value) is None:
       raise ValidationError('Value \'%s\' for %s does not match expression '
                             '\'%s\'' % (value, key, self.re.pattern))
-    return value
+    return cast_value
 
 
 class _RegexStrValue(object):
