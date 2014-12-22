@@ -882,7 +882,7 @@ class Regex(Validator):
     my_class(name='AName with space', parent=AnotherClass)
   """
 
-  def __init__(self, regex, string_type=str, default=None):
+  def __init__(self, regex, default=None):
     """Initialized regex validator.
 
     Args:
@@ -892,17 +892,11 @@ class Regex(Validator):
       AttributeDefinitionError: if string_type is not a kind of string.
     """
     super(Regex, self).__init__(default)
-    if (not issubclass(string_type, str) or
-        string_type is str):
-      raise AttributeDefinitionError(
-          'Regex fields must be a string type not %s.' % str(string_type))
     if isinstance(regex, str):
       self.re = re.compile('^(?:%s)$' % regex)
     else:
       raise AttributeDefinitionError(
           'Regular expression must be string.  Found %s.' % str(regex))
-
-    self.expected_type = string_type
 
   def Validate(self, value, key):
     """Does validation of a string against a regular expression.
@@ -915,15 +909,10 @@ class Regex(Validator):
       ValidationError: when value does not match regular expression or
         when value does not match provided string type.
     """
-    if issubclass(self.expected_type, str):
-      cast_value = TYPE_STR(value)
-    else:
-      cast_value = TYPE_UNICODE(value)
-
-    if self.re.match(cast_value) is None:
+    if self.re.match(value) is None:
       raise ValidationError('Value \'%s\' for %s does not match expression '
                             '\'%s\'' % (value, key, self.re.pattern))
-    return cast_value
+    return value
 
 
 class _RegexStrValue(object):
@@ -1044,7 +1033,7 @@ class RegexStr(Validator):
   The attribute will then be a compiled re object.
   """
 
-  def __init__(self, string_type=str, default=None):
+  def __init__(self, default=None):
     """Initialized regex validator.
 
     Raises:
@@ -1054,12 +1043,6 @@ class RegexStr(Validator):
       default = _RegexStrValue(self, default, None)
       re.compile(str(default))
     super(RegexStr, self).__init__(default)
-    if (not issubclass(string_type, str) or
-        string_type is str):
-      raise AttributeDefinitionError(
-          'RegexStr fields must be a string type not %s.' % str(string_type))
-
-    self.expected_type = string_type
 
   def Validate(self, value, key):
     """Validates that the string compiles as a regular expression.
