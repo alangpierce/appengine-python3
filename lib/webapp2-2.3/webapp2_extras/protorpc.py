@@ -16,7 +16,7 @@
     :copyright: 2011 tipfy.org.
     :license: Apache Sotware License, see LICENSE for details.
 """
-from __future__ import absolute_import
+
 
 import logging
 
@@ -60,7 +60,7 @@ class ServiceHandlerFactory(service_handlers.ServiceHandlerFactory):
 
 def _normalize_services(mixed_services):
     if isinstance(mixed_services, dict):
-        mixed_services = mixed_services.iteritems()
+        mixed_services = iter(mixed_services.items())
 
     services = []
     for service_item in mixed_services:
@@ -70,7 +70,7 @@ def _normalize_services(mixed_services):
             path = None
             service = service_item
 
-        if isinstance(service, basestring):
+        if isinstance(service, str):
             # Lazily import the service class.
             service = webapp2.import_string(service)
 

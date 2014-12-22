@@ -9,7 +9,7 @@
     :license: Apache Sotware License, see LICENSE for details.
 """
 import re
-import urllib
+import urllib.request, urllib.parse, urllib.error
 
 from webob import exc
 
@@ -54,7 +54,7 @@ class MultiRoute(object):
                 for n, r in route.get_build_routes():
                     self.build_children[n] = r
 
-        for rv in self.build_children.iteritems():
+        for rv in self.build_children.items():
             yield rv
 
     get_routes = get_children
@@ -211,7 +211,7 @@ class PathPrefixRoute(NamePrefixRoute):
         yield self
 
     def match(self, request):
-        if not self.regex.match(urllib.unquote(request.path)):
+        if not self.regex.match(urllib.parse.unquote(request.path)):
             return None
 
         return _match_routes(self.get_match_children, request)

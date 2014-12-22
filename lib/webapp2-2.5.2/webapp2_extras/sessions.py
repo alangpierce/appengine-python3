@@ -324,7 +324,7 @@ class SessionStore(object):
         """
         backends = self.config['backends']
         backend = backends[name]
-        if isinstance(backend, basestring):
+        if isinstance(backend, str):
             backend = backends[name] = webapp2.import_string(backend)
 
         return backend
@@ -416,7 +416,7 @@ class SessionStore(object):
         :param response:
             A :class:`webapp.Response` object.
         """
-        for session in self.sessions.values():
+        for session in list(self.sessions.values()):
             session.save_session(response)
 
     def save_secure_cookie(self, response, name, value, **kwargs):

@@ -21,9 +21,9 @@ except ImportError:  # pragma: no cover
         # catch all, py.* fails with so many different errors.
         get_current_greenlet = int
 try:
-    from thread import get_ident as get_current_thread, allocate_lock
+    from _thread import get_ident as get_current_thread, allocate_lock
 except ImportError:  # pragma: no cover
-    from dummy_thread import get_ident as get_current_thread, allocate_lock
+    from _dummy_thread import get_ident as get_current_thread, allocate_lock
 
 
 # get the best ident function.  if greenlets are not installed we can
@@ -48,7 +48,7 @@ class Local(object):
         object.__setattr__(self, '__lock__', allocate_lock())
 
     def __iter__(self):
-        return self.__storage__.iteritems()
+        return iter(self.__storage__.items())
 
     def __call__(self, proxy):
         """Creates a proxy for a name."""
@@ -149,7 +149,7 @@ class LocalProxy(object):
             return '<%s unbound>' % self.__class__.__name__
         return repr(obj)
 
-    def __nonzero__(self):
+    def __bool__(self):
         try:
             return bool(self._get_current_object())
         except RuntimeError:
@@ -157,7 +157,7 @@ class LocalProxy(object):
 
     def __unicode__(self):
         try:
-            return unicode(self._get_current_object())
+            return str(self._get_current_object())
         except RuntimeError:
             return repr(self)
 
@@ -221,7 +221,7 @@ class LocalProxy(object):
     __invert__ = lambda x: ~(x._get_current_object())
     __complex__ = lambda x: complex(x._get_current_object())
     __int__ = lambda x: int(x._get_current_object())
-    __long__ = lambda x: long(x._get_current_object())
+    __long__ = lambda x: int(x._get_current_object())
     __float__ = lambda x: float(x._get_current_object())
     __oct__ = lambda x: oct(x._get_current_object())
     __hex__ = lambda x: hex(x._get_current_object())

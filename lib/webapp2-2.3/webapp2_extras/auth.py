@@ -127,7 +127,7 @@ class AuthStore(object):
     def user_model(self):
         """Configured user model."""
         cls = self.config['user_model']
-        if isinstance(cls, basestring):
+        if isinstance(cls, str):
             cls = self.config['user_model'] = webapp2.import_string(cls)
 
         return cls
@@ -249,7 +249,7 @@ class AuthStore(object):
         """
         try:
             assert len(data) >= len(self.session_attributes)
-            return dict(zip(self.session_attributes, data))
+            return dict(list(zip(self.session_attributes, data)))
         except AssertionError:
             logging.warning(
                 'Invalid user data: %r. Expected attributes: %r.' %

@@ -10,7 +10,7 @@
     :copyright: 2011 by tipfy.org.
     :license: Apache Sotware License, see LICENSE for details.
 """
-from __future__ import absolute_import
+
 
 import warnings
 
@@ -74,12 +74,12 @@ class Config(dict):
         self.loaded = []
         if values is not None:
             assert isinstance(values, dict)
-            for module, config in values.iteritems():
+            for module, config in values.items():
                 self.update(module, config)
 
         if defaults is not None:
             assert isinstance(defaults, dict)
-            for module, config in defaults.iteritems():
+            for module, config in defaults.items():
                 self.setdefault(module, config)
                 self.loaded.append(module)
 
@@ -156,7 +156,7 @@ class Config(dict):
 
         module_dict = dict.__getitem__(self, module)
 
-        for key, value in values.iteritems():
+        for key, value in values.items():
             module_dict.setdefault(key, value)
 
         return module_dict

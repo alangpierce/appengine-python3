@@ -8,7 +8,7 @@
     :copyright: 2011 by tipfy.org.
     :license: Apache Sotware License, see LICENSE for details.
 """
-import Cookie
+import http.cookies
 import hashlib
 import hmac
 import logging
@@ -65,7 +65,7 @@ class SecureCookieSerializer(object):
             return None
 
         # Unquote for old WebOb.
-        value = Cookie._unquote(value)
+        value = http.cookies._unquote(value)
 
         parts = value.split('|')
         if len(parts) != 3:
@@ -84,7 +84,7 @@ class SecureCookieSerializer(object):
 
         try:
             return self._decode(parts[0])
-        except Exception, e:
+        except Exception as e:
             logging.warning('Cookie value failed to be decoded: %r', parts[0])
             return None
 

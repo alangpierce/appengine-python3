@@ -10,7 +10,7 @@
     :copyright: 2011 by tipfy.org.
     :license: Apache Sotware License, see LICENSE for details.
 """
-from __future__ import absolute_import
+
 
 from mako import lookup
 
@@ -66,7 +66,7 @@ class Mako(object):
             required_keys=None)
 
         directories = config.get('template_path')
-        if isinstance(directories, basestring):
+        if isinstance(directories, str):
             directories = [directories]
 
         self.environment = lookup.TemplateLookup(directories=directories,

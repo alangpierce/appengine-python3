@@ -11,7 +11,7 @@
     :copyright: (c) 2011 Yesudeep Mangalapilly <yesudeep@gmail.com>
     :license: Apache Sotware License, see LICENSE for details.
 """
-from __future__ import division
+
 
 import hashlib
 import hmac
@@ -90,9 +90,9 @@ def generate_random_string(length=None, entropy=None, pool=ALPHANUMERIC):
 
     if entropy:
         log_of_2 = 0.6931471805599453
-        length = long(math.ceil((log_of_2 / math.log(len(pool))) * entropy))
+        length = int(math.ceil((log_of_2 / math.log(len(pool))) * entropy))
 
-    return ''.join(_rng.choice(pool) for _ in xrange(length))
+    return ''.join(_rng.choice(pool) for _ in range(length))
 
 
 def generate_password_hash(password, method='sha1', length=22, pepper=None):

@@ -10,7 +10,7 @@
     :copyright: 2011 by tipfy.org.
     :license: Apache Sotware License, see LICENSE for details.
 """
-from __future__ import absolute_import
+
 
 import jinja2
 

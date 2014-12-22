@@ -8,10 +8,10 @@
     :copyright: 2011 by tipfy.org.
     :license: Apache Sotware License, see LICENSE for details.
 """
-from __future__ import absolute_import
+
 
 import base64
-import urllib
+import urllib.request, urllib.parse, urllib.error
 
 try:
     # Preference for installed library with updated fixes.
@@ -72,7 +72,7 @@ def decode(value, *args, **kwargs):
     if isinstance(value, str):
         value = value.decode('utf-8')
 
-    assert isinstance(value, unicode)
+    assert isinstance(value, str)
     return json.loads(value, *args, **kwargs)
 
 
@@ -97,7 +97,7 @@ def quote(value, *args, **kwargs):
 
     Parameters and return value are the same from :func:`encode`.
     """
-    return urllib.quote(encode(value, *args, **kwargs))
+    return urllib.parse.quote(encode(value, *args, **kwargs))
 
 
 def unquote(value, *args, **kwargs):
@@ -105,4 +105,4 @@ def unquote(value, *args, **kwargs):
 
     Parameters and return value are the same from :func:`decode`.
     """
-    return decode(urllib.unquote(value), *args, **kwargs)
+    return decode(urllib.parse.unquote(value), *args, **kwargs)
