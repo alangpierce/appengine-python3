@@ -60,8 +60,7 @@ except ImportError:
   import sqlite3
 
 
-import builtins
-buffer = builtins.buffer
+buffer = memoryview
 
 
 
