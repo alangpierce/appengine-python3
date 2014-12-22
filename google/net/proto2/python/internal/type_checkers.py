@@ -36,7 +36,6 @@ TYPE_TO_DESERIALIZE_METHOD: A dictionary with field types and deserialization
 
 
 import sys
-if sys.version < '2.6': bytes = str
 from google.net.proto2.python.internal import api_implementation
 from google.net.proto2.python.internal import decoder
 from google.net.proto2.python.internal import encoder

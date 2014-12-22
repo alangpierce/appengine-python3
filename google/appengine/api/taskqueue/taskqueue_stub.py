@@ -1916,7 +1916,7 @@ class _BackgroundTaskScheduler(object):
     """
     self._group = group
     self._should_exit = False
-    self._next_wakeup = INF
+    self._next_wakeup = threading.TIMEOUT_MAX
     self._event = threading.Event()
     self._wakeup_lock = threading.Lock()
     self.task_executor = task_executor
@@ -1944,7 +1944,7 @@ class _BackgroundTaskScheduler(object):
 
   def _ProcessQueues(self):
     with self._wakeup_lock:
-      self._next_wakeup = INF
+      self._next_wakeup = threading.TIMEOUT_MAX
 
     now = self._get_time()
     queue, task = self._group.GetNextPushTask()
