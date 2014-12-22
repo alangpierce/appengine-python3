@@ -10,16 +10,16 @@ proxies and adds SSL cert validation if the ssl module is present.
 __author__ = "{frew,nick.johnson}@google.com (Fred Wulff and Nick Johnson)"
 
 import base64
-import httplib
+import http.client
 import logging
 import socket
-from urllib import splitpasswd
-from urllib import splittype
-from urllib import splituser
-import urllib2
+from urllib.parse import splitpasswd
+from urllib.parse import splittype
+from urllib.parse import splituser
+import urllib.request, urllib.error, urllib.parse
 
 
-class InvalidCertificateException(httplib.HTTPException):
+class InvalidCertificateException(http.client.HTTPException):
   """Raised when a certificate is provided with an invalid hostname."""
 
   def __init__(self, host, cert, reason):
@@ -30,7 +30,7 @@ class InvalidCertificateException(httplib.HTTPException):
       cert: The SSL certificate (as a dictionary) the host returned.
       reason: user readable error reason.
     """
-    httplib.HTTPException.__init__(self)
+    http.client.HTTPException.__init__(self)
     self.host = host
     self.cert = cert
     self.reason = reason
@@ -69,11 +69,11 @@ def create_fancy_connection(tunnel_host=None, key_file=None,
   # the HTTPHandler creates the connection instance in the middle
   # of do_open so we need to add the tunnel host to the class.
 
-  class PresetProxyHTTPSConnection(httplib.HTTPSConnection):
+  class PresetProxyHTTPSConnection(http.client.HTTPSConnection):
     """An HTTPS connection that uses a proxy defined by the enclosing scope."""
 
     def __init__(self, *args, **kwargs):
-      httplib.HTTPSConnection.__init__(self, *args, **kwargs)
+      http.client.HTTPSConnection.__init__(self, *args, **kwargs)
 
       self._tunnel_host = tunnel_host
       if tunnel_host:
@@ -109,7 +109,7 @@ def create_fancy_connection(tunnel_host=None, key_file=None,
             if host[i+1:] == "":  # http://foo.com:/ == http://foo.com/
               port = self.default_port
             else:
-              raise httplib.InvalidURL("nonnumeric port: '%s'" % host[i+1:])
+              raise http.client.InvalidURL("nonnumeric port: '%s'" % host[i+1:])
           host = host[:i]
         else:
           port = self.default_port
@@ -215,7 +215,7 @@ def create_fancy_connection(tunnel_host=None, key_file=None,
         ssl_socket = socket.ssl(self.sock,
                                 keyfile=self.key_file,
                                 certfile=self.cert_file)
-        self.sock = httplib.FakeSocket(self.sock, ssl_socket)
+        self.sock = http.client.FakeSocket(self.sock, ssl_socket)
 
   return PresetProxyHTTPSConnection
 
@@ -247,18 +247,18 @@ def _create_connection(address, timeout=_GLOBAL_DEFAULT_TIMEOUT):
       sock.connect(sa)
       return sock
 
-    except socket.error, msg:
+    except socket.error as msg:
       if sock is not None:
         sock.close()
 
-  raise socket.error, msg
+  raise socket.error(msg)
 
 
-class FancyRequest(urllib2.Request):
+class FancyRequest(urllib.request.Request):
   """A request that allows the use of a CONNECT proxy."""
 
   def __init__(self, *args, **kwargs):
-    urllib2.Request.__init__(self, *args, **kwargs)
+    urllib.request.Request.__init__(self, *args, **kwargs)
     self._tunnel_host = None
     self._key_file = None
     self._cert_file = None
@@ -270,7 +270,7 @@ class FancyRequest(urllib2.Request):
     if self.get_type() == "https" and not self._tunnel_host:
       self._tunnel_host = self.get_host()
       saved_type = self.get_type()
-    urllib2.Request.set_proxy(self, host, type)
+    urllib.request.Request.set_proxy(self, host, type)
 
     if saved_type:
       # Don't set self.type, we want to preserve the
@@ -283,7 +283,7 @@ class FancyRequest(urllib2.Request):
     self._ca_certs = ca_certs
 
 
-class FancyProxyHandler(urllib2.ProxyHandler):
+class FancyProxyHandler(urllib.request.ProxyHandler):
   """A ProxyHandler that works with CONNECT-enabled proxies."""
 
   # Taken verbatim from /usr/lib/python2.5/urllib2.py
@@ -368,20 +368,20 @@ class FancyProxyHandler(urllib2.ProxyHandler):
     if proxy_type is None:
       proxy_type = orig_type
     if user and password:
-      user_pass = "%s:%s" % (urllib2.unquote(user), urllib2.unquote(password))
+      user_pass = "%s:%s" % (urllib.parse.unquote(user), urllib.parse.unquote(password))
       creds = base64.b64encode(user_pass).strip()
       # Later calls overwrite earlier calls for the same header
       req.add_header("Proxy-authorization", "Basic " + creds)
-    hostport = urllib2.unquote(hostport)
+    hostport = urllib.parse.unquote(hostport)
     req.set_proxy(hostport, proxy_type)
     # This condition is the change
     if orig_type == "https":
       return None
 
-    return urllib2.ProxyHandler.proxy_open(self, req, proxy, type)
+    return urllib.request.ProxyHandler.proxy_open(self, req, proxy, type)
 
 
-class FancyHTTPSHandler(urllib2.HTTPSHandler):
+class FancyHTTPSHandler(urllib.request.HTTPSHandler):
   """An HTTPSHandler that works with CONNECT-enabled proxies."""
 
   def do_open(self, http_class, req):
@@ -394,7 +394,7 @@ class FancyHTTPSHandler(urllib2.HTTPSHandler):
     # Intentionally very specific so as to opt for false negatives
     # rather than false positives.
     try:
-      return urllib2.HTTPSHandler.do_open(
+      return urllib.request.HTTPSHandler.do_open(
           self,
           create_fancy_connection(req._tunnel_host,
                                   req._key_file,
@@ -402,7 +402,7 @@ class FancyHTTPSHandler(urllib2.HTTPSHandler):
                                   req._ca_certs,
                                   proxy_authorization),
           req)
-    except urllib2.URLError, url_error:
+    except urllib.error.URLError as url_error:
       try:
         import ssl
         if (type(url_error.reason) == ssl.SSLError and
@@ -419,11 +419,11 @@ class FancyHTTPSHandler(urllib2.HTTPSHandler):
 
 # We have to implement this so that we persist the tunneling behavior
 # through redirects.
-class FancyRedirectHandler(urllib2.HTTPRedirectHandler):
+class FancyRedirectHandler(urllib.request.HTTPRedirectHandler):
   """A redirect handler that persists CONNECT-enabled proxy information."""
 
   def redirect_request(self, req, *args, **kwargs):
-    new_req = urllib2.HTTPRedirectHandler.redirect_request(
+    new_req = urllib.request.HTTPRedirectHandler.redirect_request(
         self, req, *args, **kwargs)
     # Same thing as in our set_proxy implementation, but in this case
     # we"ve only got a Request to work with, so it was this or copy
@@ -441,7 +441,7 @@ class FancyRedirectHandler(urllib2.HTTPRedirectHandler):
     # does not have _tunnel_host set, and thus you will not set the proxy
     # in the code below), and if you have defined a proxy for https in, say,
     # FancyProxyHandler, and that proxy has type http.
-    if hasattr(req, "_tunnel_host") and isinstance(new_req, urllib2.Request):
+    if hasattr(req, "_tunnel_host") and isinstance(new_req, urllib.request.Request):
       if new_req.get_type() == "https":
         if req._tunnel_host:
           # req is proxied, so copy the proxy info.
@@ -451,7 +451,7 @@ class FancyRedirectHandler(urllib2.HTTPRedirectHandler):
           # req is not proxied, so just make sure _tunnel_host is defined.
           new_req._tunnel_host = None
         new_req.type = "https"
-    if hasattr(req, "_key_file") and isinstance(new_req, urllib2.Request):
+    if hasattr(req, "_key_file") and isinstance(new_req, urllib.request.Request):
       # Copy the auxiliary data in case this or any further redirect is https
       new_req._key_file = req._key_file
       new_req._cert_file = req._cert_file
