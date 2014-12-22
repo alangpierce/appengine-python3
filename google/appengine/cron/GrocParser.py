@@ -18,7 +18,6 @@
 
 import sys
 from antlr3 import *
-from antlr3.compat import set, frozenset
 
 
 
@@ -122,7 +121,7 @@ tokenNames = [
 
 class GrocParser(Parser):
     grammarFileName = "Groc.g"
-    antlr_version = version_str_to_tuple("3.1.1")
+    antlr_version = (3, 1, 1, sys.maxsize)
     antlr_version_str = "3.1.1"
     tokenNames = tokenNames
 

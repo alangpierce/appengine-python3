@@ -1622,9 +1622,8 @@ class AppInclude(validation.Validated):
           return int(appinclude.manual_scaling.instances)
       return None
 
-
-
-    instances = max(_Instances(appinclude_one), _Instances(appinclude_two))
+    instances = max(_Instances(appinclude_one), _Instances(appinclude_two),
+                    key=lambda v: float('-inf') if v is None else v)
     if instances is not None:
       appinclude_one.manual_scaling = ManualScaling(instances=str(instances))
     return appinclude_one

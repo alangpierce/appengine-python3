@@ -91,11 +91,11 @@ def HttpRequestToString(req, include_data=True):
 
   return template % {
       'method': req.get_method(),
-      'selector': req.get_selector(),
-      'type': req.get_type().upper(),
-      'host': req.get_host(),
+      'selector': req.selector,
+      'type': req.type.upper(),
+      'host': req.host,
       'headers': headers,
-      'data': req.get_data(),
+      'data': req.data,
       }
 
 class ClientLoginError(urllib.error.HTTPError):
@@ -595,7 +595,7 @@ To learn more, see https://developers.google.com/appengine/kb/general#rpcssl""")
     opener.add_handler(urllib.request.HTTPHandler())
     opener.add_handler(urllib.request.HTTPDefaultErrorHandler())
     opener.add_handler(fancy_urllib.FancyHTTPSHandler())
-    opener.add_handler(urllib2.HTTPErrorProcessor())
+    opener.add_handler(urllib.request.HTTPErrorProcessor())
     opener.add_handler(ContentEncodingHandler())
 
     if self.save_cookies:

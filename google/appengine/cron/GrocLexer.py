@@ -18,7 +18,6 @@
 
 import sys
 from antlr3 import *
-from antlr3.compat import set, frozenset
 
 
 
@@ -73,7 +72,7 @@ FOURTH_OR_FIFTH=16
 class GrocLexer(Lexer):
 
     grammarFileName = "Groc.g"
-    antlr_version = version_str_to_tuple("3.1.1")
+    antlr_version = (3, 1, 1, sys.maxsize)
     antlr_version_str = "3.1.1"
 
     def __init__(self, input=None, state=None):
