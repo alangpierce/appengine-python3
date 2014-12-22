@@ -116,7 +116,7 @@ class Paths(object):
         os.path.join(dir_path, 'lib', 'django-0.96'),
         os.path.join(dir_path, 'lib', 'fancy_urllib'),
         os.path.join(dir_path, 'lib', 'ipaddr'),
-        os.path.join(dir_path, 'lib', 'jinja2-2.6'),
+        os.path.join(dir_path, 'lib', 'jinja2-2.7'),
         os.path.join(dir_path, 'lib', 'protorpc-1.0'),
         os.path.join(dir_path, 'lib', 'PyAMF'),
         os.path.join(dir_path, 'lib', 'markupsafe'),
@@ -188,7 +188,7 @@ class Paths(object):
 
         os.path.join(dir_path, 'lib', 'django-1.4'),
         os.path.join(dir_path, 'lib', 'endpoints-1.0'),
-        os.path.join(dir_path, 'lib', 'jinja2-2.6'),
+        os.path.join(dir_path, 'lib', 'jinja2-2.7'),
         os.path.join(dir_path, 'lib', 'protorpc-1.0'),
         os.path.join(dir_path, 'lib', 'PyAMF-0.6.1'),
         os.path.join(dir_path, 'lib', 'markupsafe-0.15'),
@@ -205,7 +205,7 @@ class Paths(object):
         os.path.join(dir_path, 'lib', 'six'),
         os.path.join(dir_path, 'lib', 'websocket'),
         os.path.join(dir_path, 'lib', 'docker'),
-        os.path.join(dir_path, 'lib', 'jinja2-2.6'),
+        os.path.join(dir_path, 'lib', 'jinja2-2.7'),
         os.path.join(dir_path, 'lib', 'webob-1.2.3'),
         os.path.join(dir_path, 'lib', 'webapp2-2.5.1'),
     ]
