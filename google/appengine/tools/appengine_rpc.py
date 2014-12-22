@@ -31,6 +31,7 @@ import re
 import socket
 import sys
 import time
+import urllib.response
 import urllib.request, urllib.parse, urllib.error
 import urllib.request, urllib.error, urllib.parse
 
@@ -381,7 +382,7 @@ class AbstractRpcServer(object):
     value = self._CreateDevAppServerCookieData(credentials[0], True)
     self.extra_headers["Cookie"] = ('dev_appserver_login="%s"; Path=/;' % value)
 
-  def Send(self, request_path, payload="",
+  def Send(self, request_path, payload=b"",
            content_type="application/octet-stream",
            timeout=None,
            **kwargs):
@@ -509,7 +510,7 @@ class ContentEncodingHandler(urllib.request.BaseHandler):
 
     fp = resp
     while encodings and encodings[-1].lower() == "gzip":
-      fp = io.StringIO(fp.read())
+      fp = io.BytesIO(fp.read())
       fp = gzip.GzipFile(fileobj=fp, mode="r")
       encodings.pop()
 
@@ -523,10 +524,10 @@ class ContentEncodingHandler(urllib.request.BaseHandler):
 
     msg = resp.msg
     if sys.version_info >= (2, 6):
-      resp = urllib2.addinfourl(fp, headers, resp.url, resp.code)
+      resp = urllib.response.addinfourl(fp, headers, resp.url, resp.code)
     else:
       response_code = resp.code
-      resp = urllib2.addinfourl(fp, headers, resp.url)
+      resp = urllib.response.addinfourl(fp, headers, resp.url)
       resp.code = response_code
     resp.msg = msg
 
