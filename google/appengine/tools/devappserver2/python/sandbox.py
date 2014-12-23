@@ -172,9 +172,7 @@ def enable_sandbox(config):
                                    path_override_hook.extra_accessible_paths)
   stubs.FakeFile.set_skip_files(config.skip_files)
   stubs.FakeFile.set_static_files(config.static_files)
-  builtins.file = stubs.FakeFile
-  builtins.open = stubs.FakeFile
-  types.FileType = stubs.FakeFile
+  builtins.open = stubs.fake_builtin_open
   if _open_hooks:
     for install_open_hook in _open_hooks:
       install_open_hook()

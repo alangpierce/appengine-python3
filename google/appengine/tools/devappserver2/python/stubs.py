@@ -242,15 +242,18 @@ class FakeFile(io.FileIO):
         FakeFile._availability_cache[fixed_filename] = result
     return result
 
-  def __init__(self, filename, mode='r', bufsize=-1, **kwargs):
-    """Initializer. See file built-in documentation."""
-    if mode not in FakeFile.ALLOWED_MODES:
-      raise IOError(errno.EROFS, 'Read-only file system', filename)
 
-    if not FakeFile.is_file_accessible(filename):
-      raise IOError(errno.EACCES, 'file not accessible', filename)
+_original_builtin_open = open
 
-    super(FakeFile, self).__init__(filename, mode, bufsize, **kwargs)
+
+def fake_builtin_open(filename, mode='r', bufsize=-1, **kwargs):
+  if mode not in FakeFile.ALLOWED_MODES:
+    raise IOError(errno.EROFS, 'Read-only file system', filename)
+
+  if not FakeFile.is_file_accessible(filename):
+    raise IOError(errno.EACCES, 'file not accessible', filename)
+
+  return _original_builtin_open(filename, mode, bufsize, **kwargs)
 
 
 class RestrictedPathFunction(object):
