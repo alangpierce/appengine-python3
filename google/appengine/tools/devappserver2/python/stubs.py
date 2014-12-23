@@ -92,7 +92,7 @@ def fake_get_platform():
     return 'linux-'
 
 
-class FakeFile(io.FileIO):
+class FakeFile(object):
   """File sub-class that enforces the restrictions of production."""
 
   ALLOWED_MODES = frozenset(['r', 'rb', 'U', 'rU'])
