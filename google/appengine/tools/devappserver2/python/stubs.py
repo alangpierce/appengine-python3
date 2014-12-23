@@ -21,6 +21,7 @@
 import errno
 import functools
 import inspect
+import io
 import locale
 import mimetypes
 import os
@@ -91,7 +92,7 @@ def fake_get_platform():
     return 'linux-'
 
 
-class FakeFile(file):
+class FakeFile(io.FileIO):
   """File sub-class that enforces the restrictions of production."""
 
   ALLOWED_MODES = frozenset(['r', 'rb', 'U', 'rU'])
