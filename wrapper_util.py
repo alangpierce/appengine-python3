@@ -219,6 +219,7 @@ class Paths(object):
 
     python_runtime_paths = [
         dir_path,
+        os.path.join(dir_path, 'lib', 'antlr3'),
         os.path.join(dir_path, 'lib', 'concurrent'),
         os.path.join(dir_path, 'lib', 'cherrypy'),
         os.path.join(dir_path, 'lib', 'fancy_urllib'),
