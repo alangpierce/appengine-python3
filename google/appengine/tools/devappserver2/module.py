@@ -302,14 +302,14 @@ class Module(object):
       field, which must be populated elsewhere.
     """
     runtime_config = runtime_config_pb2.Config()
-    runtime_config.app_id = self._module_configuration.application
-    runtime_config.version_id = self._module_configuration.version_id
+    runtime_config.app_id = self._module_configuration.application.encode()
+    runtime_config.version_id = self._module_configuration.version_id.encode()
     if self._threadsafe_override is None:
       runtime_config.threadsafe = self._module_configuration.threadsafe or False
     else:
       runtime_config.threadsafe = self._threadsafe_override
     runtime_config.application_root = (
-        self._module_configuration.application_root)
+        self._module_configuration.application_root.encode())
     if not self._allow_skipped_files:
       runtime_config.skip_files = str(self._module_configuration.skip_files)
       runtime_config.static_files = _static_files_regex_from_handlers(
