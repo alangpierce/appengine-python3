@@ -232,7 +232,7 @@ class HttpRuntimeProxy(instance.RuntimeProxy):
         # written, no data will ever be read by this process without the seek.
         self._process.child_out.seek(0)
         line = self._process.child_out.read()
-        if '\n' in line:
+        if b'\n' in line:
           return line
         _sleep_between_retries(attempt, max_attempts, sleep_base)
     finally:

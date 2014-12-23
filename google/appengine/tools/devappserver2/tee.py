@@ -42,9 +42,10 @@ class Tee(threading.Thread):
       line = self.__in.readline()
       if not line:
         break
-      self.__out.write(line)
+      # TODO(alan): This assumes that we're translating binary to text.
+      self.__out.write(line.decode())
       self.__out.flush()
-      self.__deque.append(line)
+      self.__deque.append(line.decode())
 
   def get_buf(self):
     return ''.join(self.__deque)

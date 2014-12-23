@@ -219,11 +219,13 @@ class _SingleAddressWsgiServer(wsgiserver.CherryPyWSGIServer):
         info = [(socket.AF_INET, socket.SOCK_STREAM, 0, '', self.bind_addr)]
 
     self.socket = None
+    socket_error = None
     for res in info:
       af, socktype, proto, _, _ = res
       try:
         self.bind(af, socktype, proto)
-      except socket.error as socket_error:
+      except socket.error as socket_exc:
+        socket_error = socket_exc
         if self.socket:
           self.socket.close()
         self.socket = None
