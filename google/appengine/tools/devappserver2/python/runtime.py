@@ -57,7 +57,7 @@ _STARTUP_FAILURE_TEMPLATE = """
 def setup_stubs(config):
   """Sets up API stubs using remote API."""
   remote_api_stub.ConfigureRemoteApi(
-      config.app_id, '/', lambda: ('', ''),
+      config.app_id.decode(), '/', lambda: ('', ''),
       '%s:%d' % (str(config.api_host), config.api_port),
       use_remote_datastore=False)
 

@@ -153,7 +153,8 @@ def enable_sandbox(config):
     modules.append(c_module)
   module_paths = [module.__file__ for module in modules]
   module_paths.extend([os.path.realpath(module.__file__) for module in modules])
-  python_lib_paths = [config.application_root]
+  app_root = config.application_root.decode()
+  python_lib_paths = [app_root]
   for path in sys.path:
     if any(module_path.startswith(path) for module_path in module_paths):
       python_lib_paths.append(path)
@@ -166,7 +167,7 @@ def enable_sandbox(config):
       set(_THIRD_PARTY_LIBRARY_NAME_OVERRIDES.get(lib.name, lib.name)
           for lib in config.libraries).intersection(_C_MODULES))
   python_lib_paths.extend(path_override_hook.extra_sys_paths)
-  stubs.FakeFile.set_allowed_paths(config.application_root,
+  stubs.FakeFile.set_allowed_paths(app_root,
                                    python_lib_paths[1:] +
                                    path_override_hook.extra_accessible_paths)
   stubs.FakeFile.set_skip_files(config.skip_files)
@@ -209,7 +210,7 @@ def enable_sandbox(config):
   runtime.PatchStartNewThread(thread)
   threading._start_new_thread = thread.start_new_thread
 
-  os.chdir(config.application_root)
+  os.chdir(app_root)
   sandboxed_os = __import__('os')
   request_environment.PatchOsEnviron(sandboxed_os)
   os.__dict__.update(sandboxed_os.__dict__)
