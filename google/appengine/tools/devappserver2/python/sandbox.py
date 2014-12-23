@@ -195,11 +195,11 @@ def enable_sandbox(config):
       path_override_hook,
       PyCryptoRandomImportHook,
       PathRestrictingImportHook(enabled_library_regexes)
-      ]
+      ] + sys.meta_path
   sys.path_importer_cache = {}
   sys.path = python_lib_paths[:]
 
-  thread = __import__('thread')
+  thread = __import__('_thread')
   __import__('%s.threading' % dist27.__name__)
   threading = sys.modules['%s.threading' % dist27.__name__]
   thread.start_new_thread = _make_request_id_aware_start_new_thread(
@@ -852,7 +852,7 @@ _WHITE_LIST_C_MODULES = [
     '_struct',
     '_symtable',
     'sys',
-    'thread',
+    '_thread',
     'time',
     'timing',
     'unicodedata',

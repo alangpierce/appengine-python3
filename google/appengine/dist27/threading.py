@@ -35,7 +35,7 @@ _start_new_thread = _thread.start_new_thread
 _allocate_lock = _thread.allocate_lock
 _get_ident = _thread.get_ident
 ThreadError = _thread.error
-del thread
+del _thread
 
 
 # sys.exc_clear is used to work around the fact that except blocks
