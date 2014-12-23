@@ -19,7 +19,7 @@
 
 
 import argparse
-import cStringIO
+import io
 import logging
 import os.path
 import random
