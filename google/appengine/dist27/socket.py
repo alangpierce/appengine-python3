@@ -51,8 +51,6 @@ the setsockopt() and getsockopt() methods.
 # GOOGLE NOTE: import paths changed to refer to our implementation.
 from google.appengine.api.remote_socket import _remote_socket as _socket
 from google.appengine.api.remote_socket._remote_socket import *
-from functools import partial
-from types import MethodType
 
 try:
     import _ssl
@@ -218,15 +216,19 @@ class _socketobject(object):
     type = property(lambda self: self._sock.type, doc="the socket type")
     proto = property(lambda self: self._sock.proto, doc="the socket protocol")
 
-def meth(name,self,*args):
-    return getattr(self._sock,name)(*args)
-
 for _m in _socketmethods:
-    p = partial(meth,_m)
+    # Use a regular function wrapper instead of functools.partial since we want
+    # the result to have the regular method binding behavior. Wrap an
+    # additional level to bind the name arg since _m will change later.
+    def make_method(name):
+        def method(self, *args):
+            return getattr(self._sock, name)(*args)
+        return method
+
+    p = make_method(_m)
     p.__name__ = _m
     p.__doc__ = getattr(_realsocket,_m).__doc__
-    m = MethodType(p,None,_socketobject)
-    setattr(_socketobject,_m,m)
+    setattr(_socketobject,_m,p)
 
 socket = SocketType = _socketobject
 
