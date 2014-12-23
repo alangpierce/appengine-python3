@@ -847,6 +847,7 @@ _WHITE_LIST_C_MODULES = [
     '_sha512',  # Python2.5 compatibility
     '_sha',  # Python2.5 compatibility
     '_sre',
+    '_string',
     'strop',
     '_struct',
     '_symtable',
