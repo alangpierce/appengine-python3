@@ -357,7 +357,7 @@ class BaseImportHook(object):
     if isinstance(result, tuple):
       return result + (None,)
     else:
-      return None, None, None, result.find_module(fullname)
+      return None, None, None, result
 
   def _find_and_load_module(self, submodule_name, fullname, path):
     """Finds and loads a module, using a provided search path.
@@ -800,6 +800,7 @@ _WHITE_LIST_C_MODULES = [
     '_ast',
     'binascii',
     '_bisect',
+    'builtins',
     '_bytesio',
     'bz2',
     'cmath',
