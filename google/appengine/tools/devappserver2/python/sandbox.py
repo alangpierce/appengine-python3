@@ -113,6 +113,8 @@ def _make_request_id_aware_start_new_thread(base_start_new_thread):
       kw = {}
 
     request_id = remote_api_stub.RemoteStub._GetRequestId()
+    if request_id is None:
+      return base_start_new_thread(target, args, kw)
     request = request_state.get_request_state(request_id)
 
     def _run():
