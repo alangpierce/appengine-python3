@@ -161,7 +161,7 @@ def main():
         request_rewriter.runtime_rewriter_middleware(
             request_handler.RequestHandler(config)))
   server.start()
-  print(server.port, file=child_out)
+  child_out.write('{}\n'.format(server.port).encode())
   child_out.close()
   try:
     while True:
