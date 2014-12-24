@@ -163,29 +163,8 @@ def enable_sandbox(config):
     if not _should_keep_module(name):
       _removed_modules.append(sys.modules[name])
       del sys.modules[name]
-  path_override_hook = PathOverrideImportHook(
-      set(_THIRD_PARTY_LIBRARY_NAME_OVERRIDES.get(lib.name, lib.name)
-          for lib in config.libraries).intersection(_C_MODULES))
-  python_lib_paths.extend(path_override_hook.extra_sys_paths)
-  stubs.FakeFile.set_allowed_paths(app_root,
-                                   python_lib_paths[1:] +
-                                   path_override_hook.extra_accessible_paths)
-  stubs.FakeFile.set_skip_files(config.skip_files)
-  stubs.FakeFile.set_static_files(config.static_files)
-  builtins.open = stubs.fake_builtin_open
-  if _open_hooks:
-    for install_open_hook in _open_hooks:
-      install_open_hook()
-    # Assume installed open hooks don't enforce the sandbox path restrictions
-    # and install a final hook to do that (the goal of hooks is to allow
-    # alternate open techniques, not to circumvent the sandbox). It does mean
-    # that open requests that make it to FakeFile have their path checked
-    # twice but that doesn't break anything.
-    builtins.open = stubs.RestrictedPathFunction(builtins.open, IOError)
   sys.platform = 'linux3'
   sys.meta_path = [
-      ModuleOverrideImportHook(_MODULE_OVERRIDE_POLICIES),
-      path_override_hook,
       PyCryptoRandomImportHook,
       ] + sys.meta_path
   sys.path_importer_cache = {}
@@ -648,114 +627,6 @@ class PathOverrideImportHook(BaseImportHook):
     if loader:
       return loader.find_module(fullname)
     return os.path.dirname(filepath)
-
-
-class ModuleOverridePolicy(object):
-  """A policy for implementing a partial whitelist for a module."""
-
-  def __init__(self, default_stub=None,
-               whitelist=None,
-               overrides=None,
-               deletes=None,
-               constant_types=(str, int, int, BaseException),
-               default_pass_through=False):
-    self.default_stub = default_stub
-    self.whitelist = whitelist or []
-    self.overrides = overrides or {}
-    self.deletes = deletes or []
-    self.constant_types = constant_types
-    self.default_pass_through = default_pass_through
-
-  def apply_policy(self, module_dict):
-    """Apply this policy to the provided module dict.
-
-    In order, one of the following will apply:
-    - Symbols in overrides are set to the override value.
-    - Symbols in deletes are removed.
-    - Whitelisted symbols and symbols with a constant type are unchanged.
-    - If a default stub is set, all other symbols are replaced by it.
-    - If default_pass_through is True, all other symbols are unchanged.
-    - If default_pass_through is False, all other symbols are removed.
-
-    Args:
-      module_dict: The module dict to be filtered.
-    """
-    for symbol in list(module_dict.keys()):
-      if symbol in self.overrides:
-        module_dict[symbol] = self.overrides[symbol]
-      elif symbol in self.deletes:
-        del module_dict[symbol]
-      elif not (symbol in self.whitelist or
-                isinstance(module_dict[symbol], self.constant_types) or
-                (symbol.startswith('__') and symbol.endswith('__'))):
-        if self.default_stub:
-          module_dict[symbol] = self.default_stub
-        elif not self.default_pass_through:
-          del module_dict[symbol]
-
-_MODULE_OVERRIDE_POLICIES = {
-    'os': ModuleOverridePolicy(
-        default_stub=stubs.os_error_not_implemented,
-        whitelist=['altsep', 'curdir', 'defpath', 'devnull', 'environ', 'error',
-                   'fstat', 'getcwd', 'getcwdu', 'getenv', '_get_exports_list',
-                   'name', 'open', 'pardir', 'path', 'pathsep', 'sep',
-                   'stat_float_times', 'stat_result', 'strerror', 'sys',
-                   'walk'],
-        overrides={
-            'access': stubs.fake_access,
-            'listdir': stubs.RestrictedPathFunction(os.listdir),
-            # Alias lstat() to stat() to match the behavior in production.
-            'lstat': stubs.RestrictedPathFunction(os.stat),
-            'open': stubs.fake_open,
-            'stat': stubs.RestrictedPathFunction(os.stat),
-            'uname': stubs.fake_uname,
-            'getpid': stubs.return_minus_one,
-            'getppid': stubs.return_minus_one,
-            'getpgrp': stubs.return_minus_one,
-            'getgid': stubs.return_minus_one,
-            'getegid': stubs.return_minus_one,
-            'geteuid': stubs.return_minus_one,
-            'getuid': stubs.return_minus_one,
-            'urandom': stubs.fake_urandom,
-            'system': stubs.return_minus_one,
-            },
-        deletes=['execv', 'execve']),
-    'signal': ModuleOverridePolicy(overrides={'__doc__': None}),
-    'locale': ModuleOverridePolicy(
-        overrides={'setlocale': stubs.fake_set_locale},
-        default_pass_through=True),
-    'distutils.util': ModuleOverridePolicy(
-        overrides={'get_platform': stubs.fake_get_platform},
-        default_pass_through=True),
-    # TODO: Stub out imp.find_module and friends.
-    }
-
-
-class ModuleOverrideImportHook(BaseImportHook):
-  """An import hook that applies a ModuleOverridePolicy to modules."""
-
-  def __init__(self, policies):
-    super(ModuleOverrideImportHook, self).__init__()
-    self.policies = policies
-
-  def find_module(self, fullname, unused_path=None):
-    return fullname in self.policies and self or None
-
-  def load_module(self, fullname):
-    if fullname in sys.modules:
-      return sys.modules[fullname]
-    parent_name, _, submodule_name = fullname.rpartition('.')
-    if parent_name:
-      parent = sys.modules[parent_name]
-      path = getattr(parent, '__path__', sys.path)
-    else:
-      path = sys.path
-      parent = None
-    module = self._find_and_load_module(submodule_name, fullname, path)
-    self.policies[fullname].apply_policy(module.__dict__)
-    module.__loader__ = self
-    sys.modules[fullname] = module
-    return module
 
 
 class PyCryptoRandomImportHook(BaseImportHook):
