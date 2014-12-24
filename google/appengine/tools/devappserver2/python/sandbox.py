@@ -159,10 +159,6 @@ def enable_sandbox(config):
     if any(module_path.startswith(path) for module_path in module_paths):
       python_lib_paths.append(path)
   python_lib_paths.extend(_enable_libraries(config.libraries))
-  for name in list(sys.modules):
-    if not _should_keep_module(name):
-      _removed_modules.append(sys.modules[name])
-      del sys.modules[name]
   sys.platform = 'linux3'
   sys.meta_path = [
       PyCryptoRandomImportHook,
@@ -201,20 +197,6 @@ def _find_shared_object_c_module():
       if hasattr(module, '__file__'):
         return module
   return None
-
-
-def _should_keep_module(name):
-  """Returns True if the module should be retained after sandboxing."""
-  return (name in ('__builtin__', 'sys', 'codecs', 'encodings', 'site',
-                   'google') or
-          name.startswith('google.') or name.startswith('encodings.') or
-
-
-
-
-          # Making mysql available is a hack to make the CloudSQL functionality
-          # work.
-          'mysql' in name.lower())
 
 
 def _init_logging(stderr_log_level):
