@@ -31,6 +31,7 @@ WSGI interface.
 
 
 
+import importlib
 import io
 import _thread
 import threading
@@ -83,11 +84,11 @@ def _MakeStartNewThread(base_start_new_thread):
   return StartNewThread
 
 
-def PatchStartNewThread(thread_module=thread, threading_module=threading):
+def PatchStartNewThread(thread_module=_thread, threading_module=threading):
   """Installs a start_new_thread replacement created by _MakeStartNewThread."""
   thread_module.start_new_thread = _MakeStartNewThread(
       thread_module.start_new_thread)
-  reload(threading_module)
+  importlib.reload(threading_module)
 
 
 def HandleRequest(environ, handler_name, url, post_data, application_root,
