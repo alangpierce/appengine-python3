@@ -113,7 +113,7 @@ class RequestHandler(object):
 
   def __init__(self, config):
     self.config = config
-    if appinfo.MODULE_SEPARATOR not in config.version_id:
+    if appinfo.MODULE_SEPARATOR not in config.version_id.decode():
       module_id = appinfo.DEFAULT_MODULE
       version_id = config.version_id
     else:
