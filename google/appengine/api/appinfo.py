@@ -465,15 +465,15 @@ _SUPPORTED_LIBRARIES = [
         'webob',
         'http://www.webob.org/',
         'A library that provides wrappers around the WSGI request environment.',
-        ['1.1.1', '1.2.3'],
-        default_version='1.1.1',
+        ['1.4'],
+        default_version='1.4',
         ),
     _VersionedLibrary(
         'yaml',
         'http://www.yaml.org/',
         'A library for YAML serialization and deserialization.',
-        ['3.10'],
-        default_version='3.10'
+        ['3.11'],
+        default_version='3.11'
         ),
     ]
 

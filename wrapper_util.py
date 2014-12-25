@@ -120,7 +120,7 @@ class Paths(object):
         os.path.join(dir_path, 'lib', 'protorpc-1.0'),
         os.path.join(dir_path, 'lib', 'PyAMF'),
         os.path.join(dir_path, 'lib', 'markupsafe'),
-        os.path.join(dir_path, 'lib', 'webob_0_9'),
+        os.path.join(dir_path, 'lib', 'webob-1.4'),
         os.path.join(dir_path, 'lib', 'webapp2-2.5.2'),
         os.path.join(dir_path, 'lib', 'yaml-3.11'),
         os.path.join(dir_path, 'lib', 'simplejson'),
@@ -192,7 +192,7 @@ class Paths(object):
         os.path.join(dir_path, 'lib', 'protorpc-1.0'),
         os.path.join(dir_path, 'lib', 'PyAMF-0.6.1'),
         os.path.join(dir_path, 'lib', 'markupsafe-0.15'),
-        os.path.join(dir_path, 'lib', 'webob-1.2.3'),
+        os.path.join(dir_path, 'lib', 'webob-1.4'),
         os.path.join(dir_path, 'lib', 'webapp2-2.5.2'),
     ]
 
@@ -206,7 +206,7 @@ class Paths(object):
         os.path.join(dir_path, 'lib', 'websocket'),
         os.path.join(dir_path, 'lib', 'docker'),
         os.path.join(dir_path, 'lib', 'jinja2-2.7'),
-        os.path.join(dir_path, 'lib', 'webob-1.2.3'),
+        os.path.join(dir_path, 'lib', 'webob-1.4'),
         os.path.join(dir_path, 'lib', 'webapp2-2.5.1'),
     ]
 
