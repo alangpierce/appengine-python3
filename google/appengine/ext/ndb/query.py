@@ -123,8 +123,6 @@ in a tasklet, properly yielding when appropriate:
 """
 
 
-del with_statement  # No need to export this.
-
 __author__ = 'guido@google.com (Guido van Rossum)'
 
 import datetime

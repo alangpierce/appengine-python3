@@ -164,7 +164,7 @@ class LibConfigRegistry(object):
       try:
         import_func(self._modname)
       except ImportError as err:
-        if str(err) != 'No module named %s' % self._modname:
+        if str(err) != "No module named '%s'" % self._modname:
 
           raise
         self._module = object()
