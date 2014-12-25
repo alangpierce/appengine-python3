@@ -386,7 +386,7 @@ _SUPPORTED_LIBRARIES = [
         'jinja2',
         'http://jinja.pocoo.org/docs/',
         'A modern and designer friendly templating language for Python.',
-        ['2.6']),
+        ['2.7']),
     _VersionedLibrary(
         'lxml',
         'http://lxml.de/',

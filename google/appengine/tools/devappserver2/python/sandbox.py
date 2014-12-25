@@ -272,8 +272,7 @@ def _enable_libraries(libraries):
     # ASCII should be safe as we control library info and are not
     # likely to have non-ASCII names/versions.
     library_dir = os.path.abspath(
-        library_pattern % {'name': library.name.encode('ascii'),
-                           'version': library.version.encode('ascii')})
+        library_pattern % {'name': library.name, 'version': library.version})
     library_dirs.append(library_dir)
   return library_dirs
 
