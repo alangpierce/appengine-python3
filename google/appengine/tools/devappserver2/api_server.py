@@ -116,10 +116,10 @@ def _execute_request(request):
     apiproxy_errors.CallNotFoundError: if the requested method doesn't exist.
     apiproxy_errors.ApplicationError: if the API method calls fails.
   """
-  service = request.service_name()
-  method = request.method()
+  service = request.service_name().decode()
+  method = request.method().decode()
   if request.has_request_id():
-    request_id = request.request_id()
+    request_id = request.request_id().decode()
   else:
     logging.error('Received a request without request_id: %s', request)
     request_id = None

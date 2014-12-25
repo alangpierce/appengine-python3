@@ -75,10 +75,6 @@ class AppLogsHandler(logging.Handler):
                                 self.format(record))
       else:
         message = self._AppLogsMessage(record)
-        if isinstance(message, str):
-          message = message.encode("UTF-8")
-
-
         logservice.write(message)
     except (KeyboardInterrupt, SystemExit, runtime.DeadlineExceededError):
       raise
