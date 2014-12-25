@@ -398,7 +398,7 @@ _SUPPORTED_LIBRARIES = [
         'markupsafe',
         'http://pypi.python.org/pypi/MarkupSafe',
         'A XML/HTML/XHTML markup safe string for Python.',
-        ['0.15']),
+        ['0.23']),
     _VersionedLibrary(
         'matplotlib',
         'http://matplotlib.org/',
@@ -483,7 +483,7 @@ _NAME_TO_SUPPORTED_LIBRARY = dict((library.name, library)
 
 
 REQUIRED_LIBRARIES = {
-    ('jinja2', '2.6'): [('markupsafe', '0.15'), ('setuptools', '0.6c11')],
+    ('jinja2', '2.6'): [('markupsafe', '0.23'), ('setuptools', '0.6c11')],
     ('jinja2', 'latest'): [('markupsafe', 'latest'), ('setuptools', 'latest')],
     ('matplotlib', '1.1.1'): [('numpy', '1.6.1')],
     ('matplotlib', '1.2.0'): [('numpy', '1.6.1')],

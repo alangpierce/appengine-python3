@@ -191,7 +191,7 @@ class Paths(object):
         os.path.join(dir_path, 'lib', 'jinja2-2.7'),
         os.path.join(dir_path, 'lib', 'protorpc-1.0'),
         os.path.join(dir_path, 'lib', 'PyAMF-0.6.1'),
-        os.path.join(dir_path, 'lib', 'markupsafe-0.15'),
+        os.path.join(dir_path, 'lib', 'markupsafe-0.23'),
         os.path.join(dir_path, 'lib', 'webob-1.4'),
         os.path.join(dir_path, 'lib', 'webapp2-2.5.2'),
     ]
