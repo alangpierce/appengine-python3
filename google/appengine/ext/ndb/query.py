@@ -908,7 +908,7 @@ class Query(object):
       group_by = self._to_property_names(self.group_by)
     dsquery = datastore_query.Query(app=self.app,
                                     namespace=self.namespace,
-                                    kind=kind.decode('utf-8') if kind else None,
+                                    kind=kind,
                                     ancestor=ancestor,
                                     filter_predicate=filters,
                                     order=self.orders,

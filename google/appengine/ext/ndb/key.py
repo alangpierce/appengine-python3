@@ -244,15 +244,15 @@ class Key(object):
           raise datastore_errors.BadArgumentError(
             'Incomplete Key entry must be last')
       else:
-        if not isinstance(id, (int, str)):
-          raise TypeError('Key id must be a string or a number; received %r' %
+        if not isinstance(id, (int, bytes)):
+          raise TypeError('Key id must be a bytes or a number; received %r' %
                           id)
       if isinstance(kind, type):
         kind = kind._get_kind()
       if isinstance(kind, str):
         kind = kind.encode('utf8')
-      if not isinstance(kind, str):
-          raise TypeError('Key kind must be a string or Model class; '
+      if not isinstance(kind, bytes):
+          raise TypeError('Key kind must be a bytes or Model class; '
                           'received %r' % kind)
       if not id:
         id = None
@@ -692,11 +692,11 @@ def _ReferenceFromPairs(pairs, reference=None, app=None, namespace=None):
                           'Model; received %r' % modelclass)
         kind = modelclass._get_kind()
         t = type(kind)
-      if t is str:
+      if t is bytes:
         pass
       elif t is str:
         kind = kind.encode('utf8')
-      elif issubclass(t, str):
+      elif issubclass(t, bytes):
         pass
       elif issubclass(t, str):
         kind = kind.encode('utf8')
@@ -710,11 +710,11 @@ def _ReferenceFromPairs(pairs, reference=None, app=None, namespace=None):
     elem = path.add_element()
     elem.set_type(kind)
     t = type(idorname)
-    if t is int or t is int:
+    if t is int:
       if not (1 <= idorname < _MAX_LONG):
         raise ValueError('Key id number is too long; received %i' % idorname)
       elem.set_id(idorname)
-    elif t is str:
+    elif t is bytes:
       if not (1 <= len(idorname) <= _MAX_KEYPART_BYTES):
         raise ValueError('Key name strings must be non-empty strings up to %i '
                          'bytes; received %s' %
@@ -729,11 +729,11 @@ def _ReferenceFromPairs(pairs, reference=None, app=None, namespace=None):
       elem.set_name(idorname)
     elif idorname is None:
       last = True
-    elif issubclass(t, (int, int)):
+    elif issubclass(t, int):
       if not (1 <= idorname < _MAX_LONG):
         raise ValueError('Key id number is too long; received %i' % idorname)
       elem.set_id(idorname)
-    elif issubclass(t, str):
+    elif issubclass(t, (bytes, str)):
       if issubclass(t, str):
         idorname = idorname.encode('utf8')
       if not (1 <= len(idorname) <= _MAX_KEYPART_BYTES):
@@ -766,7 +766,7 @@ def _ReferenceFromReference(reference):
 
 def _ReferenceFromSerialized(serialized):
   """Construct a Reference from a serialized Reference."""
-  if not isinstance(serialized, str):
+  if not isinstance(serialized, (bytes, str)):
     raise TypeError('serialized must be a string; received %r' % serialized)
   elif isinstance(serialized, str):
     serialized = serialized.encode('utf8')
@@ -778,7 +778,7 @@ def _DecodeUrlSafe(urlsafe):
 
   This returns the decoded string.
   """
-  if not isinstance(urlsafe, str):
+  if not isinstance(urlsafe, (bytes, str)):
     raise TypeError('urlsafe must be a string; received %r' % urlsafe)
   if isinstance(urlsafe, str):
     urlsafe = urlsafe.encode('utf8')
