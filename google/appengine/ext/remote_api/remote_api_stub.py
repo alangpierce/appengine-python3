@@ -217,13 +217,13 @@ class RemoteStub(object):
 
   def _MakeRealSyncCall(self, service, call, request, response):
     request_pb = remote_api_pb.Request()
-    request_pb.set_service_name(service)
-    request_pb.set_method(call)
+    request_pb.set_service_name(service.encode())
+    request_pb.set_method(call.encode())
     request_pb.set_request(request.Encode())
     if hasattr(self._local, 'request_id'):
 
 
-      request_pb.set_request_id(self._local.request_id)
+      request_pb.set_request_id(self._local.request_id.encode())
 
     response_pb = remote_api_pb.Response()
     encoded_request = request_pb.Encode()

@@ -137,15 +137,6 @@ def _ignore_response_headers_rewriter(ignored_response_headers, state):
   for name, value in list(state.headers.items()):
     if name.lower() in ignored_response_headers:
       del state.headers[name]
-    # Delete a header if its name or value contains non-allowed characters.
-    try:
-      if isinstance(name, str):
-        name = name.encode('ascii')
-      if isinstance(value, str):
-        value = value.encode('ascii')
-    except UnicodeEncodeError:
-      # Contains non-ASCII Unicode characters.
-      del state.headers[name]
     if (set(name) - ALLOWED_HEADER_NAME_CHARACTERS or
         set(value) - ALLOWED_HEADER_VALUE_CHARACTERS):
       del state.headers[name]

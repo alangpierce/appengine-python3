@@ -384,7 +384,6 @@ def CheckAppId(request_trusted, request_app_id, app_id):
   """
 
   assert app_id
-  CheckValidUTF8(app_id, "app id");
   Check(request_trusted or app_id == request_app_id,
         'app "%s" cannot access app "%s"\'s data' % (request_app_id, app_id))
 
@@ -2208,7 +2207,7 @@ class BaseIndexManager(object):
     Returns:
       entity_pb.CompositeIndex, if it exists; otherwise None
     """
-    app = index.app_id()
+    app = index.app_id().decode()
     if app in self.__indexes:
       for stored_index in self.__indexes[app]:
         if index.definition() == stored_index.definition():
@@ -2220,7 +2219,7 @@ class BaseIndexManager(object):
 
 
     calling_app = datastore_types.ResolveAppId(calling_app)
-    CheckAppId(trusted, calling_app, index.app_id())
+    CheckAppId(trusted, calling_app, index.app_id().decode())
     Check(index.id() == 0, 'New index id must be 0.')
     Check(not self.__FindIndex(index), 'Index already exists.')
 
@@ -2233,8 +2232,8 @@ class BaseIndexManager(object):
 
     clone = entity_pb.CompositeIndex()
     clone.CopyFrom(index)
-    app = index.app_id()
-    clone.set_app_id(app)
+    app = index.app_id().decode()
+    clone.set_app_id(app.encode())
 
 
     self.__indexes_lock.acquire()
@@ -2243,7 +2242,7 @@ class BaseIndexManager(object):
     finally:
       self.__indexes_lock.release()
 
-    self._OnIndexChange(index.app_id())
+    self._OnIndexChange(index.app_id().decode())
 
     return index.id()
 
@@ -2255,7 +2254,7 @@ class BaseIndexManager(object):
     return self.__indexes[app]
 
   def UpdateIndex(self, index, trusted=False, calling_app=None):
-    CheckAppId(trusted, calling_app, index.app_id())
+    CheckAppId(trusted, calling_app, index.app_id().decode())
 
     stored_index = self.__FindIndex(index)
     Check(stored_index, 'Index does not exist.')
@@ -2272,7 +2271,7 @@ class BaseIndexManager(object):
     finally:
       self.__indexes_lock.release()
 
-    self._OnIndexChange(index.app_id())
+    self._OnIndexChange(index.app_id().decode())
 
   def DeleteIndex(self, index, trusted=False, calling_app=None):
     CheckAppId(trusted, calling_app, index.app_id())

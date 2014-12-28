@@ -841,18 +841,18 @@ def IndexDefinitionToProto(app_id, index_definition):
   """
   proto = entity_pb.CompositeIndex()
 
-  proto.set_app_id(app_id)
+  proto.set_app_id(app_id.encode())
   proto.set_id(0)
   proto.set_state(entity_pb.CompositeIndex.WRITE_ONLY)
 
   definition_proto = proto.mutable_definition()
-  definition_proto.set_entity_type(index_definition.kind)
+  definition_proto.set_entity_type(index_definition.kind.encode())
   definition_proto.set_ancestor(index_definition.ancestor)
 
   if index_definition.properties is not None:
     for prop in index_definition.properties:
       prop_proto = definition_proto.add_property()
-      prop_proto.set_name(prop.name)
+      prop_proto.set_name(prop.name.encode())
 
       if prop.mode == 'geospatial':
         prop_proto.set_mode(entity_pb.Index_Property.GEOSPATIAL)

@@ -266,7 +266,7 @@ class RequestHandler(object):
       log_line = logs_group.add_log_line()
       log_line.set_timestamp_usec(timestamp_usec)
       log_line.set_level(level)
-      log_line.set_message(message)
+      log_line.set_message(message.encode())
     request = log_service_pb.FlushRequest()
     request.set_logs(logs_group.Encode())
     response = api_base_pb.VoidProto()

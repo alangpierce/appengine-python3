@@ -200,7 +200,7 @@ class APIServer(wsgi_server.WsgiServer):
         level = logging.DEBUG
         application_error = response.mutable_application_error()
         application_error.set_code(e.application_error)
-        application_error.set_detail(e.error_detail)
+        application_error.set_detail(e.error_detail.encode())
       else:
         # If the runtime instance is not Python, it won't be able to unpickle
         # the exception so use level that won't be ignored by default.

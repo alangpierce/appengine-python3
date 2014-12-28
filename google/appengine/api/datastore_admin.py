@@ -94,7 +94,8 @@ def _Call(call, req, resp):
     resp: the response PB
   """
   if hasattr(req, 'app_id'):
-    req.set_app_id(datastore_types.ResolveAppId(req.app_id()))
+    req.set_app_id(
+      datastore_types.ResolveAppId(req.app_id().decode()).encode())
 
   try:
     result = apiproxy_stub_map.MakeSyncCall('datastore_v3', call, req, resp)

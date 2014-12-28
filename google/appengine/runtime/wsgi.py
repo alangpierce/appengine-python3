@@ -266,8 +266,8 @@ class WsgiRequest(object):
     try:
       result = handler(dict(self._environ), self._StartResponse)
       for chunk in result:
-        if not isinstance(chunk, str):
-          raise InvalidResponseError('handler must return an iterable of str')
+        if not isinstance(chunk, bytes):
+          raise InvalidResponseError('handler must return an iterable of bytes')
         self._body.append(chunk)
 
 

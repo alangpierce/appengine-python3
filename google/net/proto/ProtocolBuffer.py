@@ -604,7 +604,6 @@ class Encoder:
 
 
 
-    v = str(v)
     self.putVarInt32(len(v))
     self.buf.frombytes(v)
     return
