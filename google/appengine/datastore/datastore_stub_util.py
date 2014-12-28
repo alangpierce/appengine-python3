@@ -1404,9 +1404,9 @@ class LiveTxn(object):
     key = datastore_types.ReferenceToKeyValue(entity_group)
     tracker = self._entity_groups.get(key, None)
     if tracker is None:
-      Check(self._app == reference.app(),
+      Check(self._app == reference.app().decode(),
             'Transactions cannot span applications (expected %s, got %s)' %
-            (self._app, reference.app()))
+            (self._app, reference.app().decode()))
       if self._allow_multiple_eg:
         Check(len(self._entity_groups) < _MAX_EG_PER_TXN,
               'operating on too many entity groups in a single transaction.')
@@ -2367,7 +2367,7 @@ class BaseDatastore(BaseTransactionManager, BaseIndexManager):
     """
 
     calling_app = datastore_types.ResolveAppId(calling_app)
-    CheckAppId(trusted, calling_app, raw_query.app())
+    CheckAppId(trusted, calling_app, raw_query.app().decode())
 
 
     filters, orders = datastore_index.Normalize(raw_query.filter_list(),
@@ -2398,7 +2398,7 @@ class BaseDatastore(BaseTransactionManager, BaseIndexManager):
 
     if raw_query.has_ancestor() and raw_query.kind() not in self._pseudo_kinds:
 
-      txn = self._BeginTransaction(raw_query.app(), False)
+      txn = self._BeginTransaction(raw_query.app().decode(), False)
       return txn.GetQueryCursor(raw_query, filters, orders, index_list,
                                 filter_predicate)
 
@@ -3261,7 +3261,7 @@ class DatastoreStub(object):
       allocate_ids_response.set_end(end)
     else:
       for reference in allocate_ids_request.reserve_list():
-        CheckAppId(reference.app(), self._trusted, self._app_id)
+        CheckAppId(reference.app().decode(), self._trusted, self._app_id)
       self._datastore._AllocateIds(allocate_ids_request.reserve_list())
       allocate_ids_response.set_start(0)
       allocate_ids_response.set_end(0)

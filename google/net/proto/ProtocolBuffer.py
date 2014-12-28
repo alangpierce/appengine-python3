@@ -416,9 +416,6 @@ class ProtocolMessage:
       return self.DebugFormatFixed64(value)
     return "%d" % value
   def DebugFormatString(self, value):
-
-
-
     def escape(c):
       o = ord(c)
       if o == 10: return r"\n"
@@ -429,7 +426,7 @@ class ProtocolMessage:
 
       if o >= 127 or o < 32: return "\\%03o" % o
       return c
-    return '"' + "".join([escape(c) for c in value]) + '"'
+    return '"' + "".join([escape(c) for c in value.decode()]) + '"'
   def DebugFormatFloat(self, value):
     return "%ff" % value
   def DebugFormatFixed32(self, value):
