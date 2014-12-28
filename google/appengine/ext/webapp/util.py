@@ -128,7 +128,7 @@ def _start_response(status, headers, exc_info=None):
   """A start_response() callable as specified by PEP 333"""
   if exc_info is not None:
 
-    raise exc_info[0](exc_info[1]).with_traceback(exc_info[2])
+    raise exc_info[1].with_traceback(exc_info[2])
   print("Status: %s" % status)
   for name, val in headers:
     print("%s: %s" % (name, val))

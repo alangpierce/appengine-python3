@@ -293,7 +293,7 @@ def _rewriter_middleware(request_rewriter_chain, response_rewriter_chain,
   def wrapped_start_response(status, response_headers, exc_info=None):
     if exc_info and response_dict['headers_sent']:
       # Headers have already been sent. PEP 333 mandates that this is an error.
-      raise exc_info[0](exc_info[1]).with_traceback(exc_info[2])
+      raise exc_info[1].with_traceback(exc_info[2])
 
     response_dict['status'] = status
     response_dict['response_headers'] = response_headers

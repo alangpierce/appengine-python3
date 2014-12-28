@@ -1010,7 +1010,7 @@ class Context(object):
             # TODO: Raise value using tasklets.get_return_value(t)?
             return
           else:
-            raise t(e).with_traceback(tb)
+            raise e.with_traceback(tb)
         else:
           ok = yield tconn.async_commit(options)
           if ok:

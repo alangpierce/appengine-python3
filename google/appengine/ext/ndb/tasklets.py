@@ -319,7 +319,7 @@ class Future(object):
   def check_success(self):
     self.wait()
     if self._exception is not None:
-      raise self._exception.__class__(self._exception).with_traceback(self._traceback)
+      raise self._exception.with_traceback(self._traceback)
 
   def get_result(self):
     self.check_success()
@@ -365,7 +365,7 @@ class Future(object):
         if exc is not None:
           _logging_debug('Throwing %s(%s) into %s',
                         exc.__class__.__name__, exc, info)
-          value = gen.throw(exc.__class__(exc).with_traceback(tb))
+          value = gen.throw(exc.with_traceback(tb))
         else:
           _logging_debug('Sending %r to %s', val, info)
           value = gen.send(val)

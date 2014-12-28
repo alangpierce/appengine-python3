@@ -2654,7 +2654,7 @@ def _DoOneTry(function, args, kwargs):
     if isinstance(value, datastore_errors.Rollback):
       return True, None
     else:
-      raise type(value).with_traceback(trace)
+      raise value.with_traceback(trace)
   else:
     if _GetConnection().commit():
       return True, result

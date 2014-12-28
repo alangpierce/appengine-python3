@@ -300,7 +300,7 @@ def _ReraiseTypeErrorWithFieldName(message_name, field_name):
     exc = TypeError('%s for field %s.%s' % (str(exc), message_name, field_name))
 
 
-  raise type(exc)(exc).with_traceback(sys.exc_info()[2])
+  raise exc.with_traceback(sys.exc_info()[2])
 
 
 def _AddInitMethod(message_descriptor, cls):

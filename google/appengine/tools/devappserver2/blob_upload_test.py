@@ -1043,7 +1043,7 @@ class UploadHandlerWSGITest(UploadTestBase):
       if exc_info is None:
         assert not state_dict['start_response_already_called']
       if state_dict['headers_already_sent']:
-        raise exc_info[0](exc_info[1]).with_traceback(exc_info[2])
+        raise exc_info[1].with_traceback(exc_info[2])
       state_dict['start_response_already_called'] = True
       response_dict['status'] = status
       response_dict['headers'] = dict((k.lower(), v) for (k, v) in

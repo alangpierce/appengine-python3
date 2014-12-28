@@ -130,7 +130,7 @@ class RPC(object):
       Exception of the API call or the callback, if any.
     """
     if self.exception and self._traceback:
-      raise self.exception.__class__(self.exception).with_traceback(self._traceback)
+      raise self.exception.with_traceback(self._traceback)
     elif self.exception:
       raise self.exception
 
