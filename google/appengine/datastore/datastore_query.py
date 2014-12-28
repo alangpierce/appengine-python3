@@ -55,6 +55,7 @@ __all__ = ['Batch',
 
 import base64
 import collections
+import functools
 import pickle
 
 from google.net.proto import ProtocolBuffer
@@ -2348,7 +2349,7 @@ def apply_query(query, entities):
       value_map['__entity__'] = entity
       value_maps.append(value_map)
 
-  value_maps.sort(query._order._cmp)
+  value_maps.sort(key=functools.cmp_to_key(query._order._cmp))
   return [value_map['__entity__'] for value_map in value_maps]
 
 
