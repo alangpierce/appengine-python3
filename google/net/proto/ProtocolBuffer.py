@@ -163,7 +163,7 @@ class ProtocolMessage:
 
 
       a = array.array('B')
-      a.fromstring(s)
+      a.frombytes(s)
       d = Decoder(a, 0, len(a))
       self.TryMerge(d)
 
@@ -583,13 +583,13 @@ class Encoder:
 
   def putFloat(self, v):
     a = array.array('B')
-    a.fromstring(struct.pack("<f", v))
+    a.frombytes(struct.pack("<f", v))
     self.buf.extend(a)
     return
 
   def putDouble(self, v):
     a = array.array('B')
-    a.fromstring(struct.pack("<d", v))
+    a.frombytes(struct.pack("<d", v))
     self.buf.extend(a)
     return
 
@@ -606,11 +606,11 @@ class Encoder:
 
     v = str(v)
     self.putVarInt32(len(v))
-    self.buf.fromstring(v)
+    self.buf.frombytes(v)
     return
 
   def putRawString(self, v):
-    self.buf.fromstring(v)
+    self.buf.frombytes(v)
 
   _TYPE_TO_METHOD = {
       TYPE_DOUBLE:   putDouble,

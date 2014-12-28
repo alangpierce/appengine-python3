@@ -163,7 +163,7 @@ class Encoder(ProtocolBuffer.Encoder):
 
   def putFloat(self, value):
     encoded = array.array('B')
-    encoded.fromstring(struct.pack('>f', value))
+    encoded.frombytes(struct.pack('>f', value))
     if self._isFloatNegative(value, encoded):
 
 
@@ -178,7 +178,7 @@ class Encoder(ProtocolBuffer.Encoder):
 
   def putDouble(self, value):
     encoded = array.array('B')
-    encoded.fromstring(struct.pack('>d', value))
+    encoded.frombytes(struct.pack('>d', value))
     if self._isFloatNegative(value, encoded):
 
 
@@ -198,7 +198,7 @@ class Encoder(ProtocolBuffer.Encoder):
   def putPrefixedString(self, value):
 
 
-    self.buf.fromstring(
+    self.buf.frombytes(
         value.replace('\x01', '\x01\x02').replace('\x00', '\x01\x01') + '\x00')
 
 

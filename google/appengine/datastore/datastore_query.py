@@ -1793,8 +1793,8 @@ class _QueryKeyFilter(_BaseComponent):
             'ancestor argument should be entity_pb.Reference (%r)' %
             (ancestor,))
       if app is None:
-        app = ancestor.app()
-      elif app != ancestor.app():
+        app = ancestor.app().decode()
+      elif app != ancestor.app().decode():
         raise datastore_errors.BadArgumentError(
             'ancestor argument should match app ("%r" != "%r")' %
             (ancestor.app(), app))
