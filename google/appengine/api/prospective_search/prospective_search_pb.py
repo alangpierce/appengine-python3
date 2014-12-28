@@ -58,7 +58,7 @@ class SchemaEntry(ProtocolBuffer.ProtocolMessage):
   Type_Name = classmethod(Type_Name)
 
   has_name_ = 0
-  name_ = ""
+  name_ = b""
   has_type_ = 0
   type_ = 0
   has_meaning_ = 0
@@ -76,7 +76,7 @@ class SchemaEntry(ProtocolBuffer.ProtocolMessage):
   def clear_name(self):
     if self.has_name_:
       self.has_name_ = 0
-      self.name_ = ""
+      self.name_ = b""
 
   def has_name(self): return self.has_name_
 
@@ -231,13 +231,13 @@ class SchemaEntry(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.prospective_search.SchemaEntry'
 class SubscribeRequest(ProtocolBuffer.ProtocolMessage):
   has_topic_ = 0
-  topic_ = ""
+  topic_ = b""
   has_sub_id_ = 0
-  sub_id_ = ""
+  sub_id_ = b""
   has_lease_duration_sec_ = 0
   lease_duration_sec_ = 0.0
   has_vanilla_query_ = 0
-  vanilla_query_ = ""
+  vanilla_query_ = b""
 
   def __init__(self, contents=None):
     self.schema_entry_ = []
@@ -252,7 +252,7 @@ class SubscribeRequest(ProtocolBuffer.ProtocolMessage):
   def clear_topic(self):
     if self.has_topic_:
       self.has_topic_ = 0
-      self.topic_ = ""
+      self.topic_ = b""
 
   def has_topic(self): return self.has_topic_
 
@@ -265,7 +265,7 @@ class SubscribeRequest(ProtocolBuffer.ProtocolMessage):
   def clear_sub_id(self):
     if self.has_sub_id_:
       self.has_sub_id_ = 0
-      self.sub_id_ = ""
+      self.sub_id_ = b""
 
   def has_sub_id(self): return self.has_sub_id_
 
@@ -291,7 +291,7 @@ class SubscribeRequest(ProtocolBuffer.ProtocolMessage):
   def clear_vanilla_query(self):
     if self.has_vanilla_query_:
       self.has_vanilla_query_ = 0
-      self.vanilla_query_ = ""
+      self.vanilla_query_ = b""
 
   def has_vanilla_query(self): return self.has_vanilla_query_
 
@@ -564,9 +564,9 @@ class SubscribeResponse(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.prospective_search.SubscribeResponse'
 class UnsubscribeRequest(ProtocolBuffer.ProtocolMessage):
   has_topic_ = 0
-  topic_ = ""
+  topic_ = b""
   has_sub_id_ = 0
-  sub_id_ = ""
+  sub_id_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -580,7 +580,7 @@ class UnsubscribeRequest(ProtocolBuffer.ProtocolMessage):
   def clear_topic(self):
     if self.has_topic_:
       self.has_topic_ = 0
-      self.topic_ = ""
+      self.topic_ = b""
 
   def has_topic(self): return self.has_topic_
 
@@ -593,7 +593,7 @@ class UnsubscribeRequest(ProtocolBuffer.ProtocolMessage):
   def clear_sub_id(self):
     if self.has_sub_id_:
       self.has_sub_id_ = 0
-      self.sub_id_ = ""
+      self.sub_id_ = b""
 
   def has_sub_id(self): return self.has_sub_id_
 
@@ -783,15 +783,15 @@ class SubscriptionRecord(ProtocolBuffer.ProtocolMessage):
   State_Name = classmethod(State_Name)
 
   has_id_ = 0
-  id_ = ""
+  id_ = b""
   has_vanilla_query_ = 0
-  vanilla_query_ = ""
+  vanilla_query_ = b""
   has_expiration_time_sec_ = 0
   expiration_time_sec_ = 0.0
   has_state_ = 0
   state_ = 0
   has_error_message_ = 0
-  error_message_ = ""
+  error_message_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -805,7 +805,7 @@ class SubscriptionRecord(ProtocolBuffer.ProtocolMessage):
   def clear_id(self):
     if self.has_id_:
       self.has_id_ = 0
-      self.id_ = ""
+      self.id_ = b""
 
   def has_id(self): return self.has_id_
 
@@ -818,7 +818,7 @@ class SubscriptionRecord(ProtocolBuffer.ProtocolMessage):
   def clear_vanilla_query(self):
     if self.has_vanilla_query_:
       self.has_vanilla_query_ = 0
-      self.vanilla_query_ = ""
+      self.vanilla_query_ = b""
 
   def has_vanilla_query(self): return self.has_vanilla_query_
 
@@ -857,7 +857,7 @@ class SubscriptionRecord(ProtocolBuffer.ProtocolMessage):
   def clear_error_message(self):
     if self.has_error_message_:
       self.has_error_message_ = 0
-      self.error_message_ = ""
+      self.error_message_ = b""
 
   def has_error_message(self): return self.has_error_message_
 
@@ -1032,15 +1032,15 @@ class SubscriptionRecord(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.prospective_search.SubscriptionRecord'
 class ListSubscriptionsRequest(ProtocolBuffer.ProtocolMessage):
   has_topic_ = 0
-  topic_ = ""
+  topic_ = b""
   has_max_results_ = 0
   max_results_ = 1000
   has_expires_before_ = 0
   expires_before_ = 0
   has_subscription_id_start_ = 0
-  subscription_id_start_ = ""
+  subscription_id_start_ = b""
   has_app_id_ = 0
-  app_id_ = ""
+  app_id_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -1054,7 +1054,7 @@ class ListSubscriptionsRequest(ProtocolBuffer.ProtocolMessage):
   def clear_topic(self):
     if self.has_topic_:
       self.has_topic_ = 0
-      self.topic_ = ""
+      self.topic_ = b""
 
   def has_topic(self): return self.has_topic_
 
@@ -1093,7 +1093,7 @@ class ListSubscriptionsRequest(ProtocolBuffer.ProtocolMessage):
   def clear_subscription_id_start(self):
     if self.has_subscription_id_start_:
       self.has_subscription_id_start_ = 0
-      self.subscription_id_start_ = ""
+      self.subscription_id_start_ = b""
 
   def has_subscription_id_start(self): return self.has_subscription_id_start_
 
@@ -1106,7 +1106,7 @@ class ListSubscriptionsRequest(ProtocolBuffer.ProtocolMessage):
   def clear_app_id(self):
     if self.has_app_id_:
       self.has_app_id_ = 0
-      self.app_id_ = ""
+      self.app_id_ = b""
 
   def has_app_id(self): return self.has_app_id_
 
@@ -1382,11 +1382,11 @@ class ListSubscriptionsResponse(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.prospective_search.ListSubscriptionsResponse'
 class ListTopicsRequest(ProtocolBuffer.ProtocolMessage):
   has_topic_start_ = 0
-  topic_start_ = ""
+  topic_start_ = b""
   has_max_results_ = 0
   max_results_ = 1000
   has_app_id_ = 0
-  app_id_ = ""
+  app_id_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -1400,7 +1400,7 @@ class ListTopicsRequest(ProtocolBuffer.ProtocolMessage):
   def clear_topic_start(self):
     if self.has_topic_start_:
       self.has_topic_start_ = 0
-      self.topic_start_ = ""
+      self.topic_start_ = b""
 
   def has_topic_start(self): return self.has_topic_start_
 
@@ -1426,7 +1426,7 @@ class ListTopicsRequest(ProtocolBuffer.ProtocolMessage):
   def clear_app_id(self):
     if self.has_app_id_:
       self.has_app_id_ = 0
-      self.app_id_ = ""
+      self.app_id_ = b""
 
   def has_app_id(self): return self.has_app_id_
 
@@ -1662,16 +1662,16 @@ class MatchRequest(ProtocolBuffer.ProtocolMessage):
   PythonDocumentClass_Name = classmethod(PythonDocumentClass_Name)
 
   has_topic_ = 0
-  topic_ = ""
+  topic_ = b""
   has_document_ = 0
   has_result_batch_size_ = 0
   result_batch_size_ = 0
   has_result_task_queue_ = 0
-  result_task_queue_ = ""
+  result_task_queue_ = b""
   has_result_relative_url_ = 0
-  result_relative_url_ = ""
+  result_relative_url_ = b""
   has_result_key_ = 0
-  result_key_ = ""
+  result_key_ = b""
   has_result_python_document_class_ = 0
   result_python_document_class_ = 0
 
@@ -1688,7 +1688,7 @@ class MatchRequest(ProtocolBuffer.ProtocolMessage):
   def clear_topic(self):
     if self.has_topic_:
       self.has_topic_ = 0
-      self.topic_ = ""
+      self.topic_ = b""
 
   def has_topic(self): return self.has_topic_
 
@@ -1722,7 +1722,7 @@ class MatchRequest(ProtocolBuffer.ProtocolMessage):
   def clear_result_task_queue(self):
     if self.has_result_task_queue_:
       self.has_result_task_queue_ = 0
-      self.result_task_queue_ = ""
+      self.result_task_queue_ = b""
 
   def has_result_task_queue(self): return self.has_result_task_queue_
 
@@ -1735,7 +1735,7 @@ class MatchRequest(ProtocolBuffer.ProtocolMessage):
   def clear_result_relative_url(self):
     if self.has_result_relative_url_:
       self.has_result_relative_url_ = 0
-      self.result_relative_url_ = ""
+      self.result_relative_url_ = b""
 
   def has_result_relative_url(self): return self.has_result_relative_url_
 
@@ -1748,7 +1748,7 @@ class MatchRequest(ProtocolBuffer.ProtocolMessage):
   def clear_result_key(self):
     if self.has_result_key_:
       self.has_result_key_ = 0
-      self.result_key_ = ""
+      self.result_key_ = b""
 
   def has_result_key(self): return self.has_result_key_
 

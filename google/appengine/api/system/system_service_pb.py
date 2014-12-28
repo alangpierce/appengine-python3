@@ -670,7 +670,7 @@ class StartBackgroundRequestRequest(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.StartBackgroundRequestRequest'
 class StartBackgroundRequestResponse(ProtocolBuffer.ProtocolMessage):
   has_request_id_ = 0
-  request_id_ = ""
+  request_id_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -684,7 +684,7 @@ class StartBackgroundRequestResponse(ProtocolBuffer.ProtocolMessage):
   def clear_request_id(self):
     if self.has_request_id_:
       self.has_request_id_ = 0
-      self.request_id_ = ""
+      self.request_id_ = b""
 
   def has_request_id(self): return self.has_request_id_
 

@@ -127,13 +127,13 @@ class BlobstoreServiceError(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.BlobstoreServiceError'
 class CreateUploadURLRequest(ProtocolBuffer.ProtocolMessage):
   has_success_path_ = 0
-  success_path_ = ""
+  success_path_ = b""
   has_max_upload_size_bytes_ = 0
   max_upload_size_bytes_ = 0
   has_max_upload_size_per_blob_bytes_ = 0
   max_upload_size_per_blob_bytes_ = 0
   has_gs_bucket_name_ = 0
-  gs_bucket_name_ = ""
+  gs_bucket_name_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -147,7 +147,7 @@ class CreateUploadURLRequest(ProtocolBuffer.ProtocolMessage):
   def clear_success_path(self):
     if self.has_success_path_:
       self.has_success_path_ = 0
-      self.success_path_ = ""
+      self.success_path_ = b""
 
   def has_success_path(self): return self.has_success_path_
 
@@ -186,7 +186,7 @@ class CreateUploadURLRequest(ProtocolBuffer.ProtocolMessage):
   def clear_gs_bucket_name(self):
     if self.has_gs_bucket_name_:
       self.has_gs_bucket_name_ = 0
-      self.gs_bucket_name_ = ""
+      self.gs_bucket_name_ = b""
 
   def has_gs_bucket_name(self): return self.has_gs_bucket_name_
 
@@ -329,7 +329,7 @@ class CreateUploadURLRequest(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.CreateUploadURLRequest'
 class CreateUploadURLResponse(ProtocolBuffer.ProtocolMessage):
   has_url_ = 0
-  url_ = ""
+  url_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -343,7 +343,7 @@ class CreateUploadURLResponse(ProtocolBuffer.ProtocolMessage):
   def clear_url(self):
     if self.has_url_:
       self.has_url_ = 0
-      self.url_ = ""
+      self.url_ = b""
 
   def has_url(self): return self.has_url_
 
@@ -429,7 +429,7 @@ class CreateUploadURLResponse(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.CreateUploadURLResponse'
 class DeleteBlobRequest(ProtocolBuffer.ProtocolMessage):
   has_token_ = 0
-  token_ = ""
+  token_ = b""
 
   def __init__(self, contents=None):
     self.blob_key_ = []
@@ -459,7 +459,7 @@ class DeleteBlobRequest(ProtocolBuffer.ProtocolMessage):
   def clear_token(self):
     if self.has_token_:
       self.has_token_ = 0
-      self.token_ = ""
+      self.token_ = b""
 
   def has_token(self): return self.has_token_
 
@@ -567,7 +567,7 @@ class DeleteBlobRequest(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.DeleteBlobRequest'
 class FetchDataRequest(ProtocolBuffer.ProtocolMessage):
   has_blob_key_ = 0
-  blob_key_ = ""
+  blob_key_ = b""
   has_start_index_ = 0
   start_index_ = 0
   has_end_index_ = 0
@@ -585,7 +585,7 @@ class FetchDataRequest(ProtocolBuffer.ProtocolMessage):
   def clear_blob_key(self):
     if self.has_blob_key_:
       self.has_blob_key_ = 0
-      self.blob_key_ = ""
+      self.blob_key_ = b""
 
   def has_blob_key(self): return self.has_blob_key_
 
@@ -745,7 +745,7 @@ class FetchDataRequest(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.FetchDataRequest'
 class FetchDataResponse(ProtocolBuffer.ProtocolMessage):
   has_data_ = 0
-  data_ = ""
+  data_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -759,7 +759,7 @@ class FetchDataResponse(ProtocolBuffer.ProtocolMessage):
   def clear_data(self):
     if self.has_data_:
       self.has_data_ = 0
-      self.data_ = ""
+      self.data_ = b""
 
   def has_data(self): return self.has_data_
 
@@ -845,11 +845,11 @@ class FetchDataResponse(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.FetchDataResponse'
 class CloneBlobRequest(ProtocolBuffer.ProtocolMessage):
   has_blob_key_ = 0
-  blob_key_ = ""
+  blob_key_ = b""
   has_mime_type_ = 0
-  mime_type_ = ""
+  mime_type_ = b""
   has_target_app_id_ = 0
-  target_app_id_ = ""
+  target_app_id_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -863,7 +863,7 @@ class CloneBlobRequest(ProtocolBuffer.ProtocolMessage):
   def clear_blob_key(self):
     if self.has_blob_key_:
       self.has_blob_key_ = 0
-      self.blob_key_ = ""
+      self.blob_key_ = b""
 
   def has_blob_key(self): return self.has_blob_key_
 
@@ -876,7 +876,7 @@ class CloneBlobRequest(ProtocolBuffer.ProtocolMessage):
   def clear_mime_type(self):
     if self.has_mime_type_:
       self.has_mime_type_ = 0
-      self.mime_type_ = ""
+      self.mime_type_ = b""
 
   def has_mime_type(self): return self.has_mime_type_
 
@@ -889,7 +889,7 @@ class CloneBlobRequest(ProtocolBuffer.ProtocolMessage):
   def clear_target_app_id(self):
     if self.has_target_app_id_:
       self.has_target_app_id_ = 0
-      self.target_app_id_ = ""
+      self.target_app_id_ = b""
 
   def has_target_app_id(self): return self.has_target_app_id_
 
@@ -1023,7 +1023,7 @@ class CloneBlobRequest(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.CloneBlobRequest'
 class CloneBlobResponse(ProtocolBuffer.ProtocolMessage):
   has_blob_key_ = 0
-  blob_key_ = ""
+  blob_key_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -1037,7 +1037,7 @@ class CloneBlobResponse(ProtocolBuffer.ProtocolMessage):
   def clear_blob_key(self):
     if self.has_blob_key_:
       self.has_blob_key_ = 0
-      self.blob_key_ = ""
+      self.blob_key_ = b""
 
   def has_blob_key(self): return self.has_blob_key_
 
@@ -1331,7 +1331,7 @@ class DecodeBlobKeyResponse(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.DecodeBlobKeyResponse'
 class CreateEncodedGoogleStorageKeyRequest(ProtocolBuffer.ProtocolMessage):
   has_filename_ = 0
-  filename_ = ""
+  filename_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -1345,7 +1345,7 @@ class CreateEncodedGoogleStorageKeyRequest(ProtocolBuffer.ProtocolMessage):
   def clear_filename(self):
     if self.has_filename_:
       self.has_filename_ = 0
-      self.filename_ = ""
+      self.filename_ = b""
 
   def has_filename(self): return self.has_filename_
 
@@ -1431,7 +1431,7 @@ class CreateEncodedGoogleStorageKeyRequest(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.CreateEncodedGoogleStorageKeyRequest'
 class CreateEncodedGoogleStorageKeyResponse(ProtocolBuffer.ProtocolMessage):
   has_blob_key_ = 0
-  blob_key_ = ""
+  blob_key_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -1445,7 +1445,7 @@ class CreateEncodedGoogleStorageKeyResponse(ProtocolBuffer.ProtocolMessage):
   def clear_blob_key(self):
     if self.has_blob_key_:
       self.has_blob_key_ = 0
-      self.blob_key_ = ""
+      self.blob_key_ = b""
 
   def has_blob_key(self): return self.has_blob_key_
 

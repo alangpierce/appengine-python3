@@ -119,7 +119,7 @@ class UserAppLogLine(ProtocolBuffer.ProtocolMessage):
   has_level_ = 0
   level_ = 0
   has_message_ = 0
-  message_ = ""
+  message_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -159,7 +159,7 @@ class UserAppLogLine(ProtocolBuffer.ProtocolMessage):
   def clear_message(self):
     if self.has_message_:
       self.has_message_ = 0
-      self.message_ = ""
+      self.message_ = b""
 
   def has_message(self): return self.has_message_
 
@@ -407,7 +407,7 @@ class UserAppLogGroup(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.UserAppLogGroup'
 class FlushRequest(ProtocolBuffer.ProtocolMessage):
   has_logs_ = 0
-  logs_ = ""
+  logs_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -421,7 +421,7 @@ class FlushRequest(ProtocolBuffer.ProtocolMessage):
   def clear_logs(self):
     if self.has_logs_:
       self.has_logs_ = 0
-      self.logs_ = ""
+      self.logs_ = b""
 
   def has_logs(self): return self.has_logs_
 
@@ -502,7 +502,7 @@ class FlushRequest(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.FlushRequest'
 class SetStatusRequest(ProtocolBuffer.ProtocolMessage):
   has_status_ = 0
-  status_ = ""
+  status_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -516,7 +516,7 @@ class SetStatusRequest(ProtocolBuffer.ProtocolMessage):
   def clear_status(self):
     if self.has_status_:
       self.has_status_ = 0
-      self.status_ = ""
+      self.status_ = b""
 
   def has_status(self): return self.has_status_
 
@@ -602,7 +602,7 @@ class SetStatusRequest(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.SetStatusRequest'
 class LogOffset(ProtocolBuffer.ProtocolMessage):
   has_request_id_ = 0
-  request_id_ = ""
+  request_id_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -616,7 +616,7 @@ class LogOffset(ProtocolBuffer.ProtocolMessage):
   def clear_request_id(self):
     if self.has_request_id_:
       self.has_request_id_ = 0
-      self.request_id_ = ""
+      self.request_id_ = b""
 
   def has_request_id(self): return self.has_request_id_
 
@@ -701,7 +701,7 @@ class LogLine(ProtocolBuffer.ProtocolMessage):
   has_level_ = 0
   level_ = 0
   has_log_message_ = 0
-  log_message_ = ""
+  log_message_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -741,7 +741,7 @@ class LogLine(ProtocolBuffer.ProtocolMessage):
   def clear_log_message(self):
     if self.has_log_message_:
       self.has_log_message_ = 0
-      self.log_message_ = ""
+      self.log_message_ = b""
 
   def has_log_message(self): return self.has_log_message_
 
@@ -875,19 +875,19 @@ class LogLine(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.LogLine'
 class RequestLog(ProtocolBuffer.ProtocolMessage):
   has_app_id_ = 0
-  app_id_ = ""
+  app_id_ = b""
   has_module_id_ = 0
   module_id_ = "default"
   has_version_id_ = 0
-  version_id_ = ""
+  version_id_ = b""
   has_request_id_ = 0
-  request_id_ = ""
+  request_id_ = b""
   has_offset_ = 0
   offset_ = None
   has_ip_ = 0
-  ip_ = ""
+  ip_ = b""
   has_nickname_ = 0
-  nickname_ = ""
+  nickname_ = b""
   has_start_time_ = 0
   start_time_ = 0
   has_end_time_ = 0
@@ -897,33 +897,33 @@ class RequestLog(ProtocolBuffer.ProtocolMessage):
   has_mcycles_ = 0
   mcycles_ = 0
   has_method_ = 0
-  method_ = ""
+  method_ = b""
   has_resource_ = 0
-  resource_ = ""
+  resource_ = b""
   has_http_version_ = 0
-  http_version_ = ""
+  http_version_ = b""
   has_status_ = 0
   status_ = 0
   has_response_size_ = 0
   response_size_ = 0
   has_referrer_ = 0
-  referrer_ = ""
+  referrer_ = b""
   has_user_agent_ = 0
-  user_agent_ = ""
+  user_agent_ = b""
   has_url_map_entry_ = 0
-  url_map_entry_ = ""
+  url_map_entry_ = b""
   has_combined_ = 0
-  combined_ = ""
+  combined_ = b""
   has_api_mcycles_ = 0
   api_mcycles_ = 0
   has_host_ = 0
-  host_ = ""
+  host_ = b""
   has_cost_ = 0
   cost_ = 0.0
   has_task_queue_name_ = 0
-  task_queue_name_ = ""
+  task_queue_name_ = b""
   has_task_name_ = 0
-  task_name_ = ""
+  task_name_ = b""
   has_was_loading_request_ = 0
   was_loading_request_ = 0
   has_pending_time_ = 0
@@ -933,13 +933,13 @@ class RequestLog(ProtocolBuffer.ProtocolMessage):
   has_finished_ = 0
   finished_ = 1
   has_clone_key_ = 0
-  clone_key_ = ""
+  clone_key_ = b""
   has_lines_incomplete_ = 0
   lines_incomplete_ = 0
   has_app_engine_release_ = 0
-  app_engine_release_ = ""
+  app_engine_release_ = b""
   has_trace_id_ = 0
-  trace_id_ = ""
+  trace_id_ = b""
   has_exit_reason_ = 0
   exit_reason_ = 0
   has_was_throttled_for_time_ = 0
@@ -949,7 +949,7 @@ class RequestLog(ProtocolBuffer.ProtocolMessage):
   has_throttled_time_ = 0
   throttled_time_ = 0
   has_server_name_ = 0
-  server_name_ = ""
+  server_name_ = b""
 
   def __init__(self, contents=None):
     self.line_ = []
@@ -965,7 +965,7 @@ class RequestLog(ProtocolBuffer.ProtocolMessage):
   def clear_app_id(self):
     if self.has_app_id_:
       self.has_app_id_ = 0
-      self.app_id_ = ""
+      self.app_id_ = b""
 
   def has_app_id(self): return self.has_app_id_
 
@@ -991,7 +991,7 @@ class RequestLog(ProtocolBuffer.ProtocolMessage):
   def clear_version_id(self):
     if self.has_version_id_:
       self.has_version_id_ = 0
-      self.version_id_ = ""
+      self.version_id_ = b""
 
   def has_version_id(self): return self.has_version_id_
 
@@ -1004,7 +1004,7 @@ class RequestLog(ProtocolBuffer.ProtocolMessage):
   def clear_request_id(self):
     if self.has_request_id_:
       self.has_request_id_ = 0
-      self.request_id_ = ""
+      self.request_id_ = b""
 
   def has_request_id(self): return self.has_request_id_
 
@@ -1036,7 +1036,7 @@ class RequestLog(ProtocolBuffer.ProtocolMessage):
   def clear_ip(self):
     if self.has_ip_:
       self.has_ip_ = 0
-      self.ip_ = ""
+      self.ip_ = b""
 
   def has_ip(self): return self.has_ip_
 
@@ -1049,7 +1049,7 @@ class RequestLog(ProtocolBuffer.ProtocolMessage):
   def clear_nickname(self):
     if self.has_nickname_:
       self.has_nickname_ = 0
-      self.nickname_ = ""
+      self.nickname_ = b""
 
   def has_nickname(self): return self.has_nickname_
 
@@ -1114,7 +1114,7 @@ class RequestLog(ProtocolBuffer.ProtocolMessage):
   def clear_method(self):
     if self.has_method_:
       self.has_method_ = 0
-      self.method_ = ""
+      self.method_ = b""
 
   def has_method(self): return self.has_method_
 
@@ -1127,7 +1127,7 @@ class RequestLog(ProtocolBuffer.ProtocolMessage):
   def clear_resource(self):
     if self.has_resource_:
       self.has_resource_ = 0
-      self.resource_ = ""
+      self.resource_ = b""
 
   def has_resource(self): return self.has_resource_
 
@@ -1140,7 +1140,7 @@ class RequestLog(ProtocolBuffer.ProtocolMessage):
   def clear_http_version(self):
     if self.has_http_version_:
       self.has_http_version_ = 0
-      self.http_version_ = ""
+      self.http_version_ = b""
 
   def has_http_version(self): return self.has_http_version_
 
@@ -1179,7 +1179,7 @@ class RequestLog(ProtocolBuffer.ProtocolMessage):
   def clear_referrer(self):
     if self.has_referrer_:
       self.has_referrer_ = 0
-      self.referrer_ = ""
+      self.referrer_ = b""
 
   def has_referrer(self): return self.has_referrer_
 
@@ -1192,7 +1192,7 @@ class RequestLog(ProtocolBuffer.ProtocolMessage):
   def clear_user_agent(self):
     if self.has_user_agent_:
       self.has_user_agent_ = 0
-      self.user_agent_ = ""
+      self.user_agent_ = b""
 
   def has_user_agent(self): return self.has_user_agent_
 
@@ -1205,7 +1205,7 @@ class RequestLog(ProtocolBuffer.ProtocolMessage):
   def clear_url_map_entry(self):
     if self.has_url_map_entry_:
       self.has_url_map_entry_ = 0
-      self.url_map_entry_ = ""
+      self.url_map_entry_ = b""
 
   def has_url_map_entry(self): return self.has_url_map_entry_
 
@@ -1218,7 +1218,7 @@ class RequestLog(ProtocolBuffer.ProtocolMessage):
   def clear_combined(self):
     if self.has_combined_:
       self.has_combined_ = 0
-      self.combined_ = ""
+      self.combined_ = b""
 
   def has_combined(self): return self.has_combined_
 
@@ -1244,7 +1244,7 @@ class RequestLog(ProtocolBuffer.ProtocolMessage):
   def clear_host(self):
     if self.has_host_:
       self.has_host_ = 0
-      self.host_ = ""
+      self.host_ = b""
 
   def has_host(self): return self.has_host_
 
@@ -1270,7 +1270,7 @@ class RequestLog(ProtocolBuffer.ProtocolMessage):
   def clear_task_queue_name(self):
     if self.has_task_queue_name_:
       self.has_task_queue_name_ = 0
-      self.task_queue_name_ = ""
+      self.task_queue_name_ = b""
 
   def has_task_queue_name(self): return self.has_task_queue_name_
 
@@ -1283,7 +1283,7 @@ class RequestLog(ProtocolBuffer.ProtocolMessage):
   def clear_task_name(self):
     if self.has_task_name_:
       self.has_task_name_ = 0
-      self.task_name_ = ""
+      self.task_name_ = b""
 
   def has_task_name(self): return self.has_task_name_
 
@@ -1348,7 +1348,7 @@ class RequestLog(ProtocolBuffer.ProtocolMessage):
   def clear_clone_key(self):
     if self.has_clone_key_:
       self.has_clone_key_ = 0
-      self.clone_key_ = ""
+      self.clone_key_ = b""
 
   def has_clone_key(self): return self.has_clone_key_
 
@@ -1390,7 +1390,7 @@ class RequestLog(ProtocolBuffer.ProtocolMessage):
   def clear_app_engine_release(self):
     if self.has_app_engine_release_:
       self.has_app_engine_release_ = 0
-      self.app_engine_release_ = ""
+      self.app_engine_release_ = b""
 
   def has_app_engine_release(self): return self.has_app_engine_release_
 
@@ -1403,7 +1403,7 @@ class RequestLog(ProtocolBuffer.ProtocolMessage):
   def clear_trace_id(self):
     if self.has_trace_id_:
       self.has_trace_id_ = 0
-      self.trace_id_ = ""
+      self.trace_id_ = b""
 
   def has_trace_id(self): return self.has_trace_id_
 
@@ -1468,7 +1468,7 @@ class RequestLog(ProtocolBuffer.ProtocolMessage):
   def clear_server_name(self):
     if self.has_server_name_:
       self.has_server_name_ = 0
-      self.server_name_ = ""
+      self.server_name_ = b""
 
   def has_server_name(self): return self.has_server_name_
 
@@ -2374,7 +2374,7 @@ class LogModuleVersion(ProtocolBuffer.ProtocolMessage):
   has_module_id_ = 0
   module_id_ = "default"
   has_version_id_ = 0
-  version_id_ = ""
+  version_id_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -2401,7 +2401,7 @@ class LogModuleVersion(ProtocolBuffer.ProtocolMessage):
   def clear_version_id(self):
     if self.has_version_id_:
       self.has_version_id_ = 0
-      self.version_id_ = ""
+      self.version_id_ = b""
 
   def has_version_id(self): return self.has_version_id_
 
@@ -2501,7 +2501,7 @@ class LogModuleVersion(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.LogModuleVersion'
 class LogReadRequest(ProtocolBuffer.ProtocolMessage):
   has_app_id_ = 0
-  app_id_ = ""
+  app_id_ = b""
   has_start_time_ = 0
   start_time_ = 0
   has_end_time_ = 0
@@ -2515,9 +2515,9 @@ class LogReadRequest(ProtocolBuffer.ProtocolMessage):
   has_count_ = 0
   count_ = 0
   has_combined_log_regex_ = 0
-  combined_log_regex_ = ""
+  combined_log_regex_ = b""
   has_host_regex_ = 0
-  host_regex_ = ""
+  host_regex_ = b""
   has_replica_index_ = 0
   replica_index_ = 0
   has_include_app_logs_ = 0
@@ -2549,7 +2549,7 @@ class LogReadRequest(ProtocolBuffer.ProtocolMessage):
   def clear_app_id(self):
     if self.has_app_id_:
       self.has_app_id_ = 0
-      self.app_id_ = ""
+      self.app_id_ = b""
 
   def has_app_id(self): return self.has_app_id_
 
@@ -2692,7 +2692,7 @@ class LogReadRequest(ProtocolBuffer.ProtocolMessage):
   def clear_combined_log_regex(self):
     if self.has_combined_log_regex_:
       self.has_combined_log_regex_ = 0
-      self.combined_log_regex_ = ""
+      self.combined_log_regex_ = b""
 
   def has_combined_log_regex(self): return self.has_combined_log_regex_
 
@@ -2705,7 +2705,7 @@ class LogReadRequest(ProtocolBuffer.ProtocolMessage):
   def clear_host_regex(self):
     if self.has_host_regex_:
       self.has_host_regex_ = 0
-      self.host_regex_ = ""
+      self.host_regex_ = b""
 
   def has_host_regex(self): return self.has_host_regex_
 
@@ -3464,7 +3464,7 @@ class LogReadResponse(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.LogReadResponse'
 class LogUsageRecord(ProtocolBuffer.ProtocolMessage):
   has_version_id_ = 0
-  version_id_ = ""
+  version_id_ = b""
   has_start_time_ = 0
   start_time_ = 0
   has_end_time_ = 0
@@ -3488,7 +3488,7 @@ class LogUsageRecord(ProtocolBuffer.ProtocolMessage):
   def clear_version_id(self):
     if self.has_version_id_:
       self.has_version_id_ = 0
-      self.version_id_ = ""
+      self.version_id_ = b""
 
   def has_version_id(self): return self.has_version_id_
 
@@ -3729,7 +3729,7 @@ class LogUsageRecord(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.LogUsageRecord'
 class LogUsageRequest(ProtocolBuffer.ProtocolMessage):
   has_app_id_ = 0
-  app_id_ = ""
+  app_id_ = b""
   has_start_time_ = 0
   start_time_ = 0
   has_end_time_ = 0
@@ -3756,7 +3756,7 @@ class LogUsageRequest(ProtocolBuffer.ProtocolMessage):
   def clear_app_id(self):
     if self.has_app_id_:
       self.has_app_id_ = 0
-      self.app_id_ = ""
+      self.app_id_ = b""
 
   def has_app_id(self): return self.has_app_id_
 

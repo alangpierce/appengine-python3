@@ -129,9 +129,9 @@ class XmppServiceError(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.XmppServiceError'
 class PresenceRequest(ProtocolBuffer.ProtocolMessage):
   has_jid_ = 0
-  jid_ = ""
+  jid_ = b""
   has_from_jid_ = 0
-  from_jid_ = ""
+  from_jid_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -145,7 +145,7 @@ class PresenceRequest(ProtocolBuffer.ProtocolMessage):
   def clear_jid(self):
     if self.has_jid_:
       self.has_jid_ = 0
-      self.jid_ = ""
+      self.jid_ = b""
 
   def has_jid(self): return self.has_jid_
 
@@ -158,7 +158,7 @@ class PresenceRequest(ProtocolBuffer.ProtocolMessage):
   def clear_from_jid(self):
     if self.has_from_jid_:
       self.has_from_jid_ = 0
-      self.from_jid_ = ""
+      self.from_jid_ = b""
 
   def has_from_jid(self): return self.has_from_jid_
 
@@ -448,7 +448,7 @@ class PresenceResponse(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.PresenceResponse'
 class BulkPresenceRequest(ProtocolBuffer.ProtocolMessage):
   has_from_jid_ = 0
-  from_jid_ = ""
+  from_jid_ = b""
 
   def __init__(self, contents=None):
     self.jid_ = []
@@ -478,7 +478,7 @@ class BulkPresenceRequest(ProtocolBuffer.ProtocolMessage):
   def clear_from_jid(self):
     if self.has_from_jid_:
       self.has_from_jid_ = 0
-      self.from_jid_ = ""
+      self.from_jid_ = b""
 
   def has_from_jid(self): return self.has_from_jid_
 
@@ -700,13 +700,13 @@ class BulkPresenceResponse(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.BulkPresenceResponse'
 class XmppMessageRequest(ProtocolBuffer.ProtocolMessage):
   has_body_ = 0
-  body_ = ""
+  body_ = b""
   has_raw_xml_ = 0
   raw_xml_ = 0
   has_type_ = 0
   type_ = "chat"
   has_from_jid_ = 0
-  from_jid_ = ""
+  from_jid_ = b""
 
   def __init__(self, contents=None):
     self.jid_ = []
@@ -736,7 +736,7 @@ class XmppMessageRequest(ProtocolBuffer.ProtocolMessage):
   def clear_body(self):
     if self.has_body_:
       self.has_body_ = 0
-      self.body_ = ""
+      self.body_ = b""
 
   def has_body(self): return self.has_body_
 
@@ -775,7 +775,7 @@ class XmppMessageRequest(ProtocolBuffer.ProtocolMessage):
   def clear_from_jid(self):
     if self.has_from_jid_:
       self.has_from_jid_ = 0
-      self.from_jid_ = ""
+      self.from_jid_ = b""
 
   def has_from_jid(self): return self.has_from_jid_
 
@@ -1064,15 +1064,15 @@ class XmppMessageResponse(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.XmppMessageResponse'
 class XmppSendPresenceRequest(ProtocolBuffer.ProtocolMessage):
   has_jid_ = 0
-  jid_ = ""
+  jid_ = b""
   has_type_ = 0
-  type_ = ""
+  type_ = b""
   has_show_ = 0
-  show_ = ""
+  show_ = b""
   has_status_ = 0
-  status_ = ""
+  status_ = b""
   has_from_jid_ = 0
-  from_jid_ = ""
+  from_jid_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -1086,7 +1086,7 @@ class XmppSendPresenceRequest(ProtocolBuffer.ProtocolMessage):
   def clear_jid(self):
     if self.has_jid_:
       self.has_jid_ = 0
-      self.jid_ = ""
+      self.jid_ = b""
 
   def has_jid(self): return self.has_jid_
 
@@ -1099,7 +1099,7 @@ class XmppSendPresenceRequest(ProtocolBuffer.ProtocolMessage):
   def clear_type(self):
     if self.has_type_:
       self.has_type_ = 0
-      self.type_ = ""
+      self.type_ = b""
 
   def has_type(self): return self.has_type_
 
@@ -1112,7 +1112,7 @@ class XmppSendPresenceRequest(ProtocolBuffer.ProtocolMessage):
   def clear_show(self):
     if self.has_show_:
       self.has_show_ = 0
-      self.show_ = ""
+      self.show_ = b""
 
   def has_show(self): return self.has_show_
 
@@ -1125,7 +1125,7 @@ class XmppSendPresenceRequest(ProtocolBuffer.ProtocolMessage):
   def clear_status(self):
     if self.has_status_:
       self.has_status_ = 0
-      self.status_ = ""
+      self.status_ = b""
 
   def has_status(self): return self.has_status_
 
@@ -1138,7 +1138,7 @@ class XmppSendPresenceRequest(ProtocolBuffer.ProtocolMessage):
   def clear_from_jid(self):
     if self.has_from_jid_:
       self.has_from_jid_ = 0
-      self.from_jid_ = ""
+      self.from_jid_ = b""
 
   def has_from_jid(self): return self.has_from_jid_
 
@@ -1365,9 +1365,9 @@ class XmppSendPresenceResponse(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.XmppSendPresenceResponse'
 class XmppInviteRequest(ProtocolBuffer.ProtocolMessage):
   has_jid_ = 0
-  jid_ = ""
+  jid_ = b""
   has_from_jid_ = 0
-  from_jid_ = ""
+  from_jid_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -1381,7 +1381,7 @@ class XmppInviteRequest(ProtocolBuffer.ProtocolMessage):
   def clear_jid(self):
     if self.has_jid_:
       self.has_jid_ = 0
-      self.jid_ = ""
+      self.jid_ = b""
 
   def has_jid(self): return self.has_jid_
 
@@ -1394,7 +1394,7 @@ class XmppInviteRequest(ProtocolBuffer.ProtocolMessage):
   def clear_from_jid(self):
     if self.has_from_jid_:
       self.has_from_jid_ = 0
-      self.from_jid_ = ""
+      self.from_jid_ = b""
 
   def has_from_jid(self): return self.has_from_jid_
 

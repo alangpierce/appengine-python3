@@ -288,7 +288,7 @@ class GetModulesResponse(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.GetModulesResponse'
 class GetVersionsRequest(ProtocolBuffer.ProtocolMessage):
   has_module_ = 0
-  module_ = ""
+  module_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -302,7 +302,7 @@ class GetVersionsRequest(ProtocolBuffer.ProtocolMessage):
   def clear_module(self):
     if self.has_module_:
       self.has_module_ = 0
-      self.module_ = ""
+      self.module_ = b""
 
   def has_module(self): return self.has_module_
 
@@ -487,7 +487,7 @@ class GetVersionsResponse(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.GetVersionsResponse'
 class GetDefaultVersionRequest(ProtocolBuffer.ProtocolMessage):
   has_module_ = 0
-  module_ = ""
+  module_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -501,7 +501,7 @@ class GetDefaultVersionRequest(ProtocolBuffer.ProtocolMessage):
   def clear_module(self):
     if self.has_module_:
       self.has_module_ = 0
-      self.module_ = ""
+      self.module_ = b""
 
   def has_module(self): return self.has_module_
 
@@ -582,7 +582,7 @@ class GetDefaultVersionRequest(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.GetDefaultVersionRequest'
 class GetDefaultVersionResponse(ProtocolBuffer.ProtocolMessage):
   has_version_ = 0
-  version_ = ""
+  version_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -596,7 +596,7 @@ class GetDefaultVersionResponse(ProtocolBuffer.ProtocolMessage):
   def clear_version(self):
     if self.has_version_:
       self.has_version_ = 0
-      self.version_ = ""
+      self.version_ = b""
 
   def has_version(self): return self.has_version_
 
@@ -682,9 +682,9 @@ class GetDefaultVersionResponse(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.GetDefaultVersionResponse'
 class GetNumInstancesRequest(ProtocolBuffer.ProtocolMessage):
   has_module_ = 0
-  module_ = ""
+  module_ = b""
   has_version_ = 0
-  version_ = ""
+  version_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -698,7 +698,7 @@ class GetNumInstancesRequest(ProtocolBuffer.ProtocolMessage):
   def clear_module(self):
     if self.has_module_:
       self.has_module_ = 0
-      self.module_ = ""
+      self.module_ = b""
 
   def has_module(self): return self.has_module_
 
@@ -711,7 +711,7 @@ class GetNumInstancesRequest(ProtocolBuffer.ProtocolMessage):
   def clear_version(self):
     if self.has_version_:
       self.has_version_ = 0
-      self.version_ = ""
+      self.version_ = b""
 
   def has_version(self): return self.has_version_
 
@@ -911,9 +911,9 @@ class GetNumInstancesResponse(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.GetNumInstancesResponse'
 class SetNumInstancesRequest(ProtocolBuffer.ProtocolMessage):
   has_module_ = 0
-  module_ = ""
+  module_ = b""
   has_version_ = 0
-  version_ = ""
+  version_ = b""
   has_instances_ = 0
   instances_ = 0
 
@@ -929,7 +929,7 @@ class SetNumInstancesRequest(ProtocolBuffer.ProtocolMessage):
   def clear_module(self):
     if self.has_module_:
       self.has_module_ = 0
-      self.module_ = ""
+      self.module_ = b""
 
   def has_module(self): return self.has_module_
 
@@ -942,7 +942,7 @@ class SetNumInstancesRequest(ProtocolBuffer.ProtocolMessage):
   def clear_version(self):
     if self.has_version_:
       self.has_version_ = 0
-      self.version_ = ""
+      self.version_ = b""
 
   def has_version(self): return self.has_version_
 
@@ -1144,9 +1144,9 @@ class SetNumInstancesResponse(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.SetNumInstancesResponse'
 class StartModuleRequest(ProtocolBuffer.ProtocolMessage):
   has_module_ = 0
-  module_ = ""
+  module_ = b""
   has_version_ = 0
-  version_ = ""
+  version_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -1160,7 +1160,7 @@ class StartModuleRequest(ProtocolBuffer.ProtocolMessage):
   def clear_module(self):
     if self.has_module_:
       self.has_module_ = 0
-      self.module_ = ""
+      self.module_ = b""
 
   def has_module(self): return self.has_module_
 
@@ -1173,7 +1173,7 @@ class StartModuleRequest(ProtocolBuffer.ProtocolMessage):
   def clear_version(self):
     if self.has_version_:
       self.has_version_ = 0
-      self.version_ = ""
+      self.version_ = b""
 
   def has_version(self): return self.has_version_
 
@@ -1348,9 +1348,9 @@ class StartModuleResponse(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.StartModuleResponse'
 class StopModuleRequest(ProtocolBuffer.ProtocolMessage):
   has_module_ = 0
-  module_ = ""
+  module_ = b""
   has_version_ = 0
-  version_ = ""
+  version_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -1364,7 +1364,7 @@ class StopModuleRequest(ProtocolBuffer.ProtocolMessage):
   def clear_module(self):
     if self.has_module_:
       self.has_module_ = 0
-      self.module_ = ""
+      self.module_ = b""
 
   def has_module(self): return self.has_module_
 
@@ -1377,7 +1377,7 @@ class StopModuleRequest(ProtocolBuffer.ProtocolMessage):
   def clear_version(self):
     if self.has_version_:
       self.has_version_ = 0
-      self.version_ = ""
+      self.version_ = b""
 
   def has_version(self): return self.has_version_
 
@@ -1542,11 +1542,11 @@ class StopModuleResponse(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.StopModuleResponse'
 class GetHostnameRequest(ProtocolBuffer.ProtocolMessage):
   has_module_ = 0
-  module_ = ""
+  module_ = b""
   has_version_ = 0
-  version_ = ""
+  version_ = b""
   has_instance_ = 0
-  instance_ = ""
+  instance_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -1560,7 +1560,7 @@ class GetHostnameRequest(ProtocolBuffer.ProtocolMessage):
   def clear_module(self):
     if self.has_module_:
       self.has_module_ = 0
-      self.module_ = ""
+      self.module_ = b""
 
   def has_module(self): return self.has_module_
 
@@ -1573,7 +1573,7 @@ class GetHostnameRequest(ProtocolBuffer.ProtocolMessage):
   def clear_version(self):
     if self.has_version_:
       self.has_version_ = 0
-      self.version_ = ""
+      self.version_ = b""
 
   def has_version(self): return self.has_version_
 
@@ -1586,7 +1586,7 @@ class GetHostnameRequest(ProtocolBuffer.ProtocolMessage):
   def clear_instance(self):
     if self.has_instance_:
       self.has_instance_ = 0
-      self.instance_ = ""
+      self.instance_ = b""
 
   def has_instance(self): return self.has_instance_
 
@@ -1705,7 +1705,7 @@ class GetHostnameRequest(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.GetHostnameRequest'
 class GetHostnameResponse(ProtocolBuffer.ProtocolMessage):
   has_hostname_ = 0
-  hostname_ = ""
+  hostname_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -1719,7 +1719,7 @@ class GetHostnameResponse(ProtocolBuffer.ProtocolMessage):
   def clear_hostname(self):
     if self.has_hostname_:
       self.has_hostname_ = 0
-      self.hostname_ = ""
+      self.hostname_ = b""
 
   def has_hostname(self): return self.has_hostname_
 

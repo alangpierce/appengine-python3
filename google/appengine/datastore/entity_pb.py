@@ -33,11 +33,11 @@ else:
 
 class PropertyValue_ReferenceValuePathElement(ProtocolBuffer.ProtocolMessage):
   has_type_ = 0
-  type_ = ""
+  type_ = b""
   has_id_ = 0
   id_ = 0
   has_name_ = 0
-  name_ = ""
+  name_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -51,7 +51,7 @@ class PropertyValue_ReferenceValuePathElement(ProtocolBuffer.ProtocolMessage):
   def clear_type(self):
     if self.has_type_:
       self.has_type_ = 0
-      self.type_ = ""
+      self.type_ = b""
 
   def has_type(self): return self.has_type_
 
@@ -77,7 +77,7 @@ class PropertyValue_ReferenceValuePathElement(ProtocolBuffer.ProtocolMessage):
   def clear_name(self):
     if self.has_name_:
       self.has_name_ = 0
-      self.name_ = ""
+      self.name_ = b""
 
   def has_name(self): return self.has_name_
 
@@ -289,19 +289,19 @@ class PropertyValue_PointValue(ProtocolBuffer.ProtocolMessage):
 
 class PropertyValue_UserValue(ProtocolBuffer.ProtocolMessage):
   has_email_ = 0
-  email_ = ""
+  email_ = b""
   has_auth_domain_ = 0
-  auth_domain_ = ""
+  auth_domain_ = b""
   has_nickname_ = 0
-  nickname_ = ""
+  nickname_ = b""
   has_gaiaid_ = 0
   gaiaid_ = 0
   has_obfuscated_gaiaid_ = 0
-  obfuscated_gaiaid_ = ""
+  obfuscated_gaiaid_ = b""
   has_federated_identity_ = 0
-  federated_identity_ = ""
+  federated_identity_ = b""
   has_federated_provider_ = 0
-  federated_provider_ = ""
+  federated_provider_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -315,7 +315,7 @@ class PropertyValue_UserValue(ProtocolBuffer.ProtocolMessage):
   def clear_email(self):
     if self.has_email_:
       self.has_email_ = 0
-      self.email_ = ""
+      self.email_ = b""
 
   def has_email(self): return self.has_email_
 
@@ -328,7 +328,7 @@ class PropertyValue_UserValue(ProtocolBuffer.ProtocolMessage):
   def clear_auth_domain(self):
     if self.has_auth_domain_:
       self.has_auth_domain_ = 0
-      self.auth_domain_ = ""
+      self.auth_domain_ = b""
 
   def has_auth_domain(self): return self.has_auth_domain_
 
@@ -341,7 +341,7 @@ class PropertyValue_UserValue(ProtocolBuffer.ProtocolMessage):
   def clear_nickname(self):
     if self.has_nickname_:
       self.has_nickname_ = 0
-      self.nickname_ = ""
+      self.nickname_ = b""
 
   def has_nickname(self): return self.has_nickname_
 
@@ -367,7 +367,7 @@ class PropertyValue_UserValue(ProtocolBuffer.ProtocolMessage):
   def clear_obfuscated_gaiaid(self):
     if self.has_obfuscated_gaiaid_:
       self.has_obfuscated_gaiaid_ = 0
-      self.obfuscated_gaiaid_ = ""
+      self.obfuscated_gaiaid_ = b""
 
   def has_obfuscated_gaiaid(self): return self.has_obfuscated_gaiaid_
 
@@ -380,7 +380,7 @@ class PropertyValue_UserValue(ProtocolBuffer.ProtocolMessage):
   def clear_federated_identity(self):
     if self.has_federated_identity_:
       self.has_federated_identity_ = 0
-      self.federated_identity_ = ""
+      self.federated_identity_ = b""
 
   def has_federated_identity(self): return self.has_federated_identity_
 
@@ -393,7 +393,7 @@ class PropertyValue_UserValue(ProtocolBuffer.ProtocolMessage):
   def clear_federated_provider(self):
     if self.has_federated_provider_:
       self.has_federated_provider_ = 0
-      self.federated_provider_ = ""
+      self.federated_provider_ = b""
 
   def has_federated_provider(self): return self.has_federated_provider_
 
@@ -566,9 +566,9 @@ class PropertyValue_UserValue(ProtocolBuffer.ProtocolMessage):
 
 class PropertyValue_ReferenceValue(ProtocolBuffer.ProtocolMessage):
   has_app_ = 0
-  app_ = ""
+  app_ = b""
   has_name_space_ = 0
-  name_space_ = ""
+  name_space_ = b""
 
   def __init__(self, contents=None):
     self.pathelement_ = []
@@ -583,7 +583,7 @@ class PropertyValue_ReferenceValue(ProtocolBuffer.ProtocolMessage):
   def clear_app(self):
     if self.has_app_:
       self.has_app_ = 0
-      self.app_ = ""
+      self.app_ = b""
 
   def has_app(self): return self.has_app_
 
@@ -596,7 +596,7 @@ class PropertyValue_ReferenceValue(ProtocolBuffer.ProtocolMessage):
   def clear_name_space(self):
     if self.has_name_space_:
       self.has_name_space_ = 0
-      self.name_space_ = ""
+      self.name_space_ = b""
 
   def has_name_space(self): return self.has_name_space_
 
@@ -729,7 +729,7 @@ class PropertyValue(ProtocolBuffer.ProtocolMessage):
   has_booleanvalue_ = 0
   booleanvalue_ = 0
   has_stringvalue_ = 0
-  stringvalue_ = ""
+  stringvalue_ = b""
   has_doublevalue_ = 0
   doublevalue_ = 0.0
   has_pointvalue_ = 0
@@ -778,7 +778,7 @@ class PropertyValue(ProtocolBuffer.ProtocolMessage):
   def clear_stringvalue(self):
     if self.has_stringvalue_:
       self.has_stringvalue_ = 0
-      self.stringvalue_ = ""
+      self.stringvalue_ = b""
 
   def has_stringvalue(self): return self.has_stringvalue_
 
@@ -1157,9 +1157,9 @@ class Property(ProtocolBuffer.ProtocolMessage):
   has_meaning_ = 0
   meaning_ = 0
   has_meaning_uri_ = 0
-  meaning_uri_ = ""
+  meaning_uri_ = b""
   has_name_ = 0
-  name_ = ""
+  name_ = b""
   has_value_ = 0
   has_multiple_ = 0
   multiple_ = 0
@@ -1192,7 +1192,7 @@ class Property(ProtocolBuffer.ProtocolMessage):
   def clear_meaning_uri(self):
     if self.has_meaning_uri_:
       self.has_meaning_uri_ = 0
-      self.meaning_uri_ = ""
+      self.meaning_uri_ = b""
 
   def has_meaning_uri(self): return self.has_meaning_uri_
 
@@ -1205,7 +1205,7 @@ class Property(ProtocolBuffer.ProtocolMessage):
   def clear_name(self):
     if self.has_name_:
       self.has_name_ = 0
-      self.name_ = ""
+      self.name_ = b""
 
   def has_name(self): return self.has_name_
 
@@ -1437,11 +1437,11 @@ class Property(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'storage_onestore_v3.Property'
 class Path_Element(ProtocolBuffer.ProtocolMessage):
   has_type_ = 0
-  type_ = ""
+  type_ = b""
   has_id_ = 0
   id_ = 0
   has_name_ = 0
-  name_ = ""
+  name_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -1455,7 +1455,7 @@ class Path_Element(ProtocolBuffer.ProtocolMessage):
   def clear_type(self):
     if self.has_type_:
       self.has_type_ = 0
-      self.type_ = ""
+      self.type_ = b""
 
   def has_type(self): return self.has_type_
 
@@ -1481,7 +1481,7 @@ class Path_Element(ProtocolBuffer.ProtocolMessage):
   def clear_name(self):
     if self.has_name_:
       self.has_name_ = 0
-      self.name_ = ""
+      self.name_ = b""
 
   def has_name(self): return self.has_name_
 
@@ -1700,9 +1700,9 @@ class Path(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'storage_onestore_v3.Path'
 class Reference(ProtocolBuffer.ProtocolMessage):
   has_app_ = 0
-  app_ = ""
+  app_ = b""
   has_name_space_ = 0
-  name_space_ = ""
+  name_space_ = b""
   has_path_ = 0
 
   def __init__(self, contents=None):
@@ -1718,7 +1718,7 @@ class Reference(ProtocolBuffer.ProtocolMessage):
   def clear_app(self):
     if self.has_app_:
       self.has_app_ = 0
-      self.app_ = ""
+      self.app_ = b""
 
   def has_app(self): return self.has_app_
 
@@ -1731,7 +1731,7 @@ class Reference(ProtocolBuffer.ProtocolMessage):
   def clear_name_space(self):
     if self.has_name_space_:
       self.has_name_space_ = 0
-      self.name_space_ = ""
+      self.name_space_ = b""
 
   def has_name_space(self): return self.has_name_space_
 
@@ -1877,19 +1877,19 @@ class Reference(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'storage_onestore_v3.Reference'
 class User(ProtocolBuffer.ProtocolMessage):
   has_email_ = 0
-  email_ = ""
+  email_ = b""
   has_auth_domain_ = 0
-  auth_domain_ = ""
+  auth_domain_ = b""
   has_nickname_ = 0
-  nickname_ = ""
+  nickname_ = b""
   has_gaiaid_ = 0
   gaiaid_ = 0
   has_obfuscated_gaiaid_ = 0
-  obfuscated_gaiaid_ = ""
+  obfuscated_gaiaid_ = b""
   has_federated_identity_ = 0
-  federated_identity_ = ""
+  federated_identity_ = b""
   has_federated_provider_ = 0
-  federated_provider_ = ""
+  federated_provider_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -1903,7 +1903,7 @@ class User(ProtocolBuffer.ProtocolMessage):
   def clear_email(self):
     if self.has_email_:
       self.has_email_ = 0
-      self.email_ = ""
+      self.email_ = b""
 
   def has_email(self): return self.has_email_
 
@@ -1916,7 +1916,7 @@ class User(ProtocolBuffer.ProtocolMessage):
   def clear_auth_domain(self):
     if self.has_auth_domain_:
       self.has_auth_domain_ = 0
-      self.auth_domain_ = ""
+      self.auth_domain_ = b""
 
   def has_auth_domain(self): return self.has_auth_domain_
 
@@ -1929,7 +1929,7 @@ class User(ProtocolBuffer.ProtocolMessage):
   def clear_nickname(self):
     if self.has_nickname_:
       self.has_nickname_ = 0
-      self.nickname_ = ""
+      self.nickname_ = b""
 
   def has_nickname(self): return self.has_nickname_
 
@@ -1955,7 +1955,7 @@ class User(ProtocolBuffer.ProtocolMessage):
   def clear_obfuscated_gaiaid(self):
     if self.has_obfuscated_gaiaid_:
       self.has_obfuscated_gaiaid_ = 0
-      self.obfuscated_gaiaid_ = ""
+      self.obfuscated_gaiaid_ = b""
 
   def has_obfuscated_gaiaid(self): return self.has_obfuscated_gaiaid_
 
@@ -1968,7 +1968,7 @@ class User(ProtocolBuffer.ProtocolMessage):
   def clear_federated_identity(self):
     if self.has_federated_identity_:
       self.has_federated_identity_ = 0
-      self.federated_identity_ = ""
+      self.federated_identity_ = b""
 
   def has_federated_identity(self): return self.has_federated_identity_
 
@@ -1981,7 +1981,7 @@ class User(ProtocolBuffer.ProtocolMessage):
   def clear_federated_provider(self):
     if self.has_federated_provider_:
       self.has_federated_provider_ = 0
-      self.federated_provider_ = ""
+      self.federated_provider_ = b""
 
   def has_federated_provider(self): return self.has_federated_provider_
 
@@ -2212,7 +2212,7 @@ class EntityProto(ProtocolBuffer.ProtocolMessage):
   has_kind_ = 0
   kind_ = 0
   has_kind_uri_ = 0
-  kind_uri_ = ""
+  kind_uri_ = b""
 
   def __init__(self, contents=None):
     self.key_ = Reference()
@@ -2279,7 +2279,7 @@ class EntityProto(ProtocolBuffer.ProtocolMessage):
   def clear_kind_uri(self):
     if self.has_kind_uri_:
       self.has_kind_uri_ = 0
-      self.kind_uri_ = ""
+      self.kind_uri_ = b""
 
   def has_kind_uri(self): return self.has_kind_uri_
 
@@ -2750,7 +2750,7 @@ class Index_Property(ProtocolBuffer.ProtocolMessage):
   Mode_Name = classmethod(Mode_Name)
 
   has_name_ = 0
-  name_ = ""
+  name_ = b""
   has_direction_ = 0
   direction_ = 0
   has_mode_ = 0
@@ -2768,7 +2768,7 @@ class Index_Property(ProtocolBuffer.ProtocolMessage):
   def clear_name(self):
     if self.has_name_:
       self.has_name_ = 0
-      self.name_ = ""
+      self.name_ = b""
 
   def has_name(self): return self.has_name_
 
@@ -2893,7 +2893,7 @@ class Index_Property(ProtocolBuffer.ProtocolMessage):
 
 class Index(ProtocolBuffer.ProtocolMessage):
   has_entity_type_ = 0
-  entity_type_ = ""
+  entity_type_ = b""
   has_ancestor_ = 0
   ancestor_ = 0
 
@@ -2910,7 +2910,7 @@ class Index(ProtocolBuffer.ProtocolMessage):
   def clear_entity_type(self):
     if self.has_entity_type_:
       self.has_entity_type_ = 0
-      self.entity_type_ = ""
+      self.entity_type_ = b""
 
   def has_entity_type(self): return self.has_entity_type_
 
@@ -3121,7 +3121,7 @@ class CompositeIndex(ProtocolBuffer.ProtocolMessage):
   WorkflowState_Name = classmethod(WorkflowState_Name)
 
   has_app_id_ = 0
-  app_id_ = ""
+  app_id_ = b""
   has_id_ = 0
   id_ = 0
   has_definition_ = 0
@@ -3130,13 +3130,13 @@ class CompositeIndex(ProtocolBuffer.ProtocolMessage):
   has_workflow_state_ = 0
   workflow_state_ = 0
   has_error_message_ = 0
-  error_message_ = ""
+  error_message_ = b""
   has_only_use_if_required_ = 0
   only_use_if_required_ = 0
   has_disabled_index_ = 0
   disabled_index_ = 0
   has_write_division_family_ = 0
-  write_division_family_ = ""
+  write_division_family_ = b""
 
   def __init__(self, contents=None):
     self.definition_ = Index()
@@ -3152,7 +3152,7 @@ class CompositeIndex(ProtocolBuffer.ProtocolMessage):
   def clear_app_id(self):
     if self.has_app_id_:
       self.has_app_id_ = 0
-      self.app_id_ = ""
+      self.app_id_ = b""
 
   def has_app_id(self): return self.has_app_id_
 
@@ -3212,7 +3212,7 @@ class CompositeIndex(ProtocolBuffer.ProtocolMessage):
   def clear_error_message(self):
     if self.has_error_message_:
       self.has_error_message_ = 0
-      self.error_message_ = ""
+      self.error_message_ = b""
 
   def has_error_message(self): return self.has_error_message_
 
@@ -3266,7 +3266,7 @@ class CompositeIndex(ProtocolBuffer.ProtocolMessage):
   def clear_write_division_family(self):
     if self.has_write_division_family_:
       self.has_write_division_family_ = 0
-      self.write_division_family_ = ""
+      self.write_division_family_ = b""
 
   def has_write_division_family(self): return self.has_write_division_family_
 
@@ -3557,7 +3557,7 @@ class SearchIndexEntry(ProtocolBuffer.ProtocolMessage):
   has_index_id_ = 0
   index_id_ = 0
   has_write_division_family_ = 0
-  write_division_family_ = ""
+  write_division_family_ = b""
   has_fingerprint_1999_ = 0
   fingerprint_1999_ = 0
   has_fingerprint_2011_ = 0
@@ -3588,7 +3588,7 @@ class SearchIndexEntry(ProtocolBuffer.ProtocolMessage):
   def clear_write_division_family(self):
     if self.has_write_division_family_:
       self.has_write_division_family_ = 0
-      self.write_division_family_ = ""
+      self.write_division_family_ = b""
 
   def has_write_division_family(self): return self.has_write_division_family_
 
@@ -3905,7 +3905,7 @@ class SearchIndexExternalId(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'storage_onestore_v3.SearchIndexExternalId'
 class IndexPostfix_IndexValue(ProtocolBuffer.ProtocolMessage):
   has_property_name_ = 0
-  property_name_ = ""
+  property_name_ = b""
   has_value_ = 0
 
   def __init__(self, contents=None):
@@ -3921,7 +3921,7 @@ class IndexPostfix_IndexValue(ProtocolBuffer.ProtocolMessage):
   def clear_property_name(self):
     if self.has_property_name_:
       self.has_property_name_ = 0
-      self.property_name_ = ""
+      self.property_name_ = b""
 
   def has_property_name(self): return self.has_property_name_
 
@@ -4280,7 +4280,7 @@ class IndexPostfix(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'storage_onestore_v3.IndexPostfix'
 class IndexPosition(ProtocolBuffer.ProtocolMessage):
   has_key_ = 0
-  key_ = ""
+  key_ = b""
   has_before_ = 0
   before_ = 1
   has_before_ascending_ = 0
@@ -4298,7 +4298,7 @@ class IndexPosition(ProtocolBuffer.ProtocolMessage):
   def clear_key(self):
     if self.has_key_:
       self.has_key_ = 0
-      self.key_ = ""
+      self.key_ = b""
 
   def has_key(self): return self.has_key_
 

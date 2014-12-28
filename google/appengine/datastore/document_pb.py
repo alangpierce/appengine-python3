@@ -173,7 +173,7 @@ class FieldValue(ProtocolBuffer.ProtocolMessage):
   has_language_ = 0
   language_ = "en"
   has_string_value_ = 0
-  string_value_ = ""
+  string_value_ = b""
   has_geo_ = 0
   geo_ = None
 
@@ -216,7 +216,7 @@ class FieldValue(ProtocolBuffer.ProtocolMessage):
   def clear_string_value(self):
     if self.has_string_value_:
       self.has_string_value_ = 0
-      self.string_value_ = ""
+      self.string_value_ = b""
 
   def has_string_value(self): return self.has_string_value_
 
@@ -385,7 +385,7 @@ class FieldValue(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'storage_onestore_v3.FieldValue'
 class Field(ProtocolBuffer.ProtocolMessage):
   has_name_ = 0
-  name_ = ""
+  name_ = b""
   has_value_ = 0
 
   def __init__(self, contents=None):
@@ -401,7 +401,7 @@ class Field(ProtocolBuffer.ProtocolMessage):
   def clear_name(self):
     if self.has_name_:
       self.has_name_ = 0
-      self.name_ = ""
+      self.name_ = b""
 
   def has_name(self): return self.has_name_
 
@@ -528,7 +528,7 @@ class Field(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'storage_onestore_v3.Field'
 class FieldTypes(ProtocolBuffer.ProtocolMessage):
   has_name_ = 0
-  name_ = ""
+  name_ = b""
 
   def __init__(self, contents=None):
     self.type_ = []
@@ -543,7 +543,7 @@ class FieldTypes(ProtocolBuffer.ProtocolMessage):
   def clear_name(self):
     if self.has_name_:
       self.has_name_ = 0
-      self.name_ = ""
+      self.name_ = b""
 
   def has_name(self): return self.has_name_
 
@@ -781,7 +781,7 @@ class FacetValue(ProtocolBuffer.ProtocolMessage):
   has_type_ = 0
   type_ = 2
   has_string_value_ = 0
-  string_value_ = ""
+  string_value_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -808,7 +808,7 @@ class FacetValue(ProtocolBuffer.ProtocolMessage):
   def clear_string_value(self):
     if self.has_string_value_:
       self.has_string_value_ = 0
-      self.string_value_ = ""
+      self.string_value_ = b""
 
   def has_string_value(self): return self.has_string_value_
 
@@ -908,7 +908,7 @@ class FacetValue(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'storage_onestore_v3.FacetValue'
 class Facet(ProtocolBuffer.ProtocolMessage):
   has_name_ = 0
-  name_ = ""
+  name_ = b""
   has_value_ = 0
 
   def __init__(self, contents=None):
@@ -924,7 +924,7 @@ class Facet(ProtocolBuffer.ProtocolMessage):
   def clear_name(self):
     if self.has_name_:
       self.has_name_ = 0
-      self.name_ = ""
+      self.name_ = b""
 
   def has_name(self): return self.has_name_
 
@@ -1157,7 +1157,7 @@ class Document(ProtocolBuffer.ProtocolMessage):
   Storage_Name = classmethod(Storage_Name)
 
   has_id_ = 0
-  id_ = ""
+  id_ = b""
   has_language_ = 0
   language_ = "en"
   has_order_id_ = 0
@@ -1182,7 +1182,7 @@ class Document(ProtocolBuffer.ProtocolMessage):
   def clear_id(self):
     if self.has_id_:
       self.has_id_ = 0
-      self.id_ = ""
+      self.id_ = b""
 
   def has_id(self): return self.has_id_
 

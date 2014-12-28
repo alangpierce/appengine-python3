@@ -746,9 +746,9 @@ class Transform(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.Transform'
 class ImageData(ProtocolBuffer.ProtocolMessage):
   has_content_ = 0
-  content_ = ""
+  content_ = b""
   has_blob_key_ = 0
-  blob_key_ = ""
+  blob_key_ = b""
   has_width_ = 0
   width_ = 0
   has_height_ = 0
@@ -766,7 +766,7 @@ class ImageData(ProtocolBuffer.ProtocolMessage):
   def clear_content(self):
     if self.has_content_:
       self.has_content_ = 0
-      self.content_ = ""
+      self.content_ = b""
 
   def has_content(self): return self.has_content_
 
@@ -779,7 +779,7 @@ class ImageData(ProtocolBuffer.ProtocolMessage):
   def clear_blob_key(self):
     if self.has_blob_key_:
       self.has_blob_key_ = 0
-      self.blob_key_ = ""
+      self.blob_key_ = b""
 
   def has_blob_key(self): return self.has_blob_key_
 
@@ -1519,7 +1519,7 @@ class ImagesTransformRequest(ProtocolBuffer.ProtocolMessage):
 class ImagesTransformResponse(ProtocolBuffer.ProtocolMessage):
   has_image_ = 0
   has_source_metadata_ = 0
-  source_metadata_ = ""
+  source_metadata_ = b""
 
   def __init__(self, contents=None):
     self.image_ = ImageData()
@@ -1542,7 +1542,7 @@ class ImagesTransformResponse(ProtocolBuffer.ProtocolMessage):
   def clear_source_metadata(self):
     if self.has_source_metadata_:
       self.has_source_metadata_ = 0
-      self.source_metadata_ = ""
+      self.source_metadata_ = b""
 
   def has_source_metadata(self): return self.has_source_metadata_
 
@@ -2865,7 +2865,7 @@ class ImagesHistogramResponse(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.ImagesHistogramResponse'
 class ImagesGetUrlBaseRequest(ProtocolBuffer.ProtocolMessage):
   has_blob_key_ = 0
-  blob_key_ = ""
+  blob_key_ = b""
   has_create_secure_url_ = 0
   create_secure_url_ = 0
 
@@ -2881,7 +2881,7 @@ class ImagesGetUrlBaseRequest(ProtocolBuffer.ProtocolMessage):
   def clear_blob_key(self):
     if self.has_blob_key_:
       self.has_blob_key_ = 0
-      self.blob_key_ = ""
+      self.blob_key_ = b""
 
   def has_blob_key(self): return self.has_blob_key_
 
@@ -2999,7 +2999,7 @@ class ImagesGetUrlBaseRequest(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.ImagesGetUrlBaseRequest'
 class ImagesGetUrlBaseResponse(ProtocolBuffer.ProtocolMessage):
   has_url_ = 0
-  url_ = ""
+  url_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -3013,7 +3013,7 @@ class ImagesGetUrlBaseResponse(ProtocolBuffer.ProtocolMessage):
   def clear_url(self):
     if self.has_url_:
       self.has_url_ = 0
-      self.url_ = ""
+      self.url_ = b""
 
   def has_url(self): return self.has_url_
 
@@ -3099,7 +3099,7 @@ class ImagesGetUrlBaseResponse(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.ImagesGetUrlBaseResponse'
 class ImagesDeleteUrlBaseRequest(ProtocolBuffer.ProtocolMessage):
   has_blob_key_ = 0
-  blob_key_ = ""
+  blob_key_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -3113,7 +3113,7 @@ class ImagesDeleteUrlBaseRequest(ProtocolBuffer.ProtocolMessage):
   def clear_blob_key(self):
     if self.has_blob_key_:
       self.has_blob_key_ = 0
-      self.blob_key_ = ""
+      self.blob_key_ = b""
 
   def has_blob_key(self): return self.has_blob_key_
 

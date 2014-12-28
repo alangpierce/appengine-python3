@@ -183,9 +183,9 @@ class FileServiceErrors(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.files.FileServiceErrors'
 class KeyValue(ProtocolBuffer.ProtocolMessage):
   has_key_ = 0
-  key_ = ""
+  key_ = b""
   has_value_ = 0
-  value_ = ""
+  value_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -199,7 +199,7 @@ class KeyValue(ProtocolBuffer.ProtocolMessage):
   def clear_key(self):
     if self.has_key_:
       self.has_key_ = 0
-      self.key_ = ""
+      self.key_ = b""
 
   def has_key(self): return self.has_key_
 
@@ -212,7 +212,7 @@ class KeyValue(ProtocolBuffer.ProtocolMessage):
   def clear_value(self):
     if self.has_value_:
       self.has_value_ = 0
-      self.value_ = ""
+      self.value_ = b""
 
   def has_value(self): return self.has_value_
 
@@ -322,7 +322,7 @@ class KeyValue(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.files.KeyValue'
 class KeyValues(ProtocolBuffer.ProtocolMessage):
   has_key_ = 0
-  key_ = ""
+  key_ = b""
   has_partial_ = 0
   partial_ = 0
 
@@ -339,7 +339,7 @@ class KeyValues(ProtocolBuffer.ProtocolMessage):
   def clear_key(self):
     if self.has_key_:
       self.has_key_ = 0
-      self.key_ = ""
+      self.key_ = b""
 
   def has_key(self): return self.has_key_
 
@@ -579,9 +579,9 @@ class FileContentType(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.files.FileContentType'
 class CreateRequest_Parameter(ProtocolBuffer.ProtocolMessage):
   has_name_ = 0
-  name_ = ""
+  name_ = b""
   has_value_ = 0
-  value_ = ""
+  value_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -595,7 +595,7 @@ class CreateRequest_Parameter(ProtocolBuffer.ProtocolMessage):
   def clear_name(self):
     if self.has_name_:
       self.has_name_ = 0
-      self.name_ = ""
+      self.name_ = b""
 
   def has_name(self): return self.has_name_
 
@@ -608,7 +608,7 @@ class CreateRequest_Parameter(ProtocolBuffer.ProtocolMessage):
   def clear_value(self):
     if self.has_value_:
       self.has_value_ = 0
-      self.value_ = ""
+      self.value_ = b""
 
   def has_value(self): return self.has_value_
 
@@ -718,11 +718,11 @@ class CreateRequest_Parameter(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.files.CreateRequest_Parameter'
 class CreateRequest(ProtocolBuffer.ProtocolMessage):
   has_filesystem_ = 0
-  filesystem_ = ""
+  filesystem_ = b""
   has_content_type_ = 0
   content_type_ = 0
   has_filename_ = 0
-  filename_ = ""
+  filename_ = b""
   has_expiration_time_seconds_ = 0
   expiration_time_seconds_ = 0
 
@@ -739,7 +739,7 @@ class CreateRequest(ProtocolBuffer.ProtocolMessage):
   def clear_filesystem(self):
     if self.has_filesystem_:
       self.has_filesystem_ = 0
-      self.filesystem_ = ""
+      self.filesystem_ = b""
 
   def has_filesystem(self): return self.has_filesystem_
 
@@ -765,7 +765,7 @@ class CreateRequest(ProtocolBuffer.ProtocolMessage):
   def clear_filename(self):
     if self.has_filename_:
       self.has_filename_ = 0
-      self.filename_ = ""
+      self.filename_ = b""
 
   def has_filename(self): return self.has_filename_
 
@@ -978,7 +978,7 @@ class CreateRequest(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.files.CreateRequest'
 class CreateResponse(ProtocolBuffer.ProtocolMessage):
   has_filename_ = 0
-  filename_ = ""
+  filename_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -992,7 +992,7 @@ class CreateResponse(ProtocolBuffer.ProtocolMessage):
   def clear_filename(self):
     if self.has_filename_:
       self.has_filename_ = 0
-      self.filename_ = ""
+      self.filename_ = b""
 
   def has_filename(self): return self.has_filename_
 
@@ -1091,7 +1091,7 @@ class OpenRequest(ProtocolBuffer.ProtocolMessage):
   OpenMode_Name = classmethod(OpenMode_Name)
 
   has_filename_ = 0
-  filename_ = ""
+  filename_ = b""
   has_content_type_ = 0
   content_type_ = 0
   has_open_mode_ = 0
@@ -1115,7 +1115,7 @@ class OpenRequest(ProtocolBuffer.ProtocolMessage):
   def clear_filename(self):
     if self.has_filename_:
       self.has_filename_ = 0
-      self.filename_ = ""
+      self.filename_ = b""
 
   def has_filename(self): return self.has_filename_
 
@@ -1436,7 +1436,7 @@ class OpenResponse(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.files.OpenResponse'
 class CloseRequest(ProtocolBuffer.ProtocolMessage):
   has_filename_ = 0
-  filename_ = ""
+  filename_ = b""
   has_finalize_ = 0
   finalize_ = 0
 
@@ -1452,7 +1452,7 @@ class CloseRequest(ProtocolBuffer.ProtocolMessage):
   def clear_filename(self):
     if self.has_filename_:
       self.has_filename_ = 0
-      self.filename_ = ""
+      self.filename_ = b""
 
   def has_filename(self): return self.has_filename_
 
@@ -1635,7 +1635,7 @@ class CloseResponse(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.files.CloseResponse'
 class FileStat(ProtocolBuffer.ProtocolMessage):
   has_filename_ = 0
-  filename_ = ""
+  filename_ = b""
   has_content_type_ = 0
   content_type_ = 0
   has_finalized_ = 0
@@ -1659,7 +1659,7 @@ class FileStat(ProtocolBuffer.ProtocolMessage):
   def clear_filename(self):
     if self.has_filename_:
       self.has_filename_ = 0
-      self.filename_ = ""
+      self.filename_ = b""
 
   def has_filename(self): return self.has_filename_
 
@@ -1913,9 +1913,9 @@ class FileStat(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.files.FileStat'
 class StatRequest(ProtocolBuffer.ProtocolMessage):
   has_filename_ = 0
-  filename_ = ""
+  filename_ = b""
   has_file_glob_ = 0
-  file_glob_ = ""
+  file_glob_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -1929,7 +1929,7 @@ class StatRequest(ProtocolBuffer.ProtocolMessage):
   def clear_filename(self):
     if self.has_filename_:
       self.has_filename_ = 0
-      self.filename_ = ""
+      self.filename_ = b""
 
   def has_filename(self): return self.has_filename_
 
@@ -1942,7 +1942,7 @@ class StatRequest(ProtocolBuffer.ProtocolMessage):
   def clear_file_glob(self):
     if self.has_file_glob_:
       self.has_file_glob_ = 0
-      self.file_glob_ = ""
+      self.file_glob_ = b""
 
   def has_file_glob(self): return self.has_file_glob_
 
@@ -2193,11 +2193,11 @@ class StatResponse(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.files.StatResponse'
 class AppendRequest(ProtocolBuffer.ProtocolMessage):
   has_filename_ = 0
-  filename_ = ""
+  filename_ = b""
   has_data_ = 0
-  data_ = ""
+  data_ = b""
   has_sequence_key_ = 0
-  sequence_key_ = ""
+  sequence_key_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -2211,7 +2211,7 @@ class AppendRequest(ProtocolBuffer.ProtocolMessage):
   def clear_filename(self):
     if self.has_filename_:
       self.has_filename_ = 0
-      self.filename_ = ""
+      self.filename_ = b""
 
   def has_filename(self): return self.has_filename_
 
@@ -2224,7 +2224,7 @@ class AppendRequest(ProtocolBuffer.ProtocolMessage):
   def clear_data(self):
     if self.has_data_:
       self.has_data_ = 0
-      self.data_ = ""
+      self.data_ = b""
 
   def has_data(self): return self.has_data_
 
@@ -2237,7 +2237,7 @@ class AppendRequest(ProtocolBuffer.ProtocolMessage):
   def clear_sequence_key(self):
     if self.has_sequence_key_:
       self.has_sequence_key_ = 0
-      self.sequence_key_ = ""
+      self.sequence_key_ = b""
 
   def has_sequence_key(self): return self.has_sequence_key_
 
@@ -2431,7 +2431,7 @@ class AppendResponse(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.files.AppendResponse'
 class DeleteRequest(ProtocolBuffer.ProtocolMessage):
   has_filename_ = 0
-  filename_ = ""
+  filename_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -2445,7 +2445,7 @@ class DeleteRequest(ProtocolBuffer.ProtocolMessage):
   def clear_filename(self):
     if self.has_filename_:
       self.has_filename_ = 0
-      self.filename_ = ""
+      self.filename_ = b""
 
   def has_filename(self): return self.has_filename_
 
@@ -2596,7 +2596,7 @@ class DeleteResponse(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.files.DeleteResponse'
 class ReadRequest(ProtocolBuffer.ProtocolMessage):
   has_filename_ = 0
-  filename_ = ""
+  filename_ = b""
   has_pos_ = 0
   pos_ = 0
   has_max_bytes_ = 0
@@ -2614,7 +2614,7 @@ class ReadRequest(ProtocolBuffer.ProtocolMessage):
   def clear_filename(self):
     if self.has_filename_:
       self.has_filename_ = 0
-      self.filename_ = ""
+      self.filename_ = b""
 
   def has_filename(self): return self.has_filename_
 
@@ -2774,7 +2774,7 @@ class ReadRequest(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.files.ReadRequest'
 class ReadResponse(ProtocolBuffer.ProtocolMessage):
   has_data_ = 0
-  data_ = ""
+  data_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -2788,7 +2788,7 @@ class ReadResponse(ProtocolBuffer.ProtocolMessage):
   def clear_data(self):
     if self.has_data_:
       self.has_data_ = 0
-      self.data_ = ""
+      self.data_ = b""
 
   def has_data(self): return self.has_data_
 
@@ -2874,9 +2874,9 @@ class ReadResponse(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.files.ReadResponse'
 class ReadKeyValueRequest(ProtocolBuffer.ProtocolMessage):
   has_filename_ = 0
-  filename_ = ""
+  filename_ = b""
   has_start_key_ = 0
-  start_key_ = ""
+  start_key_ = b""
   has_max_bytes_ = 0
   max_bytes_ = 0
   has_value_pos_ = 0
@@ -2894,7 +2894,7 @@ class ReadKeyValueRequest(ProtocolBuffer.ProtocolMessage):
   def clear_filename(self):
     if self.has_filename_:
       self.has_filename_ = 0
-      self.filename_ = ""
+      self.filename_ = b""
 
   def has_filename(self): return self.has_filename_
 
@@ -2907,7 +2907,7 @@ class ReadKeyValueRequest(ProtocolBuffer.ProtocolMessage):
   def clear_start_key(self):
     if self.has_start_key_:
       self.has_start_key_ = 0
-      self.start_key_ = ""
+      self.start_key_ = b""
 
   def has_start_key(self): return self.has_start_key_
 
@@ -3086,9 +3086,9 @@ class ReadKeyValueRequest(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.files.ReadKeyValueRequest'
 class ReadKeyValueResponse_KeyValue(ProtocolBuffer.ProtocolMessage):
   has_key_ = 0
-  key_ = ""
+  key_ = b""
   has_value_ = 0
-  value_ = ""
+  value_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -3102,7 +3102,7 @@ class ReadKeyValueResponse_KeyValue(ProtocolBuffer.ProtocolMessage):
   def clear_key(self):
     if self.has_key_:
       self.has_key_ = 0
-      self.key_ = ""
+      self.key_ = b""
 
   def has_key(self): return self.has_key_
 
@@ -3115,7 +3115,7 @@ class ReadKeyValueResponse_KeyValue(ProtocolBuffer.ProtocolMessage):
   def clear_value(self):
     if self.has_value_:
       self.has_value_ = 0
-      self.value_ = ""
+      self.value_ = b""
 
   def has_value(self): return self.has_value_
 
@@ -3225,7 +3225,7 @@ class ReadKeyValueResponse_KeyValue(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.files.ReadKeyValueResponse_KeyValue'
 class ReadKeyValueResponse(ProtocolBuffer.ProtocolMessage):
   has_next_key_ = 0
-  next_key_ = ""
+  next_key_ = b""
   has_truncated_value_ = 0
   truncated_value_ = 0
 
@@ -3258,7 +3258,7 @@ class ReadKeyValueResponse(ProtocolBuffer.ProtocolMessage):
   def clear_next_key(self):
     if self.has_next_key_:
       self.has_next_key_ = 0
-      self.next_key_ = ""
+      self.next_key_ = b""
 
   def has_next_key(self): return self.has_next_key_
 
@@ -3519,7 +3519,7 @@ class ShuffleInputSpecification(ProtocolBuffer.ProtocolMessage):
   has_format_ = 0
   format_ = 1
   has_path_ = 0
-  path_ = ""
+  path_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -3546,7 +3546,7 @@ class ShuffleInputSpecification(ProtocolBuffer.ProtocolMessage):
   def clear_path(self):
     if self.has_path_:
       self.has_path_ = 0
-      self.path_ = ""
+      self.path_ = b""
 
   def has_path(self): return self.has_path_
 
@@ -3789,9 +3789,9 @@ class ShuffleOutputSpecification(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.files.ShuffleOutputSpecification'
 class ShuffleRequest_Callback(ProtocolBuffer.ProtocolMessage):
   has_url_ = 0
-  url_ = ""
+  url_ = b""
   has_app_version_id_ = 0
-  app_version_id_ = ""
+  app_version_id_ = b""
   has_method_ = 0
   method_ = "POST"
   has_queue_ = 0
@@ -3809,7 +3809,7 @@ class ShuffleRequest_Callback(ProtocolBuffer.ProtocolMessage):
   def clear_url(self):
     if self.has_url_:
       self.has_url_ = 0
-      self.url_ = ""
+      self.url_ = b""
 
   def has_url(self): return self.has_url_
 
@@ -3822,7 +3822,7 @@ class ShuffleRequest_Callback(ProtocolBuffer.ProtocolMessage):
   def clear_app_version_id(self):
     if self.has_app_version_id_:
       self.has_app_version_id_ = 0
-      self.app_version_id_ = ""
+      self.app_version_id_ = b""
 
   def has_app_version_id(self): return self.has_app_version_id_
 
@@ -3991,7 +3991,7 @@ class ShuffleRequest_Callback(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.files.ShuffleRequest_Callback'
 class ShuffleRequest(ProtocolBuffer.ProtocolMessage):
   has_shuffle_name_ = 0
-  shuffle_name_ = ""
+  shuffle_name_ = b""
   has_output_ = 0
   has_shuffle_size_bytes_ = 0
   shuffle_size_bytes_ = 0
@@ -4012,7 +4012,7 @@ class ShuffleRequest(ProtocolBuffer.ProtocolMessage):
   def clear_shuffle_name(self):
     if self.has_shuffle_name_:
       self.has_shuffle_name_ = 0
-      self.shuffle_name_ = ""
+      self.shuffle_name_ = b""
 
   def has_shuffle_name(self): return self.has_shuffle_name_
 
@@ -4334,7 +4334,7 @@ class ShuffleResponse(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.files.ShuffleResponse'
 class GetShuffleStatusRequest(ProtocolBuffer.ProtocolMessage):
   has_shuffle_name_ = 0
-  shuffle_name_ = ""
+  shuffle_name_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -4348,7 +4348,7 @@ class GetShuffleStatusRequest(ProtocolBuffer.ProtocolMessage):
   def clear_shuffle_name(self):
     if self.has_shuffle_name_:
       self.has_shuffle_name_ = 0
-      self.shuffle_name_ = ""
+      self.shuffle_name_ = b""
 
   def has_shuffle_name(self): return self.has_shuffle_name_
 
@@ -4436,7 +4436,7 @@ class GetShuffleStatusResponse(ProtocolBuffer.ProtocolMessage):
   has_status_ = 0
   status_ = 0
   has_description_ = 0
-  description_ = ""
+  description_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -4463,7 +4463,7 @@ class GetShuffleStatusResponse(ProtocolBuffer.ProtocolMessage):
   def clear_description(self):
     if self.has_description_:
       self.has_description_ = 0
-      self.description_ = ""
+      self.description_ = b""
 
   def has_description(self): return self.has_description_
 
@@ -4774,7 +4774,7 @@ class GetCapabilitiesResponse(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.files.GetCapabilitiesResponse'
 class FinalizeRequest(ProtocolBuffer.ProtocolMessage):
   has_filename_ = 0
-  filename_ = ""
+  filename_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -4788,7 +4788,7 @@ class FinalizeRequest(ProtocolBuffer.ProtocolMessage):
   def clear_filename(self):
     if self.has_filename_:
       self.has_filename_ = 0
-      self.filename_ = ""
+      self.filename_ = b""
 
   def has_filename(self): return self.has_filename_
 
@@ -5004,7 +5004,7 @@ class GetDefaultGsBucketNameRequest(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.files.GetDefaultGsBucketNameRequest'
 class GetDefaultGsBucketNameResponse(ProtocolBuffer.ProtocolMessage):
   has_default_gs_bucket_name_ = 0
-  default_gs_bucket_name_ = ""
+  default_gs_bucket_name_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -5018,7 +5018,7 @@ class GetDefaultGsBucketNameResponse(ProtocolBuffer.ProtocolMessage):
   def clear_default_gs_bucket_name(self):
     if self.has_default_gs_bucket_name_:
       self.has_default_gs_bucket_name_ = 0
-      self.default_gs_bucket_name_ = ""
+      self.default_gs_bucket_name_ = b""
 
   def has_default_gs_bucket_name(self): return self.has_default_gs_bucket_name_
 
@@ -5099,13 +5099,13 @@ class GetDefaultGsBucketNameResponse(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.files.GetDefaultGsBucketNameResponse'
 class ListDirRequest(ProtocolBuffer.ProtocolMessage):
   has_path_ = 0
-  path_ = ""
+  path_ = b""
   has_marker_ = 0
-  marker_ = ""
+  marker_ = b""
   has_max_keys_ = 0
   max_keys_ = 0
   has_prefix_ = 0
-  prefix_ = ""
+  prefix_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -5119,7 +5119,7 @@ class ListDirRequest(ProtocolBuffer.ProtocolMessage):
   def clear_path(self):
     if self.has_path_:
       self.has_path_ = 0
-      self.path_ = ""
+      self.path_ = b""
 
   def has_path(self): return self.has_path_
 
@@ -5132,7 +5132,7 @@ class ListDirRequest(ProtocolBuffer.ProtocolMessage):
   def clear_marker(self):
     if self.has_marker_:
       self.has_marker_ = 0
-      self.marker_ = ""
+      self.marker_ = b""
 
   def has_marker(self): return self.has_marker_
 
@@ -5158,7 +5158,7 @@ class ListDirRequest(ProtocolBuffer.ProtocolMessage):
   def clear_prefix(self):
     if self.has_prefix_:
       self.has_prefix_ = 0
-      self.prefix_ = ""
+      self.prefix_ = b""
 
   def has_prefix(self): return self.has_prefix_
 

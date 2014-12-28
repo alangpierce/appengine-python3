@@ -178,7 +178,7 @@ class AppIdentityServiceError(ProtocolBuffer.ProtocolMessage):
 
 class SignForAppRequest(ProtocolBuffer.ProtocolMessage):
   has_bytes_to_sign_ = 0
-  bytes_to_sign_ = ""
+  bytes_to_sign_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -192,7 +192,7 @@ class SignForAppRequest(ProtocolBuffer.ProtocolMessage):
   def clear_bytes_to_sign(self):
     if self.has_bytes_to_sign_:
       self.has_bytes_to_sign_ = 0
-      self.bytes_to_sign_ = ""
+      self.bytes_to_sign_ = b""
 
   def has_bytes_to_sign(self): return self.has_bytes_to_sign_
 
@@ -306,9 +306,9 @@ class SignForAppRequest(ProtocolBuffer.ProtocolMessage):
 
 class SignForAppResponse(ProtocolBuffer.ProtocolMessage):
   has_key_name_ = 0
-  key_name_ = ""
+  key_name_ = b""
   has_signature_bytes_ = 0
-  signature_bytes_ = ""
+  signature_bytes_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -322,7 +322,7 @@ class SignForAppResponse(ProtocolBuffer.ProtocolMessage):
   def clear_key_name(self):
     if self.has_key_name_:
       self.has_key_name_ = 0
-      self.key_name_ = ""
+      self.key_name_ = b""
 
   def has_key_name(self): return self.has_key_name_
 
@@ -335,7 +335,7 @@ class SignForAppResponse(ProtocolBuffer.ProtocolMessage):
   def clear_signature_bytes(self):
     if self.has_signature_bytes_:
       self.has_signature_bytes_ = 0
-      self.signature_bytes_ = ""
+      self.signature_bytes_ = b""
 
   def has_signature_bytes(self): return self.has_signature_bytes_
 
@@ -566,9 +566,9 @@ class GetPublicCertificateForAppRequest(ProtocolBuffer.ProtocolMessage):
 
 class PublicCertificate(ProtocolBuffer.ProtocolMessage):
   has_key_name_ = 0
-  key_name_ = ""
+  key_name_ = b""
   has_x509_certificate_pem_ = 0
-  x509_certificate_pem_ = ""
+  x509_certificate_pem_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -582,7 +582,7 @@ class PublicCertificate(ProtocolBuffer.ProtocolMessage):
   def clear_key_name(self):
     if self.has_key_name_:
       self.has_key_name_ = 0
-      self.key_name_ = ""
+      self.key_name_ = b""
 
   def has_key_name(self): return self.has_key_name_
 
@@ -595,7 +595,7 @@ class PublicCertificate(ProtocolBuffer.ProtocolMessage):
   def clear_x509_certificate_pem(self):
     if self.has_x509_certificate_pem_:
       self.has_x509_certificate_pem_ = 0
-      self.x509_certificate_pem_ = ""
+      self.x509_certificate_pem_ = b""
 
   def has_x509_certificate_pem(self): return self.has_x509_certificate_pem_
 
@@ -1007,7 +1007,7 @@ class GetServiceAccountNameRequest(ProtocolBuffer.ProtocolMessage):
 
 class GetServiceAccountNameResponse(ProtocolBuffer.ProtocolMessage):
   has_service_account_name_ = 0
-  service_account_name_ = ""
+  service_account_name_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -1021,7 +1021,7 @@ class GetServiceAccountNameResponse(ProtocolBuffer.ProtocolMessage):
   def clear_service_account_name(self):
     if self.has_service_account_name_:
       self.has_service_account_name_ = 0
-      self.service_account_name_ = ""
+      self.service_account_name_ = b""
 
   def has_service_account_name(self): return self.has_service_account_name_
 
@@ -1137,7 +1137,7 @@ class GetAccessTokenRequest(ProtocolBuffer.ProtocolMessage):
   has_service_account_id_ = 0
   service_account_id_ = 0
   has_service_account_name_ = 0
-  service_account_name_ = ""
+  service_account_name_ = b""
 
   def __init__(self, contents=None):
     self.scope_ = []
@@ -1180,7 +1180,7 @@ class GetAccessTokenRequest(ProtocolBuffer.ProtocolMessage):
   def clear_service_account_name(self):
     if self.has_service_account_name_:
       self.has_service_account_name_ = 0
-      self.service_account_name_ = ""
+      self.service_account_name_ = b""
 
   def has_service_account_name(self): return self.has_service_account_name_
 
@@ -1340,7 +1340,7 @@ class GetAccessTokenRequest(ProtocolBuffer.ProtocolMessage):
 
 class GetAccessTokenResponse(ProtocolBuffer.ProtocolMessage):
   has_access_token_ = 0
-  access_token_ = ""
+  access_token_ = b""
   has_expiration_time_ = 0
   expiration_time_ = 0
 
@@ -1356,7 +1356,7 @@ class GetAccessTokenResponse(ProtocolBuffer.ProtocolMessage):
   def clear_access_token(self):
     if self.has_access_token_:
       self.has_access_token_ = 0
-      self.access_token_ = ""
+      self.access_token_ = b""
 
   def has_access_token(self): return self.has_access_token_
 
@@ -1600,7 +1600,7 @@ class GetDefaultGcsBucketNameRequest(ProtocolBuffer.ProtocolMessage):
 
 class GetDefaultGcsBucketNameResponse(ProtocolBuffer.ProtocolMessage):
   has_default_gcs_bucket_name_ = 0
-  default_gcs_bucket_name_ = ""
+  default_gcs_bucket_name_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -1614,7 +1614,7 @@ class GetDefaultGcsBucketNameResponse(ProtocolBuffer.ProtocolMessage):
   def clear_default_gcs_bucket_name(self):
     if self.has_default_gcs_bucket_name_:
       self.has_default_gcs_bucket_name_ = 0
-      self.default_gcs_bucket_name_ = ""
+      self.default_gcs_bucket_name_ = b""
 
   def has_default_gcs_bucket_name(self): return self.has_default_gcs_bucket_name_
 

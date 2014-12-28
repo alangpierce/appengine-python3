@@ -119,7 +119,7 @@ class ChannelServiceError(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.ChannelServiceError'
 class CreateChannelRequest(ProtocolBuffer.ProtocolMessage):
   has_application_key_ = 0
-  application_key_ = ""
+  application_key_ = b""
   has_duration_minutes_ = 0
   duration_minutes_ = 0
 
@@ -135,7 +135,7 @@ class CreateChannelRequest(ProtocolBuffer.ProtocolMessage):
   def clear_application_key(self):
     if self.has_application_key_:
       self.has_application_key_ = 0
-      self.application_key_ = ""
+      self.application_key_ = b""
 
   def has_application_key(self): return self.has_application_key_
 
@@ -253,7 +253,7 @@ class CreateChannelRequest(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.CreateChannelRequest'
 class CreateChannelResponse(ProtocolBuffer.ProtocolMessage):
   has_token_ = 0
-  token_ = ""
+  token_ = b""
   has_duration_minutes_ = 0
   duration_minutes_ = 0
 
@@ -269,7 +269,7 @@ class CreateChannelResponse(ProtocolBuffer.ProtocolMessage):
   def clear_token(self):
     if self.has_token_:
       self.has_token_ = 0
-      self.token_ = ""
+      self.token_ = b""
 
   def has_token(self): return self.has_token_
 
@@ -382,9 +382,9 @@ class CreateChannelResponse(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.CreateChannelResponse'
 class SendMessageRequest(ProtocolBuffer.ProtocolMessage):
   has_application_key_ = 0
-  application_key_ = ""
+  application_key_ = b""
   has_message_ = 0
-  message_ = ""
+  message_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -398,7 +398,7 @@ class SendMessageRequest(ProtocolBuffer.ProtocolMessage):
   def clear_application_key(self):
     if self.has_application_key_:
       self.has_application_key_ = 0
-      self.application_key_ = ""
+      self.application_key_ = b""
 
   def has_application_key(self): return self.has_application_key_
 
@@ -411,7 +411,7 @@ class SendMessageRequest(ProtocolBuffer.ProtocolMessage):
   def clear_message(self):
     if self.has_message_:
       self.has_message_ = 0
-      self.message_ = ""
+      self.message_ = b""
 
   def has_message(self): return self.has_message_
 

@@ -133,9 +133,9 @@ class URLFetchServiceError(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.URLFetchServiceError'
 class URLFetchRequest_Header(ProtocolBuffer.ProtocolMessage):
   has_key_ = 0
-  key_ = ""
+  key_ = b""
   has_value_ = 0
-  value_ = ""
+  value_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -149,7 +149,7 @@ class URLFetchRequest_Header(ProtocolBuffer.ProtocolMessage):
   def clear_key(self):
     if self.has_key_:
       self.has_key_ = 0
-      self.key_ = ""
+      self.key_ = b""
 
   def has_key(self): return self.has_key_
 
@@ -162,7 +162,7 @@ class URLFetchRequest_Header(ProtocolBuffer.ProtocolMessage):
   def clear_value(self):
     if self.has_value_:
       self.has_value_ = 0
-      self.value_ = ""
+      self.value_ = b""
 
   def has_value(self): return self.has_value_
 
@@ -273,9 +273,9 @@ class URLFetchRequest(ProtocolBuffer.ProtocolMessage):
   has_method_ = 0
   method_ = 0
   has_url_ = 0
-  url_ = ""
+  url_ = b""
   has_payload_ = 0
-  payload_ = ""
+  payload_ = b""
   has_followredirects_ = 0
   followredirects_ = 1
   has_deadline_ = 0
@@ -309,7 +309,7 @@ class URLFetchRequest(ProtocolBuffer.ProtocolMessage):
   def clear_url(self):
     if self.has_url_:
       self.has_url_ = 0
-      self.url_ = ""
+      self.url_ = b""
 
   def has_url(self): return self.has_url_
 
@@ -338,7 +338,7 @@ class URLFetchRequest(ProtocolBuffer.ProtocolMessage):
   def clear_payload(self):
     if self.has_payload_:
       self.has_payload_ = 0
-      self.payload_ = ""
+      self.payload_ = b""
 
   def has_payload(self): return self.has_payload_
 
@@ -602,9 +602,9 @@ class URLFetchRequest(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.URLFetchRequest'
 class URLFetchResponse_Header(ProtocolBuffer.ProtocolMessage):
   has_key_ = 0
-  key_ = ""
+  key_ = b""
   has_value_ = 0
-  value_ = ""
+  value_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -618,7 +618,7 @@ class URLFetchResponse_Header(ProtocolBuffer.ProtocolMessage):
   def clear_key(self):
     if self.has_key_:
       self.has_key_ = 0
-      self.key_ = ""
+      self.key_ = b""
 
   def has_key(self): return self.has_key_
 
@@ -631,7 +631,7 @@ class URLFetchResponse_Header(ProtocolBuffer.ProtocolMessage):
   def clear_value(self):
     if self.has_value_:
       self.has_value_ = 0
-      self.value_ = ""
+      self.value_ = b""
 
   def has_value(self): return self.has_value_
 
@@ -719,7 +719,7 @@ class URLFetchResponse_Header(ProtocolBuffer.ProtocolMessage):
 
 class URLFetchResponse(ProtocolBuffer.ProtocolMessage):
   has_content_ = 0
-  content_ = ""
+  content_ = b""
   has_statuscode_ = 0
   statuscode_ = 0
   has_contentwastruncated_ = 0
@@ -729,7 +729,7 @@ class URLFetchResponse(ProtocolBuffer.ProtocolMessage):
   has_externalbytesreceived_ = 0
   externalbytesreceived_ = 0
   has_finalurl_ = 0
-  finalurl_ = ""
+  finalurl_ = b""
   has_apicpumilliseconds_ = 0
   apicpumilliseconds_ = 0
   has_apibytessent_ = 0
@@ -750,7 +750,7 @@ class URLFetchResponse(ProtocolBuffer.ProtocolMessage):
   def clear_content(self):
     if self.has_content_:
       self.has_content_ = 0
-      self.content_ = ""
+      self.content_ = b""
 
   def has_content(self): return self.has_content_
 
@@ -831,7 +831,7 @@ class URLFetchResponse(ProtocolBuffer.ProtocolMessage):
   def clear_finalurl(self):
     if self.has_finalurl_:
       self.has_finalurl_ = 0
-      self.finalurl_ = ""
+      self.finalurl_ = b""
 
   def has_finalurl(self): return self.has_finalurl_
 

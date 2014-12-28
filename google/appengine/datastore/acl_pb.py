@@ -58,7 +58,7 @@ class Scope(ProtocolBuffer.ProtocolMessage):
   has_type_ = 0
   type_ = 0
   has_value_ = 0
-  value_ = ""
+  value_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -85,7 +85,7 @@ class Scope(ProtocolBuffer.ProtocolMessage):
   def clear_value(self):
     if self.has_value_:
       self.has_value_ = 0
-      self.value_ = ""
+      self.value_ = b""
 
   def has_value(self): return self.has_value_
 
@@ -204,7 +204,7 @@ class Entry(ProtocolBuffer.ProtocolMessage):
   has_permission_ = 0
   permission_ = 0
   has_display_name_ = 0
-  display_name_ = ""
+  display_name_ = b""
 
   def __init__(self, contents=None):
     self.lazy_init_lock_ = thread.allocate_lock()
@@ -251,7 +251,7 @@ class Entry(ProtocolBuffer.ProtocolMessage):
   def clear_display_name(self):
     if self.has_display_name_:
       self.has_display_name_ = 0
-      self.display_name_ = ""
+      self.display_name_ = b""
 
   def has_display_name(self): return self.has_display_name_
 
@@ -379,7 +379,7 @@ class Entry(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'storage_onestore_v3.Entry'
 class AccessControlList(ProtocolBuffer.ProtocolMessage):
   has_owner_ = 0
-  owner_ = ""
+  owner_ = b""
 
   def __init__(self, contents=None):
     self.entries_ = []
@@ -394,7 +394,7 @@ class AccessControlList(ProtocolBuffer.ProtocolMessage):
   def clear_owner(self):
     if self.has_owner_:
       self.has_owner_ = 0
-      self.owner_ = ""
+      self.owner_ = b""
 
   def has_owner(self): return self.has_owner_
 

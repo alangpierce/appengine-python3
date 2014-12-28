@@ -41,13 +41,13 @@ from google.appengine.datastore.snapshot_pb import *
 import google.appengine.datastore.snapshot_pb
 class InternalHeader(ProtocolBuffer.ProtocolMessage):
   has_requesting_app_id_ = 0
-  requesting_app_id_ = ""
+  requesting_app_id_ = b""
   has_requesting_project_id_ = 0
-  requesting_project_id_ = ""
+  requesting_project_id_ = b""
   has_requesting_version_id_ = 0
-  requesting_version_id_ = ""
+  requesting_version_id_ = b""
   has_api_settings_ = 0
-  api_settings_ = ""
+  api_settings_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -61,7 +61,7 @@ class InternalHeader(ProtocolBuffer.ProtocolMessage):
   def clear_requesting_app_id(self):
     if self.has_requesting_app_id_:
       self.has_requesting_app_id_ = 0
-      self.requesting_app_id_ = ""
+      self.requesting_app_id_ = b""
 
   def has_requesting_app_id(self): return self.has_requesting_app_id_
 
@@ -74,7 +74,7 @@ class InternalHeader(ProtocolBuffer.ProtocolMessage):
   def clear_requesting_project_id(self):
     if self.has_requesting_project_id_:
       self.has_requesting_project_id_ = 0
-      self.requesting_project_id_ = ""
+      self.requesting_project_id_ = b""
 
   def has_requesting_project_id(self): return self.has_requesting_project_id_
 
@@ -87,7 +87,7 @@ class InternalHeader(ProtocolBuffer.ProtocolMessage):
   def clear_requesting_version_id(self):
     if self.has_requesting_version_id_:
       self.has_requesting_version_id_ = 0
-      self.requesting_version_id_ = ""
+      self.requesting_version_id_ = b""
 
   def has_requesting_version_id(self): return self.has_requesting_version_id_
 
@@ -100,7 +100,7 @@ class InternalHeader(ProtocolBuffer.ProtocolMessage):
   def clear_api_settings(self):
     if self.has_api_settings_:
       self.has_api_settings_ = 0
-      self.api_settings_ = ""
+      self.api_settings_ = b""
 
   def has_api_settings(self): return self.has_api_settings_
 
@@ -242,7 +242,7 @@ class Transaction(ProtocolBuffer.ProtocolMessage):
   has_handle_ = 0
   handle_ = 0
   has_app_ = 0
-  app_ = ""
+  app_ = b""
   has_mark_changes_ = 0
   mark_changes_ = 0
 
@@ -291,7 +291,7 @@ class Transaction(ProtocolBuffer.ProtocolMessage):
   def clear_app(self):
     if self.has_app_:
       self.has_app_ = 0
-      self.app_ = ""
+      self.app_ = b""
 
   def has_app(self): return self.has_app_
 
@@ -626,7 +626,7 @@ class Query_Order(ProtocolBuffer.ProtocolMessage):
   Direction_Name = classmethod(Direction_Name)
 
   has_property_ = 0
-  property_ = ""
+  property_ = b""
   has_direction_ = 0
   direction_ = 1
 
@@ -642,7 +642,7 @@ class Query_Order(ProtocolBuffer.ProtocolMessage):
   def clear_property(self):
     if self.has_property_:
       self.has_property_ = 0
-      self.property_ = ""
+      self.property_ = b""
 
   def has_property(self): return self.has_property_
 
@@ -755,15 +755,15 @@ class Query(ProtocolBuffer.ProtocolMessage):
   has_header_ = 0
   header_ = None
   has_app_ = 0
-  app_ = ""
+  app_ = b""
   has_name_space_ = 0
-  name_space_ = ""
+  name_space_ = b""
   has_kind_ = 0
-  kind_ = ""
+  kind_ = b""
   has_ancestor_ = 0
   ancestor_ = None
   has_search_query_ = 0
-  search_query_ = ""
+  search_query_ = b""
   has_hint_ = 0
   hint_ = 0
   has_count_ = 0
@@ -833,7 +833,7 @@ class Query(ProtocolBuffer.ProtocolMessage):
   def clear_app(self):
     if self.has_app_:
       self.has_app_ = 0
-      self.app_ = ""
+      self.app_ = b""
 
   def has_app(self): return self.has_app_
 
@@ -846,7 +846,7 @@ class Query(ProtocolBuffer.ProtocolMessage):
   def clear_name_space(self):
     if self.has_name_space_:
       self.has_name_space_ = 0
-      self.name_space_ = ""
+      self.name_space_ = b""
 
   def has_name_space(self): return self.has_name_space_
 
@@ -859,7 +859,7 @@ class Query(ProtocolBuffer.ProtocolMessage):
   def clear_kind(self):
     if self.has_kind_:
       self.has_kind_ = 0
-      self.kind_ = ""
+      self.kind_ = b""
 
   def has_kind(self): return self.has_kind_
 
@@ -907,7 +907,7 @@ class Query(ProtocolBuffer.ProtocolMessage):
   def clear_search_query(self):
     if self.has_search_query_:
       self.has_search_query_ = 0
-      self.search_query_ = ""
+      self.search_query_ = b""
 
   def has_search_query(self): return self.has_search_query_
 
@@ -1903,13 +1903,13 @@ class Query(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting_datastore_v3.Query'
 class CompiledQuery_PrimaryScan(ProtocolBuffer.ProtocolMessage):
   has_index_name_ = 0
-  index_name_ = ""
+  index_name_ = b""
   has_start_key_ = 0
-  start_key_ = ""
+  start_key_ = b""
   has_start_inclusive_ = 0
   start_inclusive_ = 0
   has_end_key_ = 0
-  end_key_ = ""
+  end_key_ = b""
   has_end_inclusive_ = 0
   end_inclusive_ = 0
   has_end_unapplied_log_timestamp_us_ = 0
@@ -1929,7 +1929,7 @@ class CompiledQuery_PrimaryScan(ProtocolBuffer.ProtocolMessage):
   def clear_index_name(self):
     if self.has_index_name_:
       self.has_index_name_ = 0
-      self.index_name_ = ""
+      self.index_name_ = b""
 
   def has_index_name(self): return self.has_index_name_
 
@@ -1942,7 +1942,7 @@ class CompiledQuery_PrimaryScan(ProtocolBuffer.ProtocolMessage):
   def clear_start_key(self):
     if self.has_start_key_:
       self.has_start_key_ = 0
-      self.start_key_ = ""
+      self.start_key_ = b""
 
   def has_start_key(self): return self.has_start_key_
 
@@ -1968,7 +1968,7 @@ class CompiledQuery_PrimaryScan(ProtocolBuffer.ProtocolMessage):
   def clear_end_key(self):
     if self.has_end_key_:
       self.has_end_key_ = 0
-      self.end_key_ = ""
+      self.end_key_ = b""
 
   def has_end_key(self): return self.has_end_key_
 
@@ -2214,7 +2214,7 @@ class CompiledQuery_PrimaryScan(ProtocolBuffer.ProtocolMessage):
 
 class CompiledQuery_MergeJoinScan(ProtocolBuffer.ProtocolMessage):
   has_index_name_ = 0
-  index_name_ = ""
+  index_name_ = b""
   has_value_prefix_ = 0
   value_prefix_ = 0
 
@@ -2231,7 +2231,7 @@ class CompiledQuery_MergeJoinScan(ProtocolBuffer.ProtocolMessage):
   def clear_index_name(self):
     if self.has_index_name_:
       self.has_index_name_ = 0
-      self.index_name_ = ""
+      self.index_name_ = b""
 
   def has_index_name(self): return self.has_index_name_
 
@@ -2368,7 +2368,7 @@ class CompiledQuery_EntityFilter(ProtocolBuffer.ProtocolMessage):
   has_distinct_ = 0
   distinct_ = 0
   has_kind_ = 0
-  kind_ = ""
+  kind_ = b""
   has_ancestor_ = 0
   ancestor_ = None
 
@@ -2398,7 +2398,7 @@ class CompiledQuery_EntityFilter(ProtocolBuffer.ProtocolMessage):
   def clear_kind(self):
     if self.has_kind_:
       self.has_kind_ = 0
-      self.kind_ = ""
+      self.kind_ = b""
 
   def has_kind(self): return self.has_kind_
 
@@ -2533,7 +2533,7 @@ class CompiledQuery(ProtocolBuffer.ProtocolMessage):
   has_entityfilter_ = 0
   entityfilter_ = None
   has_plan_label_ = 0
-  plan_label_ = ""
+  plan_label_ = b""
 
   def __init__(self, contents=None):
     self.primaryscan_ = CompiledQuery_PrimaryScan()
@@ -2680,7 +2680,7 @@ class CompiledQuery(ProtocolBuffer.ProtocolMessage):
   def clear_plan_label(self):
     if self.has_plan_label_:
       self.has_plan_label_ = 0
-      self.plan_label_ = ""
+      self.plan_label_ = b""
 
   def has_plan_label(self): return self.has_plan_label_
 
@@ -3025,7 +3025,7 @@ class CompiledQuery(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting_datastore_v3.CompiledQuery'
 class CompiledCursor_PositionIndexValue(ProtocolBuffer.ProtocolMessage):
   has_property_ = 0
-  property_ = ""
+  property_ = b""
   has_value_ = 0
 
   def __init__(self, contents=None):
@@ -3041,7 +3041,7 @@ class CompiledCursor_PositionIndexValue(ProtocolBuffer.ProtocolMessage):
   def clear_property(self):
     if self.has_property_:
       self.has_property_ = 0
-      self.property_ = ""
+      self.property_ = b""
 
   def has_property(self): return self.has_property_
 
@@ -3141,7 +3141,7 @@ class CompiledCursor_PositionIndexValue(ProtocolBuffer.ProtocolMessage):
 
 class CompiledCursor_Position(ProtocolBuffer.ProtocolMessage):
   has_start_key_ = 0
-  start_key_ = ""
+  start_key_ = b""
   has_key_ = 0
   key_ = None
   has_start_inclusive_ = 0
@@ -3163,7 +3163,7 @@ class CompiledCursor_Position(ProtocolBuffer.ProtocolMessage):
   def clear_start_key(self):
     if self.has_start_key_:
       self.has_start_key_ = 0
-      self.start_key_ = ""
+      self.start_key_ = b""
 
   def has_start_key(self): return self.has_start_key_
 
@@ -3602,7 +3602,7 @@ class Cursor(ProtocolBuffer.ProtocolMessage):
   has_cursor_ = 0
   cursor_ = 0
   has_app_ = 0
-  app_ = ""
+  app_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -3629,7 +3629,7 @@ class Cursor(ProtocolBuffer.ProtocolMessage):
   def clear_app(self):
     if self.has_app_:
       self.has_app_ = 0
-      self.app_ = ""
+      self.app_ = b""
 
   def has_app(self): return self.has_app_
 
@@ -8390,7 +8390,7 @@ class BeginTransactionRequest(ProtocolBuffer.ProtocolMessage):
   has_header_ = 0
   header_ = None
   has_app_ = 0
-  app_ = ""
+  app_ = b""
   has_allow_multiple_eg_ = 0
   allow_multiple_eg_ = 0
 
@@ -8426,7 +8426,7 @@ class BeginTransactionRequest(ProtocolBuffer.ProtocolMessage):
   def clear_app(self):
     if self.has_app_:
       self.has_app_ = 0
-      self.app_ = ""
+      self.app_ = b""
 
   def has_app(self): return self.has_app_
 

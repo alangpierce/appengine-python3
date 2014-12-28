@@ -35,7 +35,7 @@ from google.appengine.base.capabilities_pb import *
 import google.appengine.base.capabilities_pb
 class IsEnabledRequest(ProtocolBuffer.ProtocolMessage):
   has_package_ = 0
-  package_ = ""
+  package_ = b""
 
   def __init__(self, contents=None):
     self.capability_ = []
@@ -51,7 +51,7 @@ class IsEnabledRequest(ProtocolBuffer.ProtocolMessage):
   def clear_package(self):
     if self.has_package_:
       self.has_package_ = 0
-      self.package_ = ""
+      self.package_ = b""
 
   def has_package(self): return self.has_package_
 

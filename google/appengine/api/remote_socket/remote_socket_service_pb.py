@@ -333,7 +333,7 @@ class RemoteSocketServiceError(ProtocolBuffer.ProtocolMessage):
   has_system_error_ = 0
   system_error_ = 0
   has_error_detail_ = 0
-  error_detail_ = ""
+  error_detail_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -360,7 +360,7 @@ class RemoteSocketServiceError(ProtocolBuffer.ProtocolMessage):
   def clear_error_detail(self):
     if self.has_error_detail_:
       self.has_error_detail_ = 0
-      self.error_detail_ = ""
+      self.error_detail_ = b""
 
   def has_error_detail(self): return self.has_error_detail_
 
@@ -462,9 +462,9 @@ class AddressPort(ProtocolBuffer.ProtocolMessage):
   has_port_ = 0
   port_ = 0
   has_packed_address_ = 0
-  packed_address_ = ""
+  packed_address_ = b""
   has_hostname_hint_ = 0
-  hostname_hint_ = ""
+  hostname_hint_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -491,7 +491,7 @@ class AddressPort(ProtocolBuffer.ProtocolMessage):
   def clear_packed_address(self):
     if self.has_packed_address_:
       self.has_packed_address_ = 0
-      self.packed_address_ = ""
+      self.packed_address_ = b""
 
   def has_packed_address(self): return self.has_packed_address_
 
@@ -504,7 +504,7 @@ class AddressPort(ProtocolBuffer.ProtocolMessage):
   def clear_hostname_hint(self):
     if self.has_hostname_hint_:
       self.has_hostname_hint_ = 0
-      self.hostname_hint_ = ""
+      self.hostname_hint_ = b""
 
   def has_hostname_hint(self): return self.has_hostname_hint_
 
@@ -664,7 +664,7 @@ class CreateSocketRequest(ProtocolBuffer.ProtocolMessage):
   has_remote_ip_ = 0
   remote_ip_ = None
   has_app_id_ = 0
-  app_id_ = ""
+  app_id_ = b""
   has_project_id_ = 0
   project_id_ = 0
 
@@ -775,7 +775,7 @@ class CreateSocketRequest(ProtocolBuffer.ProtocolMessage):
   def clear_app_id(self):
     if self.has_app_id_:
       self.has_app_id_ = 0
-      self.app_id_ = ""
+      self.app_id_ = b""
 
   def has_app_id(self): return self.has_app_id_
 
@@ -1047,7 +1047,7 @@ class CreateSocketRequest(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.CreateSocketRequest'
 class CreateSocketReply(_ExtendableProtocolMessage):
   has_socket_descriptor_ = 0
-  socket_descriptor_ = ""
+  socket_descriptor_ = b""
   has_server_address_ = 0
   server_address_ = None
   has_proxy_external_ip_ = 0
@@ -1068,7 +1068,7 @@ class CreateSocketReply(_ExtendableProtocolMessage):
   def clear_socket_descriptor(self):
     if self.has_socket_descriptor_:
       self.has_socket_descriptor_ = 0
-      self.socket_descriptor_ = ""
+      self.socket_descriptor_ = b""
 
   def has_socket_descriptor(self): return self.has_socket_descriptor_
 
@@ -1268,7 +1268,7 @@ class CreateSocketReply(_ExtendableProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.CreateSocketReply'
 class BindRequest(ProtocolBuffer.ProtocolMessage):
   has_socket_descriptor_ = 0
-  socket_descriptor_ = ""
+  socket_descriptor_ = b""
   has_proxy_external_ip_ = 0
 
   def __init__(self, contents=None):
@@ -1284,7 +1284,7 @@ class BindRequest(ProtocolBuffer.ProtocolMessage):
   def clear_socket_descriptor(self):
     if self.has_socket_descriptor_:
       self.has_socket_descriptor_ = 0
-      self.socket_descriptor_ = ""
+      self.socket_descriptor_ = b""
 
   def has_socket_descriptor(self): return self.has_socket_descriptor_
 
@@ -1522,7 +1522,7 @@ class BindReply(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.BindReply'
 class GetSocketNameRequest(ProtocolBuffer.ProtocolMessage):
   has_socket_descriptor_ = 0
-  socket_descriptor_ = ""
+  socket_descriptor_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -1536,7 +1536,7 @@ class GetSocketNameRequest(ProtocolBuffer.ProtocolMessage):
   def clear_socket_descriptor(self):
     if self.has_socket_descriptor_:
       self.has_socket_descriptor_ = 0
-      self.socket_descriptor_ = ""
+      self.socket_descriptor_ = b""
 
   def has_socket_descriptor(self): return self.has_socket_descriptor_
 
@@ -1733,7 +1733,7 @@ class GetSocketNameReply(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.GetSocketNameReply'
 class GetPeerNameRequest(ProtocolBuffer.ProtocolMessage):
   has_socket_descriptor_ = 0
-  socket_descriptor_ = ""
+  socket_descriptor_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -1747,7 +1747,7 @@ class GetPeerNameRequest(ProtocolBuffer.ProtocolMessage):
   def clear_socket_descriptor(self):
     if self.has_socket_descriptor_:
       self.has_socket_descriptor_ = 0
-      self.socket_descriptor_ = ""
+      self.socket_descriptor_ = b""
 
   def has_socket_descriptor(self): return self.has_socket_descriptor_
 
@@ -2032,7 +2032,7 @@ class SocketOption(ProtocolBuffer.ProtocolMessage):
   has_option_ = 0
   option_ = 0
   has_value_ = 0
-  value_ = ""
+  value_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -2072,7 +2072,7 @@ class SocketOption(ProtocolBuffer.ProtocolMessage):
   def clear_value(self):
     if self.has_value_:
       self.has_value_ = 0
-      self.value_ = ""
+      self.value_ = b""
 
   def has_value(self): return self.has_value_
 
@@ -2206,7 +2206,7 @@ class SocketOption(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.SocketOption'
 class SetSocketOptionsRequest(ProtocolBuffer.ProtocolMessage):
   has_socket_descriptor_ = 0
-  socket_descriptor_ = ""
+  socket_descriptor_ = b""
 
   def __init__(self, contents=None):
     self.options_ = []
@@ -2221,7 +2221,7 @@ class SetSocketOptionsRequest(ProtocolBuffer.ProtocolMessage):
   def clear_socket_descriptor(self):
     if self.has_socket_descriptor_:
       self.has_socket_descriptor_ = 0
-      self.socket_descriptor_ = ""
+      self.socket_descriptor_ = b""
 
   def has_socket_descriptor(self): return self.has_socket_descriptor_
 
@@ -2424,7 +2424,7 @@ class SetSocketOptionsReply(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.SetSocketOptionsReply'
 class GetSocketOptionsRequest(ProtocolBuffer.ProtocolMessage):
   has_socket_descriptor_ = 0
-  socket_descriptor_ = ""
+  socket_descriptor_ = b""
 
   def __init__(self, contents=None):
     self.options_ = []
@@ -2439,7 +2439,7 @@ class GetSocketOptionsRequest(ProtocolBuffer.ProtocolMessage):
   def clear_socket_descriptor(self):
     if self.has_socket_descriptor_:
       self.has_socket_descriptor_ = 0
-      self.socket_descriptor_ = ""
+      self.socket_descriptor_ = b""
 
   def has_socket_descriptor(self): return self.has_socket_descriptor_
 
@@ -2691,7 +2691,7 @@ class GetSocketOptionsReply(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.GetSocketOptionsReply'
 class ConnectRequest(ProtocolBuffer.ProtocolMessage):
   has_socket_descriptor_ = 0
-  socket_descriptor_ = ""
+  socket_descriptor_ = b""
   has_remote_ip_ = 0
   has_timeout_seconds_ = 0
   timeout_seconds_ = -1.0
@@ -2709,7 +2709,7 @@ class ConnectRequest(ProtocolBuffer.ProtocolMessage):
   def clear_socket_descriptor(self):
     if self.has_socket_descriptor_:
       self.has_socket_descriptor_ = 0
-      self.socket_descriptor_ = ""
+      self.socket_descriptor_ = b""
 
   def has_socket_descriptor(self): return self.has_socket_descriptor_
 
@@ -3006,7 +3006,7 @@ class ConnectReply(_ExtendableProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.ConnectReply'
 class ListenRequest(ProtocolBuffer.ProtocolMessage):
   has_socket_descriptor_ = 0
-  socket_descriptor_ = ""
+  socket_descriptor_ = b""
   has_backlog_ = 0
   backlog_ = 0
 
@@ -3022,7 +3022,7 @@ class ListenRequest(ProtocolBuffer.ProtocolMessage):
   def clear_socket_descriptor(self):
     if self.has_socket_descriptor_:
       self.has_socket_descriptor_ = 0
-      self.socket_descriptor_ = ""
+      self.socket_descriptor_ = b""
 
   def has_socket_descriptor(self): return self.has_socket_descriptor_
 
@@ -3210,7 +3210,7 @@ class ListenReply(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.ListenReply'
 class AcceptRequest(ProtocolBuffer.ProtocolMessage):
   has_socket_descriptor_ = 0
-  socket_descriptor_ = ""
+  socket_descriptor_ = b""
   has_timeout_seconds_ = 0
   timeout_seconds_ = -1.0
 
@@ -3226,7 +3226,7 @@ class AcceptRequest(ProtocolBuffer.ProtocolMessage):
   def clear_socket_descriptor(self):
     if self.has_socket_descriptor_:
       self.has_socket_descriptor_ = 0
-      self.socket_descriptor_ = ""
+      self.socket_descriptor_ = b""
 
   def has_socket_descriptor(self): return self.has_socket_descriptor_
 
@@ -3344,7 +3344,7 @@ class AcceptRequest(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.AcceptRequest'
 class AcceptReply(ProtocolBuffer.ProtocolMessage):
   has_new_socket_descriptor_ = 0
-  new_socket_descriptor_ = ""
+  new_socket_descriptor_ = b""
   has_remote_address_ = 0
   remote_address_ = None
 
@@ -3361,7 +3361,7 @@ class AcceptReply(ProtocolBuffer.ProtocolMessage):
   def clear_new_socket_descriptor(self):
     if self.has_new_socket_descriptor_:
       self.has_new_socket_descriptor_ = 0
-      self.new_socket_descriptor_ = ""
+      self.new_socket_descriptor_ = b""
 
   def has_new_socket_descriptor(self): return self.has_new_socket_descriptor_
 
@@ -3504,7 +3504,7 @@ class ShutDownRequest(ProtocolBuffer.ProtocolMessage):
   How_Name = classmethod(How_Name)
 
   has_socket_descriptor_ = 0
-  socket_descriptor_ = ""
+  socket_descriptor_ = b""
   has_how_ = 0
   how_ = 0
   has_send_offset_ = 0
@@ -3522,7 +3522,7 @@ class ShutDownRequest(ProtocolBuffer.ProtocolMessage):
   def clear_socket_descriptor(self):
     if self.has_socket_descriptor_:
       self.has_socket_descriptor_ = 0
-      self.socket_descriptor_ = ""
+      self.socket_descriptor_ = b""
 
   def has_socket_descriptor(self): return self.has_socket_descriptor_
 
@@ -3747,7 +3747,7 @@ class ShutDownReply(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.ShutDownReply'
 class CloseRequest(ProtocolBuffer.ProtocolMessage):
   has_socket_descriptor_ = 0
-  socket_descriptor_ = ""
+  socket_descriptor_ = b""
   has_send_offset_ = 0
   send_offset_ = -1
 
@@ -3763,7 +3763,7 @@ class CloseRequest(ProtocolBuffer.ProtocolMessage):
   def clear_socket_descriptor(self):
     if self.has_socket_descriptor_:
       self.has_socket_descriptor_ = 0
-      self.socket_descriptor_ = ""
+      self.socket_descriptor_ = b""
 
   def has_socket_descriptor(self): return self.has_socket_descriptor_
 
@@ -3946,9 +3946,9 @@ class CloseReply(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.CloseReply'
 class SendRequest(ProtocolBuffer.ProtocolMessage):
   has_socket_descriptor_ = 0
-  socket_descriptor_ = ""
+  socket_descriptor_ = b""
   has_data_ = 0
-  data_ = ""
+  data_ = b""
   has_stream_offset_ = 0
   stream_offset_ = 0
   has_flags_ = 0
@@ -3971,7 +3971,7 @@ class SendRequest(ProtocolBuffer.ProtocolMessage):
   def clear_socket_descriptor(self):
     if self.has_socket_descriptor_:
       self.has_socket_descriptor_ = 0
-      self.socket_descriptor_ = ""
+      self.socket_descriptor_ = b""
 
   def has_socket_descriptor(self): return self.has_socket_descriptor_
 
@@ -3984,7 +3984,7 @@ class SendRequest(ProtocolBuffer.ProtocolMessage):
   def clear_data(self):
     if self.has_data_:
       self.has_data_ = 0
-      self.data_ = ""
+      self.data_ = b""
 
   def has_data(self): return self.has_data_
 
@@ -4350,7 +4350,7 @@ class ReceiveRequest(ProtocolBuffer.ProtocolMessage):
   Flags_Name = classmethod(Flags_Name)
 
   has_socket_descriptor_ = 0
-  socket_descriptor_ = ""
+  socket_descriptor_ = b""
   has_data_size_ = 0
   data_size_ = 0
   has_flags_ = 0
@@ -4370,7 +4370,7 @@ class ReceiveRequest(ProtocolBuffer.ProtocolMessage):
   def clear_socket_descriptor(self):
     if self.has_socket_descriptor_:
       self.has_socket_descriptor_ = 0
-      self.socket_descriptor_ = ""
+      self.socket_descriptor_ = b""
 
   def has_socket_descriptor(self): return self.has_socket_descriptor_
 
@@ -4559,7 +4559,7 @@ class ReceiveReply(ProtocolBuffer.ProtocolMessage):
   has_stream_offset_ = 0
   stream_offset_ = 0
   has_data_ = 0
-  data_ = ""
+  data_ = b""
   has_received_from_ = 0
   received_from_ = None
   has_buffer_size_ = 0
@@ -4591,7 +4591,7 @@ class ReceiveReply(ProtocolBuffer.ProtocolMessage):
   def clear_data(self):
     if self.has_data_:
       self.has_data_ = 0
-      self.data_ = ""
+      self.data_ = b""
 
   def has_data(self): return self.has_data_
 
@@ -4807,7 +4807,7 @@ class PollEvent(ProtocolBuffer.ProtocolMessage):
   PollEventFlag_Name = classmethod(PollEventFlag_Name)
 
   has_socket_descriptor_ = 0
-  socket_descriptor_ = ""
+  socket_descriptor_ = b""
   has_requested_events_ = 0
   requested_events_ = 0
   has_observed_events_ = 0
@@ -4825,7 +4825,7 @@ class PollEvent(ProtocolBuffer.ProtocolMessage):
   def clear_socket_descriptor(self):
     if self.has_socket_descriptor_:
       self.has_socket_descriptor_ = 0
-      self.socket_descriptor_ = ""
+      self.socket_descriptor_ = b""
 
   def has_socket_descriptor(self): return self.has_socket_descriptor_
 
@@ -5247,7 +5247,7 @@ class PollReply(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.PollReply'
 class ResolveRequest(ProtocolBuffer.ProtocolMessage):
   has_name_ = 0
-  name_ = ""
+  name_ = b""
 
   def __init__(self, contents=None):
     self.address_families_ = []
@@ -5262,7 +5262,7 @@ class ResolveRequest(ProtocolBuffer.ProtocolMessage):
   def clear_name(self):
     if self.has_name_:
       self.has_name_ = 0
-      self.name_ = ""
+      self.name_ = b""
 
   def has_name(self): return self.has_name_
 
@@ -5429,7 +5429,7 @@ class ResolveReply(ProtocolBuffer.ProtocolMessage):
   ErrorCode_Name = classmethod(ErrorCode_Name)
 
   has_canonical_name_ = 0
-  canonical_name_ = ""
+  canonical_name_ = b""
 
   def __init__(self, contents=None):
     self.packed_address_ = []
@@ -5460,7 +5460,7 @@ class ResolveReply(ProtocolBuffer.ProtocolMessage):
   def clear_canonical_name(self):
     if self.has_canonical_name_:
       self.has_canonical_name_ = 0
-      self.canonical_name_ = ""
+      self.canonical_name_ = b""
 
   def has_canonical_name(self): return self.has_canonical_name_
 

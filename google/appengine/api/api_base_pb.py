@@ -33,7 +33,7 @@ else:
 
 class StringProto(ProtocolBuffer.ProtocolMessage):
   has_value_ = 0
-  value_ = ""
+  value_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -47,7 +47,7 @@ class StringProto(ProtocolBuffer.ProtocolMessage):
   def clear_value(self):
     if self.has_value_:
       self.has_value_ = 0
-      self.value_ = ""
+      self.value_ = b""
 
   def has_value(self): return self.has_value_
 
@@ -529,7 +529,7 @@ class DoubleProto(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.base.DoubleProto'
 class BytesProto(ProtocolBuffer.ProtocolMessage):
   has_value_ = 0
-  value_ = ""
+  value_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -543,7 +543,7 @@ class BytesProto(ProtocolBuffer.ProtocolMessage):
   def clear_value(self):
     if self.has_value_:
       self.has_value_ = 0
-      self.value_ = ""
+      self.value_ = b""
 
   def has_value(self): return self.has_value_
 

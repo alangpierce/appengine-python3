@@ -546,9 +546,9 @@ class TaskQueueAcl(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.TaskQueueAcl'
 class TaskQueueHttpHeader(ProtocolBuffer.ProtocolMessage):
   has_key_ = 0
-  key_ = ""
+  key_ = b""
   has_value_ = 0
-  value_ = ""
+  value_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -562,7 +562,7 @@ class TaskQueueHttpHeader(ProtocolBuffer.ProtocolMessage):
   def clear_key(self):
     if self.has_key_:
       self.has_key_ = 0
-      self.key_ = ""
+      self.key_ = b""
 
   def has_key(self): return self.has_key_
 
@@ -575,7 +575,7 @@ class TaskQueueHttpHeader(ProtocolBuffer.ProtocolMessage):
   def clear_value(self):
     if self.has_value_:
       self.has_value_ = 0
-      self.value_ = ""
+      self.value_ = b""
 
   def has_value(self): return self.has_value_
 
@@ -763,9 +763,9 @@ class TaskQueueMode(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.TaskQueueMode'
 class TaskQueueAddRequest_Header(ProtocolBuffer.ProtocolMessage):
   has_key_ = 0
-  key_ = ""
+  key_ = b""
   has_value_ = 0
-  value_ = ""
+  value_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -779,7 +779,7 @@ class TaskQueueAddRequest_Header(ProtocolBuffer.ProtocolMessage):
   def clear_key(self):
     if self.has_key_:
       self.has_key_ = 0
-      self.key_ = ""
+      self.key_ = b""
 
   def has_key(self): return self.has_key_
 
@@ -792,7 +792,7 @@ class TaskQueueAddRequest_Header(ProtocolBuffer.ProtocolMessage):
   def clear_value(self):
     if self.has_value_:
       self.has_value_ = 0
-      self.value_ = ""
+      self.value_ = b""
 
   def has_value(self): return self.has_value_
 
@@ -880,9 +880,9 @@ class TaskQueueAddRequest_Header(ProtocolBuffer.ProtocolMessage):
 
 class TaskQueueAddRequest_CronTimetable(ProtocolBuffer.ProtocolMessage):
   has_schedule_ = 0
-  schedule_ = ""
+  schedule_ = b""
   has_timezone_ = 0
-  timezone_ = ""
+  timezone_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -896,7 +896,7 @@ class TaskQueueAddRequest_CronTimetable(ProtocolBuffer.ProtocolMessage):
   def clear_schedule(self):
     if self.has_schedule_:
       self.has_schedule_ = 0
-      self.schedule_ = ""
+      self.schedule_ = b""
 
   def has_schedule(self): return self.has_schedule_
 
@@ -909,7 +909,7 @@ class TaskQueueAddRequest_CronTimetable(ProtocolBuffer.ProtocolMessage):
   def clear_timezone(self):
     if self.has_timezone_:
       self.has_timezone_ = 0
-      self.timezone_ = ""
+      self.timezone_ = b""
 
   def has_timezone(self): return self.has_timezone_
 
@@ -1016,25 +1016,25 @@ class TaskQueueAddRequest(ProtocolBuffer.ProtocolMessage):
   RequestMethod_Name = classmethod(RequestMethod_Name)
 
   has_queue_name_ = 0
-  queue_name_ = ""
+  queue_name_ = b""
   has_task_name_ = 0
-  task_name_ = ""
+  task_name_ = b""
   has_eta_usec_ = 0
   eta_usec_ = 0
   has_method_ = 0
   method_ = 2
   has_url_ = 0
-  url_ = ""
+  url_ = b""
   has_body_ = 0
-  body_ = ""
+  body_ = b""
   has_transaction_ = 0
   transaction_ = None
   has_app_id_ = 0
-  app_id_ = ""
+  app_id_ = b""
   has_crontimetable_ = 0
   crontimetable_ = None
   has_description_ = 0
-  description_ = ""
+  description_ = b""
   has_payload_ = 0
   payload_ = None
   has_retry_parameters_ = 0
@@ -1042,7 +1042,7 @@ class TaskQueueAddRequest(ProtocolBuffer.ProtocolMessage):
   has_mode_ = 0
   mode_ = 0
   has_tag_ = 0
-  tag_ = ""
+  tag_ = b""
 
   def __init__(self, contents=None):
     self.header_ = []
@@ -1058,7 +1058,7 @@ class TaskQueueAddRequest(ProtocolBuffer.ProtocolMessage):
   def clear_queue_name(self):
     if self.has_queue_name_:
       self.has_queue_name_ = 0
-      self.queue_name_ = ""
+      self.queue_name_ = b""
 
   def has_queue_name(self): return self.has_queue_name_
 
@@ -1071,7 +1071,7 @@ class TaskQueueAddRequest(ProtocolBuffer.ProtocolMessage):
   def clear_task_name(self):
     if self.has_task_name_:
       self.has_task_name_ = 0
-      self.task_name_ = ""
+      self.task_name_ = b""
 
   def has_task_name(self): return self.has_task_name_
 
@@ -1110,7 +1110,7 @@ class TaskQueueAddRequest(ProtocolBuffer.ProtocolMessage):
   def clear_url(self):
     if self.has_url_:
       self.has_url_ = 0
-      self.url_ = ""
+      self.url_ = b""
 
   def has_url(self): return self.has_url_
 
@@ -1139,7 +1139,7 @@ class TaskQueueAddRequest(ProtocolBuffer.ProtocolMessage):
   def clear_body(self):
     if self.has_body_:
       self.has_body_ = 0
-      self.body_ = ""
+      self.body_ = b""
 
   def has_body(self): return self.has_body_
 
@@ -1171,7 +1171,7 @@ class TaskQueueAddRequest(ProtocolBuffer.ProtocolMessage):
   def clear_app_id(self):
     if self.has_app_id_:
       self.has_app_id_ = 0
-      self.app_id_ = ""
+      self.app_id_ = b""
 
   def has_app_id(self): return self.has_app_id_
 
@@ -1203,7 +1203,7 @@ class TaskQueueAddRequest(ProtocolBuffer.ProtocolMessage):
   def clear_description(self):
     if self.has_description_:
       self.has_description_ = 0
-      self.description_ = ""
+      self.description_ = b""
 
   def has_description(self): return self.has_description_
 
@@ -1267,7 +1267,7 @@ class TaskQueueAddRequest(ProtocolBuffer.ProtocolMessage):
   def clear_tag(self):
     if self.has_tag_:
       self.has_tag_ = 0
-      self.tag_ = ""
+      self.tag_ = b""
 
   def has_tag(self): return self.has_tag_
 
@@ -1688,7 +1688,7 @@ class TaskQueueAddRequest(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.TaskQueueAddRequest'
 class TaskQueueAddResponse(ProtocolBuffer.ProtocolMessage):
   has_chosen_task_name_ = 0
-  chosen_task_name_ = ""
+  chosen_task_name_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -1702,7 +1702,7 @@ class TaskQueueAddResponse(ProtocolBuffer.ProtocolMessage):
   def clear_chosen_task_name(self):
     if self.has_chosen_task_name_:
       self.has_chosen_task_name_ = 0
-      self.chosen_task_name_ = ""
+      self.chosen_task_name_ = b""
 
   def has_chosen_task_name(self): return self.has_chosen_task_name_
 
@@ -1899,7 +1899,7 @@ class TaskQueueBulkAddResponse_TaskResult(ProtocolBuffer.ProtocolMessage):
   has_result_ = 0
   result_ = 0
   has_chosen_task_name_ = 0
-  chosen_task_name_ = ""
+  chosen_task_name_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -1926,7 +1926,7 @@ class TaskQueueBulkAddResponse_TaskResult(ProtocolBuffer.ProtocolMessage):
   def clear_chosen_task_name(self):
     if self.has_chosen_task_name_:
       self.has_chosen_task_name_ = 0
-      self.chosen_task_name_ = ""
+      self.chosen_task_name_ = b""
 
   def has_chosen_task_name(self): return self.has_chosen_task_name_
 
@@ -2126,9 +2126,9 @@ class TaskQueueBulkAddResponse(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.TaskQueueBulkAddResponse'
 class TaskQueueDeleteRequest(ProtocolBuffer.ProtocolMessage):
   has_queue_name_ = 0
-  queue_name_ = ""
+  queue_name_ = b""
   has_app_id_ = 0
-  app_id_ = ""
+  app_id_ = b""
 
   def __init__(self, contents=None):
     self.task_name_ = []
@@ -2143,7 +2143,7 @@ class TaskQueueDeleteRequest(ProtocolBuffer.ProtocolMessage):
   def clear_queue_name(self):
     if self.has_queue_name_:
       self.has_queue_name_ = 0
-      self.queue_name_ = ""
+      self.queue_name_ = b""
 
   def has_queue_name(self): return self.has_queue_name_
 
@@ -2171,7 +2171,7 @@ class TaskQueueDeleteRequest(ProtocolBuffer.ProtocolMessage):
   def clear_app_id(self):
     if self.has_app_id_:
       self.has_app_id_ = 0
-      self.app_id_ = ""
+      self.app_id_ = b""
 
   def has_app_id(self): return self.has_app_id_
 
@@ -2407,11 +2407,11 @@ class TaskQueueDeleteResponse(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.TaskQueueDeleteResponse'
 class TaskQueueForceRunRequest(ProtocolBuffer.ProtocolMessage):
   has_app_id_ = 0
-  app_id_ = ""
+  app_id_ = b""
   has_queue_name_ = 0
-  queue_name_ = ""
+  queue_name_ = b""
   has_task_name_ = 0
-  task_name_ = ""
+  task_name_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -2425,7 +2425,7 @@ class TaskQueueForceRunRequest(ProtocolBuffer.ProtocolMessage):
   def clear_app_id(self):
     if self.has_app_id_:
       self.has_app_id_ = 0
-      self.app_id_ = ""
+      self.app_id_ = b""
 
   def has_app_id(self): return self.has_app_id_
 
@@ -2438,7 +2438,7 @@ class TaskQueueForceRunRequest(ProtocolBuffer.ProtocolMessage):
   def clear_queue_name(self):
     if self.has_queue_name_:
       self.has_queue_name_ = 0
-      self.queue_name_ = ""
+      self.queue_name_ = b""
 
   def has_queue_name(self): return self.has_queue_name_
 
@@ -2451,7 +2451,7 @@ class TaskQueueForceRunRequest(ProtocolBuffer.ProtocolMessage):
   def clear_task_name(self):
     if self.has_task_name_:
       self.has_task_name_ = 0
-      self.task_name_ = ""
+      self.task_name_ = b""
 
   def has_task_name(self): return self.has_task_name_
 
@@ -2680,15 +2680,15 @@ class TaskQueueForceRunResponse(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.TaskQueueForceRunResponse'
 class TaskQueueUpdateQueueRequest(ProtocolBuffer.ProtocolMessage):
   has_app_id_ = 0
-  app_id_ = ""
+  app_id_ = b""
   has_queue_name_ = 0
-  queue_name_ = ""
+  queue_name_ = b""
   has_bucket_refill_per_second_ = 0
   bucket_refill_per_second_ = 0.0
   has_bucket_capacity_ = 0
   bucket_capacity_ = 0
   has_user_specified_rate_ = 0
-  user_specified_rate_ = ""
+  user_specified_rate_ = b""
   has_retry_parameters_ = 0
   retry_parameters_ = None
   has_max_concurrent_requests_ = 0
@@ -2712,7 +2712,7 @@ class TaskQueueUpdateQueueRequest(ProtocolBuffer.ProtocolMessage):
   def clear_app_id(self):
     if self.has_app_id_:
       self.has_app_id_ = 0
-      self.app_id_ = ""
+      self.app_id_ = b""
 
   def has_app_id(self): return self.has_app_id_
 
@@ -2725,7 +2725,7 @@ class TaskQueueUpdateQueueRequest(ProtocolBuffer.ProtocolMessage):
   def clear_queue_name(self):
     if self.has_queue_name_:
       self.has_queue_name_ = 0
-      self.queue_name_ = ""
+      self.queue_name_ = b""
 
   def has_queue_name(self): return self.has_queue_name_
 
@@ -2764,7 +2764,7 @@ class TaskQueueUpdateQueueRequest(ProtocolBuffer.ProtocolMessage):
   def clear_user_specified_rate(self):
     if self.has_user_specified_rate_:
       self.has_user_specified_rate_ = 0
-      self.user_specified_rate_ = ""
+      self.user_specified_rate_ = b""
 
   def has_user_specified_rate(self): return self.has_user_specified_rate_
 
@@ -3209,7 +3209,7 @@ class TaskQueueUpdateQueueResponse(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.TaskQueueUpdateQueueResponse'
 class TaskQueueFetchQueuesRequest(ProtocolBuffer.ProtocolMessage):
   has_app_id_ = 0
-  app_id_ = ""
+  app_id_ = b""
   has_max_rows_ = 0
   max_rows_ = 0
 
@@ -3225,7 +3225,7 @@ class TaskQueueFetchQueuesRequest(ProtocolBuffer.ProtocolMessage):
   def clear_app_id(self):
     if self.has_app_id_:
       self.has_app_id_ = 0
-      self.app_id_ = ""
+      self.app_id_ = b""
 
   def has_app_id(self): return self.has_app_id_
 
@@ -3343,13 +3343,13 @@ class TaskQueueFetchQueuesRequest(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.TaskQueueFetchQueuesRequest'
 class TaskQueueFetchQueuesResponse_Queue(ProtocolBuffer.ProtocolMessage):
   has_queue_name_ = 0
-  queue_name_ = ""
+  queue_name_ = b""
   has_bucket_refill_per_second_ = 0
   bucket_refill_per_second_ = 0.0
   has_bucket_capacity_ = 0
   bucket_capacity_ = 0.0
   has_user_specified_rate_ = 0
-  user_specified_rate_ = ""
+  user_specified_rate_ = b""
   has_paused_ = 0
   paused_ = 0
   has_retry_parameters_ = 0
@@ -3377,7 +3377,7 @@ class TaskQueueFetchQueuesResponse_Queue(ProtocolBuffer.ProtocolMessage):
   def clear_queue_name(self):
     if self.has_queue_name_:
       self.has_queue_name_ = 0
-      self.queue_name_ = ""
+      self.queue_name_ = b""
 
   def has_queue_name(self): return self.has_queue_name_
 
@@ -3416,7 +3416,7 @@ class TaskQueueFetchQueuesResponse_Queue(ProtocolBuffer.ProtocolMessage):
   def clear_user_specified_rate(self):
     if self.has_user_specified_rate_:
       self.has_user_specified_rate_ = 0
-      self.user_specified_rate_ = ""
+      self.user_specified_rate_ = b""
 
   def has_user_specified_rate(self): return self.has_user_specified_rate_
 
@@ -3937,7 +3937,7 @@ class TaskQueueFetchQueuesResponse(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.TaskQueueFetchQueuesResponse'
 class TaskQueueFetchQueueStatsRequest(ProtocolBuffer.ProtocolMessage):
   has_app_id_ = 0
-  app_id_ = ""
+  app_id_ = b""
   has_max_num_tasks_ = 0
   max_num_tasks_ = 0
 
@@ -3954,7 +3954,7 @@ class TaskQueueFetchQueueStatsRequest(ProtocolBuffer.ProtocolMessage):
   def clear_app_id(self):
     if self.has_app_id_:
       self.has_app_id_ = 0
-      self.app_id_ = ""
+      self.app_id_ = b""
 
   def has_app_id(self): return self.has_app_id_
 
@@ -4637,9 +4637,9 @@ class TaskQueueFetchQueueStatsResponse(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.TaskQueueFetchQueueStatsResponse'
 class TaskQueuePauseQueueRequest(ProtocolBuffer.ProtocolMessage):
   has_app_id_ = 0
-  app_id_ = ""
+  app_id_ = b""
   has_queue_name_ = 0
-  queue_name_ = ""
+  queue_name_ = b""
   has_pause_ = 0
   pause_ = 0
 
@@ -4655,7 +4655,7 @@ class TaskQueuePauseQueueRequest(ProtocolBuffer.ProtocolMessage):
   def clear_app_id(self):
     if self.has_app_id_:
       self.has_app_id_ = 0
-      self.app_id_ = ""
+      self.app_id_ = b""
 
   def has_app_id(self): return self.has_app_id_
 
@@ -4668,7 +4668,7 @@ class TaskQueuePauseQueueRequest(ProtocolBuffer.ProtocolMessage):
   def clear_queue_name(self):
     if self.has_queue_name_:
       self.has_queue_name_ = 0
-      self.queue_name_ = ""
+      self.queue_name_ = b""
 
   def has_queue_name(self): return self.has_queue_name_
 
@@ -4878,9 +4878,9 @@ class TaskQueuePauseQueueResponse(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.TaskQueuePauseQueueResponse'
 class TaskQueuePurgeQueueRequest(ProtocolBuffer.ProtocolMessage):
   has_app_id_ = 0
-  app_id_ = ""
+  app_id_ = b""
   has_queue_name_ = 0
-  queue_name_ = ""
+  queue_name_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -4894,7 +4894,7 @@ class TaskQueuePurgeQueueRequest(ProtocolBuffer.ProtocolMessage):
   def clear_app_id(self):
     if self.has_app_id_:
       self.has_app_id_ = 0
-      self.app_id_ = ""
+      self.app_id_ = b""
 
   def has_app_id(self): return self.has_app_id_
 
@@ -4907,7 +4907,7 @@ class TaskQueuePurgeQueueRequest(ProtocolBuffer.ProtocolMessage):
   def clear_queue_name(self):
     if self.has_queue_name_:
       self.has_queue_name_ = 0
-      self.queue_name_ = ""
+      self.queue_name_ = b""
 
   def has_queue_name(self): return self.has_queue_name_
 
@@ -5077,9 +5077,9 @@ class TaskQueuePurgeQueueResponse(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.TaskQueuePurgeQueueResponse'
 class TaskQueueDeleteQueueRequest(ProtocolBuffer.ProtocolMessage):
   has_app_id_ = 0
-  app_id_ = ""
+  app_id_ = b""
   has_queue_name_ = 0
-  queue_name_ = ""
+  queue_name_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -5093,7 +5093,7 @@ class TaskQueueDeleteQueueRequest(ProtocolBuffer.ProtocolMessage):
   def clear_app_id(self):
     if self.has_app_id_:
       self.has_app_id_ = 0
-      self.app_id_ = ""
+      self.app_id_ = b""
 
   def has_app_id(self): return self.has_app_id_
 
@@ -5106,7 +5106,7 @@ class TaskQueueDeleteQueueRequest(ProtocolBuffer.ProtocolMessage):
   def clear_queue_name(self):
     if self.has_queue_name_:
       self.has_queue_name_ = 0
-      self.queue_name_ = ""
+      self.queue_name_ = b""
 
   def has_queue_name(self): return self.has_queue_name_
 
@@ -5281,7 +5281,7 @@ class TaskQueueDeleteQueueResponse(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.TaskQueueDeleteQueueResponse'
 class TaskQueueDeleteGroupRequest(ProtocolBuffer.ProtocolMessage):
   has_app_id_ = 0
-  app_id_ = ""
+  app_id_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -5295,7 +5295,7 @@ class TaskQueueDeleteGroupRequest(ProtocolBuffer.ProtocolMessage):
   def clear_app_id(self):
     if self.has_app_id_:
       self.has_app_id_ = 0
-      self.app_id_ = ""
+      self.app_id_ = b""
 
   def has_app_id(self): return self.has_app_id_
 
@@ -5446,15 +5446,15 @@ class TaskQueueDeleteGroupResponse(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.TaskQueueDeleteGroupResponse'
 class TaskQueueQueryTasksRequest(ProtocolBuffer.ProtocolMessage):
   has_app_id_ = 0
-  app_id_ = ""
+  app_id_ = b""
   has_queue_name_ = 0
-  queue_name_ = ""
+  queue_name_ = b""
   has_start_task_name_ = 0
-  start_task_name_ = ""
+  start_task_name_ = b""
   has_start_eta_usec_ = 0
   start_eta_usec_ = 0
   has_start_tag_ = 0
-  start_tag_ = ""
+  start_tag_ = b""
   has_max_rows_ = 0
   max_rows_ = 1
 
@@ -5470,7 +5470,7 @@ class TaskQueueQueryTasksRequest(ProtocolBuffer.ProtocolMessage):
   def clear_app_id(self):
     if self.has_app_id_:
       self.has_app_id_ = 0
-      self.app_id_ = ""
+      self.app_id_ = b""
 
   def has_app_id(self): return self.has_app_id_
 
@@ -5483,7 +5483,7 @@ class TaskQueueQueryTasksRequest(ProtocolBuffer.ProtocolMessage):
   def clear_queue_name(self):
     if self.has_queue_name_:
       self.has_queue_name_ = 0
-      self.queue_name_ = ""
+      self.queue_name_ = b""
 
   def has_queue_name(self): return self.has_queue_name_
 
@@ -5496,7 +5496,7 @@ class TaskQueueQueryTasksRequest(ProtocolBuffer.ProtocolMessage):
   def clear_start_task_name(self):
     if self.has_start_task_name_:
       self.has_start_task_name_ = 0
-      self.start_task_name_ = ""
+      self.start_task_name_ = b""
 
   def has_start_task_name(self): return self.has_start_task_name_
 
@@ -5522,7 +5522,7 @@ class TaskQueueQueryTasksRequest(ProtocolBuffer.ProtocolMessage):
   def clear_start_tag(self):
     if self.has_start_tag_:
       self.has_start_tag_ = 0
-      self.start_tag_ = ""
+      self.start_tag_ = b""
 
   def has_start_tag(self): return self.has_start_tag_
 
@@ -5716,9 +5716,9 @@ class TaskQueueQueryTasksRequest(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.TaskQueueQueryTasksRequest'
 class TaskQueueQueryTasksResponse_TaskHeader(ProtocolBuffer.ProtocolMessage):
   has_key_ = 0
-  key_ = ""
+  key_ = b""
   has_value_ = 0
-  value_ = ""
+  value_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -5732,7 +5732,7 @@ class TaskQueueQueryTasksResponse_TaskHeader(ProtocolBuffer.ProtocolMessage):
   def clear_key(self):
     if self.has_key_:
       self.has_key_ = 0
-      self.key_ = ""
+      self.key_ = b""
 
   def has_key(self): return self.has_key_
 
@@ -5745,7 +5745,7 @@ class TaskQueueQueryTasksResponse_TaskHeader(ProtocolBuffer.ProtocolMessage):
   def clear_value(self):
     if self.has_value_:
       self.has_value_ = 0
-      self.value_ = ""
+      self.value_ = b""
 
   def has_value(self): return self.has_value_
 
@@ -5833,9 +5833,9 @@ class TaskQueueQueryTasksResponse_TaskHeader(ProtocolBuffer.ProtocolMessage):
 
 class TaskQueueQueryTasksResponse_TaskCronTimetable(ProtocolBuffer.ProtocolMessage):
   has_schedule_ = 0
-  schedule_ = ""
+  schedule_ = b""
   has_timezone_ = 0
-  timezone_ = ""
+  timezone_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -5849,7 +5849,7 @@ class TaskQueueQueryTasksResponse_TaskCronTimetable(ProtocolBuffer.ProtocolMessa
   def clear_schedule(self):
     if self.has_schedule_:
       self.has_schedule_ = 0
-      self.schedule_ = ""
+      self.schedule_ = b""
 
   def has_schedule(self): return self.has_schedule_
 
@@ -5862,7 +5862,7 @@ class TaskQueueQueryTasksResponse_TaskCronTimetable(ProtocolBuffer.ProtocolMessa
   def clear_timezone(self):
     if self.has_timezone_:
       self.has_timezone_ = 0
-      self.timezone_ = ""
+      self.timezone_ = b""
 
   def has_timezone(self): return self.has_timezone_
 
@@ -5958,7 +5958,7 @@ class TaskQueueQueryTasksResponse_TaskRunLog(ProtocolBuffer.ProtocolMessage):
   has_response_code_ = 0
   response_code_ = 0
   has_retry_reason_ = 0
-  retry_reason_ = ""
+  retry_reason_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -6024,7 +6024,7 @@ class TaskQueueQueryTasksResponse_TaskRunLog(ProtocolBuffer.ProtocolMessage):
   def clear_retry_reason(self):
     if self.has_retry_reason_:
       self.has_retry_reason_ = 0
-      self.retry_reason_ = ""
+      self.retry_reason_ = b""
 
   def has_retry_reason(self): return self.has_retry_reason_
 
@@ -6184,11 +6184,11 @@ class TaskQueueQueryTasksResponse_Task(ProtocolBuffer.ProtocolMessage):
   RequestMethod_Name = classmethod(RequestMethod_Name)
 
   has_task_name_ = 0
-  task_name_ = ""
+  task_name_ = b""
   has_eta_usec_ = 0
   eta_usec_ = 0
   has_url_ = 0
-  url_ = ""
+  url_ = b""
   has_method_ = 0
   method_ = 0
   has_retry_count_ = 0
@@ -6196,7 +6196,7 @@ class TaskQueueQueryTasksResponse_Task(ProtocolBuffer.ProtocolMessage):
   has_body_size_ = 0
   body_size_ = 0
   has_body_ = 0
-  body_ = ""
+  body_ = b""
   has_creation_time_usec_ = 0
   creation_time_usec_ = 0
   has_crontimetable_ = 0
@@ -6204,7 +6204,7 @@ class TaskQueueQueryTasksResponse_Task(ProtocolBuffer.ProtocolMessage):
   has_runlog_ = 0
   runlog_ = None
   has_description_ = 0
-  description_ = ""
+  description_ = b""
   has_payload_ = 0
   payload_ = None
   has_retry_parameters_ = 0
@@ -6212,7 +6212,7 @@ class TaskQueueQueryTasksResponse_Task(ProtocolBuffer.ProtocolMessage):
   has_first_try_usec_ = 0
   first_try_usec_ = 0
   has_tag_ = 0
-  tag_ = ""
+  tag_ = b""
   has_execution_count_ = 0
   execution_count_ = 0
 
@@ -6230,7 +6230,7 @@ class TaskQueueQueryTasksResponse_Task(ProtocolBuffer.ProtocolMessage):
   def clear_task_name(self):
     if self.has_task_name_:
       self.has_task_name_ = 0
-      self.task_name_ = ""
+      self.task_name_ = b""
 
   def has_task_name(self): return self.has_task_name_
 
@@ -6256,7 +6256,7 @@ class TaskQueueQueryTasksResponse_Task(ProtocolBuffer.ProtocolMessage):
   def clear_url(self):
     if self.has_url_:
       self.has_url_ = 0
-      self.url_ = ""
+      self.url_ = b""
 
   def has_url(self): return self.has_url_
 
@@ -6324,7 +6324,7 @@ class TaskQueueQueryTasksResponse_Task(ProtocolBuffer.ProtocolMessage):
   def clear_body(self):
     if self.has_body_:
       self.has_body_ = 0
-      self.body_ = ""
+      self.body_ = b""
 
   def has_body(self): return self.has_body_
 
@@ -6388,7 +6388,7 @@ class TaskQueueQueryTasksResponse_Task(ProtocolBuffer.ProtocolMessage):
   def clear_description(self):
     if self.has_description_:
       self.has_description_ = 0
-      self.description_ = ""
+      self.description_ = b""
 
   def has_description(self): return self.has_description_
 
@@ -6452,7 +6452,7 @@ class TaskQueueQueryTasksResponse_Task(ProtocolBuffer.ProtocolMessage):
   def clear_tag(self):
     if self.has_tag_:
       self.has_tag_ = 0
-      self.tag_ = ""
+      self.tag_ = b""
 
   def has_tag(self): return self.has_tag_
 
@@ -7031,11 +7031,11 @@ class TaskQueueQueryTasksResponse(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.TaskQueueQueryTasksResponse'
 class TaskQueueFetchTaskRequest(ProtocolBuffer.ProtocolMessage):
   has_app_id_ = 0
-  app_id_ = ""
+  app_id_ = b""
   has_queue_name_ = 0
-  queue_name_ = ""
+  queue_name_ = b""
   has_task_name_ = 0
-  task_name_ = ""
+  task_name_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -7049,7 +7049,7 @@ class TaskQueueFetchTaskRequest(ProtocolBuffer.ProtocolMessage):
   def clear_app_id(self):
     if self.has_app_id_:
       self.has_app_id_ = 0
-      self.app_id_ = ""
+      self.app_id_ = b""
 
   def has_app_id(self): return self.has_app_id_
 
@@ -7062,7 +7062,7 @@ class TaskQueueFetchTaskRequest(ProtocolBuffer.ProtocolMessage):
   def clear_queue_name(self):
     if self.has_queue_name_:
       self.has_queue_name_ = 0
-      self.queue_name_ = ""
+      self.queue_name_ = b""
 
   def has_queue_name(self): return self.has_queue_name_
 
@@ -7075,7 +7075,7 @@ class TaskQueueFetchTaskRequest(ProtocolBuffer.ProtocolMessage):
   def clear_task_name(self):
     if self.has_task_name_:
       self.has_task_name_ = 0
-      self.task_name_ = ""
+      self.task_name_ = b""
 
   def has_task_name(self): return self.has_task_name_
 
@@ -7308,7 +7308,7 @@ class TaskQueueFetchTaskResponse(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.TaskQueueFetchTaskResponse'
 class TaskQueueUpdateStorageLimitRequest(ProtocolBuffer.ProtocolMessage):
   has_app_id_ = 0
-  app_id_ = ""
+  app_id_ = b""
   has_limit_ = 0
   limit_ = 0
 
@@ -7324,7 +7324,7 @@ class TaskQueueUpdateStorageLimitRequest(ProtocolBuffer.ProtocolMessage):
   def clear_app_id(self):
     if self.has_app_id_:
       self.has_app_id_ = 0
-      self.app_id_ = ""
+      self.app_id_ = b""
 
   def has_app_id(self): return self.has_app_id_
 
@@ -7547,7 +7547,7 @@ class TaskQueueUpdateStorageLimitResponse(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.TaskQueueUpdateStorageLimitResponse'
 class TaskQueueQueryAndOwnTasksRequest(ProtocolBuffer.ProtocolMessage):
   has_queue_name_ = 0
-  queue_name_ = ""
+  queue_name_ = b""
   has_lease_seconds_ = 0
   lease_seconds_ = 0.0
   has_max_tasks_ = 0
@@ -7555,7 +7555,7 @@ class TaskQueueQueryAndOwnTasksRequest(ProtocolBuffer.ProtocolMessage):
   has_group_by_tag_ = 0
   group_by_tag_ = 0
   has_tag_ = 0
-  tag_ = ""
+  tag_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -7569,7 +7569,7 @@ class TaskQueueQueryAndOwnTasksRequest(ProtocolBuffer.ProtocolMessage):
   def clear_queue_name(self):
     if self.has_queue_name_:
       self.has_queue_name_ = 0
-      self.queue_name_ = ""
+      self.queue_name_ = b""
 
   def has_queue_name(self): return self.has_queue_name_
 
@@ -7621,7 +7621,7 @@ class TaskQueueQueryAndOwnTasksRequest(ProtocolBuffer.ProtocolMessage):
   def clear_tag(self):
     if self.has_tag_:
       self.has_tag_ = 0
-      self.tag_ = ""
+      self.tag_ = b""
 
   def has_tag(self): return self.has_tag_
 
@@ -7791,15 +7791,15 @@ class TaskQueueQueryAndOwnTasksRequest(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.TaskQueueQueryAndOwnTasksRequest'
 class TaskQueueQueryAndOwnTasksResponse_Task(ProtocolBuffer.ProtocolMessage):
   has_task_name_ = 0
-  task_name_ = ""
+  task_name_ = b""
   has_eta_usec_ = 0
   eta_usec_ = 0
   has_retry_count_ = 0
   retry_count_ = 0
   has_body_ = 0
-  body_ = ""
+  body_ = b""
   has_tag_ = 0
-  tag_ = ""
+  tag_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -7813,7 +7813,7 @@ class TaskQueueQueryAndOwnTasksResponse_Task(ProtocolBuffer.ProtocolMessage):
   def clear_task_name(self):
     if self.has_task_name_:
       self.has_task_name_ = 0
-      self.task_name_ = ""
+      self.task_name_ = b""
 
   def has_task_name(self): return self.has_task_name_
 
@@ -7852,7 +7852,7 @@ class TaskQueueQueryAndOwnTasksResponse_Task(ProtocolBuffer.ProtocolMessage):
   def clear_body(self):
     if self.has_body_:
       self.has_body_ = 0
-      self.body_ = ""
+      self.body_ = b""
 
   def has_body(self): return self.has_body_
 
@@ -7865,7 +7865,7 @@ class TaskQueueQueryAndOwnTasksResponse_Task(ProtocolBuffer.ProtocolMessage):
   def clear_tag(self):
     if self.has_tag_:
       self.has_tag_ = 0
-      self.tag_ = ""
+      self.tag_ = b""
 
   def has_tag(self): return self.has_tag_
 
@@ -8127,9 +8127,9 @@ class TaskQueueQueryAndOwnTasksResponse(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.TaskQueueQueryAndOwnTasksResponse'
 class TaskQueueModifyTaskLeaseRequest(ProtocolBuffer.ProtocolMessage):
   has_queue_name_ = 0
-  queue_name_ = ""
+  queue_name_ = b""
   has_task_name_ = 0
-  task_name_ = ""
+  task_name_ = b""
   has_eta_usec_ = 0
   eta_usec_ = 0
   has_lease_seconds_ = 0
@@ -8147,7 +8147,7 @@ class TaskQueueModifyTaskLeaseRequest(ProtocolBuffer.ProtocolMessage):
   def clear_queue_name(self):
     if self.has_queue_name_:
       self.has_queue_name_ = 0
-      self.queue_name_ = ""
+      self.queue_name_ = b""
 
   def has_queue_name(self): return self.has_queue_name_
 
@@ -8160,7 +8160,7 @@ class TaskQueueModifyTaskLeaseRequest(ProtocolBuffer.ProtocolMessage):
   def clear_task_name(self):
     if self.has_task_name_:
       self.has_task_name_ = 0
-      self.task_name_ = ""
+      self.task_name_ = b""
 
   def has_task_name(self): return self.has_task_name_
 

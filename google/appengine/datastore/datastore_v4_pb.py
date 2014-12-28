@@ -202,7 +202,7 @@ class EntityResult(ProtocolBuffer.ProtocolMessage):
   has_version_ = 0
   version_ = 0
   has_cursor_ = 0
-  cursor_ = ""
+  cursor_ = b""
 
   def __init__(self, contents=None):
     self.entity_ = google.appengine.datastore.entity_v4_pb.Entity()
@@ -238,7 +238,7 @@ class EntityResult(ProtocolBuffer.ProtocolMessage):
   def clear_cursor(self):
     if self.has_cursor_:
       self.has_cursor_ = 0
-      self.cursor_ = ""
+      self.cursor_ = b""
 
   def has_cursor(self): return self.has_cursor_
 
@@ -406,9 +406,9 @@ class Query(ProtocolBuffer.ProtocolMessage):
   has_filter_ = 0
   filter_ = None
   has_start_cursor_ = 0
-  start_cursor_ = ""
+  start_cursor_ = b""
   has_end_cursor_ = 0
-  end_cursor_ = ""
+  end_cursor_ = b""
   has_offset_ = 0
   offset_ = 0
   has_limit_ = 0
@@ -514,7 +514,7 @@ class Query(ProtocolBuffer.ProtocolMessage):
   def clear_start_cursor(self):
     if self.has_start_cursor_:
       self.has_start_cursor_ = 0
-      self.start_cursor_ = ""
+      self.start_cursor_ = b""
 
   def has_start_cursor(self): return self.has_start_cursor_
 
@@ -527,7 +527,7 @@ class Query(ProtocolBuffer.ProtocolMessage):
   def clear_end_cursor(self):
     if self.has_end_cursor_:
       self.has_end_cursor_ = 0
-      self.end_cursor_ = ""
+      self.end_cursor_ = b""
 
   def has_end_cursor(self): return self.has_end_cursor_
 
@@ -896,7 +896,7 @@ class Query(ProtocolBuffer.ProtocolMessage):
 
 class KindExpression(ProtocolBuffer.ProtocolMessage):
   has_name_ = 0
-  name_ = ""
+  name_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -910,7 +910,7 @@ class KindExpression(ProtocolBuffer.ProtocolMessage):
   def clear_name(self):
     if self.has_name_:
       self.has_name_ = 0
-      self.name_ = ""
+      self.name_ = b""
 
   def has_name(self): return self.has_name_
 
@@ -1029,7 +1029,7 @@ class KindExpression(ProtocolBuffer.ProtocolMessage):
 
 class PropertyReference(ProtocolBuffer.ProtocolMessage):
   has_name_ = 0
-  name_ = ""
+  name_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -1043,7 +1043,7 @@ class PropertyReference(ProtocolBuffer.ProtocolMessage):
   def clear_name(self):
     if self.has_name_:
       self.has_name_ = 0
-      self.name_ = ""
+      self.name_ = b""
 
   def has_name(self): return self.has_name_
 
@@ -2696,7 +2696,7 @@ class BoundingBoxFilter(ProtocolBuffer.ProtocolMessage):
 
 class GqlQuery(ProtocolBuffer.ProtocolMessage):
   has_query_string_ = 0
-  query_string_ = ""
+  query_string_ = b""
   has_allow_literal_ = 0
   allow_literal_ = 0
 
@@ -2714,7 +2714,7 @@ class GqlQuery(ProtocolBuffer.ProtocolMessage):
   def clear_query_string(self):
     if self.has_query_string_:
       self.has_query_string_ = 0
-      self.query_string_ = ""
+      self.query_string_ = b""
 
   def has_query_string(self): return self.has_query_string_
 
@@ -2969,11 +2969,11 @@ class GqlQuery(ProtocolBuffer.ProtocolMessage):
 
 class GqlQueryArg(ProtocolBuffer.ProtocolMessage):
   has_name_ = 0
-  name_ = ""
+  name_ = b""
   has_value_ = 0
   value_ = None
   has_cursor_ = 0
-  cursor_ = ""
+  cursor_ = b""
 
   def __init__(self, contents=None):
     self.lazy_init_lock_ = thread.allocate_lock()
@@ -2988,7 +2988,7 @@ class GqlQueryArg(ProtocolBuffer.ProtocolMessage):
   def clear_name(self):
     if self.has_name_:
       self.has_name_ = 0
-      self.name_ = ""
+      self.name_ = b""
 
   def has_name(self): return self.has_name_
 
@@ -3020,7 +3020,7 @@ class GqlQueryArg(ProtocolBuffer.ProtocolMessage):
   def clear_cursor(self):
     if self.has_cursor_:
       self.has_cursor_ = 0
-      self.cursor_ = ""
+      self.cursor_ = b""
 
   def has_cursor(self): return self.has_cursor_
 
@@ -3198,9 +3198,9 @@ class QueryResultBatch(ProtocolBuffer.ProtocolMessage):
   has_entity_result_type_ = 0
   entity_result_type_ = 0
   has_skipped_cursor_ = 0
-  skipped_cursor_ = ""
+  skipped_cursor_ = b""
   has_end_cursor_ = 0
-  end_cursor_ = ""
+  end_cursor_ = b""
   has_more_results_ = 0
   more_results_ = 0
   has_skipped_results_ = 0
@@ -3250,7 +3250,7 @@ class QueryResultBatch(ProtocolBuffer.ProtocolMessage):
   def clear_skipped_cursor(self):
     if self.has_skipped_cursor_:
       self.has_skipped_cursor_ = 0
-      self.skipped_cursor_ = ""
+      self.skipped_cursor_ = b""
 
   def has_skipped_cursor(self): return self.has_skipped_cursor_
 
@@ -3263,7 +3263,7 @@ class QueryResultBatch(ProtocolBuffer.ProtocolMessage):
   def clear_end_cursor(self):
     if self.has_end_cursor_:
       self.has_end_cursor_ = 0
-      self.end_cursor_ = ""
+      self.end_cursor_ = b""
 
   def has_end_cursor(self): return self.has_end_cursor_
 
@@ -4792,7 +4792,7 @@ class ReadOptions(ProtocolBuffer.ProtocolMessage):
   has_read_consistency_ = 0
   read_consistency_ = 0
   has_transaction_ = 0
-  transaction_ = ""
+  transaction_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -4819,7 +4819,7 @@ class ReadOptions(ProtocolBuffer.ProtocolMessage):
   def clear_transaction(self):
     if self.has_transaction_:
       self.has_transaction_ = 0
-      self.transaction_ = ""
+      self.transaction_ = b""
 
   def has_transaction(self): return self.has_transaction_
 
@@ -5762,7 +5762,7 @@ class RunQueryRequest(ProtocolBuffer.ProtocolMessage):
 class RunQueryResponse(ProtocolBuffer.ProtocolMessage):
   has_batch_ = 0
   has_query_handle_ = 0
-  query_handle_ = ""
+  query_handle_ = b""
 
   def __init__(self, contents=None):
     self.batch_ = QueryResultBatch()
@@ -5785,7 +5785,7 @@ class RunQueryResponse(ProtocolBuffer.ProtocolMessage):
   def clear_query_handle(self):
     if self.has_query_handle_:
       self.has_query_handle_ = 0
-      self.query_handle_ = ""
+      self.query_handle_ = b""
 
   def has_query_handle(self): return self.has_query_handle_
 
@@ -5932,7 +5932,7 @@ class RunQueryResponse(ProtocolBuffer.ProtocolMessage):
 
 class ContinueQueryRequest(ProtocolBuffer.ProtocolMessage):
   has_query_handle_ = 0
-  query_handle_ = ""
+  query_handle_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -5946,7 +5946,7 @@ class ContinueQueryRequest(ProtocolBuffer.ProtocolMessage):
   def clear_query_handle(self):
     if self.has_query_handle_:
       self.has_query_handle_ = 0
-      self.query_handle_ = ""
+      self.query_handle_ = b""
 
   def has_query_handle(self): return self.has_query_handle_
 
@@ -6364,7 +6364,7 @@ class BeginTransactionRequest(ProtocolBuffer.ProtocolMessage):
 
 class BeginTransactionResponse(ProtocolBuffer.ProtocolMessage):
   has_transaction_ = 0
-  transaction_ = ""
+  transaction_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -6378,7 +6378,7 @@ class BeginTransactionResponse(ProtocolBuffer.ProtocolMessage):
   def clear_transaction(self):
     if self.has_transaction_:
       self.has_transaction_ = 0
-      self.transaction_ = ""
+      self.transaction_ = b""
 
   def has_transaction(self): return self.has_transaction_
 
@@ -6497,7 +6497,7 @@ class BeginTransactionResponse(ProtocolBuffer.ProtocolMessage):
 
 class RollbackRequest(ProtocolBuffer.ProtocolMessage):
   has_transaction_ = 0
-  transaction_ = ""
+  transaction_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -6511,7 +6511,7 @@ class RollbackRequest(ProtocolBuffer.ProtocolMessage):
   def clear_transaction(self):
     if self.has_transaction_:
       self.has_transaction_ = 0
-      self.transaction_ = ""
+      self.transaction_ = b""
 
   def has_transaction(self): return self.has_transaction_
 
@@ -6741,7 +6741,7 @@ class CommitRequest(ProtocolBuffer.ProtocolMessage):
   Mode_Name = classmethod(Mode_Name)
 
   has_transaction_ = 0
-  transaction_ = ""
+  transaction_ = b""
   has_deprecated_mutation_ = 0
   deprecated_mutation_ = None
   has_mode_ = 0
@@ -6763,7 +6763,7 @@ class CommitRequest(ProtocolBuffer.ProtocolMessage):
   def clear_transaction(self):
     if self.has_transaction_:
       self.has_transaction_ = 0
-      self.transaction_ = ""
+      self.transaction_ = b""
 
   def has_transaction(self): return self.has_transaction_
 

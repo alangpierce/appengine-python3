@@ -123,11 +123,11 @@ class MailServiceError(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.MailServiceError'
 class MailAttachment(ProtocolBuffer.ProtocolMessage):
   has_filename_ = 0
-  filename_ = ""
+  filename_ = b""
   has_data_ = 0
-  data_ = ""
+  data_ = b""
   has_contentid_ = 0
-  contentid_ = ""
+  contentid_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -141,7 +141,7 @@ class MailAttachment(ProtocolBuffer.ProtocolMessage):
   def clear_filename(self):
     if self.has_filename_:
       self.has_filename_ = 0
-      self.filename_ = ""
+      self.filename_ = b""
 
   def has_filename(self): return self.has_filename_
 
@@ -154,7 +154,7 @@ class MailAttachment(ProtocolBuffer.ProtocolMessage):
   def clear_data(self):
     if self.has_data_:
       self.has_data_ = 0
-      self.data_ = ""
+      self.data_ = b""
 
   def has_data(self): return self.has_data_
 
@@ -167,7 +167,7 @@ class MailAttachment(ProtocolBuffer.ProtocolMessage):
   def clear_contentid(self):
     if self.has_contentid_:
       self.has_contentid_ = 0
-      self.contentid_ = ""
+      self.contentid_ = b""
 
   def has_contentid(self): return self.has_contentid_
 
@@ -296,9 +296,9 @@ class MailAttachment(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.MailAttachment'
 class MailHeader(ProtocolBuffer.ProtocolMessage):
   has_name_ = 0
-  name_ = ""
+  name_ = b""
   has_value_ = 0
-  value_ = ""
+  value_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -312,7 +312,7 @@ class MailHeader(ProtocolBuffer.ProtocolMessage):
   def clear_name(self):
     if self.has_name_:
       self.has_name_ = 0
-      self.name_ = ""
+      self.name_ = b""
 
   def has_name(self): return self.has_name_
 
@@ -325,7 +325,7 @@ class MailHeader(ProtocolBuffer.ProtocolMessage):
   def clear_value(self):
     if self.has_value_:
       self.has_value_ = 0
-      self.value_ = ""
+      self.value_ = b""
 
   def has_value(self): return self.has_value_
 
@@ -435,15 +435,15 @@ class MailHeader(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.MailHeader'
 class MailMessage(ProtocolBuffer.ProtocolMessage):
   has_sender_ = 0
-  sender_ = ""
+  sender_ = b""
   has_replyto_ = 0
-  replyto_ = ""
+  replyto_ = b""
   has_subject_ = 0
-  subject_ = ""
+  subject_ = b""
   has_textbody_ = 0
-  textbody_ = ""
+  textbody_ = b""
   has_htmlbody_ = 0
-  htmlbody_ = ""
+  htmlbody_ = b""
 
   def __init__(self, contents=None):
     self.to_ = []
@@ -462,7 +462,7 @@ class MailMessage(ProtocolBuffer.ProtocolMessage):
   def clear_sender(self):
     if self.has_sender_:
       self.has_sender_ = 0
-      self.sender_ = ""
+      self.sender_ = b""
 
   def has_sender(self): return self.has_sender_
 
@@ -475,7 +475,7 @@ class MailMessage(ProtocolBuffer.ProtocolMessage):
   def clear_replyto(self):
     if self.has_replyto_:
       self.has_replyto_ = 0
-      self.replyto_ = ""
+      self.replyto_ = b""
 
   def has_replyto(self): return self.has_replyto_
 
@@ -533,7 +533,7 @@ class MailMessage(ProtocolBuffer.ProtocolMessage):
   def clear_subject(self):
     if self.has_subject_:
       self.has_subject_ = 0
-      self.subject_ = ""
+      self.subject_ = b""
 
   def has_subject(self): return self.has_subject_
 
@@ -546,7 +546,7 @@ class MailMessage(ProtocolBuffer.ProtocolMessage):
   def clear_textbody(self):
     if self.has_textbody_:
       self.has_textbody_ = 0
-      self.textbody_ = ""
+      self.textbody_ = b""
 
   def has_textbody(self): return self.has_textbody_
 
@@ -559,7 +559,7 @@ class MailMessage(ProtocolBuffer.ProtocolMessage):
   def clear_htmlbody(self):
     if self.has_htmlbody_:
       self.has_htmlbody_ = 0
-      self.htmlbody_ = ""
+      self.htmlbody_ = b""
 
   def has_htmlbody(self): return self.has_htmlbody_
 

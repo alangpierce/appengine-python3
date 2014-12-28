@@ -119,11 +119,11 @@ class UserServiceError(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.UserServiceError'
 class CreateLoginURLRequest(ProtocolBuffer.ProtocolMessage):
   has_destination_url_ = 0
-  destination_url_ = ""
+  destination_url_ = b""
   has_auth_domain_ = 0
-  auth_domain_ = ""
+  auth_domain_ = b""
   has_federated_identity_ = 0
-  federated_identity_ = ""
+  federated_identity_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -137,7 +137,7 @@ class CreateLoginURLRequest(ProtocolBuffer.ProtocolMessage):
   def clear_destination_url(self):
     if self.has_destination_url_:
       self.has_destination_url_ = 0
-      self.destination_url_ = ""
+      self.destination_url_ = b""
 
   def has_destination_url(self): return self.has_destination_url_
 
@@ -150,7 +150,7 @@ class CreateLoginURLRequest(ProtocolBuffer.ProtocolMessage):
   def clear_auth_domain(self):
     if self.has_auth_domain_:
       self.has_auth_domain_ = 0
-      self.auth_domain_ = ""
+      self.auth_domain_ = b""
 
   def has_auth_domain(self): return self.has_auth_domain_
 
@@ -163,7 +163,7 @@ class CreateLoginURLRequest(ProtocolBuffer.ProtocolMessage):
   def clear_federated_identity(self):
     if self.has_federated_identity_:
       self.has_federated_identity_ = 0
-      self.federated_identity_ = ""
+      self.federated_identity_ = b""
 
   def has_federated_identity(self): return self.has_federated_identity_
 
@@ -287,7 +287,7 @@ class CreateLoginURLRequest(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.CreateLoginURLRequest'
 class CreateLoginURLResponse(ProtocolBuffer.ProtocolMessage):
   has_login_url_ = 0
-  login_url_ = ""
+  login_url_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -301,7 +301,7 @@ class CreateLoginURLResponse(ProtocolBuffer.ProtocolMessage):
   def clear_login_url(self):
     if self.has_login_url_:
       self.has_login_url_ = 0
-      self.login_url_ = ""
+      self.login_url_ = b""
 
   def has_login_url(self): return self.has_login_url_
 
@@ -387,9 +387,9 @@ class CreateLoginURLResponse(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.CreateLoginURLResponse'
 class CreateLogoutURLRequest(ProtocolBuffer.ProtocolMessage):
   has_destination_url_ = 0
-  destination_url_ = ""
+  destination_url_ = b""
   has_auth_domain_ = 0
-  auth_domain_ = ""
+  auth_domain_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -403,7 +403,7 @@ class CreateLogoutURLRequest(ProtocolBuffer.ProtocolMessage):
   def clear_destination_url(self):
     if self.has_destination_url_:
       self.has_destination_url_ = 0
-      self.destination_url_ = ""
+      self.destination_url_ = b""
 
   def has_destination_url(self): return self.has_destination_url_
 
@@ -416,7 +416,7 @@ class CreateLogoutURLRequest(ProtocolBuffer.ProtocolMessage):
   def clear_auth_domain(self):
     if self.has_auth_domain_:
       self.has_auth_domain_ = 0
-      self.auth_domain_ = ""
+      self.auth_domain_ = b""
 
   def has_auth_domain(self): return self.has_auth_domain_
 
@@ -521,7 +521,7 @@ class CreateLogoutURLRequest(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.CreateLogoutURLRequest'
 class CreateLogoutURLResponse(ProtocolBuffer.ProtocolMessage):
   has_logout_url_ = 0
-  logout_url_ = ""
+  logout_url_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -535,7 +535,7 @@ class CreateLogoutURLResponse(ProtocolBuffer.ProtocolMessage):
   def clear_logout_url(self):
     if self.has_logout_url_:
       self.has_logout_url_ = 0
-      self.logout_url_ = ""
+      self.logout_url_ = b""
 
   def has_logout_url(self): return self.has_logout_url_
 
@@ -621,7 +621,7 @@ class CreateLogoutURLResponse(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.CreateLogoutURLResponse'
 class GetOAuthUserRequest(ProtocolBuffer.ProtocolMessage):
   has_scope_ = 0
-  scope_ = ""
+  scope_ = b""
   has_request_writer_permission_ = 0
   request_writer_permission_ = 0
 
@@ -638,7 +638,7 @@ class GetOAuthUserRequest(ProtocolBuffer.ProtocolMessage):
   def clear_scope(self):
     if self.has_scope_:
       self.has_scope_ = 0
-      self.scope_ = ""
+      self.scope_ = b""
 
   def has_scope(self): return self.has_scope_
 
@@ -793,17 +793,17 @@ class GetOAuthUserRequest(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.GetOAuthUserRequest'
 class GetOAuthUserResponse(ProtocolBuffer.ProtocolMessage):
   has_email_ = 0
-  email_ = ""
+  email_ = b""
   has_user_id_ = 0
-  user_id_ = ""
+  user_id_ = b""
   has_auth_domain_ = 0
-  auth_domain_ = ""
+  auth_domain_ = b""
   has_user_organization_ = 0
-  user_organization_ = ""
+  user_organization_ = b""
   has_is_admin_ = 0
   is_admin_ = 0
   has_client_id_ = 0
-  client_id_ = ""
+  client_id_ = b""
   has_is_project_writer_ = 0
   is_project_writer_ = 0
 
@@ -820,7 +820,7 @@ class GetOAuthUserResponse(ProtocolBuffer.ProtocolMessage):
   def clear_email(self):
     if self.has_email_:
       self.has_email_ = 0
-      self.email_ = ""
+      self.email_ = b""
 
   def has_email(self): return self.has_email_
 
@@ -833,7 +833,7 @@ class GetOAuthUserResponse(ProtocolBuffer.ProtocolMessage):
   def clear_user_id(self):
     if self.has_user_id_:
       self.has_user_id_ = 0
-      self.user_id_ = ""
+      self.user_id_ = b""
 
   def has_user_id(self): return self.has_user_id_
 
@@ -846,7 +846,7 @@ class GetOAuthUserResponse(ProtocolBuffer.ProtocolMessage):
   def clear_auth_domain(self):
     if self.has_auth_domain_:
       self.has_auth_domain_ = 0
-      self.auth_domain_ = ""
+      self.auth_domain_ = b""
 
   def has_auth_domain(self): return self.has_auth_domain_
 
@@ -859,7 +859,7 @@ class GetOAuthUserResponse(ProtocolBuffer.ProtocolMessage):
   def clear_user_organization(self):
     if self.has_user_organization_:
       self.has_user_organization_ = 0
-      self.user_organization_ = ""
+      self.user_organization_ = b""
 
   def has_user_organization(self): return self.has_user_organization_
 
@@ -885,7 +885,7 @@ class GetOAuthUserResponse(ProtocolBuffer.ProtocolMessage):
   def clear_client_id(self):
     if self.has_client_id_:
       self.has_client_id_ = 0
-      self.client_id_ = ""
+      self.client_id_ = b""
 
   def has_client_id(self): return self.has_client_id_
 
@@ -1215,7 +1215,7 @@ class CheckOAuthSignatureRequest(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.CheckOAuthSignatureRequest'
 class CheckOAuthSignatureResponse(ProtocolBuffer.ProtocolMessage):
   has_oauth_consumer_key_ = 0
-  oauth_consumer_key_ = ""
+  oauth_consumer_key_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -1229,7 +1229,7 @@ class CheckOAuthSignatureResponse(ProtocolBuffer.ProtocolMessage):
   def clear_oauth_consumer_key(self):
     if self.has_oauth_consumer_key_:
       self.has_oauth_consumer_key_ = 0
-      self.oauth_consumer_key_ = ""
+      self.oauth_consumer_key_ = b""
 
   def has_oauth_consumer_key(self): return self.has_oauth_consumer_key_
 

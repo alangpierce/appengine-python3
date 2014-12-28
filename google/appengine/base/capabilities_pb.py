@@ -214,19 +214,19 @@ class CapabilityConfig(ProtocolBuffer.ProtocolMessage):
   Status_Name = classmethod(Status_Name)
 
   has_package_ = 0
-  package_ = ""
+  package_ = b""
   has_capability_ = 0
-  capability_ = ""
+  capability_ = b""
   has_status_ = 0
   status_ = 4
   has_scheduled_time_ = 0
-  scheduled_time_ = ""
+  scheduled_time_ = b""
   has_internal_message_ = 0
-  internal_message_ = ""
+  internal_message_ = b""
   has_admin_message_ = 0
-  admin_message_ = ""
+  admin_message_ = b""
   has_error_message_ = 0
-  error_message_ = ""
+  error_message_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -240,7 +240,7 @@ class CapabilityConfig(ProtocolBuffer.ProtocolMessage):
   def clear_package(self):
     if self.has_package_:
       self.has_package_ = 0
-      self.package_ = ""
+      self.package_ = b""
 
   def has_package(self): return self.has_package_
 
@@ -253,7 +253,7 @@ class CapabilityConfig(ProtocolBuffer.ProtocolMessage):
   def clear_capability(self):
     if self.has_capability_:
       self.has_capability_ = 0
-      self.capability_ = ""
+      self.capability_ = b""
 
   def has_capability(self): return self.has_capability_
 
@@ -279,7 +279,7 @@ class CapabilityConfig(ProtocolBuffer.ProtocolMessage):
   def clear_scheduled_time(self):
     if self.has_scheduled_time_:
       self.has_scheduled_time_ = 0
-      self.scheduled_time_ = ""
+      self.scheduled_time_ = b""
 
   def has_scheduled_time(self): return self.has_scheduled_time_
 
@@ -292,7 +292,7 @@ class CapabilityConfig(ProtocolBuffer.ProtocolMessage):
   def clear_internal_message(self):
     if self.has_internal_message_:
       self.has_internal_message_ = 0
-      self.internal_message_ = ""
+      self.internal_message_ = b""
 
   def has_internal_message(self): return self.has_internal_message_
 
@@ -305,7 +305,7 @@ class CapabilityConfig(ProtocolBuffer.ProtocolMessage):
   def clear_admin_message(self):
     if self.has_admin_message_:
       self.has_admin_message_ = 0
-      self.admin_message_ = ""
+      self.admin_message_ = b""
 
   def has_admin_message(self): return self.has_admin_message_
 
@@ -318,7 +318,7 @@ class CapabilityConfig(ProtocolBuffer.ProtocolMessage):
   def clear_error_message(self):
     if self.has_error_message_:
       self.has_error_message_ = 0
-      self.error_message_ = ""
+      self.error_message_ = b""
 
   def has_error_message(self): return self.has_error_message_
 

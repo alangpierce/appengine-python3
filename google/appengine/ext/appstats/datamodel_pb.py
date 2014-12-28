@@ -35,7 +35,7 @@ from google.appengine.datastore.entity_pb import *
 import google.appengine.datastore.entity_pb
 class AggregateRpcStatsProto(ProtocolBuffer.ProtocolMessage):
   has_service_call_name_ = 0
-  service_call_name_ = ""
+  service_call_name_ = b""
   has_total_amount_of_calls_ = 0
   total_amount_of_calls_ = 0
   has_total_cost_of_calls_microdollars_ = 0
@@ -54,7 +54,7 @@ class AggregateRpcStatsProto(ProtocolBuffer.ProtocolMessage):
   def clear_service_call_name(self):
     if self.has_service_call_name_:
       self.has_service_call_name_ = 0
-      self.service_call_name_ = ""
+      self.service_call_name_ = b""
 
   def has_service_call_name(self): return self.has_service_call_name_
 
@@ -261,9 +261,9 @@ class AggregateRpcStatsProto(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.AggregateRpcStatsProto'
 class KeyValProto(ProtocolBuffer.ProtocolMessage):
   has_key_ = 0
-  key_ = ""
+  key_ = b""
   has_value_ = 0
-  value_ = ""
+  value_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -277,7 +277,7 @@ class KeyValProto(ProtocolBuffer.ProtocolMessage):
   def clear_key(self):
     if self.has_key_:
       self.has_key_ = 0
-      self.key_ = ""
+      self.key_ = b""
 
   def has_key(self): return self.has_key_
 
@@ -290,7 +290,7 @@ class KeyValProto(ProtocolBuffer.ProtocolMessage):
   def clear_value(self):
     if self.has_value_:
       self.has_value_ = 0
-      self.value_ = ""
+      self.value_ = b""
 
   def has_value(self): return self.has_value_
 
@@ -400,11 +400,11 @@ class KeyValProto(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.KeyValProto'
 class StackFrameProto(ProtocolBuffer.ProtocolMessage):
   has_class_or_file_name_ = 0
-  class_or_file_name_ = ""
+  class_or_file_name_ = b""
   has_line_number_ = 0
   line_number_ = 0
   has_function_name_ = 0
-  function_name_ = ""
+  function_name_ = b""
 
   def __init__(self, contents=None):
     self.variables_ = []
@@ -419,7 +419,7 @@ class StackFrameProto(ProtocolBuffer.ProtocolMessage):
   def clear_class_or_file_name(self):
     if self.has_class_or_file_name_:
       self.has_class_or_file_name_ = 0
-      self.class_or_file_name_ = ""
+      self.class_or_file_name_ = b""
 
   def has_class_or_file_name(self): return self.has_class_or_file_name_
 
@@ -445,7 +445,7 @@ class StackFrameProto(ProtocolBuffer.ProtocolMessage):
   def clear_function_name(self):
     if self.has_function_name_:
       self.has_function_name_ = 0
-      self.function_name_ = ""
+      self.function_name_ = b""
 
   def has_function_name(self): return self.has_function_name_
 
@@ -788,7 +788,7 @@ class BilledOpProto(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.BilledOpProto'
 class DatastoreCallDetailsProto(ProtocolBuffer.ProtocolMessage):
   has_query_kind_ = 0
-  query_kind_ = ""
+  query_kind_ = b""
   has_query_ancestor_ = 0
   query_ancestor_ = None
   has_query_thiscursor_ = 0
@@ -812,7 +812,7 @@ class DatastoreCallDetailsProto(ProtocolBuffer.ProtocolMessage):
   def clear_query_kind(self):
     if self.has_query_kind_:
       self.has_query_kind_ = 0
-      self.query_kind_ = ""
+      self.query_kind_ = b""
 
   def has_query_kind(self): return self.has_query_kind_
 
@@ -1148,11 +1148,11 @@ class DatastoreCallDetailsProto(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.DatastoreCallDetailsProto'
 class IndividualRpcStatsProto(ProtocolBuffer.ProtocolMessage):
   has_service_call_name_ = 0
-  service_call_name_ = ""
+  service_call_name_ = b""
   has_request_data_summary_ = 0
-  request_data_summary_ = ""
+  request_data_summary_ = b""
   has_response_data_summary_ = 0
-  response_data_summary_ = ""
+  response_data_summary_ = b""
   has_api_mcycles_ = 0
   api_mcycles_ = 0
   has_api_milliseconds_ = 0
@@ -1162,7 +1162,7 @@ class IndividualRpcStatsProto(ProtocolBuffer.ProtocolMessage):
   has_duration_milliseconds_ = 0
   duration_milliseconds_ = 0
   has_namespace_ = 0
-  namespace_ = ""
+  namespace_ = b""
   has_was_successful_ = 0
   was_successful_ = 1
   has_datastore_details_ = 0
@@ -1185,7 +1185,7 @@ class IndividualRpcStatsProto(ProtocolBuffer.ProtocolMessage):
   def clear_service_call_name(self):
     if self.has_service_call_name_:
       self.has_service_call_name_ = 0
-      self.service_call_name_ = ""
+      self.service_call_name_ = b""
 
   def has_service_call_name(self): return self.has_service_call_name_
 
@@ -1198,7 +1198,7 @@ class IndividualRpcStatsProto(ProtocolBuffer.ProtocolMessage):
   def clear_request_data_summary(self):
     if self.has_request_data_summary_:
       self.has_request_data_summary_ = 0
-      self.request_data_summary_ = ""
+      self.request_data_summary_ = b""
 
   def has_request_data_summary(self): return self.has_request_data_summary_
 
@@ -1211,7 +1211,7 @@ class IndividualRpcStatsProto(ProtocolBuffer.ProtocolMessage):
   def clear_response_data_summary(self):
     if self.has_response_data_summary_:
       self.has_response_data_summary_ = 0
-      self.response_data_summary_ = ""
+      self.response_data_summary_ = b""
 
   def has_response_data_summary(self): return self.has_response_data_summary_
 
@@ -1276,7 +1276,7 @@ class IndividualRpcStatsProto(ProtocolBuffer.ProtocolMessage):
   def clear_namespace(self):
     if self.has_namespace_:
       self.has_namespace_ = 0
-      self.namespace_ = ""
+      self.namespace_ = b""
 
   def has_namespace(self): return self.has_namespace_
 
@@ -1721,7 +1721,7 @@ class RequestStatProto(ProtocolBuffer.ProtocolMessage):
   has_http_path_ = 0
   http_path_ = "/"
   has_http_query_ = 0
-  http_query_ = ""
+  http_query_ = b""
   has_http_status_ = 0
   http_status_ = 200
   has_duration_milliseconds_ = 0
@@ -1733,7 +1733,7 @@ class RequestStatProto(ProtocolBuffer.ProtocolMessage):
   has_overhead_walltime_milliseconds_ = 0
   overhead_walltime_milliseconds_ = 0
   has_user_email_ = 0
-  user_email_ = ""
+  user_email_ = b""
   has_is_admin_ = 0
   is_admin_ = 0
 
@@ -1791,7 +1791,7 @@ class RequestStatProto(ProtocolBuffer.ProtocolMessage):
   def clear_http_query(self):
     if self.has_http_query_:
       self.has_http_query_ = 0
-      self.http_query_ = ""
+      self.http_query_ = b""
 
   def has_http_query(self): return self.has_http_query_
 
@@ -1901,7 +1901,7 @@ class RequestStatProto(ProtocolBuffer.ProtocolMessage):
   def clear_user_email(self):
     if self.has_user_email_:
       self.has_user_email_ = 0
-      self.user_email_ = ""
+      self.user_email_ = b""
 
   def has_user_email(self): return self.has_user_email_
 

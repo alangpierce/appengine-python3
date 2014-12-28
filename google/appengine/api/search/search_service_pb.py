@@ -125,7 +125,7 @@ class RequestStatus(ProtocolBuffer.ProtocolMessage):
   has_code_ = 0
   code_ = 0
   has_error_detail_ = 0
-  error_detail_ = ""
+  error_detail_ = b""
   has_canonical_code_ = 0
   canonical_code_ = 0
 
@@ -154,7 +154,7 @@ class RequestStatus(ProtocolBuffer.ProtocolMessage):
   def clear_error_detail(self):
     if self.has_error_detail_:
       self.has_error_detail_ = 0
-      self.error_detail_ = ""
+      self.error_detail_ = b""
 
   def has_error_detail(self): return self.has_error_detail_
 
@@ -332,11 +332,11 @@ class IndexSpec(ProtocolBuffer.ProtocolMessage):
   Mode_Name = classmethod(Mode_Name)
 
   has_name_ = 0
-  name_ = ""
+  name_ = b""
   has_consistency_ = 0
   consistency_ = 1
   has_namespace_ = 0
-  namespace_ = ""
+  namespace_ = b""
   has_version_ = 0
   version_ = 0
   has_source_ = 0
@@ -356,7 +356,7 @@ class IndexSpec(ProtocolBuffer.ProtocolMessage):
   def clear_name(self):
     if self.has_name_:
       self.has_name_ = 0
-      self.name_ = ""
+      self.name_ = b""
 
   def has_name(self): return self.has_name_
 
@@ -382,7 +382,7 @@ class IndexSpec(ProtocolBuffer.ProtocolMessage):
   def clear_namespace(self):
     if self.has_namespace_:
       self.has_namespace_ = 0
-      self.namespace_ = ""
+      self.namespace_ = b""
 
   def has_namespace(self): return self.has_namespace_
 
@@ -1143,7 +1143,7 @@ class IndexDocumentParams(ProtocolBuffer.ProtocolMessage):
 class IndexDocumentRequest(ProtocolBuffer.ProtocolMessage):
   has_params_ = 0
   has_app_id_ = 0
-  app_id_ = ""
+  app_id_ = b""
 
   def __init__(self, contents=None):
     self.params_ = IndexDocumentParams()
@@ -1166,7 +1166,7 @@ class IndexDocumentRequest(ProtocolBuffer.ProtocolMessage):
   def clear_app_id(self):
     if self.has_app_id_:
       self.has_app_id_ = 0
-      self.app_id_ = ""
+      self.app_id_ = b""
 
   def has_app_id(self): return self.has_app_id_
 
@@ -1585,7 +1585,7 @@ class DeleteDocumentParams(ProtocolBuffer.ProtocolMessage):
 class DeleteDocumentRequest(ProtocolBuffer.ProtocolMessage):
   has_params_ = 0
   has_app_id_ = 0
-  app_id_ = ""
+  app_id_ = b""
 
   def __init__(self, contents=None):
     self.params_ = DeleteDocumentParams()
@@ -1608,7 +1608,7 @@ class DeleteDocumentRequest(ProtocolBuffer.ProtocolMessage):
   def clear_app_id(self):
     if self.has_app_id_:
       self.has_app_id_ = 0
-      self.app_id_ = ""
+      self.app_id_ = b""
 
   def has_app_id(self): return self.has_app_id_
 
@@ -1837,7 +1837,7 @@ class DeleteDocumentResponse(ProtocolBuffer.ProtocolMessage):
 class ListDocumentsParams(ProtocolBuffer.ProtocolMessage):
   has_index_spec_ = 0
   has_start_doc_id_ = 0
-  start_doc_id_ = ""
+  start_doc_id_ = b""
   has_include_start_doc_ = 0
   include_start_doc_ = 1
   has_limit_ = 0
@@ -1866,7 +1866,7 @@ class ListDocumentsParams(ProtocolBuffer.ProtocolMessage):
   def clear_start_doc_id(self):
     if self.has_start_doc_id_:
       self.has_start_doc_id_ = 0
-      self.start_doc_id_ = ""
+      self.start_doc_id_ = b""
 
   def has_start_doc_id(self): return self.has_start_doc_id_
 
@@ -2077,7 +2077,7 @@ class ListDocumentsParams(ProtocolBuffer.ProtocolMessage):
 class ListDocumentsRequest(ProtocolBuffer.ProtocolMessage):
   has_params_ = 0
   has_app_id_ = 0
-  app_id_ = ""
+  app_id_ = b""
 
   def __init__(self, contents=None):
     self.params_ = ListDocumentsParams()
@@ -2100,7 +2100,7 @@ class ListDocumentsRequest(ProtocolBuffer.ProtocolMessage):
   def clear_app_id(self):
     if self.has_app_id_:
       self.has_app_id_ = 0
-      self.app_id_ = ""
+      self.app_id_ = b""
 
   def has_app_id(self): return self.has_app_id_
 
@@ -2375,13 +2375,13 @@ class ListIndexesParams(ProtocolBuffer.ProtocolMessage):
   has_limit_ = 0
   limit_ = 20
   has_namespace_ = 0
-  namespace_ = ""
+  namespace_ = b""
   has_start_index_name_ = 0
-  start_index_name_ = ""
+  start_index_name_ = b""
   has_include_start_index_ = 0
   include_start_index_ = 1
   has_index_name_prefix_ = 0
-  index_name_prefix_ = ""
+  index_name_prefix_ = b""
   has_offset_ = 0
   offset_ = 0
   has_source_ = 0
@@ -2425,7 +2425,7 @@ class ListIndexesParams(ProtocolBuffer.ProtocolMessage):
   def clear_namespace(self):
     if self.has_namespace_:
       self.has_namespace_ = 0
-      self.namespace_ = ""
+      self.namespace_ = b""
 
   def has_namespace(self): return self.has_namespace_
 
@@ -2438,7 +2438,7 @@ class ListIndexesParams(ProtocolBuffer.ProtocolMessage):
   def clear_start_index_name(self):
     if self.has_start_index_name_:
       self.has_start_index_name_ = 0
-      self.start_index_name_ = ""
+      self.start_index_name_ = b""
 
   def has_start_index_name(self): return self.has_start_index_name_
 
@@ -2464,7 +2464,7 @@ class ListIndexesParams(ProtocolBuffer.ProtocolMessage):
   def clear_index_name_prefix(self):
     if self.has_index_name_prefix_:
       self.has_index_name_prefix_ = 0
-      self.index_name_prefix_ = ""
+      self.index_name_prefix_ = b""
 
   def has_index_name_prefix(self): return self.has_index_name_prefix_
 
@@ -2705,7 +2705,7 @@ class ListIndexesParams(ProtocolBuffer.ProtocolMessage):
 class ListIndexesRequest(ProtocolBuffer.ProtocolMessage):
   has_params_ = 0
   has_app_id_ = 0
-  app_id_ = ""
+  app_id_ = b""
 
   def __init__(self, contents=None):
     self.params_ = ListIndexesParams()
@@ -2728,7 +2728,7 @@ class ListIndexesRequest(ProtocolBuffer.ProtocolMessage):
   def clear_app_id(self):
     if self.has_app_id_:
       self.has_app_id_ = 0
-      self.app_id_ = ""
+      self.app_id_ = b""
 
   def has_app_id(self): return self.has_app_id_
 
@@ -3148,7 +3148,7 @@ class DeleteSchemaParams(ProtocolBuffer.ProtocolMessage):
 class DeleteSchemaRequest(ProtocolBuffer.ProtocolMessage):
   has_params_ = 0
   has_app_id_ = 0
-  app_id_ = ""
+  app_id_ = b""
 
   def __init__(self, contents=None):
     self.params_ = DeleteSchemaParams()
@@ -3171,7 +3171,7 @@ class DeleteSchemaRequest(ProtocolBuffer.ProtocolMessage):
   def clear_app_id(self):
     if self.has_app_id_:
       self.has_app_id_ = 0
-      self.app_id_ = ""
+      self.app_id_ = b""
 
   def has_app_id(self): return self.has_app_id_
 
@@ -3399,11 +3399,11 @@ class DeleteSchemaResponse(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.DeleteSchemaResponse'
 class SortSpec(ProtocolBuffer.ProtocolMessage):
   has_sort_expression_ = 0
-  sort_expression_ = ""
+  sort_expression_ = b""
   has_sort_descending_ = 0
   sort_descending_ = 1
   has_default_value_text_ = 0
-  default_value_text_ = ""
+  default_value_text_ = b""
   has_default_value_numeric_ = 0
   default_value_numeric_ = 0.0
 
@@ -3419,7 +3419,7 @@ class SortSpec(ProtocolBuffer.ProtocolMessage):
   def clear_sort_expression(self):
     if self.has_sort_expression_:
       self.has_sort_expression_ = 0
-      self.sort_expression_ = ""
+      self.sort_expression_ = b""
 
   def has_sort_expression(self): return self.has_sort_expression_
 
@@ -3445,7 +3445,7 @@ class SortSpec(ProtocolBuffer.ProtocolMessage):
   def clear_default_value_text(self):
     if self.has_default_value_text_:
       self.has_default_value_text_ = 0
-      self.default_value_text_ = ""
+      self.default_value_text_ = b""
 
   def has_default_value_text(self): return self.has_default_value_text_
 
@@ -3618,7 +3618,7 @@ class ScorerSpec(ProtocolBuffer.ProtocolMessage):
   has_limit_ = 0
   limit_ = 1000
   has_match_scorer_parameters_ = 0
-  match_scorer_parameters_ = ""
+  match_scorer_parameters_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -3658,7 +3658,7 @@ class ScorerSpec(ProtocolBuffer.ProtocolMessage):
   def clear_match_scorer_parameters(self):
     if self.has_match_scorer_parameters_:
       self.has_match_scorer_parameters_ = 0
-      self.match_scorer_parameters_ = ""
+      self.match_scorer_parameters_ = b""
 
   def has_match_scorer_parameters(self): return self.has_match_scorer_parameters_
 
@@ -3777,9 +3777,9 @@ class ScorerSpec(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.ScorerSpec'
 class FieldSpec_Expression(ProtocolBuffer.ProtocolMessage):
   has_name_ = 0
-  name_ = ""
+  name_ = b""
   has_expression_ = 0
-  expression_ = ""
+  expression_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -3793,7 +3793,7 @@ class FieldSpec_Expression(ProtocolBuffer.ProtocolMessage):
   def clear_name(self):
     if self.has_name_:
       self.has_name_ = 0
-      self.name_ = ""
+      self.name_ = b""
 
   def has_name(self): return self.has_name_
 
@@ -3806,7 +3806,7 @@ class FieldSpec_Expression(ProtocolBuffer.ProtocolMessage):
   def clear_expression(self):
     if self.has_expression_:
       self.has_expression_ = 0
-      self.expression_ = ""
+      self.expression_ = b""
 
   def has_expression(self): return self.has_expression_
 
@@ -4054,11 +4054,11 @@ class FieldSpec(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.FieldSpec'
 class FacetRange(ProtocolBuffer.ProtocolMessage):
   has_name_ = 0
-  name_ = ""
+  name_ = b""
   has_start_ = 0
-  start_ = ""
+  start_ = b""
   has_end_ = 0
-  end_ = ""
+  end_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -4072,7 +4072,7 @@ class FacetRange(ProtocolBuffer.ProtocolMessage):
   def clear_name(self):
     if self.has_name_:
       self.has_name_ = 0
-      self.name_ = ""
+      self.name_ = b""
 
   def has_name(self): return self.has_name_
 
@@ -4085,7 +4085,7 @@ class FacetRange(ProtocolBuffer.ProtocolMessage):
   def clear_start(self):
     if self.has_start_:
       self.has_start_ = 0
-      self.start_ = ""
+      self.start_ = b""
 
   def has_start(self): return self.has_start_
 
@@ -4098,7 +4098,7 @@ class FacetRange(ProtocolBuffer.ProtocolMessage):
   def clear_end(self):
     if self.has_end_:
       self.has_end_ = 0
-      self.end_ = ""
+      self.end_ = b""
 
   def has_end(self): return self.has_end_
 
@@ -4503,7 +4503,7 @@ class FacetAutoDetectParam(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.FacetAutoDetectParam'
 class FacetRequest(ProtocolBuffer.ProtocolMessage):
   has_name_ = 0
-  name_ = ""
+  name_ = b""
   has_params_ = 0
   params_ = None
 
@@ -4520,7 +4520,7 @@ class FacetRequest(ProtocolBuffer.ProtocolMessage):
   def clear_name(self):
     if self.has_name_:
       self.has_name_ = 0
-      self.name_ = ""
+      self.name_ = b""
 
   def has_name(self): return self.has_name_
 
@@ -4653,9 +4653,9 @@ class FacetRequest(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.FacetRequest'
 class FacetRefinement_Range(ProtocolBuffer.ProtocolMessage):
   has_start_ = 0
-  start_ = ""
+  start_ = b""
   has_end_ = 0
-  end_ = ""
+  end_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -4669,7 +4669,7 @@ class FacetRefinement_Range(ProtocolBuffer.ProtocolMessage):
   def clear_start(self):
     if self.has_start_:
       self.has_start_ = 0
-      self.start_ = ""
+      self.start_ = b""
 
   def has_start(self): return self.has_start_
 
@@ -4682,7 +4682,7 @@ class FacetRefinement_Range(ProtocolBuffer.ProtocolMessage):
   def clear_end(self):
     if self.has_end_:
       self.has_end_ = 0
-      self.end_ = ""
+      self.end_ = b""
 
   def has_end(self): return self.has_end_
 
@@ -4782,9 +4782,9 @@ class FacetRefinement_Range(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.FacetRefinement_Range'
 class FacetRefinement(ProtocolBuffer.ProtocolMessage):
   has_name_ = 0
-  name_ = ""
+  name_ = b""
   has_value_ = 0
-  value_ = ""
+  value_ = b""
   has_range_ = 0
   range_ = None
 
@@ -4801,7 +4801,7 @@ class FacetRefinement(ProtocolBuffer.ProtocolMessage):
   def clear_name(self):
     if self.has_name_:
       self.has_name_ = 0
-      self.name_ = ""
+      self.name_ = b""
 
   def has_name(self): return self.has_name_
 
@@ -4814,7 +4814,7 @@ class FacetRefinement(ProtocolBuffer.ProtocolMessage):
   def clear_value(self):
     if self.has_value_:
       self.has_value_ = 0
-      self.value_ = ""
+      self.value_ = b""
 
   def has_value(self): return self.has_value_
 
@@ -4995,9 +4995,9 @@ class SearchParams(ProtocolBuffer.ProtocolMessage):
 
   has_index_spec_ = 0
   has_query_ = 0
-  query_ = ""
+  query_ = b""
   has_cursor_ = 0
-  cursor_ = ""
+  cursor_ = b""
   has_offset_ = 0
   offset_ = 0
   has_cursor_type_ = 0
@@ -5046,7 +5046,7 @@ class SearchParams(ProtocolBuffer.ProtocolMessage):
   def clear_query(self):
     if self.has_query_:
       self.has_query_ = 0
-      self.query_ = ""
+      self.query_ = b""
 
   def has_query(self): return self.has_query_
 
@@ -5059,7 +5059,7 @@ class SearchParams(ProtocolBuffer.ProtocolMessage):
   def clear_cursor(self):
     if self.has_cursor_:
       self.has_cursor_ = 0
-      self.cursor_ = ""
+      self.cursor_ = b""
 
   def has_cursor(self): return self.has_cursor_
 
@@ -5751,7 +5751,7 @@ class SearchParams(ProtocolBuffer.ProtocolMessage):
 class SearchRequest(ProtocolBuffer.ProtocolMessage):
   has_params_ = 0
   has_app_id_ = 0
-  app_id_ = ""
+  app_id_ = b""
 
   def __init__(self, contents=None):
     self.params_ = SearchParams()
@@ -5774,7 +5774,7 @@ class SearchRequest(ProtocolBuffer.ProtocolMessage):
   def clear_app_id(self):
     if self.has_app_id_:
       self.has_app_id_ = 0
-      self.app_id_ = ""
+      self.app_id_ = b""
 
   def has_app_id(self): return self.has_app_id_
 
@@ -5888,7 +5888,7 @@ class SearchRequest(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.SearchRequest'
 class FacetResultValue(ProtocolBuffer.ProtocolMessage):
   has_name_ = 0
-  name_ = ""
+  name_ = b""
   has_count_ = 0
   count_ = 0
   has_refinement_ = 0
@@ -5906,7 +5906,7 @@ class FacetResultValue(ProtocolBuffer.ProtocolMessage):
   def clear_name(self):
     if self.has_name_:
       self.has_name_ = 0
-      self.name_ = ""
+      self.name_ = b""
 
   def has_name(self): return self.has_name_
 
@@ -6070,7 +6070,7 @@ class FacetResultValue(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.FacetResultValue'
 class FacetResult(ProtocolBuffer.ProtocolMessage):
   has_name_ = 0
-  name_ = ""
+  name_ = b""
 
   def __init__(self, contents=None):
     self.value_ = []
@@ -6085,7 +6085,7 @@ class FacetResult(ProtocolBuffer.ProtocolMessage):
   def clear_name(self):
     if self.has_name_:
       self.has_name_ = 0
-      self.name_ = ""
+      self.name_ = b""
 
   def has_name(self): return self.has_name_
 
@@ -6224,7 +6224,7 @@ class FacetResult(ProtocolBuffer.ProtocolMessage):
 class SearchResult(ProtocolBuffer.ProtocolMessage):
   has_document_ = 0
   has_cursor_ = 0
-  cursor_ = ""
+  cursor_ = b""
 
   def __init__(self, contents=None):
     self.document_ = Document()
@@ -6280,7 +6280,7 @@ class SearchResult(ProtocolBuffer.ProtocolMessage):
   def clear_cursor(self):
     if self.has_cursor_:
       self.has_cursor_ = 0
-      self.cursor_ = ""
+      self.cursor_ = b""
 
   def has_cursor(self): return self.has_cursor_
 
@@ -6458,7 +6458,7 @@ class SearchResponse(_ExtendableProtocolMessage):
   matched_count_ = 0
   has_status_ = 0
   has_cursor_ = 0
-  cursor_ = ""
+  cursor_ = b""
 
   def __init__(self, contents=None):
     if _extension_runtime:
@@ -6514,7 +6514,7 @@ class SearchResponse(_ExtendableProtocolMessage):
   def clear_cursor(self):
     if self.has_cursor_:
       self.has_cursor_ = 0
-      self.cursor_ = ""
+      self.cursor_ = b""
 
   def has_cursor(self): return self.has_cursor_
 

@@ -119,15 +119,15 @@ class MemcacheServiceError(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.MemcacheServiceError'
 class AppOverride(ProtocolBuffer.ProtocolMessage):
   has_app_id_ = 0
-  app_id_ = ""
+  app_id_ = b""
   has_num_memcacheg_backends_ = 0
   num_memcacheg_backends_ = 0
   has_ignore_shardlock_ = 0
   ignore_shardlock_ = 0
   has_memcache_pool_hint_ = 0
-  memcache_pool_hint_ = ""
+  memcache_pool_hint_ = b""
   has_memcache_sharding_strategy_ = 0
-  memcache_sharding_strategy_ = ""
+  memcache_sharding_strategy_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -141,7 +141,7 @@ class AppOverride(ProtocolBuffer.ProtocolMessage):
   def clear_app_id(self):
     if self.has_app_id_:
       self.has_app_id_ = 0
-      self.app_id_ = ""
+      self.app_id_ = b""
 
   def has_app_id(self): return self.has_app_id_
 
@@ -180,7 +180,7 @@ class AppOverride(ProtocolBuffer.ProtocolMessage):
   def clear_memcache_pool_hint(self):
     if self.has_memcache_pool_hint_:
       self.has_memcache_pool_hint_ = 0
-      self.memcache_pool_hint_ = ""
+      self.memcache_pool_hint_ = b""
 
   def has_memcache_pool_hint(self): return self.has_memcache_pool_hint_
 
@@ -193,7 +193,7 @@ class AppOverride(ProtocolBuffer.ProtocolMessage):
   def clear_memcache_sharding_strategy(self):
     if self.has_memcache_sharding_strategy_:
       self.has_memcache_sharding_strategy_ = 0
-      self.memcache_sharding_strategy_ = ""
+      self.memcache_sharding_strategy_ = b""
 
   def has_memcache_sharding_strategy(self): return self.has_memcache_sharding_strategy_
 
@@ -355,7 +355,7 @@ class AppOverride(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.AppOverride'
 class MemcacheGetRequest(ProtocolBuffer.ProtocolMessage):
   has_name_space_ = 0
-  name_space_ = ""
+  name_space_ = b""
   has_for_cas_ = 0
   for_cas_ = 0
   has_override_ = 0
@@ -390,7 +390,7 @@ class MemcacheGetRequest(ProtocolBuffer.ProtocolMessage):
   def clear_name_space(self):
     if self.has_name_space_:
       self.has_name_space_ = 0
-      self.name_space_ = ""
+      self.name_space_ = b""
 
   def has_name_space(self): return self.has_name_space_
 
@@ -577,9 +577,9 @@ class MemcacheGetRequest(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.MemcacheGetRequest'
 class MemcacheGetResponse_Item(ProtocolBuffer.ProtocolMessage):
   has_key_ = 0
-  key_ = ""
+  key_ = b""
   has_value_ = 0
-  value_ = ""
+  value_ = b""
   has_flags_ = 0
   flags_ = 0
   has_cas_id_ = 0
@@ -599,7 +599,7 @@ class MemcacheGetResponse_Item(ProtocolBuffer.ProtocolMessage):
   def clear_key(self):
     if self.has_key_:
       self.has_key_ = 0
-      self.key_ = ""
+      self.key_ = b""
 
   def has_key(self): return self.has_key_
 
@@ -612,7 +612,7 @@ class MemcacheGetResponse_Item(ProtocolBuffer.ProtocolMessage):
   def clear_value(self):
     if self.has_value_:
       self.has_value_ = 0
-      self.value_ = ""
+      self.value_ = b""
 
   def has_value(self): return self.has_value_
 
@@ -913,9 +913,9 @@ class MemcacheGetResponse(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.MemcacheGetResponse'
 class MemcacheSetRequest_Item(ProtocolBuffer.ProtocolMessage):
   has_key_ = 0
-  key_ = ""
+  key_ = b""
   has_value_ = 0
-  value_ = ""
+  value_ = b""
   has_flags_ = 0
   flags_ = 0
   has_set_policy_ = 0
@@ -939,7 +939,7 @@ class MemcacheSetRequest_Item(ProtocolBuffer.ProtocolMessage):
   def clear_key(self):
     if self.has_key_:
       self.has_key_ = 0
-      self.key_ = ""
+      self.key_ = b""
 
   def has_key(self): return self.has_key_
 
@@ -952,7 +952,7 @@ class MemcacheSetRequest_Item(ProtocolBuffer.ProtocolMessage):
   def clear_value(self):
     if self.has_value_:
       self.has_value_ = 0
-      self.value_ = ""
+      self.value_ = b""
 
   def has_value(self): return self.has_value_
 
@@ -1202,7 +1202,7 @@ class MemcacheSetRequest(ProtocolBuffer.ProtocolMessage):
   SetPolicy_Name = classmethod(SetPolicy_Name)
 
   has_name_space_ = 0
-  name_space_ = ""
+  name_space_ = b""
   has_override_ = 0
   override_ = None
 
@@ -1236,7 +1236,7 @@ class MemcacheSetRequest(ProtocolBuffer.ProtocolMessage):
   def clear_name_space(self):
     if self.has_name_space_:
       self.has_name_space_ = 0
-      self.name_space_ = ""
+      self.name_space_ = b""
 
   def has_name_space(self): return self.has_name_space_
 
@@ -1539,7 +1539,7 @@ class MemcacheSetResponse(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.MemcacheSetResponse'
 class MemcacheDeleteRequest_Item(ProtocolBuffer.ProtocolMessage):
   has_key_ = 0
-  key_ = ""
+  key_ = b""
   has_delete_time_ = 0
   delete_time_ = 0
 
@@ -1555,7 +1555,7 @@ class MemcacheDeleteRequest_Item(ProtocolBuffer.ProtocolMessage):
   def clear_key(self):
     if self.has_key_:
       self.has_key_ = 0
-      self.key_ = ""
+      self.key_ = b""
 
   def has_key(self): return self.has_key_
 
@@ -1651,7 +1651,7 @@ class MemcacheDeleteRequest_Item(ProtocolBuffer.ProtocolMessage):
 
 class MemcacheDeleteRequest(ProtocolBuffer.ProtocolMessage):
   has_name_space_ = 0
-  name_space_ = ""
+  name_space_ = b""
   has_override_ = 0
   override_ = None
 
@@ -1685,7 +1685,7 @@ class MemcacheDeleteRequest(ProtocolBuffer.ProtocolMessage):
   def clear_name_space(self):
     if self.has_name_space_:
       self.has_name_space_ = 0
-      self.name_space_ = ""
+      self.name_space_ = b""
 
   def has_name_space(self): return self.has_name_space_
 
@@ -1982,9 +1982,9 @@ class MemcacheIncrementRequest(ProtocolBuffer.ProtocolMessage):
   Direction_Name = classmethod(Direction_Name)
 
   has_key_ = 0
-  key_ = ""
+  key_ = b""
   has_name_space_ = 0
-  name_space_ = ""
+  name_space_ = b""
   has_delta_ = 0
   delta_ = 1
   has_direction_ = 0
@@ -2009,7 +2009,7 @@ class MemcacheIncrementRequest(ProtocolBuffer.ProtocolMessage):
   def clear_key(self):
     if self.has_key_:
       self.has_key_ = 0
-      self.key_ = ""
+      self.key_ = b""
 
   def has_key(self): return self.has_key_
 
@@ -2022,7 +2022,7 @@ class MemcacheIncrementRequest(ProtocolBuffer.ProtocolMessage):
   def clear_name_space(self):
     if self.has_name_space_:
       self.has_name_space_ = 0
-      self.name_space_ = ""
+      self.name_space_ = b""
 
   def has_name_space(self): return self.has_name_space_
 
@@ -2446,7 +2446,7 @@ class MemcacheIncrementResponse(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.MemcacheIncrementResponse'
 class MemcacheBatchIncrementRequest(ProtocolBuffer.ProtocolMessage):
   has_name_space_ = 0
-  name_space_ = ""
+  name_space_ = b""
   has_override_ = 0
   override_ = None
 
@@ -2464,7 +2464,7 @@ class MemcacheBatchIncrementRequest(ProtocolBuffer.ProtocolMessage):
   def clear_name_space(self):
     if self.has_name_space_:
       self.has_name_space_ = 0
-      self.name_space_ = ""
+      self.name_space_ = b""
 
   def has_name_space(self): return self.has_name_space_
 
@@ -3451,7 +3451,7 @@ class MemcacheGrabTailRequest(ProtocolBuffer.ProtocolMessage):
   has_item_count_ = 0
   item_count_ = 0
   has_name_space_ = 0
-  name_space_ = ""
+  name_space_ = b""
   has_override_ = 0
   override_ = None
 
@@ -3481,7 +3481,7 @@ class MemcacheGrabTailRequest(ProtocolBuffer.ProtocolMessage):
   def clear_name_space(self):
     if self.has_name_space_:
       self.has_name_space_ = 0
-      self.name_space_ = ""
+      self.name_space_ = b""
 
   def has_name_space(self): return self.has_name_space_
 
@@ -3633,7 +3633,7 @@ class MemcacheGrabTailRequest(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.MemcacheGrabTailRequest'
 class MemcacheGrabTailResponse_Item(ProtocolBuffer.ProtocolMessage):
   has_value_ = 0
-  value_ = ""
+  value_ = b""
   has_flags_ = 0
   flags_ = 0
 
@@ -3649,7 +3649,7 @@ class MemcacheGrabTailResponse_Item(ProtocolBuffer.ProtocolMessage):
   def clear_value(self):
     if self.has_value_:
       self.has_value_ = 0
-      self.value_ = ""
+      self.value_ = b""
 
   def has_value(self): return self.has_value_
 

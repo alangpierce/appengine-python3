@@ -49,9 +49,9 @@ class PartitionId(ProtocolBuffer.ProtocolMessage):
   Constants_Name = classmethod(Constants_Name)
 
   has_dataset_id_ = 0
-  dataset_id_ = ""
+  dataset_id_ = b""
   has_namespace_ = 0
-  namespace_ = ""
+  namespace_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -65,7 +65,7 @@ class PartitionId(ProtocolBuffer.ProtocolMessage):
   def clear_dataset_id(self):
     if self.has_dataset_id_:
       self.has_dataset_id_ = 0
-      self.dataset_id_ = ""
+      self.dataset_id_ = b""
 
   def has_dataset_id(self): return self.has_dataset_id_
 
@@ -78,7 +78,7 @@ class PartitionId(ProtocolBuffer.ProtocolMessage):
   def clear_namespace(self):
     if self.has_namespace_:
       self.has_namespace_ = 0
-      self.namespace_ = ""
+      self.namespace_ = b""
 
   def has_namespace(self): return self.has_namespace_
 
@@ -211,11 +211,11 @@ class PartitionId(ProtocolBuffer.ProtocolMessage):
 
 class Key_PathElement(ProtocolBuffer.ProtocolMessage):
   has_kind_ = 0
-  kind_ = ""
+  kind_ = b""
   has_id_ = 0
   id_ = 0
   has_name_ = 0
-  name_ = ""
+  name_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -229,7 +229,7 @@ class Key_PathElement(ProtocolBuffer.ProtocolMessage):
   def clear_kind(self):
     if self.has_kind_:
       self.has_kind_ = 0
-      self.kind_ = ""
+      self.kind_ = b""
 
   def has_kind(self): return self.has_kind_
 
@@ -255,7 +255,7 @@ class Key_PathElement(ProtocolBuffer.ProtocolMessage):
   def clear_name(self):
     if self.has_name_:
       self.has_name_ = 0
-      self.name_ = ""
+      self.name_ = b""
 
   def has_name(self): return self.has_name_
 
@@ -787,11 +787,11 @@ class Value(ProtocolBuffer.ProtocolMessage):
   has_key_value_ = 0
   key_value_ = None
   has_blob_key_value_ = 0
-  blob_key_value_ = ""
+  blob_key_value_ = b""
   has_string_value_ = 0
-  string_value_ = ""
+  string_value_ = b""
   has_blob_value_ = 0
-  blob_value_ = ""
+  blob_value_ = b""
   has_entity_value_ = 0
   entity_value_ = None
   has_geo_point_value_ = 0
@@ -886,7 +886,7 @@ class Value(ProtocolBuffer.ProtocolMessage):
   def clear_blob_key_value(self):
     if self.has_blob_key_value_:
       self.has_blob_key_value_ = 0
-      self.blob_key_value_ = ""
+      self.blob_key_value_ = b""
 
   def has_blob_key_value(self): return self.has_blob_key_value_
 
@@ -899,7 +899,7 @@ class Value(ProtocolBuffer.ProtocolMessage):
   def clear_string_value(self):
     if self.has_string_value_:
       self.has_string_value_ = 0
-      self.string_value_ = ""
+      self.string_value_ = b""
 
   def has_string_value(self): return self.has_string_value_
 
@@ -912,7 +912,7 @@ class Value(ProtocolBuffer.ProtocolMessage):
   def clear_blob_value(self):
     if self.has_blob_value_:
       self.has_blob_value_ = 0
-      self.blob_value_ = ""
+      self.blob_value_ = b""
 
   def has_blob_value(self): return self.has_blob_value_
 
@@ -1378,7 +1378,7 @@ class Value(ProtocolBuffer.ProtocolMessage):
 
 class Property(ProtocolBuffer.ProtocolMessage):
   has_name_ = 0
-  name_ = ""
+  name_ = b""
   has_deprecated_multi_ = 0
   deprecated_multi_ = 0
   has_value_ = 0
@@ -1398,7 +1398,7 @@ class Property(ProtocolBuffer.ProtocolMessage):
   def clear_name(self):
     if self.has_name_:
       self.has_name_ = 0
-      self.name_ = ""
+      self.name_ = b""
 
   def has_name(self): return self.has_name_
 

@@ -37,13 +37,13 @@ from google.appengine.datastore.entity_pb import *
 import google.appengine.datastore.entity_pb
 class Request(ProtocolBuffer.ProtocolMessage):
   has_service_name_ = 0
-  service_name_ = ""
+  service_name_ = b""
   has_method_ = 0
-  method_ = ""
+  method_ = b""
   has_request_ = 0
-  request_ = ""
+  request_ = b""
   has_request_id_ = 0
-  request_id_ = ""
+  request_id_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -57,7 +57,7 @@ class Request(ProtocolBuffer.ProtocolMessage):
   def clear_service_name(self):
     if self.has_service_name_:
       self.has_service_name_ = 0
-      self.service_name_ = ""
+      self.service_name_ = b""
 
   def has_service_name(self): return self.has_service_name_
 
@@ -70,7 +70,7 @@ class Request(ProtocolBuffer.ProtocolMessage):
   def clear_method(self):
     if self.has_method_:
       self.has_method_ = 0
-      self.method_ = ""
+      self.method_ = b""
 
   def has_method(self): return self.has_method_
 
@@ -83,7 +83,7 @@ class Request(ProtocolBuffer.ProtocolMessage):
   def clear_request(self):
     if self.has_request_:
       self.has_request_ = 0
-      self.request_ = ""
+      self.request_ = b""
 
   def has_request(self): return self.has_request_
 
@@ -96,7 +96,7 @@ class Request(ProtocolBuffer.ProtocolMessage):
   def clear_request_id(self):
     if self.has_request_id_:
       self.has_request_id_ = 0
-      self.request_id_ = ""
+      self.request_id_ = b""
 
   def has_request_id(self): return self.has_request_id_
 
@@ -251,7 +251,7 @@ class ApplicationError(ProtocolBuffer.ProtocolMessage):
   has_code_ = 0
   code_ = 0
   has_detail_ = 0
-  detail_ = ""
+  detail_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -278,7 +278,7 @@ class ApplicationError(ProtocolBuffer.ProtocolMessage):
   def clear_detail(self):
     if self.has_detail_:
       self.has_detail_ = 0
-      self.detail_ = ""
+      self.detail_ = b""
 
   def has_detail(self): return self.has_detail_
 
@@ -425,7 +425,7 @@ class RpcError(ProtocolBuffer.ProtocolMessage):
   has_code_ = 0
   code_ = 0
   has_detail_ = 0
-  detail_ = ""
+  detail_ = b""
 
   def __init__(self, contents=None):
     if contents is not None: self.MergeFromString(contents)
@@ -452,7 +452,7 @@ class RpcError(ProtocolBuffer.ProtocolMessage):
   def clear_detail(self):
     if self.has_detail_:
       self.has_detail_ = 0
-      self.detail_ = ""
+      self.detail_ = b""
 
   def has_detail(self): return self.has_detail_
 
@@ -557,13 +557,13 @@ class RpcError(ProtocolBuffer.ProtocolMessage):
   _PROTO_DESCRIPTOR_NAME = 'apphosting.ext.remote_api.RpcError'
 class Response(ProtocolBuffer.ProtocolMessage):
   has_response_ = 0
-  response_ = ""
+  response_ = b""
   has_exception_ = 0
-  exception_ = ""
+  exception_ = b""
   has_application_error_ = 0
   application_error_ = None
   has_java_exception_ = 0
-  java_exception_ = ""
+  java_exception_ = b""
   has_rpc_error_ = 0
   rpc_error_ = None
 
@@ -580,7 +580,7 @@ class Response(ProtocolBuffer.ProtocolMessage):
   def clear_response(self):
     if self.has_response_:
       self.has_response_ = 0
-      self.response_ = ""
+      self.response_ = b""
 
   def has_response(self): return self.has_response_
 
@@ -593,7 +593,7 @@ class Response(ProtocolBuffer.ProtocolMessage):
   def clear_exception(self):
     if self.has_exception_:
       self.has_exception_ = 0
-      self.exception_ = ""
+      self.exception_ = b""
 
   def has_exception(self): return self.has_exception_
 
@@ -625,7 +625,7 @@ class Response(ProtocolBuffer.ProtocolMessage):
   def clear_java_exception(self):
     if self.has_java_exception_:
       self.has_java_exception_ = 0
-      self.java_exception_ = ""
+      self.java_exception_ = b""
 
   def has_java_exception(self): return self.has_java_exception_
 
@@ -820,7 +820,7 @@ class Response(ProtocolBuffer.ProtocolMessage):
 class TransactionRequest_Precondition(ProtocolBuffer.ProtocolMessage):
   has_key_ = 0
   has_hash_ = 0
-  hash_ = ""
+  hash_ = b""
 
   def __init__(self, contents=None):
     self.key_ = Reference()
@@ -843,7 +843,7 @@ class TransactionRequest_Precondition(ProtocolBuffer.ProtocolMessage):
   def clear_hash(self):
     if self.has_hash_:
       self.has_hash_ = 0
-      self.hash_ = ""
+      self.hash_ = b""
 
   def has_hash(self): return self.has_hash_
 
