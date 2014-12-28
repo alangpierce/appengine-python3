@@ -234,7 +234,7 @@ class WsgiRequest(object):
         error: App Engine error code. 0 for OK, 1 for error.
         response_code: HTTP response code.
         headers: A list of tuples (key, value) of HTTP headers.
-        body: A str of the body of the response
+        body: A bytes of the body of the response
     """
     try:
       handler = _config_handle.add_wsgi_middleware(self._LoadHandler())
@@ -272,7 +272,7 @@ class WsgiRequest(object):
 
 
 
-      body = ''.join(self._written_body + self._body)
+      body = b''.join(self._written_body + self._body)
       return {'response_code': self._status, 'headers':
               self._response_headers, 'body': body}
     except:

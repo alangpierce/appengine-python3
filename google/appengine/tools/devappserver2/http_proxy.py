@@ -181,7 +181,7 @@ class HttpProxy:
         # allowing use of multiple Set-Cookie headers.
         headers = []
         for name in response.msg:
-          for value in response.msg.getheaders(name):
+          for value in response.msg.get_all(name):
             headers.append((name, value))
 
         response_headers = wsgiref.headers.Headers(headers)
