@@ -125,10 +125,10 @@ class UserServiceStub(apiproxy_stub.APIProxyStub):
       request_id: A unique string identifying the request associated with the
           API call.
     """
-    response.set_login_url(
-        self._login_url %
-        urllib.parse.quote(self._AddHostToContinueURL(request.destination_url(),
-                                                request_id)))
+    url = (
+        self._login_url % urllib.parse.quote(
+            self._AddHostToContinueURL(request.destination_url(), request_id)))
+    response.set_login_url(url.encode())
 
   def _Dynamic_CreateLogoutURL(self, request, response, request_id):
     """Trivial implementation of UserService.CreateLogoutURL().

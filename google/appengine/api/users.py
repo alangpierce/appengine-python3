@@ -239,13 +239,13 @@ def create_login_url(dest_url=None, _auth_domain=None,
   req = user_service_pb.CreateLoginURLRequest()
   resp = user_service_pb.CreateLoginURLResponse()
   if dest_url:
-    req.set_destination_url(dest_url)
+    req.set_destination_url(dest_url.encode())
   else:
-    req.set_destination_url('')
+    req.set_destination_url(b'')
   if _auth_domain:
-    req.set_auth_domain(_auth_domain)
+    req.set_auth_domain(_auth_domain.encode())
   if federated_identity:
-    req.set_federated_identity(federated_identity)
+    req.set_federated_identity(federated_identity.encode())
 
   try:
     apiproxy_stub_map.MakeSyncCall('user', 'CreateLoginURL', req, resp)
@@ -258,7 +258,7 @@ def create_login_url(dest_url=None, _auth_domain=None,
       raise NotAllowedError
     else:
       raise e
-  return resp.login_url()
+  return resp.login_url().decode()
 
 
 CreateLoginURL = create_login_url

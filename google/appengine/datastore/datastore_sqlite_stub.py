@@ -850,7 +850,7 @@ class DatastoreSqliteStub(datastore_stub_util.BaseDatastore,
     if isinstance(data, entity_pb.EntityProto):
       data = data.key()
     if not isinstance(data, tuple):
-      data = (data.app(), data.name_space())
+      data = (data.app().decode(), data.name_space().decode())
     prefix = ('%s!%s' % data).replace('"', '""')
     if data not in self.__namespaces:
       self.__namespaces.add(data)

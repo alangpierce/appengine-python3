@@ -197,7 +197,9 @@ class APIServer(wsgi_server.WsgiServer):
       response.set_response(api_response)
     except Exception as e:
       if isinstance(e, apiproxy_errors.ApplicationError):
-        level = logging.DEBUG
+        # TODO(alan): Set back to DEBUG.
+        # level = logging.DEBUG
+        level = logging.ERROR
         application_error = response.mutable_application_error()
         application_error.set_code(e.application_error)
         application_error.set_detail(e.error_detail.encode())

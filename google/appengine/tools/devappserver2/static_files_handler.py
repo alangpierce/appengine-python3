@@ -90,7 +90,7 @@ class StaticContentHandler(url_handler.UserConfiguredURLHandler):
 
   @staticmethod
   def _calculate_etag(data):
-    return base64.b64encode(str(zlib.crc32(data)))
+    return base64.b64encode(str(zlib.crc32(data)).encode())
 
   def _handle_path(self, full_path, environ, start_response):
     """Serves the response to a request for a particular file.
