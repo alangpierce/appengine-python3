@@ -1801,7 +1801,7 @@ class _QueryKeyFilter(_BaseComponent):
 
       if namespace is None:
         namespace = ancestor.name_space()
-      elif namespace != ancestor.name_space():
+      elif namespace != ancestor.name_space().decode():
         raise datastore_errors.BadArgumentError(
             'ancestor argument should match namespace ("%r" != "%r")' %
             (ancestor.name_space(), namespace))
