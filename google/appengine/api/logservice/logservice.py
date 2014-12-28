@@ -299,12 +299,11 @@ class _LogsDequeBuffer(object):
           if not message:
             continue
 
+          encoded_message = message.encode()
+          encoded_message = self._truncate(encoded_message,
+                                           self._MAX_LINE_SIZE)
 
-
-          message = self._truncate(message, self._MAX_LINE_SIZE)
-
-
-          if len(message) > bytes_left:
+          if len(encoded_message) > bytes_left:
             self._rollback_line(bare_line)
             break
 
@@ -313,7 +312,7 @@ class _LogsDequeBuffer(object):
           line = group.add_log_line()
           line.set_timestamp_usec(timestamp_usec)
           line.set_level(level)
-          line.set_message(message)
+          line.set_message(encoded_message)
 
           bytes_left -= 1 + group.lengthString(line.ByteSize())
 
@@ -1203,7 +1202,7 @@ class _LogsStreamBuffer(object):
     """Truncates a potentially long log down to a specified maximum length."""
     if len(line) > max_length:
       original_length = len(line)
-      suffix = '...(length %d)' % original_length
+      suffix = ('...(length %d)' % original_length).encode()
       line = line[:max_length - len(suffix)] + suffix
     return line
 
@@ -1229,16 +1228,15 @@ class _LogsStreamBuffer(object):
       byte_size = 0
       n = 0
       for timestamp_usec, level, message in logs:
+        encoded_message = message.encode()
+        encoded_message = self._truncate(encoded_message, self._MAX_LINE_SIZE)
 
-
-        message = self._truncate(message, self._MAX_LINE_SIZE)
-
-        if byte_size + len(message) > self._MAX_FLUSH_SIZE:
+        if byte_size + len(encoded_message) > self._MAX_FLUSH_SIZE:
           break
         line = group.add_log_line()
         line.set_timestamp_usec(timestamp_usec)
         line.set_level(level)
-        line.set_message(message)
+        line.set_message(encoded_message)
         byte_size += 1 + group.lengthString(line.ByteSize())
         n += 1
       assert n > 0 or not logs
