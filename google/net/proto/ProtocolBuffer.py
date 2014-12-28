@@ -416,6 +416,14 @@ class ProtocolMessage:
       return self.DebugFormatFixed64(value)
     return "%d" % value
   def DebugFormatString(self, value):
+    # Default (empty) proto values can be strings instead of bytes, so be
+    # defensive here.
+    if not value:
+      return '""'
+    try:
+      decoded_value = value.decode()
+    except UnicodeDecodeError:
+      return str(value)
     def escape(c):
       o = ord(c)
       if o == 10: return r"\n"
@@ -426,7 +434,7 @@ class ProtocolMessage:
 
       if o >= 127 or o < 32: return "\\%03o" % o
       return c
-    return '"' + "".join([escape(c) for c in value.decode()]) + '"'
+    return '"' + "".join([escape(c) for c in decoded_value]) + '"'
   def DebugFormatFloat(self, value):
     return "%ff" % value
   def DebugFormatFixed32(self, value):

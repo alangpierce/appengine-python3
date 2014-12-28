@@ -67,7 +67,7 @@ _MAX_LONG_BYTES = 8
 
 
 
-_MAX_INLINE = (_MAX_UNSIGNED_BYTE - (2 * _MAX_LONG_BYTES)) / 2
+_MAX_INLINE = (_MAX_UNSIGNED_BYTE - (2 * _MAX_LONG_BYTES)) // 2
 _MIN_INLINE = -_MAX_INLINE
 _OFFSET = 1 + 8
 _POS_OFFSET = _OFFSET + _MAX_INLINE * 2
@@ -199,7 +199,7 @@ class Encoder(ProtocolBuffer.Encoder):
 
 
     self.buf.frombytes(
-        value.replace('\x01', '\x01\x02').replace('\x00', '\x01\x01') + '\x00')
+        value.replace(b'\x01', b'\x01\x02').replace(b'\x00', b'\x01\x01') + b'\x00')
 
 
 class Decoder(ProtocolBuffer.Decoder):
@@ -312,4 +312,4 @@ class Decoder(ProtocolBuffer.Decoder):
 
     data = array.array('B', self.buf[self.idx:end_idx]).tostring()
     self.idx = end_idx + 1
-    return data.replace('\x01\x01', '\x00').replace('\x01\x02', '\x01')
+    return data.replace(b'\x01\x01', b'\x00').replace(b'\x01\x02', b'\x01')

@@ -1007,7 +1007,7 @@ class DatastoreSqliteStub(datastore_stub_util.BaseDatastore,
     ancestor_min = self.__EncodeIndexPB(prefix)
 
 
-    ancestor_max = buffer(str(ancestor_min) + '\xfb\xff\xff\xff\x89')
+    ancestor_max = buffer(bytes(ancestor_min) + b'\xfb\xff\xff\xff\x89')
     return ancestor_min, ancestor_max
 
   def  __KindQuery(self, query, filter_info, order_info):
