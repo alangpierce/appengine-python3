@@ -48,6 +48,7 @@ class AggregateRpcStatsProto(ProtocolBuffer.ProtocolMessage):
   def service_call_name(self): return self.service_call_name_
 
   def set_service_call_name(self, x):
+    assert not isinstance(x, str)
     self.has_service_call_name_ = 1
     self.service_call_name_ = x
 
@@ -61,6 +62,7 @@ class AggregateRpcStatsProto(ProtocolBuffer.ProtocolMessage):
   def total_amount_of_calls(self): return self.total_amount_of_calls_
 
   def set_total_amount_of_calls(self, x):
+    assert not isinstance(x, str)
     self.has_total_amount_of_calls_ = 1
     self.total_amount_of_calls_ = x
 
@@ -74,6 +76,7 @@ class AggregateRpcStatsProto(ProtocolBuffer.ProtocolMessage):
   def total_cost_of_calls_microdollars(self): return self.total_cost_of_calls_microdollars_
 
   def set_total_cost_of_calls_microdollars(self, x):
+    assert not isinstance(x, str)
     self.has_total_cost_of_calls_microdollars_ = 1
     self.total_cost_of_calls_microdollars_ = x
 
@@ -271,6 +274,7 @@ class KeyValProto(ProtocolBuffer.ProtocolMessage):
   def key(self): return self.key_
 
   def set_key(self, x):
+    assert not isinstance(x, str)
     self.has_key_ = 1
     self.key_ = x
 
@@ -284,6 +288,7 @@ class KeyValProto(ProtocolBuffer.ProtocolMessage):
   def value(self): return self.value_
 
   def set_value(self, x):
+    assert not isinstance(x, str)
     self.has_value_ = 1
     self.value_ = x
 
@@ -413,6 +418,7 @@ class StackFrameProto(ProtocolBuffer.ProtocolMessage):
   def class_or_file_name(self): return self.class_or_file_name_
 
   def set_class_or_file_name(self, x):
+    assert not isinstance(x, str)
     self.has_class_or_file_name_ = 1
     self.class_or_file_name_ = x
 
@@ -426,6 +432,7 @@ class StackFrameProto(ProtocolBuffer.ProtocolMessage):
   def line_number(self): return self.line_number_
 
   def set_line_number(self, x):
+    assert not isinstance(x, str)
     self.has_line_number_ = 1
     self.line_number_ = x
 
@@ -439,6 +446,7 @@ class StackFrameProto(ProtocolBuffer.ProtocolMessage):
   def function_name(self): return self.function_name_
 
   def set_function_name(self, x):
+    assert not isinstance(x, str)
     self.has_function_name_ = 1
     self.function_name_ = x
 
@@ -659,6 +667,7 @@ class BilledOpProto(ProtocolBuffer.ProtocolMessage):
   def op(self): return self.op_
 
   def set_op(self, x):
+    assert not isinstance(x, str)
     self.has_op_ = 1
     self.op_ = x
 
@@ -672,6 +681,7 @@ class BilledOpProto(ProtocolBuffer.ProtocolMessage):
   def num_ops(self): return self.num_ops_
 
   def set_num_ops(self, x):
+    assert not isinstance(x, str)
     self.has_num_ops_ = 1
     self.num_ops_ = x
 
@@ -806,6 +816,7 @@ class DatastoreCallDetailsProto(ProtocolBuffer.ProtocolMessage):
   def query_kind(self): return self.query_kind_
 
   def set_query_kind(self, x):
+    assert not isinstance(x, str)
     self.has_query_kind_ = 1
     self.query_kind_ = x
 
@@ -838,6 +849,7 @@ class DatastoreCallDetailsProto(ProtocolBuffer.ProtocolMessage):
   def query_thiscursor(self): return self.query_thiscursor_
 
   def set_query_thiscursor(self, x):
+    assert not isinstance(x, str)
     self.has_query_thiscursor_ = 1
     self.query_thiscursor_ = x
 
@@ -851,6 +863,7 @@ class DatastoreCallDetailsProto(ProtocolBuffer.ProtocolMessage):
   def query_nextcursor(self): return self.query_nextcursor_
 
   def set_query_nextcursor(self, x):
+    assert not isinstance(x, str)
     self.has_query_nextcursor_ = 1
     self.query_nextcursor_ = x
 
@@ -868,6 +881,7 @@ class DatastoreCallDetailsProto(ProtocolBuffer.ProtocolMessage):
     return self.get_successful_fetch_[i]
 
   def set_get_successful_fetch(self, i, x):
+    assert not isinstance(x, str)
     self.get_successful_fetch_[i] = x
 
   def add_get_successful_fetch(self, x):
@@ -1179,6 +1193,7 @@ class IndividualRpcStatsProto(ProtocolBuffer.ProtocolMessage):
   def service_call_name(self): return self.service_call_name_
 
   def set_service_call_name(self, x):
+    assert not isinstance(x, str)
     self.has_service_call_name_ = 1
     self.service_call_name_ = x
 
@@ -1192,6 +1207,7 @@ class IndividualRpcStatsProto(ProtocolBuffer.ProtocolMessage):
   def request_data_summary(self): return self.request_data_summary_
 
   def set_request_data_summary(self, x):
+    assert not isinstance(x, str)
     self.has_request_data_summary_ = 1
     self.request_data_summary_ = x
 
@@ -1205,6 +1221,7 @@ class IndividualRpcStatsProto(ProtocolBuffer.ProtocolMessage):
   def response_data_summary(self): return self.response_data_summary_
 
   def set_response_data_summary(self, x):
+    assert not isinstance(x, str)
     self.has_response_data_summary_ = 1
     self.response_data_summary_ = x
 
@@ -1218,6 +1235,7 @@ class IndividualRpcStatsProto(ProtocolBuffer.ProtocolMessage):
   def api_mcycles(self): return self.api_mcycles_
 
   def set_api_mcycles(self, x):
+    assert not isinstance(x, str)
     self.has_api_mcycles_ = 1
     self.api_mcycles_ = x
 
@@ -1231,6 +1249,7 @@ class IndividualRpcStatsProto(ProtocolBuffer.ProtocolMessage):
   def api_milliseconds(self): return self.api_milliseconds_
 
   def set_api_milliseconds(self, x):
+    assert not isinstance(x, str)
     self.has_api_milliseconds_ = 1
     self.api_milliseconds_ = x
 
@@ -1244,6 +1263,7 @@ class IndividualRpcStatsProto(ProtocolBuffer.ProtocolMessage):
   def start_offset_milliseconds(self): return self.start_offset_milliseconds_
 
   def set_start_offset_milliseconds(self, x):
+    assert not isinstance(x, str)
     self.has_start_offset_milliseconds_ = 1
     self.start_offset_milliseconds_ = x
 
@@ -1257,6 +1277,7 @@ class IndividualRpcStatsProto(ProtocolBuffer.ProtocolMessage):
   def duration_milliseconds(self): return self.duration_milliseconds_
 
   def set_duration_milliseconds(self, x):
+    assert not isinstance(x, str)
     self.has_duration_milliseconds_ = 1
     self.duration_milliseconds_ = x
 
@@ -1270,6 +1291,7 @@ class IndividualRpcStatsProto(ProtocolBuffer.ProtocolMessage):
   def namespace(self): return self.namespace_
 
   def set_namespace(self, x):
+    assert not isinstance(x, str)
     self.has_namespace_ = 1
     self.namespace_ = x
 
@@ -1283,6 +1305,7 @@ class IndividualRpcStatsProto(ProtocolBuffer.ProtocolMessage):
   def was_successful(self): return self.was_successful_
 
   def set_was_successful(self, x):
+    assert not isinstance(x, str)
     self.has_was_successful_ = 1
     self.was_successful_ = x
 
@@ -1331,6 +1354,7 @@ class IndividualRpcStatsProto(ProtocolBuffer.ProtocolMessage):
   def call_cost_microdollars(self): return self.call_cost_microdollars_
 
   def set_call_cost_microdollars(self, x):
+    assert not isinstance(x, str)
     self.has_call_cost_microdollars_ = 1
     self.call_cost_microdollars_ = x
 
@@ -1746,6 +1770,7 @@ class RequestStatProto(ProtocolBuffer.ProtocolMessage):
   def start_timestamp_milliseconds(self): return self.start_timestamp_milliseconds_
 
   def set_start_timestamp_milliseconds(self, x):
+    assert not isinstance(x, str)
     self.has_start_timestamp_milliseconds_ = 1
     self.start_timestamp_milliseconds_ = x
 
@@ -1759,6 +1784,7 @@ class RequestStatProto(ProtocolBuffer.ProtocolMessage):
   def http_method(self): return self.http_method_
 
   def set_http_method(self, x):
+    assert not isinstance(x, str)
     self.has_http_method_ = 1
     self.http_method_ = x
 
@@ -1772,6 +1798,7 @@ class RequestStatProto(ProtocolBuffer.ProtocolMessage):
   def http_path(self): return self.http_path_
 
   def set_http_path(self, x):
+    assert not isinstance(x, str)
     self.has_http_path_ = 1
     self.http_path_ = x
 
@@ -1785,6 +1812,7 @@ class RequestStatProto(ProtocolBuffer.ProtocolMessage):
   def http_query(self): return self.http_query_
 
   def set_http_query(self, x):
+    assert not isinstance(x, str)
     self.has_http_query_ = 1
     self.http_query_ = x
 
@@ -1798,6 +1826,7 @@ class RequestStatProto(ProtocolBuffer.ProtocolMessage):
   def http_status(self): return self.http_status_
 
   def set_http_status(self, x):
+    assert not isinstance(x, str)
     self.has_http_status_ = 1
     self.http_status_ = x
 
@@ -1811,6 +1840,7 @@ class RequestStatProto(ProtocolBuffer.ProtocolMessage):
   def duration_milliseconds(self): return self.duration_milliseconds_
 
   def set_duration_milliseconds(self, x):
+    assert not isinstance(x, str)
     self.has_duration_milliseconds_ = 1
     self.duration_milliseconds_ = x
 
@@ -1824,6 +1854,7 @@ class RequestStatProto(ProtocolBuffer.ProtocolMessage):
   def api_mcycles(self): return self.api_mcycles_
 
   def set_api_mcycles(self, x):
+    assert not isinstance(x, str)
     self.has_api_mcycles_ = 1
     self.api_mcycles_ = x
 
@@ -1837,6 +1868,7 @@ class RequestStatProto(ProtocolBuffer.ProtocolMessage):
   def processor_mcycles(self): return self.processor_mcycles_
 
   def set_processor_mcycles(self, x):
+    assert not isinstance(x, str)
     self.has_processor_mcycles_ = 1
     self.processor_mcycles_ = x
 
@@ -1882,6 +1914,7 @@ class RequestStatProto(ProtocolBuffer.ProtocolMessage):
   def overhead_walltime_milliseconds(self): return self.overhead_walltime_milliseconds_
 
   def set_overhead_walltime_milliseconds(self, x):
+    assert not isinstance(x, str)
     self.has_overhead_walltime_milliseconds_ = 1
     self.overhead_walltime_milliseconds_ = x
 
@@ -1895,6 +1928,7 @@ class RequestStatProto(ProtocolBuffer.ProtocolMessage):
   def user_email(self): return self.user_email_
 
   def set_user_email(self, x):
+    assert not isinstance(x, str)
     self.has_user_email_ = 1
     self.user_email_ = x
 
@@ -1908,6 +1942,7 @@ class RequestStatProto(ProtocolBuffer.ProtocolMessage):
   def is_admin(self): return self.is_admin_
 
   def set_is_admin(self, x):
+    assert not isinstance(x, str)
     self.has_is_admin_ = 1
     self.is_admin_ = x
 

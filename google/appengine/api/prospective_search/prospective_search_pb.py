@@ -70,6 +70,7 @@ class SchemaEntry(ProtocolBuffer.ProtocolMessage):
   def name(self): return self.name_
 
   def set_name(self, x):
+    assert not isinstance(x, str)
     self.has_name_ = 1
     self.name_ = x
 
@@ -83,6 +84,7 @@ class SchemaEntry(ProtocolBuffer.ProtocolMessage):
   def type(self): return self.type_
 
   def set_type(self, x):
+    assert not isinstance(x, str)
     self.has_type_ = 1
     self.type_ = x
 
@@ -96,6 +98,7 @@ class SchemaEntry(ProtocolBuffer.ProtocolMessage):
   def meaning(self): return self.meaning_
 
   def set_meaning(self, x):
+    assert not isinstance(x, str)
     self.has_meaning_ = 1
     self.meaning_ = x
 
@@ -246,6 +249,7 @@ class SubscribeRequest(ProtocolBuffer.ProtocolMessage):
   def topic(self): return self.topic_
 
   def set_topic(self, x):
+    assert not isinstance(x, str)
     self.has_topic_ = 1
     self.topic_ = x
 
@@ -259,6 +263,7 @@ class SubscribeRequest(ProtocolBuffer.ProtocolMessage):
   def sub_id(self): return self.sub_id_
 
   def set_sub_id(self, x):
+    assert not isinstance(x, str)
     self.has_sub_id_ = 1
     self.sub_id_ = x
 
@@ -272,6 +277,7 @@ class SubscribeRequest(ProtocolBuffer.ProtocolMessage):
   def lease_duration_sec(self): return self.lease_duration_sec_
 
   def set_lease_duration_sec(self, x):
+    assert not isinstance(x, str)
     self.has_lease_duration_sec_ = 1
     self.lease_duration_sec_ = x
 
@@ -285,6 +291,7 @@ class SubscribeRequest(ProtocolBuffer.ProtocolMessage):
   def vanilla_query(self): return self.vanilla_query_
 
   def set_vanilla_query(self, x):
+    assert not isinstance(x, str)
     self.has_vanilla_query_ = 1
     self.vanilla_query_ = x
 
@@ -574,6 +581,7 @@ class UnsubscribeRequest(ProtocolBuffer.ProtocolMessage):
   def topic(self): return self.topic_
 
   def set_topic(self, x):
+    assert not isinstance(x, str)
     self.has_topic_ = 1
     self.topic_ = x
 
@@ -587,6 +595,7 @@ class UnsubscribeRequest(ProtocolBuffer.ProtocolMessage):
   def sub_id(self): return self.sub_id_
 
   def set_sub_id(self, x):
+    assert not isinstance(x, str)
     self.has_sub_id_ = 1
     self.sub_id_ = x
 
@@ -799,6 +808,7 @@ class SubscriptionRecord(ProtocolBuffer.ProtocolMessage):
   def id(self): return self.id_
 
   def set_id(self, x):
+    assert not isinstance(x, str)
     self.has_id_ = 1
     self.id_ = x
 
@@ -812,6 +822,7 @@ class SubscriptionRecord(ProtocolBuffer.ProtocolMessage):
   def vanilla_query(self): return self.vanilla_query_
 
   def set_vanilla_query(self, x):
+    assert not isinstance(x, str)
     self.has_vanilla_query_ = 1
     self.vanilla_query_ = x
 
@@ -825,6 +836,7 @@ class SubscriptionRecord(ProtocolBuffer.ProtocolMessage):
   def expiration_time_sec(self): return self.expiration_time_sec_
 
   def set_expiration_time_sec(self, x):
+    assert not isinstance(x, str)
     self.has_expiration_time_sec_ = 1
     self.expiration_time_sec_ = x
 
@@ -838,6 +850,7 @@ class SubscriptionRecord(ProtocolBuffer.ProtocolMessage):
   def state(self): return self.state_
 
   def set_state(self, x):
+    assert not isinstance(x, str)
     self.has_state_ = 1
     self.state_ = x
 
@@ -851,6 +864,7 @@ class SubscriptionRecord(ProtocolBuffer.ProtocolMessage):
   def error_message(self): return self.error_message_
 
   def set_error_message(self, x):
+    assert not isinstance(x, str)
     self.has_error_message_ = 1
     self.error_message_ = x
 
@@ -1048,6 +1062,7 @@ class ListSubscriptionsRequest(ProtocolBuffer.ProtocolMessage):
   def topic(self): return self.topic_
 
   def set_topic(self, x):
+    assert not isinstance(x, str)
     self.has_topic_ = 1
     self.topic_ = x
 
@@ -1061,6 +1076,7 @@ class ListSubscriptionsRequest(ProtocolBuffer.ProtocolMessage):
   def max_results(self): return self.max_results_
 
   def set_max_results(self, x):
+    assert not isinstance(x, str)
     self.has_max_results_ = 1
     self.max_results_ = x
 
@@ -1074,6 +1090,7 @@ class ListSubscriptionsRequest(ProtocolBuffer.ProtocolMessage):
   def expires_before(self): return self.expires_before_
 
   def set_expires_before(self, x):
+    assert not isinstance(x, str)
     self.has_expires_before_ = 1
     self.expires_before_ = x
 
@@ -1087,6 +1104,7 @@ class ListSubscriptionsRequest(ProtocolBuffer.ProtocolMessage):
   def subscription_id_start(self): return self.subscription_id_start_
 
   def set_subscription_id_start(self, x):
+    assert not isinstance(x, str)
     self.has_subscription_id_start_ = 1
     self.subscription_id_start_ = x
 
@@ -1100,6 +1118,7 @@ class ListSubscriptionsRequest(ProtocolBuffer.ProtocolMessage):
   def app_id(self): return self.app_id_
 
   def set_app_id(self, x):
+    assert not isinstance(x, str)
     self.has_app_id_ = 1
     self.app_id_ = x
 
@@ -1394,6 +1413,7 @@ class ListTopicsRequest(ProtocolBuffer.ProtocolMessage):
   def topic_start(self): return self.topic_start_
 
   def set_topic_start(self, x):
+    assert not isinstance(x, str)
     self.has_topic_start_ = 1
     self.topic_start_ = x
 
@@ -1407,6 +1427,7 @@ class ListTopicsRequest(ProtocolBuffer.ProtocolMessage):
   def max_results(self): return self.max_results_
 
   def set_max_results(self, x):
+    assert not isinstance(x, str)
     self.has_max_results_ = 1
     self.max_results_ = x
 
@@ -1420,6 +1441,7 @@ class ListTopicsRequest(ProtocolBuffer.ProtocolMessage):
   def app_id(self): return self.app_id_
 
   def set_app_id(self, x):
+    assert not isinstance(x, str)
     self.has_app_id_ = 1
     self.app_id_ = x
 
@@ -1556,6 +1578,7 @@ class ListTopicsResponse(ProtocolBuffer.ProtocolMessage):
     return self.topic_[i]
 
   def set_topic(self, i, x):
+    assert not isinstance(x, str)
     self.topic_[i] = x
 
   def add_topic(self, x):
@@ -1682,6 +1705,7 @@ class MatchRequest(ProtocolBuffer.ProtocolMessage):
   def topic(self): return self.topic_
 
   def set_topic(self, x):
+    assert not isinstance(x, str)
     self.has_topic_ = 1
     self.topic_ = x
 
@@ -1703,6 +1727,7 @@ class MatchRequest(ProtocolBuffer.ProtocolMessage):
   def result_batch_size(self): return self.result_batch_size_
 
   def set_result_batch_size(self, x):
+    assert not isinstance(x, str)
     self.has_result_batch_size_ = 1
     self.result_batch_size_ = x
 
@@ -1716,6 +1741,7 @@ class MatchRequest(ProtocolBuffer.ProtocolMessage):
   def result_task_queue(self): return self.result_task_queue_
 
   def set_result_task_queue(self, x):
+    assert not isinstance(x, str)
     self.has_result_task_queue_ = 1
     self.result_task_queue_ = x
 
@@ -1729,6 +1755,7 @@ class MatchRequest(ProtocolBuffer.ProtocolMessage):
   def result_relative_url(self): return self.result_relative_url_
 
   def set_result_relative_url(self, x):
+    assert not isinstance(x, str)
     self.has_result_relative_url_ = 1
     self.result_relative_url_ = x
 
@@ -1742,6 +1769,7 @@ class MatchRequest(ProtocolBuffer.ProtocolMessage):
   def result_key(self): return self.result_key_
 
   def set_result_key(self, x):
+    assert not isinstance(x, str)
     self.has_result_key_ = 1
     self.result_key_ = x
 
@@ -1755,6 +1783,7 @@ class MatchRequest(ProtocolBuffer.ProtocolMessage):
   def result_python_document_class(self): return self.result_python_document_class_
 
   def set_result_python_document_class(self, x):
+    assert not isinstance(x, str)
     self.has_result_python_document_class_ = 1
     self.result_python_document_class_ = x
 

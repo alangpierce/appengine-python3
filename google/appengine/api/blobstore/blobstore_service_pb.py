@@ -141,6 +141,7 @@ class CreateUploadURLRequest(ProtocolBuffer.ProtocolMessage):
   def success_path(self): return self.success_path_
 
   def set_success_path(self, x):
+    assert not isinstance(x, str)
     self.has_success_path_ = 1
     self.success_path_ = x
 
@@ -154,6 +155,7 @@ class CreateUploadURLRequest(ProtocolBuffer.ProtocolMessage):
   def max_upload_size_bytes(self): return self.max_upload_size_bytes_
 
   def set_max_upload_size_bytes(self, x):
+    assert not isinstance(x, str)
     self.has_max_upload_size_bytes_ = 1
     self.max_upload_size_bytes_ = x
 
@@ -167,6 +169,7 @@ class CreateUploadURLRequest(ProtocolBuffer.ProtocolMessage):
   def max_upload_size_per_blob_bytes(self): return self.max_upload_size_per_blob_bytes_
 
   def set_max_upload_size_per_blob_bytes(self, x):
+    assert not isinstance(x, str)
     self.has_max_upload_size_per_blob_bytes_ = 1
     self.max_upload_size_per_blob_bytes_ = x
 
@@ -180,6 +183,7 @@ class CreateUploadURLRequest(ProtocolBuffer.ProtocolMessage):
   def gs_bucket_name(self): return self.gs_bucket_name_
 
   def set_gs_bucket_name(self, x):
+    assert not isinstance(x, str)
     self.has_gs_bucket_name_ = 1
     self.gs_bucket_name_ = x
 
@@ -337,6 +341,7 @@ class CreateUploadURLResponse(ProtocolBuffer.ProtocolMessage):
   def url(self): return self.url_
 
   def set_url(self, x):
+    assert not isinstance(x, str)
     self.has_url_ = 1
     self.url_ = x
 
@@ -442,6 +447,7 @@ class DeleteBlobRequest(ProtocolBuffer.ProtocolMessage):
     return self.blob_key_[i]
 
   def set_blob_key(self, i, x):
+    assert not isinstance(x, str)
     self.blob_key_[i] = x
 
   def add_blob_key(self, x):
@@ -453,6 +459,7 @@ class DeleteBlobRequest(ProtocolBuffer.ProtocolMessage):
   def token(self): return self.token_
 
   def set_token(self, x):
+    assert not isinstance(x, str)
     self.has_token_ = 1
     self.token_ = x
 
@@ -579,6 +586,7 @@ class FetchDataRequest(ProtocolBuffer.ProtocolMessage):
   def blob_key(self): return self.blob_key_
 
   def set_blob_key(self, x):
+    assert not isinstance(x, str)
     self.has_blob_key_ = 1
     self.blob_key_ = x
 
@@ -592,6 +600,7 @@ class FetchDataRequest(ProtocolBuffer.ProtocolMessage):
   def start_index(self): return self.start_index_
 
   def set_start_index(self, x):
+    assert not isinstance(x, str)
     self.has_start_index_ = 1
     self.start_index_ = x
 
@@ -605,6 +614,7 @@ class FetchDataRequest(ProtocolBuffer.ProtocolMessage):
   def end_index(self): return self.end_index_
 
   def set_end_index(self, x):
+    assert not isinstance(x, str)
     self.has_end_index_ = 1
     self.end_index_ = x
 
@@ -753,6 +763,7 @@ class FetchDataResponse(ProtocolBuffer.ProtocolMessage):
   def data(self): return self.data_
 
   def set_data(self, x):
+    assert not isinstance(x, str)
     self.has_data_ = 1
     self.data_ = x
 
@@ -857,6 +868,7 @@ class CloneBlobRequest(ProtocolBuffer.ProtocolMessage):
   def blob_key(self): return self.blob_key_
 
   def set_blob_key(self, x):
+    assert not isinstance(x, str)
     self.has_blob_key_ = 1
     self.blob_key_ = x
 
@@ -870,6 +882,7 @@ class CloneBlobRequest(ProtocolBuffer.ProtocolMessage):
   def mime_type(self): return self.mime_type_
 
   def set_mime_type(self, x):
+    assert not isinstance(x, str)
     self.has_mime_type_ = 1
     self.mime_type_ = x
 
@@ -883,6 +896,7 @@ class CloneBlobRequest(ProtocolBuffer.ProtocolMessage):
   def target_app_id(self): return self.target_app_id_
 
   def set_target_app_id(self, x):
+    assert not isinstance(x, str)
     self.has_target_app_id_ = 1
     self.target_app_id_ = x
 
@@ -1031,6 +1045,7 @@ class CloneBlobResponse(ProtocolBuffer.ProtocolMessage):
   def blob_key(self): return self.blob_key_
 
   def set_blob_key(self, x):
+    assert not isinstance(x, str)
     self.has_blob_key_ = 1
     self.blob_key_ = x
 
@@ -1134,6 +1149,7 @@ class DecodeBlobKeyRequest(ProtocolBuffer.ProtocolMessage):
     return self.blob_key_[i]
 
   def set_blob_key(self, i, x):
+    assert not isinstance(x, str)
     self.blob_key_[i] = x
 
   def add_blob_key(self, x):
@@ -1238,6 +1254,7 @@ class DecodeBlobKeyResponse(ProtocolBuffer.ProtocolMessage):
     return self.decoded_[i]
 
   def set_decoded(self, i, x):
+    assert not isinstance(x, str)
     self.decoded_[i] = x
 
   def add_decoded(self, x):
@@ -1339,6 +1356,7 @@ class CreateEncodedGoogleStorageKeyRequest(ProtocolBuffer.ProtocolMessage):
   def filename(self): return self.filename_
 
   def set_filename(self, x):
+    assert not isinstance(x, str)
     self.has_filename_ = 1
     self.filename_ = x
 
@@ -1439,6 +1457,7 @@ class CreateEncodedGoogleStorageKeyResponse(ProtocolBuffer.ProtocolMessage):
   def blob_key(self): return self.blob_key_
 
   def set_blob_key(self, x):
+    assert not isinstance(x, str)
     self.has_blob_key_ = 1
     self.blob_key_ = x
 

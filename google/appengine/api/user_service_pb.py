@@ -131,6 +131,7 @@ class CreateLoginURLRequest(ProtocolBuffer.ProtocolMessage):
   def destination_url(self): return self.destination_url_
 
   def set_destination_url(self, x):
+    assert not isinstance(x, str)
     self.has_destination_url_ = 1
     self.destination_url_ = x
 
@@ -144,6 +145,7 @@ class CreateLoginURLRequest(ProtocolBuffer.ProtocolMessage):
   def auth_domain(self): return self.auth_domain_
 
   def set_auth_domain(self, x):
+    assert not isinstance(x, str)
     self.has_auth_domain_ = 1
     self.auth_domain_ = x
 
@@ -157,6 +159,7 @@ class CreateLoginURLRequest(ProtocolBuffer.ProtocolMessage):
   def federated_identity(self): return self.federated_identity_
 
   def set_federated_identity(self, x):
+    assert not isinstance(x, str)
     self.has_federated_identity_ = 1
     self.federated_identity_ = x
 
@@ -295,6 +298,7 @@ class CreateLoginURLResponse(ProtocolBuffer.ProtocolMessage):
   def login_url(self): return self.login_url_
 
   def set_login_url(self, x):
+    assert not isinstance(x, str)
     self.has_login_url_ = 1
     self.login_url_ = x
 
@@ -397,6 +401,7 @@ class CreateLogoutURLRequest(ProtocolBuffer.ProtocolMessage):
   def destination_url(self): return self.destination_url_
 
   def set_destination_url(self, x):
+    assert not isinstance(x, str)
     self.has_destination_url_ = 1
     self.destination_url_ = x
 
@@ -410,6 +415,7 @@ class CreateLogoutURLRequest(ProtocolBuffer.ProtocolMessage):
   def auth_domain(self): return self.auth_domain_
 
   def set_auth_domain(self, x):
+    assert not isinstance(x, str)
     self.has_auth_domain_ = 1
     self.auth_domain_ = x
 
@@ -529,6 +535,7 @@ class CreateLogoutURLResponse(ProtocolBuffer.ProtocolMessage):
   def logout_url(self): return self.logout_url_
 
   def set_logout_url(self, x):
+    assert not isinstance(x, str)
     self.has_logout_url_ = 1
     self.logout_url_ = x
 
@@ -632,6 +639,7 @@ class GetOAuthUserRequest(ProtocolBuffer.ProtocolMessage):
   def scope(self): return self.scope_
 
   def set_scope(self, x):
+    assert not isinstance(x, str)
     self.has_scope_ = 1
     self.scope_ = x
 
@@ -649,6 +657,7 @@ class GetOAuthUserRequest(ProtocolBuffer.ProtocolMessage):
     return self.scopes_[i]
 
   def set_scopes(self, i, x):
+    assert not isinstance(x, str)
     self.scopes_[i] = x
 
   def add_scopes(self, x):
@@ -660,6 +669,7 @@ class GetOAuthUserRequest(ProtocolBuffer.ProtocolMessage):
   def request_writer_permission(self): return self.request_writer_permission_
 
   def set_request_writer_permission(self, x):
+    assert not isinstance(x, str)
     self.has_request_writer_permission_ = 1
     self.request_writer_permission_ = x
 
@@ -814,6 +824,7 @@ class GetOAuthUserResponse(ProtocolBuffer.ProtocolMessage):
   def email(self): return self.email_
 
   def set_email(self, x):
+    assert not isinstance(x, str)
     self.has_email_ = 1
     self.email_ = x
 
@@ -827,6 +838,7 @@ class GetOAuthUserResponse(ProtocolBuffer.ProtocolMessage):
   def user_id(self): return self.user_id_
 
   def set_user_id(self, x):
+    assert not isinstance(x, str)
     self.has_user_id_ = 1
     self.user_id_ = x
 
@@ -840,6 +852,7 @@ class GetOAuthUserResponse(ProtocolBuffer.ProtocolMessage):
   def auth_domain(self): return self.auth_domain_
 
   def set_auth_domain(self, x):
+    assert not isinstance(x, str)
     self.has_auth_domain_ = 1
     self.auth_domain_ = x
 
@@ -853,6 +866,7 @@ class GetOAuthUserResponse(ProtocolBuffer.ProtocolMessage):
   def user_organization(self): return self.user_organization_
 
   def set_user_organization(self, x):
+    assert not isinstance(x, str)
     self.has_user_organization_ = 1
     self.user_organization_ = x
 
@@ -866,6 +880,7 @@ class GetOAuthUserResponse(ProtocolBuffer.ProtocolMessage):
   def is_admin(self): return self.is_admin_
 
   def set_is_admin(self, x):
+    assert not isinstance(x, str)
     self.has_is_admin_ = 1
     self.is_admin_ = x
 
@@ -879,6 +894,7 @@ class GetOAuthUserResponse(ProtocolBuffer.ProtocolMessage):
   def client_id(self): return self.client_id_
 
   def set_client_id(self, x):
+    assert not isinstance(x, str)
     self.has_client_id_ = 1
     self.client_id_ = x
 
@@ -896,6 +912,7 @@ class GetOAuthUserResponse(ProtocolBuffer.ProtocolMessage):
     return self.scopes_[i]
 
   def set_scopes(self, i, x):
+    assert not isinstance(x, str)
     self.scopes_[i] = x
 
   def add_scopes(self, x):
@@ -907,6 +924,7 @@ class GetOAuthUserResponse(ProtocolBuffer.ProtocolMessage):
   def is_project_writer(self): return self.is_project_writer_
 
   def set_is_project_writer(self, x):
+    assert not isinstance(x, str)
     self.has_is_project_writer_ = 1
     self.is_project_writer_ = x
 
@@ -1223,6 +1241,7 @@ class CheckOAuthSignatureResponse(ProtocolBuffer.ProtocolMessage):
   def oauth_consumer_key(self): return self.oauth_consumer_key_
 
   def set_oauth_consumer_key(self, x):
+    assert not isinstance(x, str)
     self.has_oauth_consumer_key_ = 1
     self.oauth_consumer_key_ = x
 

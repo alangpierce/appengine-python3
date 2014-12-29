@@ -54,6 +54,7 @@ class Snapshot(ProtocolBuffer.ProtocolMessage):
   def ts(self): return self.ts_
 
   def set_ts(self, x):
+    assert not isinstance(x, str)
     self.has_ts_ = 1
     self.ts_ = x
 

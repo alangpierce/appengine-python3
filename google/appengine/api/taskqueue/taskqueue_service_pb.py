@@ -184,6 +184,7 @@ class TaskQueueRetryParameters(ProtocolBuffer.ProtocolMessage):
   def retry_limit(self): return self.retry_limit_
 
   def set_retry_limit(self, x):
+    assert not isinstance(x, str)
     self.has_retry_limit_ = 1
     self.retry_limit_ = x
 
@@ -197,6 +198,7 @@ class TaskQueueRetryParameters(ProtocolBuffer.ProtocolMessage):
   def age_limit_sec(self): return self.age_limit_sec_
 
   def set_age_limit_sec(self, x):
+    assert not isinstance(x, str)
     self.has_age_limit_sec_ = 1
     self.age_limit_sec_ = x
 
@@ -210,6 +212,7 @@ class TaskQueueRetryParameters(ProtocolBuffer.ProtocolMessage):
   def min_backoff_sec(self): return self.min_backoff_sec_
 
   def set_min_backoff_sec(self, x):
+    assert not isinstance(x, str)
     self.has_min_backoff_sec_ = 1
     self.min_backoff_sec_ = x
 
@@ -223,6 +226,7 @@ class TaskQueueRetryParameters(ProtocolBuffer.ProtocolMessage):
   def max_backoff_sec(self): return self.max_backoff_sec_
 
   def set_max_backoff_sec(self, x):
+    assert not isinstance(x, str)
     self.has_max_backoff_sec_ = 1
     self.max_backoff_sec_ = x
 
@@ -236,6 +240,7 @@ class TaskQueueRetryParameters(ProtocolBuffer.ProtocolMessage):
   def max_doublings(self): return self.max_doublings_
 
   def set_max_doublings(self, x):
+    assert not isinstance(x, str)
     self.has_max_doublings_ = 1
     self.max_doublings_ = x
 
@@ -411,6 +416,7 @@ class TaskQueueAcl(ProtocolBuffer.ProtocolMessage):
     return self.user_email_[i]
 
   def set_user_email(self, i, x):
+    assert not isinstance(x, str)
     self.user_email_[i] = x
 
   def add_user_email(self, x):
@@ -426,6 +432,7 @@ class TaskQueueAcl(ProtocolBuffer.ProtocolMessage):
     return self.writer_email_[i]
 
   def set_writer_email(self, i, x):
+    assert not isinstance(x, str)
     self.writer_email_[i] = x
 
   def add_writer_email(self, x):
@@ -556,6 +563,7 @@ class TaskQueueHttpHeader(ProtocolBuffer.ProtocolMessage):
   def key(self): return self.key_
 
   def set_key(self, x):
+    assert not isinstance(x, str)
     self.has_key_ = 1
     self.key_ = x
 
@@ -569,6 +577,7 @@ class TaskQueueHttpHeader(ProtocolBuffer.ProtocolMessage):
   def value(self): return self.value_
 
   def set_value(self, x):
+    assert not isinstance(x, str)
     self.has_value_ = 1
     self.value_ = x
 
@@ -773,6 +782,7 @@ class TaskQueueAddRequest_Header(ProtocolBuffer.ProtocolMessage):
   def key(self): return self.key_
 
   def set_key(self, x):
+    assert not isinstance(x, str)
     self.has_key_ = 1
     self.key_ = x
 
@@ -786,6 +796,7 @@ class TaskQueueAddRequest_Header(ProtocolBuffer.ProtocolMessage):
   def value(self): return self.value_
 
   def set_value(self, x):
+    assert not isinstance(x, str)
     self.has_value_ = 1
     self.value_ = x
 
@@ -890,6 +901,7 @@ class TaskQueueAddRequest_CronTimetable(ProtocolBuffer.ProtocolMessage):
   def schedule(self): return self.schedule_
 
   def set_schedule(self, x):
+    assert not isinstance(x, str)
     self.has_schedule_ = 1
     self.schedule_ = x
 
@@ -903,6 +915,7 @@ class TaskQueueAddRequest_CronTimetable(ProtocolBuffer.ProtocolMessage):
   def timezone(self): return self.timezone_
 
   def set_timezone(self, x):
+    assert not isinstance(x, str)
     self.has_timezone_ = 1
     self.timezone_ = x
 
@@ -1052,6 +1065,7 @@ class TaskQueueAddRequest(ProtocolBuffer.ProtocolMessage):
   def queue_name(self): return self.queue_name_
 
   def set_queue_name(self, x):
+    assert not isinstance(x, str)
     self.has_queue_name_ = 1
     self.queue_name_ = x
 
@@ -1065,6 +1079,7 @@ class TaskQueueAddRequest(ProtocolBuffer.ProtocolMessage):
   def task_name(self): return self.task_name_
 
   def set_task_name(self, x):
+    assert not isinstance(x, str)
     self.has_task_name_ = 1
     self.task_name_ = x
 
@@ -1078,6 +1093,7 @@ class TaskQueueAddRequest(ProtocolBuffer.ProtocolMessage):
   def eta_usec(self): return self.eta_usec_
 
   def set_eta_usec(self, x):
+    assert not isinstance(x, str)
     self.has_eta_usec_ = 1
     self.eta_usec_ = x
 
@@ -1091,6 +1107,7 @@ class TaskQueueAddRequest(ProtocolBuffer.ProtocolMessage):
   def method(self): return self.method_
 
   def set_method(self, x):
+    assert not isinstance(x, str)
     self.has_method_ = 1
     self.method_ = x
 
@@ -1104,6 +1121,7 @@ class TaskQueueAddRequest(ProtocolBuffer.ProtocolMessage):
   def url(self): return self.url_
 
   def set_url(self, x):
+    assert not isinstance(x, str)
     self.has_url_ = 1
     self.url_ = x
 
@@ -1133,6 +1151,7 @@ class TaskQueueAddRequest(ProtocolBuffer.ProtocolMessage):
   def body(self): return self.body_
 
   def set_body(self, x):
+    assert not isinstance(x, str)
     self.has_body_ = 1
     self.body_ = x
 
@@ -1165,6 +1184,7 @@ class TaskQueueAddRequest(ProtocolBuffer.ProtocolMessage):
   def app_id(self): return self.app_id_
 
   def set_app_id(self, x):
+    assert not isinstance(x, str)
     self.has_app_id_ = 1
     self.app_id_ = x
 
@@ -1197,6 +1217,7 @@ class TaskQueueAddRequest(ProtocolBuffer.ProtocolMessage):
   def description(self): return self.description_
 
   def set_description(self, x):
+    assert not isinstance(x, str)
     self.has_description_ = 1
     self.description_ = x
 
@@ -1248,6 +1269,7 @@ class TaskQueueAddRequest(ProtocolBuffer.ProtocolMessage):
   def mode(self): return self.mode_
 
   def set_mode(self, x):
+    assert not isinstance(x, str)
     self.has_mode_ = 1
     self.mode_ = x
 
@@ -1261,6 +1283,7 @@ class TaskQueueAddRequest(ProtocolBuffer.ProtocolMessage):
   def tag(self): return self.tag_
 
   def set_tag(self, x):
+    assert not isinstance(x, str)
     self.has_tag_ = 1
     self.tag_ = x
 
@@ -1696,6 +1719,7 @@ class TaskQueueAddResponse(ProtocolBuffer.ProtocolMessage):
   def chosen_task_name(self): return self.chosen_task_name_
 
   def set_chosen_task_name(self, x):
+    assert not isinstance(x, str)
     self.has_chosen_task_name_ = 1
     self.chosen_task_name_ = x
 
@@ -1907,6 +1931,7 @@ class TaskQueueBulkAddResponse_TaskResult(ProtocolBuffer.ProtocolMessage):
   def result(self): return self.result_
 
   def set_result(self, x):
+    assert not isinstance(x, str)
     self.has_result_ = 1
     self.result_ = x
 
@@ -1920,6 +1945,7 @@ class TaskQueueBulkAddResponse_TaskResult(ProtocolBuffer.ProtocolMessage):
   def chosen_task_name(self): return self.chosen_task_name_
 
   def set_chosen_task_name(self, x):
+    assert not isinstance(x, str)
     self.has_chosen_task_name_ = 1
     self.chosen_task_name_ = x
 
@@ -2137,6 +2163,7 @@ class TaskQueueDeleteRequest(ProtocolBuffer.ProtocolMessage):
   def queue_name(self): return self.queue_name_
 
   def set_queue_name(self, x):
+    assert not isinstance(x, str)
     self.has_queue_name_ = 1
     self.queue_name_ = x
 
@@ -2154,6 +2181,7 @@ class TaskQueueDeleteRequest(ProtocolBuffer.ProtocolMessage):
     return self.task_name_[i]
 
   def set_task_name(self, i, x):
+    assert not isinstance(x, str)
     self.task_name_[i] = x
 
   def add_task_name(self, x):
@@ -2165,6 +2193,7 @@ class TaskQueueDeleteRequest(ProtocolBuffer.ProtocolMessage):
   def app_id(self): return self.app_id_
 
   def set_app_id(self, x):
+    assert not isinstance(x, str)
     self.has_app_id_ = 1
     self.app_id_ = x
 
@@ -2314,6 +2343,7 @@ class TaskQueueDeleteResponse(ProtocolBuffer.ProtocolMessage):
     return self.result_[i]
 
   def set_result(self, i, x):
+    assert not isinstance(x, str)
     self.result_[i] = x
 
   def add_result(self, x):
@@ -2419,6 +2449,7 @@ class TaskQueueForceRunRequest(ProtocolBuffer.ProtocolMessage):
   def app_id(self): return self.app_id_
 
   def set_app_id(self, x):
+    assert not isinstance(x, str)
     self.has_app_id_ = 1
     self.app_id_ = x
 
@@ -2432,6 +2463,7 @@ class TaskQueueForceRunRequest(ProtocolBuffer.ProtocolMessage):
   def queue_name(self): return self.queue_name_
 
   def set_queue_name(self, x):
+    assert not isinstance(x, str)
     self.has_queue_name_ = 1
     self.queue_name_ = x
 
@@ -2445,6 +2477,7 @@ class TaskQueueForceRunRequest(ProtocolBuffer.ProtocolMessage):
   def task_name(self): return self.task_name_
 
   def set_task_name(self, x):
+    assert not isinstance(x, str)
     self.has_task_name_ = 1
     self.task_name_ = x
 
@@ -2588,6 +2621,7 @@ class TaskQueueForceRunResponse(ProtocolBuffer.ProtocolMessage):
   def result(self): return self.result_
 
   def set_result(self, x):
+    assert not isinstance(x, str)
     self.has_result_ = 1
     self.result_ = x
 
@@ -2706,6 +2740,7 @@ class TaskQueueUpdateQueueRequest(ProtocolBuffer.ProtocolMessage):
   def app_id(self): return self.app_id_
 
   def set_app_id(self, x):
+    assert not isinstance(x, str)
     self.has_app_id_ = 1
     self.app_id_ = x
 
@@ -2719,6 +2754,7 @@ class TaskQueueUpdateQueueRequest(ProtocolBuffer.ProtocolMessage):
   def queue_name(self): return self.queue_name_
 
   def set_queue_name(self, x):
+    assert not isinstance(x, str)
     self.has_queue_name_ = 1
     self.queue_name_ = x
 
@@ -2732,6 +2768,7 @@ class TaskQueueUpdateQueueRequest(ProtocolBuffer.ProtocolMessage):
   def bucket_refill_per_second(self): return self.bucket_refill_per_second_
 
   def set_bucket_refill_per_second(self, x):
+    assert not isinstance(x, str)
     self.has_bucket_refill_per_second_ = 1
     self.bucket_refill_per_second_ = x
 
@@ -2745,6 +2782,7 @@ class TaskQueueUpdateQueueRequest(ProtocolBuffer.ProtocolMessage):
   def bucket_capacity(self): return self.bucket_capacity_
 
   def set_bucket_capacity(self, x):
+    assert not isinstance(x, str)
     self.has_bucket_capacity_ = 1
     self.bucket_capacity_ = x
 
@@ -2758,6 +2796,7 @@ class TaskQueueUpdateQueueRequest(ProtocolBuffer.ProtocolMessage):
   def user_specified_rate(self): return self.user_specified_rate_
 
   def set_user_specified_rate(self, x):
+    assert not isinstance(x, str)
     self.has_user_specified_rate_ = 1
     self.user_specified_rate_ = x
 
@@ -2790,6 +2829,7 @@ class TaskQueueUpdateQueueRequest(ProtocolBuffer.ProtocolMessage):
   def max_concurrent_requests(self): return self.max_concurrent_requests_
 
   def set_max_concurrent_requests(self, x):
+    assert not isinstance(x, str)
     self.has_max_concurrent_requests_ = 1
     self.max_concurrent_requests_ = x
 
@@ -2803,6 +2843,7 @@ class TaskQueueUpdateQueueRequest(ProtocolBuffer.ProtocolMessage):
   def mode(self): return self.mode_
 
   def set_mode(self, x):
+    assert not isinstance(x, str)
     self.has_mode_ = 1
     self.mode_ = x
 
@@ -3219,6 +3260,7 @@ class TaskQueueFetchQueuesRequest(ProtocolBuffer.ProtocolMessage):
   def app_id(self): return self.app_id_
 
   def set_app_id(self, x):
+    assert not isinstance(x, str)
     self.has_app_id_ = 1
     self.app_id_ = x
 
@@ -3232,6 +3274,7 @@ class TaskQueueFetchQueuesRequest(ProtocolBuffer.ProtocolMessage):
   def max_rows(self): return self.max_rows_
 
   def set_max_rows(self, x):
+    assert not isinstance(x, str)
     self.has_max_rows_ = 1
     self.max_rows_ = x
 
@@ -3371,6 +3414,7 @@ class TaskQueueFetchQueuesResponse_Queue(ProtocolBuffer.ProtocolMessage):
   def queue_name(self): return self.queue_name_
 
   def set_queue_name(self, x):
+    assert not isinstance(x, str)
     self.has_queue_name_ = 1
     self.queue_name_ = x
 
@@ -3384,6 +3428,7 @@ class TaskQueueFetchQueuesResponse_Queue(ProtocolBuffer.ProtocolMessage):
   def bucket_refill_per_second(self): return self.bucket_refill_per_second_
 
   def set_bucket_refill_per_second(self, x):
+    assert not isinstance(x, str)
     self.has_bucket_refill_per_second_ = 1
     self.bucket_refill_per_second_ = x
 
@@ -3397,6 +3442,7 @@ class TaskQueueFetchQueuesResponse_Queue(ProtocolBuffer.ProtocolMessage):
   def bucket_capacity(self): return self.bucket_capacity_
 
   def set_bucket_capacity(self, x):
+    assert not isinstance(x, str)
     self.has_bucket_capacity_ = 1
     self.bucket_capacity_ = x
 
@@ -3410,6 +3456,7 @@ class TaskQueueFetchQueuesResponse_Queue(ProtocolBuffer.ProtocolMessage):
   def user_specified_rate(self): return self.user_specified_rate_
 
   def set_user_specified_rate(self, x):
+    assert not isinstance(x, str)
     self.has_user_specified_rate_ = 1
     self.user_specified_rate_ = x
 
@@ -3423,6 +3470,7 @@ class TaskQueueFetchQueuesResponse_Queue(ProtocolBuffer.ProtocolMessage):
   def paused(self): return self.paused_
 
   def set_paused(self, x):
+    assert not isinstance(x, str)
     self.has_paused_ = 1
     self.paused_ = x
 
@@ -3455,6 +3503,7 @@ class TaskQueueFetchQueuesResponse_Queue(ProtocolBuffer.ProtocolMessage):
   def max_concurrent_requests(self): return self.max_concurrent_requests_
 
   def set_max_concurrent_requests(self, x):
+    assert not isinstance(x, str)
     self.has_max_concurrent_requests_ = 1
     self.max_concurrent_requests_ = x
 
@@ -3468,6 +3517,7 @@ class TaskQueueFetchQueuesResponse_Queue(ProtocolBuffer.ProtocolMessage):
   def mode(self): return self.mode_
 
   def set_mode(self, x):
+    assert not isinstance(x, str)
     self.has_mode_ = 1
     self.mode_ = x
 
@@ -3516,6 +3566,7 @@ class TaskQueueFetchQueuesResponse_Queue(ProtocolBuffer.ProtocolMessage):
   def creator_name(self): return self.creator_name_
 
   def set_creator_name(self, x):
+    assert not isinstance(x, str)
     self.has_creator_name_ = 1
     self.creator_name_ = x
 
@@ -3948,6 +3999,7 @@ class TaskQueueFetchQueueStatsRequest(ProtocolBuffer.ProtocolMessage):
   def app_id(self): return self.app_id_
 
   def set_app_id(self, x):
+    assert not isinstance(x, str)
     self.has_app_id_ = 1
     self.app_id_ = x
 
@@ -3965,6 +4017,7 @@ class TaskQueueFetchQueueStatsRequest(ProtocolBuffer.ProtocolMessage):
     return self.queue_name_[i]
 
   def set_queue_name(self, i, x):
+    assert not isinstance(x, str)
     self.queue_name_[i] = x
 
   def add_queue_name(self, x):
@@ -3976,6 +4029,7 @@ class TaskQueueFetchQueueStatsRequest(ProtocolBuffer.ProtocolMessage):
   def max_num_tasks(self): return self.max_num_tasks_
 
   def set_max_num_tasks(self, x):
+    assert not isinstance(x, str)
     self.has_max_num_tasks_ = 1
     self.max_num_tasks_ = x
 
@@ -4125,6 +4179,7 @@ class TaskQueueScannerQueueInfo(ProtocolBuffer.ProtocolMessage):
   def executed_last_minute(self): return self.executed_last_minute_
 
   def set_executed_last_minute(self, x):
+    assert not isinstance(x, str)
     self.has_executed_last_minute_ = 1
     self.executed_last_minute_ = x
 
@@ -4138,6 +4193,7 @@ class TaskQueueScannerQueueInfo(ProtocolBuffer.ProtocolMessage):
   def executed_last_hour(self): return self.executed_last_hour_
 
   def set_executed_last_hour(self, x):
+    assert not isinstance(x, str)
     self.has_executed_last_hour_ = 1
     self.executed_last_hour_ = x
 
@@ -4151,6 +4207,7 @@ class TaskQueueScannerQueueInfo(ProtocolBuffer.ProtocolMessage):
   def sampling_duration_seconds(self): return self.sampling_duration_seconds_
 
   def set_sampling_duration_seconds(self, x):
+    assert not isinstance(x, str)
     self.has_sampling_duration_seconds_ = 1
     self.sampling_duration_seconds_ = x
 
@@ -4164,6 +4221,7 @@ class TaskQueueScannerQueueInfo(ProtocolBuffer.ProtocolMessage):
   def requests_in_flight(self): return self.requests_in_flight_
 
   def set_requests_in_flight(self, x):
+    assert not isinstance(x, str)
     self.has_requests_in_flight_ = 1
     self.requests_in_flight_ = x
 
@@ -4177,6 +4235,7 @@ class TaskQueueScannerQueueInfo(ProtocolBuffer.ProtocolMessage):
   def enforced_rate(self): return self.enforced_rate_
 
   def set_enforced_rate(self, x):
+    assert not isinstance(x, str)
     self.has_enforced_rate_ = 1
     self.enforced_rate_ = x
 
@@ -4366,6 +4425,7 @@ class TaskQueueFetchQueueStatsResponse_QueueStats(ProtocolBuffer.ProtocolMessage
   def num_tasks(self): return self.num_tasks_
 
   def set_num_tasks(self, x):
+    assert not isinstance(x, str)
     self.has_num_tasks_ = 1
     self.num_tasks_ = x
 
@@ -4379,6 +4439,7 @@ class TaskQueueFetchQueueStatsResponse_QueueStats(ProtocolBuffer.ProtocolMessage
   def oldest_eta_usec(self): return self.oldest_eta_usec_
 
   def set_oldest_eta_usec(self, x):
+    assert not isinstance(x, str)
     self.has_oldest_eta_usec_ = 1
     self.oldest_eta_usec_ = x
 
@@ -4649,6 +4710,7 @@ class TaskQueuePauseQueueRequest(ProtocolBuffer.ProtocolMessage):
   def app_id(self): return self.app_id_
 
   def set_app_id(self, x):
+    assert not isinstance(x, str)
     self.has_app_id_ = 1
     self.app_id_ = x
 
@@ -4662,6 +4724,7 @@ class TaskQueuePauseQueueRequest(ProtocolBuffer.ProtocolMessage):
   def queue_name(self): return self.queue_name_
 
   def set_queue_name(self, x):
+    assert not isinstance(x, str)
     self.has_queue_name_ = 1
     self.queue_name_ = x
 
@@ -4675,6 +4738,7 @@ class TaskQueuePauseQueueRequest(ProtocolBuffer.ProtocolMessage):
   def pause(self): return self.pause_
 
   def set_pause(self, x):
+    assert not isinstance(x, str)
     self.has_pause_ = 1
     self.pause_ = x
 
@@ -4888,6 +4952,7 @@ class TaskQueuePurgeQueueRequest(ProtocolBuffer.ProtocolMessage):
   def app_id(self): return self.app_id_
 
   def set_app_id(self, x):
+    assert not isinstance(x, str)
     self.has_app_id_ = 1
     self.app_id_ = x
 
@@ -4901,6 +4966,7 @@ class TaskQueuePurgeQueueRequest(ProtocolBuffer.ProtocolMessage):
   def queue_name(self): return self.queue_name_
 
   def set_queue_name(self, x):
+    assert not isinstance(x, str)
     self.has_queue_name_ = 1
     self.queue_name_ = x
 
@@ -5087,6 +5153,7 @@ class TaskQueueDeleteQueueRequest(ProtocolBuffer.ProtocolMessage):
   def app_id(self): return self.app_id_
 
   def set_app_id(self, x):
+    assert not isinstance(x, str)
     self.has_app_id_ = 1
     self.app_id_ = x
 
@@ -5100,6 +5167,7 @@ class TaskQueueDeleteQueueRequest(ProtocolBuffer.ProtocolMessage):
   def queue_name(self): return self.queue_name_
 
   def set_queue_name(self, x):
+    assert not isinstance(x, str)
     self.has_queue_name_ = 1
     self.queue_name_ = x
 
@@ -5289,6 +5357,7 @@ class TaskQueueDeleteGroupRequest(ProtocolBuffer.ProtocolMessage):
   def app_id(self): return self.app_id_
 
   def set_app_id(self, x):
+    assert not isinstance(x, str)
     self.has_app_id_ = 1
     self.app_id_ = x
 
@@ -5464,6 +5533,7 @@ class TaskQueueQueryTasksRequest(ProtocolBuffer.ProtocolMessage):
   def app_id(self): return self.app_id_
 
   def set_app_id(self, x):
+    assert not isinstance(x, str)
     self.has_app_id_ = 1
     self.app_id_ = x
 
@@ -5477,6 +5547,7 @@ class TaskQueueQueryTasksRequest(ProtocolBuffer.ProtocolMessage):
   def queue_name(self): return self.queue_name_
 
   def set_queue_name(self, x):
+    assert not isinstance(x, str)
     self.has_queue_name_ = 1
     self.queue_name_ = x
 
@@ -5490,6 +5561,7 @@ class TaskQueueQueryTasksRequest(ProtocolBuffer.ProtocolMessage):
   def start_task_name(self): return self.start_task_name_
 
   def set_start_task_name(self, x):
+    assert not isinstance(x, str)
     self.has_start_task_name_ = 1
     self.start_task_name_ = x
 
@@ -5503,6 +5575,7 @@ class TaskQueueQueryTasksRequest(ProtocolBuffer.ProtocolMessage):
   def start_eta_usec(self): return self.start_eta_usec_
 
   def set_start_eta_usec(self, x):
+    assert not isinstance(x, str)
     self.has_start_eta_usec_ = 1
     self.start_eta_usec_ = x
 
@@ -5516,6 +5589,7 @@ class TaskQueueQueryTasksRequest(ProtocolBuffer.ProtocolMessage):
   def start_tag(self): return self.start_tag_
 
   def set_start_tag(self, x):
+    assert not isinstance(x, str)
     self.has_start_tag_ = 1
     self.start_tag_ = x
 
@@ -5529,6 +5603,7 @@ class TaskQueueQueryTasksRequest(ProtocolBuffer.ProtocolMessage):
   def max_rows(self): return self.max_rows_
 
   def set_max_rows(self, x):
+    assert not isinstance(x, str)
     self.has_max_rows_ = 1
     self.max_rows_ = x
 
@@ -5726,6 +5801,7 @@ class TaskQueueQueryTasksResponse_TaskHeader(ProtocolBuffer.ProtocolMessage):
   def key(self): return self.key_
 
   def set_key(self, x):
+    assert not isinstance(x, str)
     self.has_key_ = 1
     self.key_ = x
 
@@ -5739,6 +5815,7 @@ class TaskQueueQueryTasksResponse_TaskHeader(ProtocolBuffer.ProtocolMessage):
   def value(self): return self.value_
 
   def set_value(self, x):
+    assert not isinstance(x, str)
     self.has_value_ = 1
     self.value_ = x
 
@@ -5843,6 +5920,7 @@ class TaskQueueQueryTasksResponse_TaskCronTimetable(ProtocolBuffer.ProtocolMessa
   def schedule(self): return self.schedule_
 
   def set_schedule(self, x):
+    assert not isinstance(x, str)
     self.has_schedule_ = 1
     self.schedule_ = x
 
@@ -5856,6 +5934,7 @@ class TaskQueueQueryTasksResponse_TaskCronTimetable(ProtocolBuffer.ProtocolMessa
   def timezone(self): return self.timezone_
 
   def set_timezone(self, x):
+    assert not isinstance(x, str)
     self.has_timezone_ = 1
     self.timezone_ = x
 
@@ -5966,6 +6045,7 @@ class TaskQueueQueryTasksResponse_TaskRunLog(ProtocolBuffer.ProtocolMessage):
   def dispatched_usec(self): return self.dispatched_usec_
 
   def set_dispatched_usec(self, x):
+    assert not isinstance(x, str)
     self.has_dispatched_usec_ = 1
     self.dispatched_usec_ = x
 
@@ -5979,6 +6059,7 @@ class TaskQueueQueryTasksResponse_TaskRunLog(ProtocolBuffer.ProtocolMessage):
   def lag_usec(self): return self.lag_usec_
 
   def set_lag_usec(self, x):
+    assert not isinstance(x, str)
     self.has_lag_usec_ = 1
     self.lag_usec_ = x
 
@@ -5992,6 +6073,7 @@ class TaskQueueQueryTasksResponse_TaskRunLog(ProtocolBuffer.ProtocolMessage):
   def elapsed_usec(self): return self.elapsed_usec_
 
   def set_elapsed_usec(self, x):
+    assert not isinstance(x, str)
     self.has_elapsed_usec_ = 1
     self.elapsed_usec_ = x
 
@@ -6005,6 +6087,7 @@ class TaskQueueQueryTasksResponse_TaskRunLog(ProtocolBuffer.ProtocolMessage):
   def response_code(self): return self.response_code_
 
   def set_response_code(self, x):
+    assert not isinstance(x, str)
     self.has_response_code_ = 1
     self.response_code_ = x
 
@@ -6018,6 +6101,7 @@ class TaskQueueQueryTasksResponse_TaskRunLog(ProtocolBuffer.ProtocolMessage):
   def retry_reason(self): return self.retry_reason_
 
   def set_retry_reason(self, x):
+    assert not isinstance(x, str)
     self.has_retry_reason_ = 1
     self.retry_reason_ = x
 
@@ -6224,6 +6308,7 @@ class TaskQueueQueryTasksResponse_Task(ProtocolBuffer.ProtocolMessage):
   def task_name(self): return self.task_name_
 
   def set_task_name(self, x):
+    assert not isinstance(x, str)
     self.has_task_name_ = 1
     self.task_name_ = x
 
@@ -6237,6 +6322,7 @@ class TaskQueueQueryTasksResponse_Task(ProtocolBuffer.ProtocolMessage):
   def eta_usec(self): return self.eta_usec_
 
   def set_eta_usec(self, x):
+    assert not isinstance(x, str)
     self.has_eta_usec_ = 1
     self.eta_usec_ = x
 
@@ -6250,6 +6336,7 @@ class TaskQueueQueryTasksResponse_Task(ProtocolBuffer.ProtocolMessage):
   def url(self): return self.url_
 
   def set_url(self, x):
+    assert not isinstance(x, str)
     self.has_url_ = 1
     self.url_ = x
 
@@ -6263,6 +6350,7 @@ class TaskQueueQueryTasksResponse_Task(ProtocolBuffer.ProtocolMessage):
   def method(self): return self.method_
 
   def set_method(self, x):
+    assert not isinstance(x, str)
     self.has_method_ = 1
     self.method_ = x
 
@@ -6276,6 +6364,7 @@ class TaskQueueQueryTasksResponse_Task(ProtocolBuffer.ProtocolMessage):
   def retry_count(self): return self.retry_count_
 
   def set_retry_count(self, x):
+    assert not isinstance(x, str)
     self.has_retry_count_ = 1
     self.retry_count_ = x
 
@@ -6305,6 +6394,7 @@ class TaskQueueQueryTasksResponse_Task(ProtocolBuffer.ProtocolMessage):
   def body_size(self): return self.body_size_
 
   def set_body_size(self, x):
+    assert not isinstance(x, str)
     self.has_body_size_ = 1
     self.body_size_ = x
 
@@ -6318,6 +6408,7 @@ class TaskQueueQueryTasksResponse_Task(ProtocolBuffer.ProtocolMessage):
   def body(self): return self.body_
 
   def set_body(self, x):
+    assert not isinstance(x, str)
     self.has_body_ = 1
     self.body_ = x
 
@@ -6331,6 +6422,7 @@ class TaskQueueQueryTasksResponse_Task(ProtocolBuffer.ProtocolMessage):
   def creation_time_usec(self): return self.creation_time_usec_
 
   def set_creation_time_usec(self, x):
+    assert not isinstance(x, str)
     self.has_creation_time_usec_ = 1
     self.creation_time_usec_ = x
 
@@ -6382,6 +6474,7 @@ class TaskQueueQueryTasksResponse_Task(ProtocolBuffer.ProtocolMessage):
   def description(self): return self.description_
 
   def set_description(self, x):
+    assert not isinstance(x, str)
     self.has_description_ = 1
     self.description_ = x
 
@@ -6433,6 +6526,7 @@ class TaskQueueQueryTasksResponse_Task(ProtocolBuffer.ProtocolMessage):
   def first_try_usec(self): return self.first_try_usec_
 
   def set_first_try_usec(self, x):
+    assert not isinstance(x, str)
     self.has_first_try_usec_ = 1
     self.first_try_usec_ = x
 
@@ -6446,6 +6540,7 @@ class TaskQueueQueryTasksResponse_Task(ProtocolBuffer.ProtocolMessage):
   def tag(self): return self.tag_
 
   def set_tag(self, x):
+    assert not isinstance(x, str)
     self.has_tag_ = 1
     self.tag_ = x
 
@@ -6459,6 +6554,7 @@ class TaskQueueQueryTasksResponse_Task(ProtocolBuffer.ProtocolMessage):
   def execution_count(self): return self.execution_count_
 
   def set_execution_count(self, x):
+    assert not isinstance(x, str)
     self.has_execution_count_ = 1
     self.execution_count_ = x
 
@@ -7043,6 +7139,7 @@ class TaskQueueFetchTaskRequest(ProtocolBuffer.ProtocolMessage):
   def app_id(self): return self.app_id_
 
   def set_app_id(self, x):
+    assert not isinstance(x, str)
     self.has_app_id_ = 1
     self.app_id_ = x
 
@@ -7056,6 +7153,7 @@ class TaskQueueFetchTaskRequest(ProtocolBuffer.ProtocolMessage):
   def queue_name(self): return self.queue_name_
 
   def set_queue_name(self, x):
+    assert not isinstance(x, str)
     self.has_queue_name_ = 1
     self.queue_name_ = x
 
@@ -7069,6 +7167,7 @@ class TaskQueueFetchTaskRequest(ProtocolBuffer.ProtocolMessage):
   def task_name(self): return self.task_name_
 
   def set_task_name(self, x):
+    assert not isinstance(x, str)
     self.has_task_name_ = 1
     self.task_name_ = x
 
@@ -7318,6 +7417,7 @@ class TaskQueueUpdateStorageLimitRequest(ProtocolBuffer.ProtocolMessage):
   def app_id(self): return self.app_id_
 
   def set_app_id(self, x):
+    assert not isinstance(x, str)
     self.has_app_id_ = 1
     self.app_id_ = x
 
@@ -7331,6 +7431,7 @@ class TaskQueueUpdateStorageLimitRequest(ProtocolBuffer.ProtocolMessage):
   def limit(self): return self.limit_
 
   def set_limit(self, x):
+    assert not isinstance(x, str)
     self.has_limit_ = 1
     self.limit_ = x
 
@@ -7455,6 +7556,7 @@ class TaskQueueUpdateStorageLimitResponse(ProtocolBuffer.ProtocolMessage):
   def new_limit(self): return self.new_limit_
 
   def set_new_limit(self, x):
+    assert not isinstance(x, str)
     self.has_new_limit_ = 1
     self.new_limit_ = x
 
@@ -7563,6 +7665,7 @@ class TaskQueueQueryAndOwnTasksRequest(ProtocolBuffer.ProtocolMessage):
   def queue_name(self): return self.queue_name_
 
   def set_queue_name(self, x):
+    assert not isinstance(x, str)
     self.has_queue_name_ = 1
     self.queue_name_ = x
 
@@ -7576,6 +7679,7 @@ class TaskQueueQueryAndOwnTasksRequest(ProtocolBuffer.ProtocolMessage):
   def lease_seconds(self): return self.lease_seconds_
 
   def set_lease_seconds(self, x):
+    assert not isinstance(x, str)
     self.has_lease_seconds_ = 1
     self.lease_seconds_ = x
 
@@ -7589,6 +7693,7 @@ class TaskQueueQueryAndOwnTasksRequest(ProtocolBuffer.ProtocolMessage):
   def max_tasks(self): return self.max_tasks_
 
   def set_max_tasks(self, x):
+    assert not isinstance(x, str)
     self.has_max_tasks_ = 1
     self.max_tasks_ = x
 
@@ -7602,6 +7707,7 @@ class TaskQueueQueryAndOwnTasksRequest(ProtocolBuffer.ProtocolMessage):
   def group_by_tag(self): return self.group_by_tag_
 
   def set_group_by_tag(self, x):
+    assert not isinstance(x, str)
     self.has_group_by_tag_ = 1
     self.group_by_tag_ = x
 
@@ -7615,6 +7721,7 @@ class TaskQueueQueryAndOwnTasksRequest(ProtocolBuffer.ProtocolMessage):
   def tag(self): return self.tag_
 
   def set_tag(self, x):
+    assert not isinstance(x, str)
     self.has_tag_ = 1
     self.tag_ = x
 
@@ -7807,6 +7914,7 @@ class TaskQueueQueryAndOwnTasksResponse_Task(ProtocolBuffer.ProtocolMessage):
   def task_name(self): return self.task_name_
 
   def set_task_name(self, x):
+    assert not isinstance(x, str)
     self.has_task_name_ = 1
     self.task_name_ = x
 
@@ -7820,6 +7928,7 @@ class TaskQueueQueryAndOwnTasksResponse_Task(ProtocolBuffer.ProtocolMessage):
   def eta_usec(self): return self.eta_usec_
 
   def set_eta_usec(self, x):
+    assert not isinstance(x, str)
     self.has_eta_usec_ = 1
     self.eta_usec_ = x
 
@@ -7833,6 +7942,7 @@ class TaskQueueQueryAndOwnTasksResponse_Task(ProtocolBuffer.ProtocolMessage):
   def retry_count(self): return self.retry_count_
 
   def set_retry_count(self, x):
+    assert not isinstance(x, str)
     self.has_retry_count_ = 1
     self.retry_count_ = x
 
@@ -7846,6 +7956,7 @@ class TaskQueueQueryAndOwnTasksResponse_Task(ProtocolBuffer.ProtocolMessage):
   def body(self): return self.body_
 
   def set_body(self, x):
+    assert not isinstance(x, str)
     self.has_body_ = 1
     self.body_ = x
 
@@ -7859,6 +7970,7 @@ class TaskQueueQueryAndOwnTasksResponse_Task(ProtocolBuffer.ProtocolMessage):
   def tag(self): return self.tag_
 
   def set_tag(self, x):
+    assert not isinstance(x, str)
     self.has_tag_ = 1
     self.tag_ = x
 
@@ -8141,6 +8253,7 @@ class TaskQueueModifyTaskLeaseRequest(ProtocolBuffer.ProtocolMessage):
   def queue_name(self): return self.queue_name_
 
   def set_queue_name(self, x):
+    assert not isinstance(x, str)
     self.has_queue_name_ = 1
     self.queue_name_ = x
 
@@ -8154,6 +8267,7 @@ class TaskQueueModifyTaskLeaseRequest(ProtocolBuffer.ProtocolMessage):
   def task_name(self): return self.task_name_
 
   def set_task_name(self, x):
+    assert not isinstance(x, str)
     self.has_task_name_ = 1
     self.task_name_ = x
 
@@ -8167,6 +8281,7 @@ class TaskQueueModifyTaskLeaseRequest(ProtocolBuffer.ProtocolMessage):
   def eta_usec(self): return self.eta_usec_
 
   def set_eta_usec(self, x):
+    assert not isinstance(x, str)
     self.has_eta_usec_ = 1
     self.eta_usec_ = x
 
@@ -8180,6 +8295,7 @@ class TaskQueueModifyTaskLeaseRequest(ProtocolBuffer.ProtocolMessage):
   def lease_seconds(self): return self.lease_seconds_
 
   def set_lease_seconds(self, x):
+    assert not isinstance(x, str)
     self.has_lease_seconds_ = 1
     self.lease_seconds_ = x
 
@@ -8350,6 +8466,7 @@ class TaskQueueModifyTaskLeaseResponse(ProtocolBuffer.ProtocolMessage):
   def updated_eta_usec(self): return self.updated_eta_usec_
 
   def set_updated_eta_usec(self, x):
+    assert not isinstance(x, str)
     self.has_updated_eta_usec_ = 1
     self.updated_eta_usec_ = x
 

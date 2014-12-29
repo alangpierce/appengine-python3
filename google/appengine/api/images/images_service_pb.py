@@ -243,6 +243,7 @@ class Transform(ProtocolBuffer.ProtocolMessage):
   def width(self): return self.width_
 
   def set_width(self, x):
+    assert not isinstance(x, str)
     self.has_width_ = 1
     self.width_ = x
 
@@ -256,6 +257,7 @@ class Transform(ProtocolBuffer.ProtocolMessage):
   def height(self): return self.height_
 
   def set_height(self, x):
+    assert not isinstance(x, str)
     self.has_height_ = 1
     self.height_ = x
 
@@ -269,6 +271,7 @@ class Transform(ProtocolBuffer.ProtocolMessage):
   def crop_to_fit(self): return self.crop_to_fit_
 
   def set_crop_to_fit(self, x):
+    assert not isinstance(x, str)
     self.has_crop_to_fit_ = 1
     self.crop_to_fit_ = x
 
@@ -282,6 +285,7 @@ class Transform(ProtocolBuffer.ProtocolMessage):
   def crop_offset_x(self): return self.crop_offset_x_
 
   def set_crop_offset_x(self, x):
+    assert not isinstance(x, str)
     self.has_crop_offset_x_ = 1
     self.crop_offset_x_ = x
 
@@ -295,6 +299,7 @@ class Transform(ProtocolBuffer.ProtocolMessage):
   def crop_offset_y(self): return self.crop_offset_y_
 
   def set_crop_offset_y(self, x):
+    assert not isinstance(x, str)
     self.has_crop_offset_y_ = 1
     self.crop_offset_y_ = x
 
@@ -308,6 +313,7 @@ class Transform(ProtocolBuffer.ProtocolMessage):
   def rotate(self): return self.rotate_
 
   def set_rotate(self, x):
+    assert not isinstance(x, str)
     self.has_rotate_ = 1
     self.rotate_ = x
 
@@ -321,6 +327,7 @@ class Transform(ProtocolBuffer.ProtocolMessage):
   def horizontal_flip(self): return self.horizontal_flip_
 
   def set_horizontal_flip(self, x):
+    assert not isinstance(x, str)
     self.has_horizontal_flip_ = 1
     self.horizontal_flip_ = x
 
@@ -334,6 +341,7 @@ class Transform(ProtocolBuffer.ProtocolMessage):
   def vertical_flip(self): return self.vertical_flip_
 
   def set_vertical_flip(self, x):
+    assert not isinstance(x, str)
     self.has_vertical_flip_ = 1
     self.vertical_flip_ = x
 
@@ -347,6 +355,7 @@ class Transform(ProtocolBuffer.ProtocolMessage):
   def crop_left_x(self): return self.crop_left_x_
 
   def set_crop_left_x(self, x):
+    assert not isinstance(x, str)
     self.has_crop_left_x_ = 1
     self.crop_left_x_ = x
 
@@ -360,6 +369,7 @@ class Transform(ProtocolBuffer.ProtocolMessage):
   def crop_top_y(self): return self.crop_top_y_
 
   def set_crop_top_y(self, x):
+    assert not isinstance(x, str)
     self.has_crop_top_y_ = 1
     self.crop_top_y_ = x
 
@@ -373,6 +383,7 @@ class Transform(ProtocolBuffer.ProtocolMessage):
   def crop_right_x(self): return self.crop_right_x_
 
   def set_crop_right_x(self, x):
+    assert not isinstance(x, str)
     self.has_crop_right_x_ = 1
     self.crop_right_x_ = x
 
@@ -386,6 +397,7 @@ class Transform(ProtocolBuffer.ProtocolMessage):
   def crop_bottom_y(self): return self.crop_bottom_y_
 
   def set_crop_bottom_y(self, x):
+    assert not isinstance(x, str)
     self.has_crop_bottom_y_ = 1
     self.crop_bottom_y_ = x
 
@@ -399,6 +411,7 @@ class Transform(ProtocolBuffer.ProtocolMessage):
   def autolevels(self): return self.autolevels_
 
   def set_autolevels(self, x):
+    assert not isinstance(x, str)
     self.has_autolevels_ = 1
     self.autolevels_ = x
 
@@ -412,6 +425,7 @@ class Transform(ProtocolBuffer.ProtocolMessage):
   def allow_stretch(self): return self.allow_stretch_
 
   def set_allow_stretch(self, x):
+    assert not isinstance(x, str)
     self.has_allow_stretch_ = 1
     self.allow_stretch_ = x
 
@@ -760,6 +774,7 @@ class ImageData(ProtocolBuffer.ProtocolMessage):
   def content(self): return self.content_
 
   def set_content(self, x):
+    assert not isinstance(x, str)
     self.has_content_ = 1
     self.content_ = x
 
@@ -773,6 +788,7 @@ class ImageData(ProtocolBuffer.ProtocolMessage):
   def blob_key(self): return self.blob_key_
 
   def set_blob_key(self, x):
+    assert not isinstance(x, str)
     self.has_blob_key_ = 1
     self.blob_key_ = x
 
@@ -786,6 +802,7 @@ class ImageData(ProtocolBuffer.ProtocolMessage):
   def width(self): return self.width_
 
   def set_width(self, x):
+    assert not isinstance(x, str)
     self.has_width_ = 1
     self.width_ = x
 
@@ -799,6 +816,7 @@ class ImageData(ProtocolBuffer.ProtocolMessage):
   def height(self): return self.height_
 
   def set_height(self, x):
+    assert not isinstance(x, str)
     self.has_height_ = 1
     self.height_ = x
 
@@ -973,6 +991,7 @@ class InputSettings(ProtocolBuffer.ProtocolMessage):
   def correct_exif_orientation(self): return self.correct_exif_orientation_
 
   def set_correct_exif_orientation(self, x):
+    assert not isinstance(x, str)
     self.has_correct_exif_orientation_ = 1
     self.correct_exif_orientation_ = x
 
@@ -986,6 +1005,7 @@ class InputSettings(ProtocolBuffer.ProtocolMessage):
   def parse_metadata(self): return self.parse_metadata_
 
   def set_parse_metadata(self, x):
+    assert not isinstance(x, str)
     self.has_parse_metadata_ = 1
     self.parse_metadata_ = x
 
@@ -999,6 +1019,7 @@ class InputSettings(ProtocolBuffer.ProtocolMessage):
   def transparent_substitution_rgb(self): return self.transparent_substitution_rgb_
 
   def set_transparent_substitution_rgb(self, x):
+    assert not isinstance(x, str)
     self.has_transparent_substitution_rgb_ = 1
     self.transparent_substitution_rgb_ = x
 
@@ -1149,6 +1170,7 @@ class OutputSettings(ProtocolBuffer.ProtocolMessage):
   def mime_type(self): return self.mime_type_
 
   def set_mime_type(self, x):
+    assert not isinstance(x, str)
     self.has_mime_type_ = 1
     self.mime_type_ = x
 
@@ -1162,6 +1184,7 @@ class OutputSettings(ProtocolBuffer.ProtocolMessage):
   def quality(self): return self.quality_
 
   def set_quality(self, x):
+    assert not isinstance(x, str)
     self.has_quality_ = 1
     self.quality_ = x
 
@@ -1536,6 +1559,7 @@ class ImagesTransformResponse(ProtocolBuffer.ProtocolMessage):
   def source_metadata(self): return self.source_metadata_
 
   def set_source_metadata(self, x):
+    assert not isinstance(x, str)
     self.has_source_metadata_ = 1
     self.source_metadata_ = x
 
@@ -1699,6 +1723,7 @@ class CompositeImageOptions(ProtocolBuffer.ProtocolMessage):
   def source_index(self): return self.source_index_
 
   def set_source_index(self, x):
+    assert not isinstance(x, str)
     self.has_source_index_ = 1
     self.source_index_ = x
 
@@ -1712,6 +1737,7 @@ class CompositeImageOptions(ProtocolBuffer.ProtocolMessage):
   def x_offset(self): return self.x_offset_
 
   def set_x_offset(self, x):
+    assert not isinstance(x, str)
     self.has_x_offset_ = 1
     self.x_offset_ = x
 
@@ -1725,6 +1751,7 @@ class CompositeImageOptions(ProtocolBuffer.ProtocolMessage):
   def y_offset(self): return self.y_offset_
 
   def set_y_offset(self, x):
+    assert not isinstance(x, str)
     self.has_y_offset_ = 1
     self.y_offset_ = x
 
@@ -1738,6 +1765,7 @@ class CompositeImageOptions(ProtocolBuffer.ProtocolMessage):
   def opacity(self): return self.opacity_
 
   def set_opacity(self, x):
+    assert not isinstance(x, str)
     self.has_opacity_ = 1
     self.opacity_ = x
 
@@ -1751,6 +1779,7 @@ class CompositeImageOptions(ProtocolBuffer.ProtocolMessage):
   def anchor(self): return self.anchor_
 
   def set_anchor(self, x):
+    assert not isinstance(x, str)
     self.has_anchor_ = 1
     self.anchor_ = x
 
@@ -1951,6 +1980,7 @@ class ImagesCanvas(ProtocolBuffer.ProtocolMessage):
   def width(self): return self.width_
 
   def set_width(self, x):
+    assert not isinstance(x, str)
     self.has_width_ = 1
     self.width_ = x
 
@@ -1964,6 +1994,7 @@ class ImagesCanvas(ProtocolBuffer.ProtocolMessage):
   def height(self): return self.height_
 
   def set_height(self, x):
+    assert not isinstance(x, str)
     self.has_height_ = 1
     self.height_ = x
 
@@ -1985,6 +2016,7 @@ class ImagesCanvas(ProtocolBuffer.ProtocolMessage):
   def color(self): return self.color_
 
   def set_color(self, x):
+    assert not isinstance(x, str)
     self.has_color_ = 1
     self.color_ = x
 
@@ -2584,6 +2616,7 @@ class ImagesHistogram(ProtocolBuffer.ProtocolMessage):
     return self.red_[i]
 
   def set_red(self, i, x):
+    assert not isinstance(x, str)
     self.red_[i] = x
 
   def add_red(self, x):
@@ -2599,6 +2632,7 @@ class ImagesHistogram(ProtocolBuffer.ProtocolMessage):
     return self.green_[i]
 
   def set_green(self, i, x):
+    assert not isinstance(x, str)
     self.green_[i] = x
 
   def add_green(self, x):
@@ -2614,6 +2648,7 @@ class ImagesHistogram(ProtocolBuffer.ProtocolMessage):
     return self.blue_[i]
 
   def set_blue(self, i, x):
+    assert not isinstance(x, str)
     self.blue_[i] = x
 
   def add_blue(self, x):
@@ -2875,6 +2910,7 @@ class ImagesGetUrlBaseRequest(ProtocolBuffer.ProtocolMessage):
   def blob_key(self): return self.blob_key_
 
   def set_blob_key(self, x):
+    assert not isinstance(x, str)
     self.has_blob_key_ = 1
     self.blob_key_ = x
 
@@ -2888,6 +2924,7 @@ class ImagesGetUrlBaseRequest(ProtocolBuffer.ProtocolMessage):
   def create_secure_url(self): return self.create_secure_url_
 
   def set_create_secure_url(self, x):
+    assert not isinstance(x, str)
     self.has_create_secure_url_ = 1
     self.create_secure_url_ = x
 
@@ -3007,6 +3044,7 @@ class ImagesGetUrlBaseResponse(ProtocolBuffer.ProtocolMessage):
   def url(self): return self.url_
 
   def set_url(self, x):
+    assert not isinstance(x, str)
     self.has_url_ = 1
     self.url_ = x
 
@@ -3107,6 +3145,7 @@ class ImagesDeleteUrlBaseRequest(ProtocolBuffer.ProtocolMessage):
   def blob_key(self): return self.blob_key_
 
   def set_blob_key(self, x):
+    assert not isinstance(x, str)
     self.has_blob_key_ = 1
     self.blob_key_ = x
 

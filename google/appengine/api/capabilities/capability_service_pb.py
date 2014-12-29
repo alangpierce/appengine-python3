@@ -45,6 +45,7 @@ class IsEnabledRequest(ProtocolBuffer.ProtocolMessage):
   def package(self): return self.package_
 
   def set_package(self, x):
+    assert not isinstance(x, str)
     self.has_package_ = 1
     self.package_ = x
 
@@ -62,6 +63,7 @@ class IsEnabledRequest(ProtocolBuffer.ProtocolMessage):
     return self.capability_[i]
 
   def set_capability(self, i, x):
+    assert not isinstance(x, str)
     self.capability_[i] = x
 
   def add_capability(self, x):
@@ -77,6 +79,7 @@ class IsEnabledRequest(ProtocolBuffer.ProtocolMessage):
     return self.call_[i]
 
   def set_call(self, i, x):
+    assert not isinstance(x, str)
     self.call_[i] = x
 
   def add_call(self, x):
@@ -251,6 +254,7 @@ class IsEnabledResponse(ProtocolBuffer.ProtocolMessage):
   def summary_status(self): return self.summary_status_
 
   def set_summary_status(self, x):
+    assert not isinstance(x, str)
     self.has_summary_status_ = 1
     self.summary_status_ = x
 
@@ -264,6 +268,7 @@ class IsEnabledResponse(ProtocolBuffer.ProtocolMessage):
   def time_until_scheduled(self): return self.time_until_scheduled_
 
   def set_time_until_scheduled(self, x):
+    assert not isinstance(x, str)
     self.has_time_until_scheduled_ = 1
     self.time_until_scheduled_ = x
 

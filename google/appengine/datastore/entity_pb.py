@@ -45,6 +45,7 @@ class PropertyValue_ReferenceValuePathElement(ProtocolBuffer.ProtocolMessage):
   def type(self): return self.type_
 
   def set_type(self, x):
+    assert not isinstance(x, str)
     self.has_type_ = 1
     self.type_ = x
 
@@ -58,6 +59,7 @@ class PropertyValue_ReferenceValuePathElement(ProtocolBuffer.ProtocolMessage):
   def id(self): return self.id_
 
   def set_id(self, x):
+    assert not isinstance(x, str)
     self.has_id_ = 1
     self.id_ = x
 
@@ -71,6 +73,7 @@ class PropertyValue_ReferenceValuePathElement(ProtocolBuffer.ProtocolMessage):
   def name(self): return self.name_
 
   def set_name(self, x):
+    assert not isinstance(x, str)
     self.has_name_ = 1
     self.name_ = x
 
@@ -186,6 +189,7 @@ class PropertyValue_PointValue(ProtocolBuffer.ProtocolMessage):
   def x(self): return self.x_
 
   def set_x(self, x):
+    assert not isinstance(x, str)
     self.has_x_ = 1
     self.x_ = x
 
@@ -199,6 +203,7 @@ class PropertyValue_PointValue(ProtocolBuffer.ProtocolMessage):
   def y(self): return self.y_
 
   def set_y(self, x):
+    assert not isinstance(x, str)
     self.has_y_ = 1
     self.y_ = x
 
@@ -309,6 +314,7 @@ class PropertyValue_UserValue(ProtocolBuffer.ProtocolMessage):
   def email(self): return self.email_
 
   def set_email(self, x):
+    assert not isinstance(x, str)
     self.has_email_ = 1
     self.email_ = x
 
@@ -322,6 +328,7 @@ class PropertyValue_UserValue(ProtocolBuffer.ProtocolMessage):
   def auth_domain(self): return self.auth_domain_
 
   def set_auth_domain(self, x):
+    assert not isinstance(x, str)
     self.has_auth_domain_ = 1
     self.auth_domain_ = x
 
@@ -335,6 +342,7 @@ class PropertyValue_UserValue(ProtocolBuffer.ProtocolMessage):
   def nickname(self): return self.nickname_
 
   def set_nickname(self, x):
+    assert not isinstance(x, str)
     self.has_nickname_ = 1
     self.nickname_ = x
 
@@ -348,6 +356,7 @@ class PropertyValue_UserValue(ProtocolBuffer.ProtocolMessage):
   def gaiaid(self): return self.gaiaid_
 
   def set_gaiaid(self, x):
+    assert not isinstance(x, str)
     self.has_gaiaid_ = 1
     self.gaiaid_ = x
 
@@ -361,6 +370,7 @@ class PropertyValue_UserValue(ProtocolBuffer.ProtocolMessage):
   def obfuscated_gaiaid(self): return self.obfuscated_gaiaid_
 
   def set_obfuscated_gaiaid(self, x):
+    assert not isinstance(x, str)
     self.has_obfuscated_gaiaid_ = 1
     self.obfuscated_gaiaid_ = x
 
@@ -374,6 +384,7 @@ class PropertyValue_UserValue(ProtocolBuffer.ProtocolMessage):
   def federated_identity(self): return self.federated_identity_
 
   def set_federated_identity(self, x):
+    assert not isinstance(x, str)
     self.has_federated_identity_ = 1
     self.federated_identity_ = x
 
@@ -387,6 +398,7 @@ class PropertyValue_UserValue(ProtocolBuffer.ProtocolMessage):
   def federated_provider(self): return self.federated_provider_
 
   def set_federated_provider(self, x):
+    assert not isinstance(x, str)
     self.has_federated_provider_ = 1
     self.federated_provider_ = x
 
@@ -577,6 +589,7 @@ class PropertyValue_ReferenceValue(ProtocolBuffer.ProtocolMessage):
   def app(self): return self.app_
 
   def set_app(self, x):
+    assert not isinstance(x, str)
     self.has_app_ = 1
     self.app_ = x
 
@@ -590,6 +603,7 @@ class PropertyValue_ReferenceValue(ProtocolBuffer.ProtocolMessage):
   def name_space(self): return self.name_space_
 
   def set_name_space(self, x):
+    assert not isinstance(x, str)
     self.has_name_space_ = 1
     self.name_space_ = x
 
@@ -746,6 +760,7 @@ class PropertyValue(ProtocolBuffer.ProtocolMessage):
   def int64value(self): return self.int64value_
 
   def set_int64value(self, x):
+    assert not isinstance(x, str)
     self.has_int64value_ = 1
     self.int64value_ = x
 
@@ -759,6 +774,7 @@ class PropertyValue(ProtocolBuffer.ProtocolMessage):
   def booleanvalue(self): return self.booleanvalue_
 
   def set_booleanvalue(self, x):
+    assert not isinstance(x, str)
     self.has_booleanvalue_ = 1
     self.booleanvalue_ = x
 
@@ -772,6 +788,7 @@ class PropertyValue(ProtocolBuffer.ProtocolMessage):
   def stringvalue(self): return self.stringvalue_
 
   def set_stringvalue(self, x):
+    assert not isinstance(x, str)
     self.has_stringvalue_ = 1
     self.stringvalue_ = x
 
@@ -785,6 +802,7 @@ class PropertyValue(ProtocolBuffer.ProtocolMessage):
   def doublevalue(self): return self.doublevalue_
 
   def set_doublevalue(self, x):
+    assert not isinstance(x, str)
     self.has_doublevalue_ = 1
     self.doublevalue_ = x
 
@@ -1173,6 +1191,7 @@ class Property(ProtocolBuffer.ProtocolMessage):
   def meaning(self): return self.meaning_
 
   def set_meaning(self, x):
+    assert not isinstance(x, str)
     self.has_meaning_ = 1
     self.meaning_ = x
 
@@ -1186,6 +1205,7 @@ class Property(ProtocolBuffer.ProtocolMessage):
   def meaning_uri(self): return self.meaning_uri_
 
   def set_meaning_uri(self, x):
+    assert not isinstance(x, str)
     self.has_meaning_uri_ = 1
     self.meaning_uri_ = x
 
@@ -1199,6 +1219,7 @@ class Property(ProtocolBuffer.ProtocolMessage):
   def name(self): return self.name_
 
   def set_name(self, x):
+    assert not isinstance(x, str)
     self.has_name_ = 1
     self.name_ = x
 
@@ -1220,6 +1241,7 @@ class Property(ProtocolBuffer.ProtocolMessage):
   def multiple(self): return self.multiple_
 
   def set_multiple(self, x):
+    assert not isinstance(x, str)
     self.has_multiple_ = 1
     self.multiple_ = x
 
@@ -1233,6 +1255,7 @@ class Property(ProtocolBuffer.ProtocolMessage):
   def embedded(self): return self.embedded_
 
   def set_embedded(self, x):
+    assert not isinstance(x, str)
     self.has_embedded_ = 1
     self.embedded_ = x
 
@@ -1449,6 +1472,7 @@ class Path_Element(ProtocolBuffer.ProtocolMessage):
   def type(self): return self.type_
 
   def set_type(self, x):
+    assert not isinstance(x, str)
     self.has_type_ = 1
     self.type_ = x
 
@@ -1462,6 +1486,7 @@ class Path_Element(ProtocolBuffer.ProtocolMessage):
   def id(self): return self.id_
 
   def set_id(self, x):
+    assert not isinstance(x, str)
     self.has_id_ = 1
     self.id_ = x
 
@@ -1475,6 +1500,7 @@ class Path_Element(ProtocolBuffer.ProtocolMessage):
   def name(self): return self.name_
 
   def set_name(self, x):
+    assert not isinstance(x, str)
     self.has_name_ = 1
     self.name_ = x
 
@@ -1712,6 +1738,7 @@ class Reference(ProtocolBuffer.ProtocolMessage):
   def app(self): return self.app_
 
   def set_app(self, x):
+    assert not isinstance(x, str)
     self.has_app_ = 1
     self.app_ = x
 
@@ -1725,6 +1752,7 @@ class Reference(ProtocolBuffer.ProtocolMessage):
   def name_space(self): return self.name_space_
 
   def set_name_space(self, x):
+    assert not isinstance(x, str)
     self.has_name_space_ = 1
     self.name_space_ = x
 
@@ -1897,6 +1925,7 @@ class User(ProtocolBuffer.ProtocolMessage):
   def email(self): return self.email_
 
   def set_email(self, x):
+    assert not isinstance(x, str)
     self.has_email_ = 1
     self.email_ = x
 
@@ -1910,6 +1939,7 @@ class User(ProtocolBuffer.ProtocolMessage):
   def auth_domain(self): return self.auth_domain_
 
   def set_auth_domain(self, x):
+    assert not isinstance(x, str)
     self.has_auth_domain_ = 1
     self.auth_domain_ = x
 
@@ -1923,6 +1953,7 @@ class User(ProtocolBuffer.ProtocolMessage):
   def nickname(self): return self.nickname_
 
   def set_nickname(self, x):
+    assert not isinstance(x, str)
     self.has_nickname_ = 1
     self.nickname_ = x
 
@@ -1936,6 +1967,7 @@ class User(ProtocolBuffer.ProtocolMessage):
   def gaiaid(self): return self.gaiaid_
 
   def set_gaiaid(self, x):
+    assert not isinstance(x, str)
     self.has_gaiaid_ = 1
     self.gaiaid_ = x
 
@@ -1949,6 +1981,7 @@ class User(ProtocolBuffer.ProtocolMessage):
   def obfuscated_gaiaid(self): return self.obfuscated_gaiaid_
 
   def set_obfuscated_gaiaid(self, x):
+    assert not isinstance(x, str)
     self.has_obfuscated_gaiaid_ = 1
     self.obfuscated_gaiaid_ = x
 
@@ -1962,6 +1995,7 @@ class User(ProtocolBuffer.ProtocolMessage):
   def federated_identity(self): return self.federated_identity_
 
   def set_federated_identity(self, x):
+    assert not isinstance(x, str)
     self.has_federated_identity_ = 1
     self.federated_identity_ = x
 
@@ -1975,6 +2009,7 @@ class User(ProtocolBuffer.ProtocolMessage):
   def federated_provider(self): return self.federated_provider_
 
   def set_federated_provider(self, x):
+    assert not isinstance(x, str)
     self.has_federated_provider_ = 1
     self.federated_provider_ = x
 
@@ -2260,6 +2295,7 @@ class EntityProto(ProtocolBuffer.ProtocolMessage):
   def kind(self): return self.kind_
 
   def set_kind(self, x):
+    assert not isinstance(x, str)
     self.has_kind_ = 1
     self.kind_ = x
 
@@ -2273,6 +2309,7 @@ class EntityProto(ProtocolBuffer.ProtocolMessage):
   def kind_uri(self): return self.kind_uri_
 
   def set_kind_uri(self, x):
+    assert not isinstance(x, str)
     self.has_kind_uri_ = 1
     self.kind_uri_ = x
 
@@ -2586,6 +2623,7 @@ class CompositeProperty(ProtocolBuffer.ProtocolMessage):
   def index_id(self): return self.index_id_
 
   def set_index_id(self, x):
+    assert not isinstance(x, str)
     self.has_index_id_ = 1
     self.index_id_ = x
 
@@ -2603,6 +2641,7 @@ class CompositeProperty(ProtocolBuffer.ProtocolMessage):
     return self.value_[i]
 
   def set_value(self, i, x):
+    assert not isinstance(x, str)
     self.value_[i] = x
 
   def add_value(self, x):
@@ -2762,6 +2801,7 @@ class Index_Property(ProtocolBuffer.ProtocolMessage):
   def name(self): return self.name_
 
   def set_name(self, x):
+    assert not isinstance(x, str)
     self.has_name_ = 1
     self.name_ = x
 
@@ -2775,6 +2815,7 @@ class Index_Property(ProtocolBuffer.ProtocolMessage):
   def direction(self): return self.direction_
 
   def set_direction(self, x):
+    assert not isinstance(x, str)
     self.has_direction_ = 1
     self.direction_ = x
 
@@ -2788,6 +2829,7 @@ class Index_Property(ProtocolBuffer.ProtocolMessage):
   def mode(self): return self.mode_
 
   def set_mode(self, x):
+    assert not isinstance(x, str)
     self.has_mode_ = 1
     self.mode_ = x
 
@@ -2904,6 +2946,7 @@ class Index(ProtocolBuffer.ProtocolMessage):
   def entity_type(self): return self.entity_type_
 
   def set_entity_type(self, x):
+    assert not isinstance(x, str)
     self.has_entity_type_ = 1
     self.entity_type_ = x
 
@@ -2917,6 +2960,7 @@ class Index(ProtocolBuffer.ProtocolMessage):
   def ancestor(self): return self.ancestor_
 
   def set_ancestor(self, x):
+    assert not isinstance(x, str)
     self.has_ancestor_ = 1
     self.ancestor_ = x
 
@@ -3146,6 +3190,7 @@ class CompositeIndex(ProtocolBuffer.ProtocolMessage):
   def app_id(self): return self.app_id_
 
   def set_app_id(self, x):
+    assert not isinstance(x, str)
     self.has_app_id_ = 1
     self.app_id_ = x
 
@@ -3159,6 +3204,7 @@ class CompositeIndex(ProtocolBuffer.ProtocolMessage):
   def id(self): return self.id_
 
   def set_id(self, x):
+    assert not isinstance(x, str)
     self.has_id_ = 1
     self.id_ = x
 
@@ -3180,6 +3226,7 @@ class CompositeIndex(ProtocolBuffer.ProtocolMessage):
   def state(self): return self.state_
 
   def set_state(self, x):
+    assert not isinstance(x, str)
     self.has_state_ = 1
     self.state_ = x
 
@@ -3193,6 +3240,7 @@ class CompositeIndex(ProtocolBuffer.ProtocolMessage):
   def workflow_state(self): return self.workflow_state_
 
   def set_workflow_state(self, x):
+    assert not isinstance(x, str)
     self.has_workflow_state_ = 1
     self.workflow_state_ = x
 
@@ -3206,6 +3254,7 @@ class CompositeIndex(ProtocolBuffer.ProtocolMessage):
   def error_message(self): return self.error_message_
 
   def set_error_message(self, x):
+    assert not isinstance(x, str)
     self.has_error_message_ = 1
     self.error_message_ = x
 
@@ -3219,6 +3268,7 @@ class CompositeIndex(ProtocolBuffer.ProtocolMessage):
   def only_use_if_required(self): return self.only_use_if_required_
 
   def set_only_use_if_required(self, x):
+    assert not isinstance(x, str)
     self.has_only_use_if_required_ = 1
     self.only_use_if_required_ = x
 
@@ -3232,6 +3282,7 @@ class CompositeIndex(ProtocolBuffer.ProtocolMessage):
   def disabled_index(self): return self.disabled_index_
 
   def set_disabled_index(self, x):
+    assert not isinstance(x, str)
     self.has_disabled_index_ = 1
     self.disabled_index_ = x
 
@@ -3249,6 +3300,7 @@ class CompositeIndex(ProtocolBuffer.ProtocolMessage):
     return self.read_division_family_[i]
 
   def set_read_division_family(self, i, x):
+    assert not isinstance(x, str)
     self.read_division_family_[i] = x
 
   def add_read_division_family(self, x):
@@ -3260,6 +3312,7 @@ class CompositeIndex(ProtocolBuffer.ProtocolMessage):
   def write_division_family(self): return self.write_division_family_
 
   def set_write_division_family(self, x):
+    assert not isinstance(x, str)
     self.has_write_division_family_ = 1
     self.write_division_family_ = x
 
@@ -3569,6 +3622,7 @@ class SearchIndexEntry(ProtocolBuffer.ProtocolMessage):
   def index_id(self): return self.index_id_
 
   def set_index_id(self, x):
+    assert not isinstance(x, str)
     self.has_index_id_ = 1
     self.index_id_ = x
 
@@ -3582,6 +3636,7 @@ class SearchIndexEntry(ProtocolBuffer.ProtocolMessage):
   def write_division_family(self): return self.write_division_family_
 
   def set_write_division_family(self, x):
+    assert not isinstance(x, str)
     self.has_write_division_family_ = 1
     self.write_division_family_ = x
 
@@ -3595,6 +3650,7 @@ class SearchIndexEntry(ProtocolBuffer.ProtocolMessage):
   def fingerprint_1999(self): return self.fingerprint_1999_
 
   def set_fingerprint_1999(self, x):
+    assert not isinstance(x, str)
     self.has_fingerprint_1999_ = 1
     self.fingerprint_1999_ = x
 
@@ -3608,6 +3664,7 @@ class SearchIndexEntry(ProtocolBuffer.ProtocolMessage):
   def fingerprint_2011(self): return self.fingerprint_2011_
 
   def set_fingerprint_2011(self, x):
+    assert not isinstance(x, str)
     self.has_fingerprint_2011_ = 1
     self.fingerprint_2011_ = x
 
@@ -3772,6 +3829,7 @@ class SearchIndexExternalId(ProtocolBuffer.ProtocolMessage):
   def index_id(self): return self.index_id_
 
   def set_index_id(self, x):
+    assert not isinstance(x, str)
     self.has_index_id_ = 1
     self.index_id_ = x
 
@@ -3915,6 +3973,7 @@ class IndexPostfix_IndexValue(ProtocolBuffer.ProtocolMessage):
   def property_name(self): return self.property_name_
 
   def set_property_name(self, x):
+    assert not isinstance(x, str)
     self.has_property_name_ = 1
     self.property_name_ = x
 
@@ -4097,6 +4156,7 @@ class IndexPostfix(ProtocolBuffer.ProtocolMessage):
   def before(self): return self.before_
 
   def set_before(self, x):
+    assert not isinstance(x, str)
     self.has_before_ = 1
     self.before_ = x
 
@@ -4110,6 +4170,7 @@ class IndexPostfix(ProtocolBuffer.ProtocolMessage):
   def before_ascending(self): return self.before_ascending_
 
   def set_before_ascending(self, x):
+    assert not isinstance(x, str)
     self.has_before_ascending_ = 1
     self.before_ascending_ = x
 
@@ -4292,6 +4353,7 @@ class IndexPosition(ProtocolBuffer.ProtocolMessage):
   def key(self): return self.key_
 
   def set_key(self, x):
+    assert not isinstance(x, str)
     self.has_key_ = 1
     self.key_ = x
 
@@ -4305,6 +4367,7 @@ class IndexPosition(ProtocolBuffer.ProtocolMessage):
   def before(self): return self.before_
 
   def set_before(self, x):
+    assert not isinstance(x, str)
     self.has_before_ = 1
     self.before_ = x
 
@@ -4318,6 +4381,7 @@ class IndexPosition(ProtocolBuffer.ProtocolMessage):
   def before_ascending(self): return self.before_ascending_
 
   def set_before_ascending(self, x):
+    assert not isinstance(x, str)
     self.has_before_ascending_ = 1
     self.before_ascending_ = x
 

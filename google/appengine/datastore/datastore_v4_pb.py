@@ -219,6 +219,7 @@ class EntityResult(ProtocolBuffer.ProtocolMessage):
   def version(self): return self.version_
 
   def set_version(self, x):
+    assert not isinstance(x, str)
     self.has_version_ = 1
     self.version_ = x
 
@@ -232,6 +233,7 @@ class EntityResult(ProtocolBuffer.ProtocolMessage):
   def cursor(self): return self.cursor_
 
   def set_cursor(self, x):
+    assert not isinstance(x, str)
     self.has_cursor_ = 1
     self.cursor_ = x
 
@@ -508,6 +510,7 @@ class Query(ProtocolBuffer.ProtocolMessage):
   def start_cursor(self): return self.start_cursor_
 
   def set_start_cursor(self, x):
+    assert not isinstance(x, str)
     self.has_start_cursor_ = 1
     self.start_cursor_ = x
 
@@ -521,6 +524,7 @@ class Query(ProtocolBuffer.ProtocolMessage):
   def end_cursor(self): return self.end_cursor_
 
   def set_end_cursor(self, x):
+    assert not isinstance(x, str)
     self.has_end_cursor_ = 1
     self.end_cursor_ = x
 
@@ -534,6 +538,7 @@ class Query(ProtocolBuffer.ProtocolMessage):
   def offset(self): return self.offset_
 
   def set_offset(self, x):
+    assert not isinstance(x, str)
     self.has_offset_ = 1
     self.offset_ = x
 
@@ -547,6 +552,7 @@ class Query(ProtocolBuffer.ProtocolMessage):
   def limit(self): return self.limit_
 
   def set_limit(self, x):
+    assert not isinstance(x, str)
     self.has_limit_ = 1
     self.limit_ = x
 
@@ -904,6 +910,7 @@ class KindExpression(ProtocolBuffer.ProtocolMessage):
   def name(self): return self.name_
 
   def set_name(self, x):
+    assert not isinstance(x, str)
     self.has_name_ = 1
     self.name_ = x
 
@@ -1037,6 +1044,7 @@ class PropertyReference(ProtocolBuffer.ProtocolMessage):
   def name(self): return self.name_
 
   def set_name(self, x):
+    assert not isinstance(x, str)
     self.has_name_ = 1
     self.name_ = x
 
@@ -1191,6 +1199,7 @@ class PropertyExpression(ProtocolBuffer.ProtocolMessage):
   def aggregation_function(self): return self.aggregation_function_
 
   def set_aggregation_function(self, x):
+    assert not isinstance(x, str)
     self.has_aggregation_function_ = 1
     self.aggregation_function_ = x
 
@@ -1375,6 +1384,7 @@ class PropertyOrder(ProtocolBuffer.ProtocolMessage):
   def direction(self): return self.direction_
 
   def set_direction(self, x):
+    assert not isinstance(x, str)
     self.has_direction_ = 1
     self.direction_ = x
 
@@ -1839,6 +1849,7 @@ class CompositeFilter(ProtocolBuffer.ProtocolMessage):
   def operator(self): return self.operator_
 
   def set_operator(self, x):
+    assert not isinstance(x, str)
     self.has_operator_ = 1
     self.operator_ = x
 
@@ -2057,6 +2068,7 @@ class PropertyFilter(ProtocolBuffer.ProtocolMessage):
   def operator(self): return self.operator_
 
   def set_operator(self, x):
+    assert not isinstance(x, str)
     self.has_operator_ = 1
     self.operator_ = x
 
@@ -2284,6 +2296,7 @@ class BoundingCircleFilter(ProtocolBuffer.ProtocolMessage):
   def radius_meters(self): return self.radius_meters_
 
   def set_radius_meters(self, x):
+    assert not isinstance(x, str)
     self.has_radius_meters_ = 1
     self.radius_meters_ = x
 
@@ -2708,6 +2721,7 @@ class GqlQuery(ProtocolBuffer.ProtocolMessage):
   def query_string(self): return self.query_string_
 
   def set_query_string(self, x):
+    assert not isinstance(x, str)
     self.has_query_string_ = 1
     self.query_string_ = x
 
@@ -2721,6 +2735,7 @@ class GqlQuery(ProtocolBuffer.ProtocolMessage):
   def allow_literal(self): return self.allow_literal_
 
   def set_allow_literal(self, x):
+    assert not isinstance(x, str)
     self.has_allow_literal_ = 1
     self.allow_literal_ = x
 
@@ -2982,6 +2997,7 @@ class GqlQueryArg(ProtocolBuffer.ProtocolMessage):
   def name(self): return self.name_
 
   def set_name(self, x):
+    assert not isinstance(x, str)
     self.has_name_ = 1
     self.name_ = x
 
@@ -3014,6 +3030,7 @@ class GqlQueryArg(ProtocolBuffer.ProtocolMessage):
   def cursor(self): return self.cursor_
 
   def set_cursor(self, x):
+    assert not isinstance(x, str)
     self.has_cursor_ = 1
     self.cursor_ = x
 
@@ -3215,6 +3232,7 @@ class QueryResultBatch(ProtocolBuffer.ProtocolMessage):
   def entity_result_type(self): return self.entity_result_type_
 
   def set_entity_result_type(self, x):
+    assert not isinstance(x, str)
     self.has_entity_result_type_ = 1
     self.entity_result_type_ = x
 
@@ -3244,6 +3262,7 @@ class QueryResultBatch(ProtocolBuffer.ProtocolMessage):
   def skipped_cursor(self): return self.skipped_cursor_
 
   def set_skipped_cursor(self, x):
+    assert not isinstance(x, str)
     self.has_skipped_cursor_ = 1
     self.skipped_cursor_ = x
 
@@ -3257,6 +3276,7 @@ class QueryResultBatch(ProtocolBuffer.ProtocolMessage):
   def end_cursor(self): return self.end_cursor_
 
   def set_end_cursor(self, x):
+    assert not isinstance(x, str)
     self.has_end_cursor_ = 1
     self.end_cursor_ = x
 
@@ -3270,6 +3290,7 @@ class QueryResultBatch(ProtocolBuffer.ProtocolMessage):
   def more_results(self): return self.more_results_
 
   def set_more_results(self, x):
+    assert not isinstance(x, str)
     self.has_more_results_ = 1
     self.more_results_ = x
 
@@ -3283,6 +3304,7 @@ class QueryResultBatch(ProtocolBuffer.ProtocolMessage):
   def skipped_results(self): return self.skipped_results_
 
   def set_skipped_results(self, x):
+    assert not isinstance(x, str)
     self.has_skipped_results_ = 1
     self.skipped_results_ = x
 
@@ -3296,6 +3318,7 @@ class QueryResultBatch(ProtocolBuffer.ProtocolMessage):
   def snapshot_version(self): return self.snapshot_version_
 
   def set_snapshot_version(self, x):
+    assert not isinstance(x, str)
     self.has_snapshot_version_ = 1
     self.snapshot_version_ = x
 
@@ -3589,6 +3612,7 @@ class Mutation(ProtocolBuffer.ProtocolMessage):
   def op(self): return self.op_
 
   def set_op(self, x):
+    assert not isinstance(x, str)
     self.has_op_ = 1
     self.op_ = x
 
@@ -3833,6 +3857,7 @@ class MutationResult(ProtocolBuffer.ProtocolMessage):
   def new_version(self): return self.new_version_
 
   def set_new_version(self, x):
+    assert not isinstance(x, str)
     self.has_new_version_ = 1
     self.new_version_ = x
 
@@ -4074,6 +4099,7 @@ class DeprecatedMutation(ProtocolBuffer.ProtocolMessage):
   def force(self): return self.force_
 
   def set_force(self, x):
+    assert not isinstance(x, str)
     self.has_force_ = 1
     self.force_ = x
 
@@ -4388,6 +4414,7 @@ class DeprecatedMutationResult(ProtocolBuffer.ProtocolMessage):
   def index_updates(self): return self.index_updates_
 
   def set_index_updates(self, x):
+    assert not isinstance(x, str)
     self.has_index_updates_ = 1
     self.index_updates_ = x
 
@@ -4421,6 +4448,7 @@ class DeprecatedMutationResult(ProtocolBuffer.ProtocolMessage):
     return self.upsert_version_[i]
 
   def set_upsert_version(self, i, x):
+    assert not isinstance(x, str)
     self.upsert_version_[i] = x
 
   def add_upsert_version(self, x):
@@ -4436,6 +4464,7 @@ class DeprecatedMutationResult(ProtocolBuffer.ProtocolMessage):
     return self.update_version_[i]
 
   def set_update_version(self, i, x):
+    assert not isinstance(x, str)
     self.update_version_[i] = x
 
   def add_update_version(self, x):
@@ -4451,6 +4480,7 @@ class DeprecatedMutationResult(ProtocolBuffer.ProtocolMessage):
     return self.insert_version_[i]
 
   def set_insert_version(self, i, x):
+    assert not isinstance(x, str)
     self.insert_version_[i] = x
 
   def add_insert_version(self, x):
@@ -4466,6 +4496,7 @@ class DeprecatedMutationResult(ProtocolBuffer.ProtocolMessage):
     return self.insert_auto_id_version_[i]
 
   def set_insert_auto_id_version(self, i, x):
+    assert not isinstance(x, str)
     self.insert_auto_id_version_[i] = x
 
   def add_insert_auto_id_version(self, x):
@@ -4481,6 +4512,7 @@ class DeprecatedMutationResult(ProtocolBuffer.ProtocolMessage):
     return self.delete_version_[i]
 
   def set_delete_version(self, i, x):
+    assert not isinstance(x, str)
     self.delete_version_[i] = x
 
   def add_delete_version(self, x):
@@ -4800,6 +4832,7 @@ class ReadOptions(ProtocolBuffer.ProtocolMessage):
   def read_consistency(self): return self.read_consistency_
 
   def set_read_consistency(self, x):
+    assert not isinstance(x, str)
     self.has_read_consistency_ = 1
     self.read_consistency_ = x
 
@@ -4813,6 +4846,7 @@ class ReadOptions(ProtocolBuffer.ProtocolMessage):
   def transaction(self): return self.transaction_
 
   def set_transaction(self, x):
+    assert not isinstance(x, str)
     self.has_transaction_ = 1
     self.transaction_ = x
 
@@ -5497,6 +5531,7 @@ class RunQueryRequest(ProtocolBuffer.ProtocolMessage):
   def min_safe_time_seconds(self): return self.min_safe_time_seconds_
 
   def set_min_safe_time_seconds(self, x):
+    assert not isinstance(x, str)
     self.has_min_safe_time_seconds_ = 1
     self.min_safe_time_seconds_ = x
 
@@ -5510,6 +5545,7 @@ class RunQueryRequest(ProtocolBuffer.ProtocolMessage):
   def suggested_batch_size(self): return self.suggested_batch_size_
 
   def set_suggested_batch_size(self, x):
+    assert not isinstance(x, str)
     self.has_suggested_batch_size_ = 1
     self.suggested_batch_size_ = x
 
@@ -5779,6 +5815,7 @@ class RunQueryResponse(ProtocolBuffer.ProtocolMessage):
   def query_handle(self): return self.query_handle_
 
   def set_query_handle(self, x):
+    assert not isinstance(x, str)
     self.has_query_handle_ = 1
     self.query_handle_ = x
 
@@ -5940,6 +5977,7 @@ class ContinueQueryRequest(ProtocolBuffer.ProtocolMessage):
   def query_handle(self): return self.query_handle_
 
   def set_query_handle(self, x):
+    assert not isinstance(x, str)
     self.has_query_handle_ = 1
     self.query_handle_ = x
 
@@ -6212,6 +6250,7 @@ class BeginTransactionRequest(ProtocolBuffer.ProtocolMessage):
   def cross_group(self): return self.cross_group_
 
   def set_cross_group(self, x):
+    assert not isinstance(x, str)
     self.has_cross_group_ = 1
     self.cross_group_ = x
 
@@ -6225,6 +6264,7 @@ class BeginTransactionRequest(ProtocolBuffer.ProtocolMessage):
   def cross_request(self): return self.cross_request_
 
   def set_cross_request(self, x):
+    assert not isinstance(x, str)
     self.has_cross_request_ = 1
     self.cross_request_ = x
 
@@ -6372,6 +6412,7 @@ class BeginTransactionResponse(ProtocolBuffer.ProtocolMessage):
   def transaction(self): return self.transaction_
 
   def set_transaction(self, x):
+    assert not isinstance(x, str)
     self.has_transaction_ = 1
     self.transaction_ = x
 
@@ -6505,6 +6546,7 @@ class RollbackRequest(ProtocolBuffer.ProtocolMessage):
   def transaction(self): return self.transaction_
 
   def set_transaction(self, x):
+    assert not isinstance(x, str)
     self.has_transaction_ = 1
     self.transaction_ = x
 
@@ -6757,6 +6799,7 @@ class CommitRequest(ProtocolBuffer.ProtocolMessage):
   def transaction(self): return self.transaction_
 
   def set_transaction(self, x):
+    assert not isinstance(x, str)
     self.has_transaction_ = 1
     self.transaction_ = x
 
@@ -6805,6 +6848,7 @@ class CommitRequest(ProtocolBuffer.ProtocolMessage):
   def mode(self): return self.mode_
 
   def set_mode(self, x):
+    assert not isinstance(x, str)
     self.has_mode_ = 1
     self.mode_ = x
 
@@ -6818,6 +6862,7 @@ class CommitRequest(ProtocolBuffer.ProtocolMessage):
   def ignore_read_only(self): return self.ignore_read_only_
 
   def set_ignore_read_only(self, x):
+    assert not isinstance(x, str)
     self.has_ignore_read_only_ = 1
     self.ignore_read_only_ = x
 
@@ -7087,6 +7132,7 @@ class CommitResponse(ProtocolBuffer.ProtocolMessage):
   def index_updates(self): return self.index_updates_
 
   def set_index_updates(self, x):
+    assert not isinstance(x, str)
     self.has_index_updates_ = 1
     self.index_updates_ = x
 

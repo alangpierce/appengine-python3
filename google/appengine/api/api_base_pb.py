@@ -41,6 +41,7 @@ class StringProto(ProtocolBuffer.ProtocolMessage):
   def value(self): return self.value_
 
   def set_value(self, x):
+    assert not isinstance(x, str)
     self.has_value_ = 1
     self.value_ = x
 
@@ -141,6 +142,7 @@ class Integer32Proto(ProtocolBuffer.ProtocolMessage):
   def value(self): return self.value_
 
   def set_value(self, x):
+    assert not isinstance(x, str)
     self.has_value_ = 1
     self.value_ = x
 
@@ -241,6 +243,7 @@ class Integer64Proto(ProtocolBuffer.ProtocolMessage):
   def value(self): return self.value_
 
   def set_value(self, x):
+    assert not isinstance(x, str)
     self.has_value_ = 1
     self.value_ = x
 
@@ -341,6 +344,7 @@ class BoolProto(ProtocolBuffer.ProtocolMessage):
   def value(self): return self.value_
 
   def set_value(self, x):
+    assert not isinstance(x, str)
     self.has_value_ = 1
     self.value_ = x
 
@@ -439,6 +443,7 @@ class DoubleProto(ProtocolBuffer.ProtocolMessage):
   def value(self): return self.value_
 
   def set_value(self, x):
+    assert not isinstance(x, str)
     self.has_value_ = 1
     self.value_ = x
 
@@ -537,6 +542,7 @@ class BytesProto(ProtocolBuffer.ProtocolMessage):
   def value(self): return self.value_
 
   def set_value(self, x):
+    assert not isinstance(x, str)
     self.has_value_ = 1
     self.value_ = x
 

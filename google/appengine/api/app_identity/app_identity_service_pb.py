@@ -186,6 +186,7 @@ class SignForAppRequest(ProtocolBuffer.ProtocolMessage):
   def bytes_to_sign(self): return self.bytes_to_sign_
 
   def set_bytes_to_sign(self, x):
+    assert not isinstance(x, str)
     self.has_bytes_to_sign_ = 1
     self.bytes_to_sign_ = x
 
@@ -316,6 +317,7 @@ class SignForAppResponse(ProtocolBuffer.ProtocolMessage):
   def key_name(self): return self.key_name_
 
   def set_key_name(self, x):
+    assert not isinstance(x, str)
     self.has_key_name_ = 1
     self.key_name_ = x
 
@@ -329,6 +331,7 @@ class SignForAppResponse(ProtocolBuffer.ProtocolMessage):
   def signature_bytes(self): return self.signature_bytes_
 
   def set_signature_bytes(self, x):
+    assert not isinstance(x, str)
     self.has_signature_bytes_ = 1
     self.signature_bytes_ = x
 
@@ -576,6 +579,7 @@ class PublicCertificate(ProtocolBuffer.ProtocolMessage):
   def key_name(self): return self.key_name_
 
   def set_key_name(self, x):
+    assert not isinstance(x, str)
     self.has_key_name_ = 1
     self.key_name_ = x
 
@@ -589,6 +593,7 @@ class PublicCertificate(ProtocolBuffer.ProtocolMessage):
   def x509_certificate_pem(self): return self.x509_certificate_pem_
 
   def set_x509_certificate_pem(self, x):
+    assert not isinstance(x, str)
     self.has_x509_certificate_pem_ = 1
     self.x509_certificate_pem_ = x
 
@@ -753,6 +758,7 @@ class GetPublicCertificateForAppResponse(ProtocolBuffer.ProtocolMessage):
   def max_client_cache_time_in_second(self): return self.max_client_cache_time_in_second_
 
   def set_max_client_cache_time_in_second(self, x):
+    assert not isinstance(x, str)
     self.has_max_client_cache_time_in_second_ = 1
     self.max_client_cache_time_in_second_ = x
 
@@ -1015,6 +1021,7 @@ class GetServiceAccountNameResponse(ProtocolBuffer.ProtocolMessage):
   def service_account_name(self): return self.service_account_name_
 
   def set_service_account_name(self, x):
+    assert not isinstance(x, str)
     self.has_service_account_name_ = 1
     self.service_account_name_ = x
 
@@ -1150,6 +1157,7 @@ class GetAccessTokenRequest(ProtocolBuffer.ProtocolMessage):
     return self.scope_[i]
 
   def set_scope(self, i, x):
+    assert not isinstance(x, str)
     self.scope_[i] = x
 
   def add_scope(self, x):
@@ -1161,6 +1169,7 @@ class GetAccessTokenRequest(ProtocolBuffer.ProtocolMessage):
   def service_account_id(self): return self.service_account_id_
 
   def set_service_account_id(self, x):
+    assert not isinstance(x, str)
     self.has_service_account_id_ = 1
     self.service_account_id_ = x
 
@@ -1174,6 +1183,7 @@ class GetAccessTokenRequest(ProtocolBuffer.ProtocolMessage):
   def service_account_name(self): return self.service_account_name_
 
   def set_service_account_name(self, x):
+    assert not isinstance(x, str)
     self.has_service_account_name_ = 1
     self.service_account_name_ = x
 
@@ -1350,6 +1360,7 @@ class GetAccessTokenResponse(ProtocolBuffer.ProtocolMessage):
   def access_token(self): return self.access_token_
 
   def set_access_token(self, x):
+    assert not isinstance(x, str)
     self.has_access_token_ = 1
     self.access_token_ = x
 
@@ -1363,6 +1374,7 @@ class GetAccessTokenResponse(ProtocolBuffer.ProtocolMessage):
   def expiration_time(self): return self.expiration_time_
 
   def set_expiration_time(self, x):
+    assert not isinstance(x, str)
     self.has_expiration_time_ = 1
     self.expiration_time_ = x
 
@@ -1608,6 +1620,7 @@ class GetDefaultGcsBucketNameResponse(ProtocolBuffer.ProtocolMessage):
   def default_gcs_bucket_name(self): return self.default_gcs_bucket_name_
 
   def set_default_gcs_bucket_name(self, x):
+    assert not isinstance(x, str)
     self.has_default_gcs_bucket_name_ = 1
     self.default_gcs_bucket_name_ = x
 

@@ -193,6 +193,7 @@ class KeyValue(ProtocolBuffer.ProtocolMessage):
   def key(self): return self.key_
 
   def set_key(self, x):
+    assert not isinstance(x, str)
     self.has_key_ = 1
     self.key_ = x
 
@@ -206,6 +207,7 @@ class KeyValue(ProtocolBuffer.ProtocolMessage):
   def value(self): return self.value_
 
   def set_value(self, x):
+    assert not isinstance(x, str)
     self.has_value_ = 1
     self.value_ = x
 
@@ -333,6 +335,7 @@ class KeyValues(ProtocolBuffer.ProtocolMessage):
   def key(self): return self.key_
 
   def set_key(self, x):
+    assert not isinstance(x, str)
     self.has_key_ = 1
     self.key_ = x
 
@@ -350,6 +353,7 @@ class KeyValues(ProtocolBuffer.ProtocolMessage):
     return self.value_[i]
 
   def set_value(self, i, x):
+    assert not isinstance(x, str)
     self.value_[i] = x
 
   def add_value(self, x):
@@ -361,6 +365,7 @@ class KeyValues(ProtocolBuffer.ProtocolMessage):
   def partial(self): return self.partial_
 
   def set_partial(self, x):
+    assert not isinstance(x, str)
     self.has_partial_ = 1
     self.partial_ = x
 
@@ -589,6 +594,7 @@ class CreateRequest_Parameter(ProtocolBuffer.ProtocolMessage):
   def name(self): return self.name_
 
   def set_name(self, x):
+    assert not isinstance(x, str)
     self.has_name_ = 1
     self.name_ = x
 
@@ -602,6 +608,7 @@ class CreateRequest_Parameter(ProtocolBuffer.ProtocolMessage):
   def value(self): return self.value_
 
   def set_value(self, x):
+    assert not isinstance(x, str)
     self.has_value_ = 1
     self.value_ = x
 
@@ -733,6 +740,7 @@ class CreateRequest(ProtocolBuffer.ProtocolMessage):
   def filesystem(self): return self.filesystem_
 
   def set_filesystem(self, x):
+    assert not isinstance(x, str)
     self.has_filesystem_ = 1
     self.filesystem_ = x
 
@@ -746,6 +754,7 @@ class CreateRequest(ProtocolBuffer.ProtocolMessage):
   def content_type(self): return self.content_type_
 
   def set_content_type(self, x):
+    assert not isinstance(x, str)
     self.has_content_type_ = 1
     self.content_type_ = x
 
@@ -759,6 +768,7 @@ class CreateRequest(ProtocolBuffer.ProtocolMessage):
   def filename(self): return self.filename_
 
   def set_filename(self, x):
+    assert not isinstance(x, str)
     self.has_filename_ = 1
     self.filename_ = x
 
@@ -788,6 +798,7 @@ class CreateRequest(ProtocolBuffer.ProtocolMessage):
   def expiration_time_seconds(self): return self.expiration_time_seconds_
 
   def set_expiration_time_seconds(self, x):
+    assert not isinstance(x, str)
     self.has_expiration_time_seconds_ = 1
     self.expiration_time_seconds_ = x
 
@@ -986,6 +997,7 @@ class CreateResponse(ProtocolBuffer.ProtocolMessage):
   def filename(self): return self.filename_
 
   def set_filename(self, x):
+    assert not isinstance(x, str)
     self.has_filename_ = 1
     self.filename_ = x
 
@@ -1109,6 +1121,7 @@ class OpenRequest(ProtocolBuffer.ProtocolMessage):
   def filename(self): return self.filename_
 
   def set_filename(self, x):
+    assert not isinstance(x, str)
     self.has_filename_ = 1
     self.filename_ = x
 
@@ -1122,6 +1135,7 @@ class OpenRequest(ProtocolBuffer.ProtocolMessage):
   def content_type(self): return self.content_type_
 
   def set_content_type(self, x):
+    assert not isinstance(x, str)
     self.has_content_type_ = 1
     self.content_type_ = x
 
@@ -1135,6 +1149,7 @@ class OpenRequest(ProtocolBuffer.ProtocolMessage):
   def open_mode(self): return self.open_mode_
 
   def set_open_mode(self, x):
+    assert not isinstance(x, str)
     self.has_open_mode_ = 1
     self.open_mode_ = x
 
@@ -1148,6 +1163,7 @@ class OpenRequest(ProtocolBuffer.ProtocolMessage):
   def exclusive_lock(self): return self.exclusive_lock_
 
   def set_exclusive_lock(self, x):
+    assert not isinstance(x, str)
     self.has_exclusive_lock_ = 1
     self.exclusive_lock_ = x
 
@@ -1161,6 +1177,7 @@ class OpenRequest(ProtocolBuffer.ProtocolMessage):
   def buffered_output(self): return self.buffered_output_
 
   def set_buffered_output(self, x):
+    assert not isinstance(x, str)
     self.has_buffered_output_ = 1
     self.buffered_output_ = x
 
@@ -1174,6 +1191,7 @@ class OpenRequest(ProtocolBuffer.ProtocolMessage):
   def open_lease_time_seconds(self): return self.open_lease_time_seconds_
 
   def set_open_lease_time_seconds(self, x):
+    assert not isinstance(x, str)
     self.has_open_lease_time_seconds_ = 1
     self.open_lease_time_seconds_ = x
 
@@ -1446,6 +1464,7 @@ class CloseRequest(ProtocolBuffer.ProtocolMessage):
   def filename(self): return self.filename_
 
   def set_filename(self, x):
+    assert not isinstance(x, str)
     self.has_filename_ = 1
     self.filename_ = x
 
@@ -1459,6 +1478,7 @@ class CloseRequest(ProtocolBuffer.ProtocolMessage):
   def finalize(self): return self.finalize_
 
   def set_finalize(self, x):
+    assert not isinstance(x, str)
     self.has_finalize_ = 1
     self.finalize_ = x
 
@@ -1653,6 +1673,7 @@ class FileStat(ProtocolBuffer.ProtocolMessage):
   def filename(self): return self.filename_
 
   def set_filename(self, x):
+    assert not isinstance(x, str)
     self.has_filename_ = 1
     self.filename_ = x
 
@@ -1666,6 +1687,7 @@ class FileStat(ProtocolBuffer.ProtocolMessage):
   def content_type(self): return self.content_type_
 
   def set_content_type(self, x):
+    assert not isinstance(x, str)
     self.has_content_type_ = 1
     self.content_type_ = x
 
@@ -1679,6 +1701,7 @@ class FileStat(ProtocolBuffer.ProtocolMessage):
   def finalized(self): return self.finalized_
 
   def set_finalized(self, x):
+    assert not isinstance(x, str)
     self.has_finalized_ = 1
     self.finalized_ = x
 
@@ -1692,6 +1715,7 @@ class FileStat(ProtocolBuffer.ProtocolMessage):
   def length(self): return self.length_
 
   def set_length(self, x):
+    assert not isinstance(x, str)
     self.has_length_ = 1
     self.length_ = x
 
@@ -1705,6 +1729,7 @@ class FileStat(ProtocolBuffer.ProtocolMessage):
   def ctime(self): return self.ctime_
 
   def set_ctime(self, x):
+    assert not isinstance(x, str)
     self.has_ctime_ = 1
     self.ctime_ = x
 
@@ -1718,6 +1743,7 @@ class FileStat(ProtocolBuffer.ProtocolMessage):
   def mtime(self): return self.mtime_
 
   def set_mtime(self, x):
+    assert not isinstance(x, str)
     self.has_mtime_ = 1
     self.mtime_ = x
 
@@ -1923,6 +1949,7 @@ class StatRequest(ProtocolBuffer.ProtocolMessage):
   def filename(self): return self.filename_
 
   def set_filename(self, x):
+    assert not isinstance(x, str)
     self.has_filename_ = 1
     self.filename_ = x
 
@@ -1936,6 +1963,7 @@ class StatRequest(ProtocolBuffer.ProtocolMessage):
   def file_glob(self): return self.file_glob_
 
   def set_file_glob(self, x):
+    assert not isinstance(x, str)
     self.has_file_glob_ = 1
     self.file_glob_ = x
 
@@ -2067,6 +2095,7 @@ class StatResponse(ProtocolBuffer.ProtocolMessage):
   def more_files_found(self): return self.more_files_found_
 
   def set_more_files_found(self, x):
+    assert not isinstance(x, str)
     self.has_more_files_found_ = 1
     self.more_files_found_ = x
 
@@ -2205,6 +2234,7 @@ class AppendRequest(ProtocolBuffer.ProtocolMessage):
   def filename(self): return self.filename_
 
   def set_filename(self, x):
+    assert not isinstance(x, str)
     self.has_filename_ = 1
     self.filename_ = x
 
@@ -2218,6 +2248,7 @@ class AppendRequest(ProtocolBuffer.ProtocolMessage):
   def data(self): return self.data_
 
   def set_data(self, x):
+    assert not isinstance(x, str)
     self.has_data_ = 1
     self.data_ = x
 
@@ -2231,6 +2262,7 @@ class AppendRequest(ProtocolBuffer.ProtocolMessage):
   def sequence_key(self): return self.sequence_key_
 
   def set_sequence_key(self, x):
+    assert not isinstance(x, str)
     self.has_sequence_key_ = 1
     self.sequence_key_ = x
 
@@ -2439,6 +2471,7 @@ class DeleteRequest(ProtocolBuffer.ProtocolMessage):
   def filename(self): return self.filename_
 
   def set_filename(self, x):
+    assert not isinstance(x, str)
     self.has_filename_ = 1
     self.filename_ = x
 
@@ -2608,6 +2641,7 @@ class ReadRequest(ProtocolBuffer.ProtocolMessage):
   def filename(self): return self.filename_
 
   def set_filename(self, x):
+    assert not isinstance(x, str)
     self.has_filename_ = 1
     self.filename_ = x
 
@@ -2621,6 +2655,7 @@ class ReadRequest(ProtocolBuffer.ProtocolMessage):
   def pos(self): return self.pos_
 
   def set_pos(self, x):
+    assert not isinstance(x, str)
     self.has_pos_ = 1
     self.pos_ = x
 
@@ -2634,6 +2669,7 @@ class ReadRequest(ProtocolBuffer.ProtocolMessage):
   def max_bytes(self): return self.max_bytes_
 
   def set_max_bytes(self, x):
+    assert not isinstance(x, str)
     self.has_max_bytes_ = 1
     self.max_bytes_ = x
 
@@ -2782,6 +2818,7 @@ class ReadResponse(ProtocolBuffer.ProtocolMessage):
   def data(self): return self.data_
 
   def set_data(self, x):
+    assert not isinstance(x, str)
     self.has_data_ = 1
     self.data_ = x
 
@@ -2888,6 +2925,7 @@ class ReadKeyValueRequest(ProtocolBuffer.ProtocolMessage):
   def filename(self): return self.filename_
 
   def set_filename(self, x):
+    assert not isinstance(x, str)
     self.has_filename_ = 1
     self.filename_ = x
 
@@ -2901,6 +2939,7 @@ class ReadKeyValueRequest(ProtocolBuffer.ProtocolMessage):
   def start_key(self): return self.start_key_
 
   def set_start_key(self, x):
+    assert not isinstance(x, str)
     self.has_start_key_ = 1
     self.start_key_ = x
 
@@ -2914,6 +2953,7 @@ class ReadKeyValueRequest(ProtocolBuffer.ProtocolMessage):
   def max_bytes(self): return self.max_bytes_
 
   def set_max_bytes(self, x):
+    assert not isinstance(x, str)
     self.has_max_bytes_ = 1
     self.max_bytes_ = x
 
@@ -2927,6 +2967,7 @@ class ReadKeyValueRequest(ProtocolBuffer.ProtocolMessage):
   def value_pos(self): return self.value_pos_
 
   def set_value_pos(self, x):
+    assert not isinstance(x, str)
     self.has_value_pos_ = 1
     self.value_pos_ = x
 
@@ -3096,6 +3137,7 @@ class ReadKeyValueResponse_KeyValue(ProtocolBuffer.ProtocolMessage):
   def key(self): return self.key_
 
   def set_key(self, x):
+    assert not isinstance(x, str)
     self.has_key_ = 1
     self.key_ = x
 
@@ -3109,6 +3151,7 @@ class ReadKeyValueResponse_KeyValue(ProtocolBuffer.ProtocolMessage):
   def value(self): return self.value_
 
   def set_value(self, x):
+    assert not isinstance(x, str)
     self.has_value_ = 1
     self.value_ = x
 
@@ -3252,6 +3295,7 @@ class ReadKeyValueResponse(ProtocolBuffer.ProtocolMessage):
   def next_key(self): return self.next_key_
 
   def set_next_key(self, x):
+    assert not isinstance(x, str)
     self.has_next_key_ = 1
     self.next_key_ = x
 
@@ -3265,6 +3309,7 @@ class ReadKeyValueResponse(ProtocolBuffer.ProtocolMessage):
   def truncated_value(self): return self.truncated_value_
 
   def set_truncated_value(self, x):
+    assert not isinstance(x, str)
     self.has_truncated_value_ = 1
     self.truncated_value_ = x
 
@@ -3527,6 +3572,7 @@ class ShuffleInputSpecification(ProtocolBuffer.ProtocolMessage):
   def format(self): return self.format_
 
   def set_format(self, x):
+    assert not isinstance(x, str)
     self.has_format_ = 1
     self.format_ = x
 
@@ -3540,6 +3586,7 @@ class ShuffleInputSpecification(ProtocolBuffer.ProtocolMessage):
   def path(self): return self.path_
 
   def set_path(self, x):
+    assert not isinstance(x, str)
     self.has_path_ = 1
     self.path_ = x
 
@@ -3660,6 +3707,7 @@ class ShuffleOutputSpecification(ProtocolBuffer.ProtocolMessage):
   def format(self): return self.format_
 
   def set_format(self, x):
+    assert not isinstance(x, str)
     self.has_format_ = 1
     self.format_ = x
 
@@ -3677,6 +3725,7 @@ class ShuffleOutputSpecification(ProtocolBuffer.ProtocolMessage):
     return self.path_[i]
 
   def set_path(self, i, x):
+    assert not isinstance(x, str)
     self.path_[i] = x
 
   def add_path(self, x):
@@ -3803,6 +3852,7 @@ class ShuffleRequest_Callback(ProtocolBuffer.ProtocolMessage):
   def url(self): return self.url_
 
   def set_url(self, x):
+    assert not isinstance(x, str)
     self.has_url_ = 1
     self.url_ = x
 
@@ -3816,6 +3866,7 @@ class ShuffleRequest_Callback(ProtocolBuffer.ProtocolMessage):
   def app_version_id(self): return self.app_version_id_
 
   def set_app_version_id(self, x):
+    assert not isinstance(x, str)
     self.has_app_version_id_ = 1
     self.app_version_id_ = x
 
@@ -3829,6 +3880,7 @@ class ShuffleRequest_Callback(ProtocolBuffer.ProtocolMessage):
   def method(self): return self.method_
 
   def set_method(self, x):
+    assert not isinstance(x, str)
     self.has_method_ = 1
     self.method_ = x
 
@@ -3842,6 +3894,7 @@ class ShuffleRequest_Callback(ProtocolBuffer.ProtocolMessage):
   def queue(self): return self.queue_
 
   def set_queue(self, x):
+    assert not isinstance(x, str)
     self.has_queue_ = 1
     self.queue_ = x
 
@@ -4006,6 +4059,7 @@ class ShuffleRequest(ProtocolBuffer.ProtocolMessage):
   def shuffle_name(self): return self.shuffle_name_
 
   def set_shuffle_name(self, x):
+    assert not isinstance(x, str)
     self.has_shuffle_name_ = 1
     self.shuffle_name_ = x
 
@@ -4043,6 +4097,7 @@ class ShuffleRequest(ProtocolBuffer.ProtocolMessage):
   def shuffle_size_bytes(self): return self.shuffle_size_bytes_
 
   def set_shuffle_size_bytes(self, x):
+    assert not isinstance(x, str)
     self.has_shuffle_size_bytes_ = 1
     self.shuffle_size_bytes_ = x
 
@@ -4342,6 +4397,7 @@ class GetShuffleStatusRequest(ProtocolBuffer.ProtocolMessage):
   def shuffle_name(self): return self.shuffle_name_
 
   def set_shuffle_name(self, x):
+    assert not isinstance(x, str)
     self.has_shuffle_name_ = 1
     self.shuffle_name_ = x
 
@@ -4444,6 +4500,7 @@ class GetShuffleStatusResponse(ProtocolBuffer.ProtocolMessage):
   def status(self): return self.status_
 
   def set_status(self, x):
+    assert not isinstance(x, str)
     self.has_status_ = 1
     self.status_ = x
 
@@ -4457,6 +4514,7 @@ class GetShuffleStatusResponse(ProtocolBuffer.ProtocolMessage):
   def description(self): return self.description_
 
   def set_description(self, x):
+    assert not isinstance(x, str)
     self.has_description_ = 1
     self.description_ = x
 
@@ -4646,6 +4704,7 @@ class GetCapabilitiesResponse(ProtocolBuffer.ProtocolMessage):
     return self.filesystem_[i]
 
   def set_filesystem(self, i, x):
+    assert not isinstance(x, str)
     self.filesystem_[i] = x
 
   def add_filesystem(self, x):
@@ -4657,6 +4716,7 @@ class GetCapabilitiesResponse(ProtocolBuffer.ProtocolMessage):
   def shuffle_available(self): return self.shuffle_available_
 
   def set_shuffle_available(self, x):
+    assert not isinstance(x, str)
     self.has_shuffle_available_ = 1
     self.shuffle_available_ = x
 
@@ -4782,6 +4842,7 @@ class FinalizeRequest(ProtocolBuffer.ProtocolMessage):
   def filename(self): return self.filename_
 
   def set_filename(self, x):
+    assert not isinstance(x, str)
     self.has_filename_ = 1
     self.filename_ = x
 
@@ -5012,6 +5073,7 @@ class GetDefaultGsBucketNameResponse(ProtocolBuffer.ProtocolMessage):
   def default_gs_bucket_name(self): return self.default_gs_bucket_name_
 
   def set_default_gs_bucket_name(self, x):
+    assert not isinstance(x, str)
     self.has_default_gs_bucket_name_ = 1
     self.default_gs_bucket_name_ = x
 
@@ -5113,6 +5175,7 @@ class ListDirRequest(ProtocolBuffer.ProtocolMessage):
   def path(self): return self.path_
 
   def set_path(self, x):
+    assert not isinstance(x, str)
     self.has_path_ = 1
     self.path_ = x
 
@@ -5126,6 +5189,7 @@ class ListDirRequest(ProtocolBuffer.ProtocolMessage):
   def marker(self): return self.marker_
 
   def set_marker(self, x):
+    assert not isinstance(x, str)
     self.has_marker_ = 1
     self.marker_ = x
 
@@ -5139,6 +5203,7 @@ class ListDirRequest(ProtocolBuffer.ProtocolMessage):
   def max_keys(self): return self.max_keys_
 
   def set_max_keys(self, x):
+    assert not isinstance(x, str)
     self.has_max_keys_ = 1
     self.max_keys_ = x
 
@@ -5152,6 +5217,7 @@ class ListDirRequest(ProtocolBuffer.ProtocolMessage):
   def prefix(self): return self.prefix_
 
   def set_prefix(self, x):
+    assert not isinstance(x, str)
     self.has_prefix_ = 1
     self.prefix_ = x
 
@@ -5312,6 +5378,7 @@ class ListDirResponse(ProtocolBuffer.ProtocolMessage):
     return self.filenames_[i]
 
   def set_filenames(self, i, x):
+    assert not isinstance(x, str)
     self.filenames_[i] = x
 
   def add_filenames(self, x):

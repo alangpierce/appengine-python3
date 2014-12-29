@@ -195,6 +195,7 @@ class GetModulesResponse(ProtocolBuffer.ProtocolMessage):
     return self.module_[i]
 
   def set_module(self, i, x):
+    assert not isinstance(x, str)
     self.module_[i] = x
 
   def add_module(self, x):
@@ -296,6 +297,7 @@ class GetVersionsRequest(ProtocolBuffer.ProtocolMessage):
   def module(self): return self.module_
 
   def set_module(self, x):
+    assert not isinstance(x, str)
     self.has_module_ = 1
     self.module_ = x
 
@@ -394,6 +396,7 @@ class GetVersionsResponse(ProtocolBuffer.ProtocolMessage):
     return self.version_[i]
 
   def set_version(self, i, x):
+    assert not isinstance(x, str)
     self.version_[i] = x
 
   def add_version(self, x):
@@ -495,6 +498,7 @@ class GetDefaultVersionRequest(ProtocolBuffer.ProtocolMessage):
   def module(self): return self.module_
 
   def set_module(self, x):
+    assert not isinstance(x, str)
     self.has_module_ = 1
     self.module_ = x
 
@@ -590,6 +594,7 @@ class GetDefaultVersionResponse(ProtocolBuffer.ProtocolMessage):
   def version(self): return self.version_
 
   def set_version(self, x):
+    assert not isinstance(x, str)
     self.has_version_ = 1
     self.version_ = x
 
@@ -692,6 +697,7 @@ class GetNumInstancesRequest(ProtocolBuffer.ProtocolMessage):
   def module(self): return self.module_
 
   def set_module(self, x):
+    assert not isinstance(x, str)
     self.has_module_ = 1
     self.module_ = x
 
@@ -705,6 +711,7 @@ class GetNumInstancesRequest(ProtocolBuffer.ProtocolMessage):
   def version(self): return self.version_
 
   def set_version(self, x):
+    assert not isinstance(x, str)
     self.has_version_ = 1
     self.version_ = x
 
@@ -819,6 +826,7 @@ class GetNumInstancesResponse(ProtocolBuffer.ProtocolMessage):
   def instances(self): return self.instances_
 
   def set_instances(self, x):
+    assert not isinstance(x, str)
     self.has_instances_ = 1
     self.instances_ = x
 
@@ -923,6 +931,7 @@ class SetNumInstancesRequest(ProtocolBuffer.ProtocolMessage):
   def module(self): return self.module_
 
   def set_module(self, x):
+    assert not isinstance(x, str)
     self.has_module_ = 1
     self.module_ = x
 
@@ -936,6 +945,7 @@ class SetNumInstancesRequest(ProtocolBuffer.ProtocolMessage):
   def version(self): return self.version_
 
   def set_version(self, x):
+    assert not isinstance(x, str)
     self.has_version_ = 1
     self.version_ = x
 
@@ -949,6 +959,7 @@ class SetNumInstancesRequest(ProtocolBuffer.ProtocolMessage):
   def instances(self): return self.instances_
 
   def set_instances(self, x):
+    assert not isinstance(x, str)
     self.has_instances_ = 1
     self.instances_ = x
 
@@ -1154,6 +1165,7 @@ class StartModuleRequest(ProtocolBuffer.ProtocolMessage):
   def module(self): return self.module_
 
   def set_module(self, x):
+    assert not isinstance(x, str)
     self.has_module_ = 1
     self.module_ = x
 
@@ -1167,6 +1179,7 @@ class StartModuleRequest(ProtocolBuffer.ProtocolMessage):
   def version(self): return self.version_
 
   def set_version(self, x):
+    assert not isinstance(x, str)
     self.has_version_ = 1
     self.version_ = x
 
@@ -1358,6 +1371,7 @@ class StopModuleRequest(ProtocolBuffer.ProtocolMessage):
   def module(self): return self.module_
 
   def set_module(self, x):
+    assert not isinstance(x, str)
     self.has_module_ = 1
     self.module_ = x
 
@@ -1371,6 +1385,7 @@ class StopModuleRequest(ProtocolBuffer.ProtocolMessage):
   def version(self): return self.version_
 
   def set_version(self, x):
+    assert not isinstance(x, str)
     self.has_version_ = 1
     self.version_ = x
 
@@ -1554,6 +1569,7 @@ class GetHostnameRequest(ProtocolBuffer.ProtocolMessage):
   def module(self): return self.module_
 
   def set_module(self, x):
+    assert not isinstance(x, str)
     self.has_module_ = 1
     self.module_ = x
 
@@ -1567,6 +1583,7 @@ class GetHostnameRequest(ProtocolBuffer.ProtocolMessage):
   def version(self): return self.version_
 
   def set_version(self, x):
+    assert not isinstance(x, str)
     self.has_version_ = 1
     self.version_ = x
 
@@ -1580,6 +1597,7 @@ class GetHostnameRequest(ProtocolBuffer.ProtocolMessage):
   def instance(self): return self.instance_
 
   def set_instance(self, x):
+    assert not isinstance(x, str)
     self.has_instance_ = 1
     self.instance_ = x
 
@@ -1713,6 +1731,7 @@ class GetHostnameResponse(ProtocolBuffer.ProtocolMessage):
   def hostname(self): return self.hostname_
 
   def set_hostname(self, x):
+    assert not isinstance(x, str)
     self.has_hostname_ = 1
     self.hostname_ = x
 

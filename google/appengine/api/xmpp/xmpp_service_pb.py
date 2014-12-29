@@ -139,6 +139,7 @@ class PresenceRequest(ProtocolBuffer.ProtocolMessage):
   def jid(self): return self.jid_
 
   def set_jid(self, x):
+    assert not isinstance(x, str)
     self.has_jid_ = 1
     self.jid_ = x
 
@@ -152,6 +153,7 @@ class PresenceRequest(ProtocolBuffer.ProtocolMessage):
   def from_jid(self): return self.from_jid_
 
   def set_from_jid(self, x):
+    assert not isinstance(x, str)
     self.has_from_jid_ = 1
     self.from_jid_ = x
 
@@ -294,6 +296,7 @@ class PresenceResponse(ProtocolBuffer.ProtocolMessage):
   def is_available(self): return self.is_available_
 
   def set_is_available(self, x):
+    assert not isinstance(x, str)
     self.has_is_available_ = 1
     self.is_available_ = x
 
@@ -307,6 +310,7 @@ class PresenceResponse(ProtocolBuffer.ProtocolMessage):
   def presence(self): return self.presence_
 
   def set_presence(self, x):
+    assert not isinstance(x, str)
     self.has_presence_ = 1
     self.presence_ = x
 
@@ -320,6 +324,7 @@ class PresenceResponse(ProtocolBuffer.ProtocolMessage):
   def valid(self): return self.valid_
 
   def set_valid(self, x):
+    assert not isinstance(x, str)
     self.has_valid_ = 1
     self.valid_ = x
 
@@ -461,6 +466,7 @@ class BulkPresenceRequest(ProtocolBuffer.ProtocolMessage):
     return self.jid_[i]
 
   def set_jid(self, i, x):
+    assert not isinstance(x, str)
     self.jid_[i] = x
 
   def add_jid(self, x):
@@ -472,6 +478,7 @@ class BulkPresenceRequest(ProtocolBuffer.ProtocolMessage):
   def from_jid(self): return self.from_jid_
 
   def set_from_jid(self, x):
+    assert not isinstance(x, str)
     self.has_from_jid_ = 1
     self.from_jid_ = x
 
@@ -719,6 +726,7 @@ class XmppMessageRequest(ProtocolBuffer.ProtocolMessage):
     return self.jid_[i]
 
   def set_jid(self, i, x):
+    assert not isinstance(x, str)
     self.jid_[i] = x
 
   def add_jid(self, x):
@@ -730,6 +738,7 @@ class XmppMessageRequest(ProtocolBuffer.ProtocolMessage):
   def body(self): return self.body_
 
   def set_body(self, x):
+    assert not isinstance(x, str)
     self.has_body_ = 1
     self.body_ = x
 
@@ -743,6 +752,7 @@ class XmppMessageRequest(ProtocolBuffer.ProtocolMessage):
   def raw_xml(self): return self.raw_xml_
 
   def set_raw_xml(self, x):
+    assert not isinstance(x, str)
     self.has_raw_xml_ = 1
     self.raw_xml_ = x
 
@@ -756,6 +766,7 @@ class XmppMessageRequest(ProtocolBuffer.ProtocolMessage):
   def type(self): return self.type_
 
   def set_type(self, x):
+    assert not isinstance(x, str)
     self.has_type_ = 1
     self.type_ = x
 
@@ -769,6 +780,7 @@ class XmppMessageRequest(ProtocolBuffer.ProtocolMessage):
   def from_jid(self): return self.from_jid_
 
   def set_from_jid(self, x):
+    assert not isinstance(x, str)
     self.has_from_jid_ = 1
     self.from_jid_ = x
 
@@ -971,6 +983,7 @@ class XmppMessageResponse(ProtocolBuffer.ProtocolMessage):
     return self.status_[i]
 
   def set_status(self, i, x):
+    assert not isinstance(x, str)
     self.status_[i] = x
 
   def add_status(self, x):
@@ -1080,6 +1093,7 @@ class XmppSendPresenceRequest(ProtocolBuffer.ProtocolMessage):
   def jid(self): return self.jid_
 
   def set_jid(self, x):
+    assert not isinstance(x, str)
     self.has_jid_ = 1
     self.jid_ = x
 
@@ -1093,6 +1107,7 @@ class XmppSendPresenceRequest(ProtocolBuffer.ProtocolMessage):
   def type(self): return self.type_
 
   def set_type(self, x):
+    assert not isinstance(x, str)
     self.has_type_ = 1
     self.type_ = x
 
@@ -1106,6 +1121,7 @@ class XmppSendPresenceRequest(ProtocolBuffer.ProtocolMessage):
   def show(self): return self.show_
 
   def set_show(self, x):
+    assert not isinstance(x, str)
     self.has_show_ = 1
     self.show_ = x
 
@@ -1119,6 +1135,7 @@ class XmppSendPresenceRequest(ProtocolBuffer.ProtocolMessage):
   def status(self): return self.status_
 
   def set_status(self, x):
+    assert not isinstance(x, str)
     self.has_status_ = 1
     self.status_ = x
 
@@ -1132,6 +1149,7 @@ class XmppSendPresenceRequest(ProtocolBuffer.ProtocolMessage):
   def from_jid(self): return self.from_jid_
 
   def set_from_jid(self, x):
+    assert not isinstance(x, str)
     self.has_from_jid_ = 1
     self.from_jid_ = x
 
@@ -1375,6 +1393,7 @@ class XmppInviteRequest(ProtocolBuffer.ProtocolMessage):
   def jid(self): return self.jid_
 
   def set_jid(self, x):
+    assert not isinstance(x, str)
     self.has_jid_ = 1
     self.jid_ = x
 
@@ -1388,6 +1407,7 @@ class XmppInviteRequest(ProtocolBuffer.ProtocolMessage):
   def from_jid(self): return self.from_jid_
 
   def set_from_jid(self, x):
+    assert not isinstance(x, str)
     self.has_from_jid_ = 1
     self.from_jid_ = x
 

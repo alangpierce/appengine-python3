@@ -129,6 +129,7 @@ class CreateChannelRequest(ProtocolBuffer.ProtocolMessage):
   def application_key(self): return self.application_key_
 
   def set_application_key(self, x):
+    assert not isinstance(x, str)
     self.has_application_key_ = 1
     self.application_key_ = x
 
@@ -142,6 +143,7 @@ class CreateChannelRequest(ProtocolBuffer.ProtocolMessage):
   def duration_minutes(self): return self.duration_minutes_
 
   def set_duration_minutes(self, x):
+    assert not isinstance(x, str)
     self.has_duration_minutes_ = 1
     self.duration_minutes_ = x
 
@@ -263,6 +265,7 @@ class CreateChannelResponse(ProtocolBuffer.ProtocolMessage):
   def token(self): return self.token_
 
   def set_token(self, x):
+    assert not isinstance(x, str)
     self.has_token_ = 1
     self.token_ = x
 
@@ -276,6 +279,7 @@ class CreateChannelResponse(ProtocolBuffer.ProtocolMessage):
   def duration_minutes(self): return self.duration_minutes_
 
   def set_duration_minutes(self, x):
+    assert not isinstance(x, str)
     self.has_duration_minutes_ = 1
     self.duration_minutes_ = x
 
@@ -392,6 +396,7 @@ class SendMessageRequest(ProtocolBuffer.ProtocolMessage):
   def application_key(self): return self.application_key_
 
   def set_application_key(self, x):
+    assert not isinstance(x, str)
     self.has_application_key_ = 1
     self.application_key_ = x
 
@@ -405,6 +410,7 @@ class SendMessageRequest(ProtocolBuffer.ProtocolMessage):
   def message(self): return self.message_
 
   def set_message(self, x):
+    assert not isinstance(x, str)
     self.has_message_ = 1
     self.message_ = x
 

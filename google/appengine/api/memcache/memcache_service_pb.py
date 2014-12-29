@@ -135,6 +135,7 @@ class AppOverride(ProtocolBuffer.ProtocolMessage):
   def app_id(self): return self.app_id_
 
   def set_app_id(self, x):
+    assert not isinstance(x, str)
     self.has_app_id_ = 1
     self.app_id_ = x
 
@@ -148,6 +149,7 @@ class AppOverride(ProtocolBuffer.ProtocolMessage):
   def num_memcacheg_backends(self): return self.num_memcacheg_backends_
 
   def set_num_memcacheg_backends(self, x):
+    assert not isinstance(x, str)
     self.has_num_memcacheg_backends_ = 1
     self.num_memcacheg_backends_ = x
 
@@ -161,6 +163,7 @@ class AppOverride(ProtocolBuffer.ProtocolMessage):
   def ignore_shardlock(self): return self.ignore_shardlock_
 
   def set_ignore_shardlock(self, x):
+    assert not isinstance(x, str)
     self.has_ignore_shardlock_ = 1
     self.ignore_shardlock_ = x
 
@@ -174,6 +177,7 @@ class AppOverride(ProtocolBuffer.ProtocolMessage):
   def memcache_pool_hint(self): return self.memcache_pool_hint_
 
   def set_memcache_pool_hint(self, x):
+    assert not isinstance(x, str)
     self.has_memcache_pool_hint_ = 1
     self.memcache_pool_hint_ = x
 
@@ -187,6 +191,7 @@ class AppOverride(ProtocolBuffer.ProtocolMessage):
   def memcache_sharding_strategy(self): return self.memcache_sharding_strategy_
 
   def set_memcache_sharding_strategy(self, x):
+    assert not isinstance(x, str)
     self.has_memcache_sharding_strategy_ = 1
     self.memcache_sharding_strategy_ = x
 
@@ -373,6 +378,7 @@ class MemcacheGetRequest(ProtocolBuffer.ProtocolMessage):
     return self.key_[i]
 
   def set_key(self, i, x):
+    assert not isinstance(x, str)
     self.key_[i] = x
 
   def add_key(self, x):
@@ -384,6 +390,7 @@ class MemcacheGetRequest(ProtocolBuffer.ProtocolMessage):
   def name_space(self): return self.name_space_
 
   def set_name_space(self, x):
+    assert not isinstance(x, str)
     self.has_name_space_ = 1
     self.name_space_ = x
 
@@ -397,6 +404,7 @@ class MemcacheGetRequest(ProtocolBuffer.ProtocolMessage):
   def for_cas(self): return self.for_cas_
 
   def set_for_cas(self, x):
+    assert not isinstance(x, str)
     self.has_for_cas_ = 1
     self.for_cas_ = x
 
@@ -593,6 +601,7 @@ class MemcacheGetResponse_Item(ProtocolBuffer.ProtocolMessage):
   def key(self): return self.key_
 
   def set_key(self, x):
+    assert not isinstance(x, str)
     self.has_key_ = 1
     self.key_ = x
 
@@ -606,6 +615,7 @@ class MemcacheGetResponse_Item(ProtocolBuffer.ProtocolMessage):
   def value(self): return self.value_
 
   def set_value(self, x):
+    assert not isinstance(x, str)
     self.has_value_ = 1
     self.value_ = x
 
@@ -619,6 +629,7 @@ class MemcacheGetResponse_Item(ProtocolBuffer.ProtocolMessage):
   def flags(self): return self.flags_
 
   def set_flags(self, x):
+    assert not isinstance(x, str)
     self.has_flags_ = 1
     self.flags_ = x
 
@@ -632,6 +643,7 @@ class MemcacheGetResponse_Item(ProtocolBuffer.ProtocolMessage):
   def cas_id(self): return self.cas_id_
 
   def set_cas_id(self, x):
+    assert not isinstance(x, str)
     self.has_cas_id_ = 1
     self.cas_id_ = x
 
@@ -645,6 +657,7 @@ class MemcacheGetResponse_Item(ProtocolBuffer.ProtocolMessage):
   def expires_in_seconds(self): return self.expires_in_seconds_
 
   def set_expires_in_seconds(self, x):
+    assert not isinstance(x, str)
     self.has_expires_in_seconds_ = 1
     self.expires_in_seconds_ = x
 
@@ -933,6 +946,7 @@ class MemcacheSetRequest_Item(ProtocolBuffer.ProtocolMessage):
   def key(self): return self.key_
 
   def set_key(self, x):
+    assert not isinstance(x, str)
     self.has_key_ = 1
     self.key_ = x
 
@@ -946,6 +960,7 @@ class MemcacheSetRequest_Item(ProtocolBuffer.ProtocolMessage):
   def value(self): return self.value_
 
   def set_value(self, x):
+    assert not isinstance(x, str)
     self.has_value_ = 1
     self.value_ = x
 
@@ -959,6 +974,7 @@ class MemcacheSetRequest_Item(ProtocolBuffer.ProtocolMessage):
   def flags(self): return self.flags_
 
   def set_flags(self, x):
+    assert not isinstance(x, str)
     self.has_flags_ = 1
     self.flags_ = x
 
@@ -972,6 +988,7 @@ class MemcacheSetRequest_Item(ProtocolBuffer.ProtocolMessage):
   def set_policy(self): return self.set_policy_
 
   def set_set_policy(self, x):
+    assert not isinstance(x, str)
     self.has_set_policy_ = 1
     self.set_policy_ = x
 
@@ -985,6 +1002,7 @@ class MemcacheSetRequest_Item(ProtocolBuffer.ProtocolMessage):
   def expiration_time(self): return self.expiration_time_
 
   def set_expiration_time(self, x):
+    assert not isinstance(x, str)
     self.has_expiration_time_ = 1
     self.expiration_time_ = x
 
@@ -998,6 +1016,7 @@ class MemcacheSetRequest_Item(ProtocolBuffer.ProtocolMessage):
   def cas_id(self): return self.cas_id_
 
   def set_cas_id(self, x):
+    assert not isinstance(x, str)
     self.has_cas_id_ = 1
     self.cas_id_ = x
 
@@ -1011,6 +1030,7 @@ class MemcacheSetRequest_Item(ProtocolBuffer.ProtocolMessage):
   def for_cas(self): return self.for_cas_
 
   def set_for_cas(self, x):
+    assert not isinstance(x, str)
     self.has_for_cas_ = 1
     self.for_cas_ = x
 
@@ -1230,6 +1250,7 @@ class MemcacheSetRequest(ProtocolBuffer.ProtocolMessage):
   def name_space(self): return self.name_space_
 
   def set_name_space(self, x):
+    assert not isinstance(x, str)
     self.has_name_space_ = 1
     self.name_space_ = x
 
@@ -1446,6 +1467,7 @@ class MemcacheSetResponse(ProtocolBuffer.ProtocolMessage):
     return self.set_status_[i]
 
   def set_set_status(self, i, x):
+    assert not isinstance(x, str)
     self.set_status_[i] = x
 
   def add_set_status(self, x):
@@ -1549,6 +1571,7 @@ class MemcacheDeleteRequest_Item(ProtocolBuffer.ProtocolMessage):
   def key(self): return self.key_
 
   def set_key(self, x):
+    assert not isinstance(x, str)
     self.has_key_ = 1
     self.key_ = x
 
@@ -1562,6 +1585,7 @@ class MemcacheDeleteRequest_Item(ProtocolBuffer.ProtocolMessage):
   def delete_time(self): return self.delete_time_
 
   def set_delete_time(self, x):
+    assert not isinstance(x, str)
     self.has_delete_time_ = 1
     self.delete_time_ = x
 
@@ -1679,6 +1703,7 @@ class MemcacheDeleteRequest(ProtocolBuffer.ProtocolMessage):
   def name_space(self): return self.name_space_
 
   def set_name_space(self, x):
+    assert not isinstance(x, str)
     self.has_name_space_ = 1
     self.name_space_ = x
 
@@ -1876,6 +1901,7 @@ class MemcacheDeleteResponse(ProtocolBuffer.ProtocolMessage):
     return self.delete_status_[i]
 
   def set_delete_status(self, i, x):
+    assert not isinstance(x, str)
     self.delete_status_[i] = x
 
   def add_delete_status(self, x):
@@ -2003,6 +2029,7 @@ class MemcacheIncrementRequest(ProtocolBuffer.ProtocolMessage):
   def key(self): return self.key_
 
   def set_key(self, x):
+    assert not isinstance(x, str)
     self.has_key_ = 1
     self.key_ = x
 
@@ -2016,6 +2043,7 @@ class MemcacheIncrementRequest(ProtocolBuffer.ProtocolMessage):
   def name_space(self): return self.name_space_
 
   def set_name_space(self, x):
+    assert not isinstance(x, str)
     self.has_name_space_ = 1
     self.name_space_ = x
 
@@ -2029,6 +2057,7 @@ class MemcacheIncrementRequest(ProtocolBuffer.ProtocolMessage):
   def delta(self): return self.delta_
 
   def set_delta(self, x):
+    assert not isinstance(x, str)
     self.has_delta_ = 1
     self.delta_ = x
 
@@ -2042,6 +2071,7 @@ class MemcacheIncrementRequest(ProtocolBuffer.ProtocolMessage):
   def direction(self): return self.direction_
 
   def set_direction(self, x):
+    assert not isinstance(x, str)
     self.has_direction_ = 1
     self.direction_ = x
 
@@ -2055,6 +2085,7 @@ class MemcacheIncrementRequest(ProtocolBuffer.ProtocolMessage):
   def initial_value(self): return self.initial_value_
 
   def set_initial_value(self, x):
+    assert not isinstance(x, str)
     self.has_initial_value_ = 1
     self.initial_value_ = x
 
@@ -2068,6 +2099,7 @@ class MemcacheIncrementRequest(ProtocolBuffer.ProtocolMessage):
   def initial_flags(self): return self.initial_flags_
 
   def set_initial_flags(self, x):
+    assert not isinstance(x, str)
     self.has_initial_flags_ = 1
     self.initial_flags_ = x
 
@@ -2327,6 +2359,7 @@ class MemcacheIncrementResponse(ProtocolBuffer.ProtocolMessage):
   def new_value(self): return self.new_value_
 
   def set_new_value(self, x):
+    assert not isinstance(x, str)
     self.has_new_value_ = 1
     self.new_value_ = x
 
@@ -2340,6 +2373,7 @@ class MemcacheIncrementResponse(ProtocolBuffer.ProtocolMessage):
   def increment_status(self): return self.increment_status_
 
   def set_increment_status(self, x):
+    assert not isinstance(x, str)
     self.has_increment_status_ = 1
     self.increment_status_ = x
 
@@ -2458,6 +2492,7 @@ class MemcacheBatchIncrementRequest(ProtocolBuffer.ProtocolMessage):
   def name_space(self): return self.name_space_
 
   def set_name_space(self, x):
+    assert not isinstance(x, str)
     self.has_name_space_ = 1
     self.name_space_ = x
 
@@ -3063,6 +3098,7 @@ class MergedNamespaceStats(ProtocolBuffer.ProtocolMessage):
   def hits(self): return self.hits_
 
   def set_hits(self, x):
+    assert not isinstance(x, str)
     self.has_hits_ = 1
     self.hits_ = x
 
@@ -3076,6 +3112,7 @@ class MergedNamespaceStats(ProtocolBuffer.ProtocolMessage):
   def misses(self): return self.misses_
 
   def set_misses(self, x):
+    assert not isinstance(x, str)
     self.has_misses_ = 1
     self.misses_ = x
 
@@ -3089,6 +3126,7 @@ class MergedNamespaceStats(ProtocolBuffer.ProtocolMessage):
   def byte_hits(self): return self.byte_hits_
 
   def set_byte_hits(self, x):
+    assert not isinstance(x, str)
     self.has_byte_hits_ = 1
     self.byte_hits_ = x
 
@@ -3102,6 +3140,7 @@ class MergedNamespaceStats(ProtocolBuffer.ProtocolMessage):
   def items(self): return self.items_
 
   def set_items(self, x):
+    assert not isinstance(x, str)
     self.has_items_ = 1
     self.items_ = x
 
@@ -3115,6 +3154,7 @@ class MergedNamespaceStats(ProtocolBuffer.ProtocolMessage):
   def bytes(self): return self.bytes_
 
   def set_bytes(self, x):
+    assert not isinstance(x, str)
     self.has_bytes_ = 1
     self.bytes_ = x
 
@@ -3128,6 +3168,7 @@ class MergedNamespaceStats(ProtocolBuffer.ProtocolMessage):
   def oldest_item_age(self): return self.oldest_item_age_
 
   def set_oldest_item_age(self, x):
+    assert not isinstance(x, str)
     self.has_oldest_item_age_ = 1
     self.oldest_item_age_ = x
 
@@ -3462,6 +3503,7 @@ class MemcacheGrabTailRequest(ProtocolBuffer.ProtocolMessage):
   def item_count(self): return self.item_count_
 
   def set_item_count(self, x):
+    assert not isinstance(x, str)
     self.has_item_count_ = 1
     self.item_count_ = x
 
@@ -3475,6 +3517,7 @@ class MemcacheGrabTailRequest(ProtocolBuffer.ProtocolMessage):
   def name_space(self): return self.name_space_
 
   def set_name_space(self, x):
+    assert not isinstance(x, str)
     self.has_name_space_ = 1
     self.name_space_ = x
 
@@ -3643,6 +3686,7 @@ class MemcacheGrabTailResponse_Item(ProtocolBuffer.ProtocolMessage):
   def value(self): return self.value_
 
   def set_value(self, x):
+    assert not isinstance(x, str)
     self.has_value_ = 1
     self.value_ = x
 
@@ -3656,6 +3700,7 @@ class MemcacheGrabTailResponse_Item(ProtocolBuffer.ProtocolMessage):
   def flags(self): return self.flags_
 
   def set_flags(self, x):
+    assert not isinstance(x, str)
     self.has_flags_ = 1
     self.flags_ = x
 

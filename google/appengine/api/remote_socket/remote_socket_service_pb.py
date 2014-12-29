@@ -341,6 +341,7 @@ class RemoteSocketServiceError(ProtocolBuffer.ProtocolMessage):
   def system_error(self): return self.system_error_
 
   def set_system_error(self, x):
+    assert not isinstance(x, str)
     self.has_system_error_ = 1
     self.system_error_ = x
 
@@ -354,6 +355,7 @@ class RemoteSocketServiceError(ProtocolBuffer.ProtocolMessage):
   def error_detail(self): return self.error_detail_
 
   def set_error_detail(self, x):
+    assert not isinstance(x, str)
     self.has_error_detail_ = 1
     self.error_detail_ = x
 
@@ -472,6 +474,7 @@ class AddressPort(ProtocolBuffer.ProtocolMessage):
   def port(self): return self.port_
 
   def set_port(self, x):
+    assert not isinstance(x, str)
     self.has_port_ = 1
     self.port_ = x
 
@@ -485,6 +488,7 @@ class AddressPort(ProtocolBuffer.ProtocolMessage):
   def packed_address(self): return self.packed_address_
 
   def set_packed_address(self, x):
+    assert not isinstance(x, str)
     self.has_packed_address_ = 1
     self.packed_address_ = x
 
@@ -498,6 +502,7 @@ class AddressPort(ProtocolBuffer.ProtocolMessage):
   def hostname_hint(self): return self.hostname_hint_
 
   def set_hostname_hint(self, x):
+    assert not isinstance(x, str)
     self.has_hostname_hint_ = 1
     self.hostname_hint_ = x
 
@@ -676,6 +681,7 @@ class CreateSocketRequest(ProtocolBuffer.ProtocolMessage):
   def family(self): return self.family_
 
   def set_family(self, x):
+    assert not isinstance(x, str)
     self.has_family_ = 1
     self.family_ = x
 
@@ -689,6 +695,7 @@ class CreateSocketRequest(ProtocolBuffer.ProtocolMessage):
   def protocol(self): return self.protocol_
 
   def set_protocol(self, x):
+    assert not isinstance(x, str)
     self.has_protocol_ = 1
     self.protocol_ = x
 
@@ -737,6 +744,7 @@ class CreateSocketRequest(ProtocolBuffer.ProtocolMessage):
   def listen_backlog(self): return self.listen_backlog_
 
   def set_listen_backlog(self, x):
+    assert not isinstance(x, str)
     self.has_listen_backlog_ = 1
     self.listen_backlog_ = x
 
@@ -769,6 +777,7 @@ class CreateSocketRequest(ProtocolBuffer.ProtocolMessage):
   def app_id(self): return self.app_id_
 
   def set_app_id(self, x):
+    assert not isinstance(x, str)
     self.has_app_id_ = 1
     self.app_id_ = x
 
@@ -782,6 +791,7 @@ class CreateSocketRequest(ProtocolBuffer.ProtocolMessage):
   def project_id(self): return self.project_id_
 
   def set_project_id(self, x):
+    assert not isinstance(x, str)
     self.has_project_id_ = 1
     self.project_id_ = x
 
@@ -1062,6 +1072,7 @@ class CreateSocketReply(_ExtendableProtocolMessage):
   def socket_descriptor(self): return self.socket_descriptor_
 
   def set_socket_descriptor(self, x):
+    assert not isinstance(x, str)
     self.has_socket_descriptor_ = 1
     self.socket_descriptor_ = x
 
@@ -1278,6 +1289,7 @@ class BindRequest(ProtocolBuffer.ProtocolMessage):
   def socket_descriptor(self): return self.socket_descriptor_
 
   def set_socket_descriptor(self, x):
+    assert not isinstance(x, str)
     self.has_socket_descriptor_ = 1
     self.socket_descriptor_ = x
 
@@ -1530,6 +1542,7 @@ class GetSocketNameRequest(ProtocolBuffer.ProtocolMessage):
   def socket_descriptor(self): return self.socket_descriptor_
 
   def set_socket_descriptor(self, x):
+    assert not isinstance(x, str)
     self.has_socket_descriptor_ = 1
     self.socket_descriptor_ = x
 
@@ -1741,6 +1754,7 @@ class GetPeerNameRequest(ProtocolBuffer.ProtocolMessage):
   def socket_descriptor(self): return self.socket_descriptor_
 
   def set_socket_descriptor(self, x):
+    assert not isinstance(x, str)
     self.has_socket_descriptor_ = 1
     self.socket_descriptor_ = x
 
@@ -2040,6 +2054,7 @@ class SocketOption(ProtocolBuffer.ProtocolMessage):
   def level(self): return self.level_
 
   def set_level(self, x):
+    assert not isinstance(x, str)
     self.has_level_ = 1
     self.level_ = x
 
@@ -2053,6 +2068,7 @@ class SocketOption(ProtocolBuffer.ProtocolMessage):
   def option(self): return self.option_
 
   def set_option(self, x):
+    assert not isinstance(x, str)
     self.has_option_ = 1
     self.option_ = x
 
@@ -2066,6 +2082,7 @@ class SocketOption(ProtocolBuffer.ProtocolMessage):
   def value(self): return self.value_
 
   def set_value(self, x):
+    assert not isinstance(x, str)
     self.has_value_ = 1
     self.value_ = x
 
@@ -2215,6 +2232,7 @@ class SetSocketOptionsRequest(ProtocolBuffer.ProtocolMessage):
   def socket_descriptor(self): return self.socket_descriptor_
 
   def set_socket_descriptor(self, x):
+    assert not isinstance(x, str)
     self.has_socket_descriptor_ = 1
     self.socket_descriptor_ = x
 
@@ -2433,6 +2451,7 @@ class GetSocketOptionsRequest(ProtocolBuffer.ProtocolMessage):
   def socket_descriptor(self): return self.socket_descriptor_
 
   def set_socket_descriptor(self, x):
+    assert not isinstance(x, str)
     self.has_socket_descriptor_ = 1
     self.socket_descriptor_ = x
 
@@ -2703,6 +2722,7 @@ class ConnectRequest(ProtocolBuffer.ProtocolMessage):
   def socket_descriptor(self): return self.socket_descriptor_
 
   def set_socket_descriptor(self, x):
+    assert not isinstance(x, str)
     self.has_socket_descriptor_ = 1
     self.socket_descriptor_ = x
 
@@ -2724,6 +2744,7 @@ class ConnectRequest(ProtocolBuffer.ProtocolMessage):
   def timeout_seconds(self): return self.timeout_seconds_
 
   def set_timeout_seconds(self, x):
+    assert not isinstance(x, str)
     self.has_timeout_seconds_ = 1
     self.timeout_seconds_ = x
 
@@ -3016,6 +3037,7 @@ class ListenRequest(ProtocolBuffer.ProtocolMessage):
   def socket_descriptor(self): return self.socket_descriptor_
 
   def set_socket_descriptor(self, x):
+    assert not isinstance(x, str)
     self.has_socket_descriptor_ = 1
     self.socket_descriptor_ = x
 
@@ -3029,6 +3051,7 @@ class ListenRequest(ProtocolBuffer.ProtocolMessage):
   def backlog(self): return self.backlog_
 
   def set_backlog(self, x):
+    assert not isinstance(x, str)
     self.has_backlog_ = 1
     self.backlog_ = x
 
@@ -3220,6 +3243,7 @@ class AcceptRequest(ProtocolBuffer.ProtocolMessage):
   def socket_descriptor(self): return self.socket_descriptor_
 
   def set_socket_descriptor(self, x):
+    assert not isinstance(x, str)
     self.has_socket_descriptor_ = 1
     self.socket_descriptor_ = x
 
@@ -3233,6 +3257,7 @@ class AcceptRequest(ProtocolBuffer.ProtocolMessage):
   def timeout_seconds(self): return self.timeout_seconds_
 
   def set_timeout_seconds(self, x):
+    assert not isinstance(x, str)
     self.has_timeout_seconds_ = 1
     self.timeout_seconds_ = x
 
@@ -3355,6 +3380,7 @@ class AcceptReply(ProtocolBuffer.ProtocolMessage):
   def new_socket_descriptor(self): return self.new_socket_descriptor_
 
   def set_new_socket_descriptor(self, x):
+    assert not isinstance(x, str)
     self.has_new_socket_descriptor_ = 1
     self.new_socket_descriptor_ = x
 
@@ -3516,6 +3542,7 @@ class ShutDownRequest(ProtocolBuffer.ProtocolMessage):
   def socket_descriptor(self): return self.socket_descriptor_
 
   def set_socket_descriptor(self, x):
+    assert not isinstance(x, str)
     self.has_socket_descriptor_ = 1
     self.socket_descriptor_ = x
 
@@ -3529,6 +3556,7 @@ class ShutDownRequest(ProtocolBuffer.ProtocolMessage):
   def how(self): return self.how_
 
   def set_how(self, x):
+    assert not isinstance(x, str)
     self.has_how_ = 1
     self.how_ = x
 
@@ -3542,6 +3570,7 @@ class ShutDownRequest(ProtocolBuffer.ProtocolMessage):
   def send_offset(self): return self.send_offset_
 
   def set_send_offset(self, x):
+    assert not isinstance(x, str)
     self.has_send_offset_ = 1
     self.send_offset_ = x
 
@@ -3757,6 +3786,7 @@ class CloseRequest(ProtocolBuffer.ProtocolMessage):
   def socket_descriptor(self): return self.socket_descriptor_
 
   def set_socket_descriptor(self, x):
+    assert not isinstance(x, str)
     self.has_socket_descriptor_ = 1
     self.socket_descriptor_ = x
 
@@ -3770,6 +3800,7 @@ class CloseRequest(ProtocolBuffer.ProtocolMessage):
   def send_offset(self): return self.send_offset_
 
   def set_send_offset(self, x):
+    assert not isinstance(x, str)
     self.has_send_offset_ = 1
     self.send_offset_ = x
 
@@ -3965,6 +3996,7 @@ class SendRequest(ProtocolBuffer.ProtocolMessage):
   def socket_descriptor(self): return self.socket_descriptor_
 
   def set_socket_descriptor(self, x):
+    assert not isinstance(x, str)
     self.has_socket_descriptor_ = 1
     self.socket_descriptor_ = x
 
@@ -3978,6 +4010,7 @@ class SendRequest(ProtocolBuffer.ProtocolMessage):
   def data(self): return self.data_
 
   def set_data(self, x):
+    assert not isinstance(x, str)
     self.has_data_ = 1
     self.data_ = x
 
@@ -3991,6 +4024,7 @@ class SendRequest(ProtocolBuffer.ProtocolMessage):
   def stream_offset(self): return self.stream_offset_
 
   def set_stream_offset(self, x):
+    assert not isinstance(x, str)
     self.has_stream_offset_ = 1
     self.stream_offset_ = x
 
@@ -4004,6 +4038,7 @@ class SendRequest(ProtocolBuffer.ProtocolMessage):
   def flags(self): return self.flags_
 
   def set_flags(self, x):
+    assert not isinstance(x, str)
     self.has_flags_ = 1
     self.flags_ = x
 
@@ -4036,6 +4071,7 @@ class SendRequest(ProtocolBuffer.ProtocolMessage):
   def timeout_seconds(self): return self.timeout_seconds_
 
   def set_timeout_seconds(self, x):
+    assert not isinstance(x, str)
     self.has_timeout_seconds_ = 1
     self.timeout_seconds_ = x
 
@@ -4250,6 +4286,7 @@ class SendReply(ProtocolBuffer.ProtocolMessage):
   def data_sent(self): return self.data_sent_
 
   def set_data_sent(self, x):
+    assert not isinstance(x, str)
     self.has_data_sent_ = 1
     self.data_sent_ = x
 
@@ -4364,6 +4401,7 @@ class ReceiveRequest(ProtocolBuffer.ProtocolMessage):
   def socket_descriptor(self): return self.socket_descriptor_
 
   def set_socket_descriptor(self, x):
+    assert not isinstance(x, str)
     self.has_socket_descriptor_ = 1
     self.socket_descriptor_ = x
 
@@ -4377,6 +4415,7 @@ class ReceiveRequest(ProtocolBuffer.ProtocolMessage):
   def data_size(self): return self.data_size_
 
   def set_data_size(self, x):
+    assert not isinstance(x, str)
     self.has_data_size_ = 1
     self.data_size_ = x
 
@@ -4390,6 +4429,7 @@ class ReceiveRequest(ProtocolBuffer.ProtocolMessage):
   def flags(self): return self.flags_
 
   def set_flags(self, x):
+    assert not isinstance(x, str)
     self.has_flags_ = 1
     self.flags_ = x
 
@@ -4403,6 +4443,7 @@ class ReceiveRequest(ProtocolBuffer.ProtocolMessage):
   def timeout_seconds(self): return self.timeout_seconds_
 
   def set_timeout_seconds(self, x):
+    assert not isinstance(x, str)
     self.has_timeout_seconds_ = 1
     self.timeout_seconds_ = x
 
@@ -4572,6 +4613,7 @@ class ReceiveReply(ProtocolBuffer.ProtocolMessage):
   def stream_offset(self): return self.stream_offset_
 
   def set_stream_offset(self, x):
+    assert not isinstance(x, str)
     self.has_stream_offset_ = 1
     self.stream_offset_ = x
 
@@ -4585,6 +4627,7 @@ class ReceiveReply(ProtocolBuffer.ProtocolMessage):
   def data(self): return self.data_
 
   def set_data(self, x):
+    assert not isinstance(x, str)
     self.has_data_ = 1
     self.data_ = x
 
@@ -4617,6 +4660,7 @@ class ReceiveReply(ProtocolBuffer.ProtocolMessage):
   def buffer_size(self): return self.buffer_size_
 
   def set_buffer_size(self, x):
+    assert not isinstance(x, str)
     self.has_buffer_size_ = 1
     self.buffer_size_ = x
 
@@ -4819,6 +4863,7 @@ class PollEvent(ProtocolBuffer.ProtocolMessage):
   def socket_descriptor(self): return self.socket_descriptor_
 
   def set_socket_descriptor(self, x):
+    assert not isinstance(x, str)
     self.has_socket_descriptor_ = 1
     self.socket_descriptor_ = x
 
@@ -4832,6 +4877,7 @@ class PollEvent(ProtocolBuffer.ProtocolMessage):
   def requested_events(self): return self.requested_events_
 
   def set_requested_events(self, x):
+    assert not isinstance(x, str)
     self.has_requested_events_ = 1
     self.requested_events_ = x
 
@@ -4845,6 +4891,7 @@ class PollEvent(ProtocolBuffer.ProtocolMessage):
   def observed_events(self): return self.observed_events_
 
   def set_observed_events(self, x):
+    assert not isinstance(x, str)
     self.has_observed_events_ = 1
     self.observed_events_ = x
 
@@ -5010,6 +5057,7 @@ class PollRequest(ProtocolBuffer.ProtocolMessage):
   def timeout_seconds(self): return self.timeout_seconds_
 
   def set_timeout_seconds(self, x):
+    assert not isinstance(x, str)
     self.has_timeout_seconds_ = 1
     self.timeout_seconds_ = x
 
@@ -5256,6 +5304,7 @@ class ResolveRequest(ProtocolBuffer.ProtocolMessage):
   def name(self): return self.name_
 
   def set_name(self, x):
+    assert not isinstance(x, str)
     self.has_name_ = 1
     self.name_ = x
 
@@ -5273,6 +5322,7 @@ class ResolveRequest(ProtocolBuffer.ProtocolMessage):
     return self.address_families_[i]
 
   def set_address_families(self, i, x):
+    assert not isinstance(x, str)
     self.address_families_[i] = x
 
   def add_address_families(self, x):
@@ -5443,6 +5493,7 @@ class ResolveReply(ProtocolBuffer.ProtocolMessage):
     return self.packed_address_[i]
 
   def set_packed_address(self, i, x):
+    assert not isinstance(x, str)
     self.packed_address_[i] = x
 
   def add_packed_address(self, x):
@@ -5454,6 +5505,7 @@ class ResolveReply(ProtocolBuffer.ProtocolMessage):
   def canonical_name(self): return self.canonical_name_
 
   def set_canonical_name(self, x):
+    assert not isinstance(x, str)
     self.has_canonical_name_ = 1
     self.canonical_name_ = x
 
@@ -5471,6 +5523,7 @@ class ResolveReply(ProtocolBuffer.ProtocolMessage):
     return self.aliases_[i]
 
   def set_aliases(self, i, x):
+    assert not isinstance(x, str)
     self.aliases_[i] = x
 
   def add_aliases(self, x):

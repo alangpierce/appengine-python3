@@ -143,6 +143,7 @@ class URLFetchRequest_Header(ProtocolBuffer.ProtocolMessage):
   def key(self): return self.key_
 
   def set_key(self, x):
+    assert not isinstance(x, str)
     self.has_key_ = 1
     self.key_ = x
 
@@ -156,6 +157,7 @@ class URLFetchRequest_Header(ProtocolBuffer.ProtocolMessage):
   def value(self): return self.value_
 
   def set_value(self, x):
+    assert not isinstance(x, str)
     self.has_value_ = 1
     self.value_ = x
 
@@ -290,6 +292,7 @@ class URLFetchRequest(ProtocolBuffer.ProtocolMessage):
   def method(self): return self.method_
 
   def set_method(self, x):
+    assert not isinstance(x, str)
     self.has_method_ = 1
     self.method_ = x
 
@@ -303,6 +306,7 @@ class URLFetchRequest(ProtocolBuffer.ProtocolMessage):
   def url(self): return self.url_
 
   def set_url(self, x):
+    assert not isinstance(x, str)
     self.has_url_ = 1
     self.url_ = x
 
@@ -332,6 +336,7 @@ class URLFetchRequest(ProtocolBuffer.ProtocolMessage):
   def payload(self): return self.payload_
 
   def set_payload(self, x):
+    assert not isinstance(x, str)
     self.has_payload_ = 1
     self.payload_ = x
 
@@ -345,6 +350,7 @@ class URLFetchRequest(ProtocolBuffer.ProtocolMessage):
   def followredirects(self): return self.followredirects_
 
   def set_followredirects(self, x):
+    assert not isinstance(x, str)
     self.has_followredirects_ = 1
     self.followredirects_ = x
 
@@ -358,6 +364,7 @@ class URLFetchRequest(ProtocolBuffer.ProtocolMessage):
   def deadline(self): return self.deadline_
 
   def set_deadline(self, x):
+    assert not isinstance(x, str)
     self.has_deadline_ = 1
     self.deadline_ = x
 
@@ -371,6 +378,7 @@ class URLFetchRequest(ProtocolBuffer.ProtocolMessage):
   def mustvalidateservercertificate(self): return self.mustvalidateservercertificate_
 
   def set_mustvalidateservercertificate(self, x):
+    assert not isinstance(x, str)
     self.has_mustvalidateservercertificate_ = 1
     self.mustvalidateservercertificate_ = x
 
@@ -612,6 +620,7 @@ class URLFetchResponse_Header(ProtocolBuffer.ProtocolMessage):
   def key(self): return self.key_
 
   def set_key(self, x):
+    assert not isinstance(x, str)
     self.has_key_ = 1
     self.key_ = x
 
@@ -625,6 +634,7 @@ class URLFetchResponse_Header(ProtocolBuffer.ProtocolMessage):
   def value(self): return self.value_
 
   def set_value(self, x):
+    assert not isinstance(x, str)
     self.has_value_ = 1
     self.value_ = x
 
@@ -744,6 +754,7 @@ class URLFetchResponse(ProtocolBuffer.ProtocolMessage):
   def content(self): return self.content_
 
   def set_content(self, x):
+    assert not isinstance(x, str)
     self.has_content_ = 1
     self.content_ = x
 
@@ -757,6 +768,7 @@ class URLFetchResponse(ProtocolBuffer.ProtocolMessage):
   def statuscode(self): return self.statuscode_
 
   def set_statuscode(self, x):
+    assert not isinstance(x, str)
     self.has_statuscode_ = 1
     self.statuscode_ = x
 
@@ -786,6 +798,7 @@ class URLFetchResponse(ProtocolBuffer.ProtocolMessage):
   def contentwastruncated(self): return self.contentwastruncated_
 
   def set_contentwastruncated(self, x):
+    assert not isinstance(x, str)
     self.has_contentwastruncated_ = 1
     self.contentwastruncated_ = x
 
@@ -799,6 +812,7 @@ class URLFetchResponse(ProtocolBuffer.ProtocolMessage):
   def externalbytessent(self): return self.externalbytessent_
 
   def set_externalbytessent(self, x):
+    assert not isinstance(x, str)
     self.has_externalbytessent_ = 1
     self.externalbytessent_ = x
 
@@ -812,6 +826,7 @@ class URLFetchResponse(ProtocolBuffer.ProtocolMessage):
   def externalbytesreceived(self): return self.externalbytesreceived_
 
   def set_externalbytesreceived(self, x):
+    assert not isinstance(x, str)
     self.has_externalbytesreceived_ = 1
     self.externalbytesreceived_ = x
 
@@ -825,6 +840,7 @@ class URLFetchResponse(ProtocolBuffer.ProtocolMessage):
   def finalurl(self): return self.finalurl_
 
   def set_finalurl(self, x):
+    assert not isinstance(x, str)
     self.has_finalurl_ = 1
     self.finalurl_ = x
 
@@ -838,6 +854,7 @@ class URLFetchResponse(ProtocolBuffer.ProtocolMessage):
   def apicpumilliseconds(self): return self.apicpumilliseconds_
 
   def set_apicpumilliseconds(self, x):
+    assert not isinstance(x, str)
     self.has_apicpumilliseconds_ = 1
     self.apicpumilliseconds_ = x
 
@@ -851,6 +868,7 @@ class URLFetchResponse(ProtocolBuffer.ProtocolMessage):
   def apibytessent(self): return self.apibytessent_
 
   def set_apibytessent(self, x):
+    assert not isinstance(x, str)
     self.has_apibytessent_ = 1
     self.apibytessent_ = x
 
@@ -864,6 +882,7 @@ class URLFetchResponse(ProtocolBuffer.ProtocolMessage):
   def apibytesreceived(self): return self.apibytesreceived_
 
   def set_apibytesreceived(self, x):
+    assert not isinstance(x, str)
     self.has_apibytesreceived_ = 1
     self.apibytesreceived_ = x
 

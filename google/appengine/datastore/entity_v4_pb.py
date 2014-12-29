@@ -59,6 +59,7 @@ class PartitionId(ProtocolBuffer.ProtocolMessage):
   def dataset_id(self): return self.dataset_id_
 
   def set_dataset_id(self, x):
+    assert not isinstance(x, str)
     self.has_dataset_id_ = 1
     self.dataset_id_ = x
 
@@ -72,6 +73,7 @@ class PartitionId(ProtocolBuffer.ProtocolMessage):
   def namespace(self): return self.namespace_
 
   def set_namespace(self, x):
+    assert not isinstance(x, str)
     self.has_namespace_ = 1
     self.namespace_ = x
 
@@ -223,6 +225,7 @@ class Key_PathElement(ProtocolBuffer.ProtocolMessage):
   def kind(self): return self.kind_
 
   def set_kind(self, x):
+    assert not isinstance(x, str)
     self.has_kind_ = 1
     self.kind_ = x
 
@@ -236,6 +239,7 @@ class Key_PathElement(ProtocolBuffer.ProtocolMessage):
   def id(self): return self.id_
 
   def set_id(self, x):
+    assert not isinstance(x, str)
     self.has_id_ = 1
     self.id_ = x
 
@@ -249,6 +253,7 @@ class Key_PathElement(ProtocolBuffer.ProtocolMessage):
   def name(self): return self.name_
 
   def set_name(self, x):
+    assert not isinstance(x, str)
     self.has_name_ = 1
     self.name_ = x
 
@@ -619,6 +624,7 @@ class GeoPoint(ProtocolBuffer.ProtocolMessage):
   def latitude(self): return self.latitude_
 
   def set_latitude(self, x):
+    assert not isinstance(x, str)
     self.has_latitude_ = 1
     self.latitude_ = x
 
@@ -632,6 +638,7 @@ class GeoPoint(ProtocolBuffer.ProtocolMessage):
   def longitude(self): return self.longitude_
 
   def set_longitude(self, x):
+    assert not isinstance(x, str)
     self.has_longitude_ = 1
     self.longitude_ = x
 
@@ -809,6 +816,7 @@ class Value(ProtocolBuffer.ProtocolMessage):
   def boolean_value(self): return self.boolean_value_
 
   def set_boolean_value(self, x):
+    assert not isinstance(x, str)
     self.has_boolean_value_ = 1
     self.boolean_value_ = x
 
@@ -822,6 +830,7 @@ class Value(ProtocolBuffer.ProtocolMessage):
   def integer_value(self): return self.integer_value_
 
   def set_integer_value(self, x):
+    assert not isinstance(x, str)
     self.has_integer_value_ = 1
     self.integer_value_ = x
 
@@ -835,6 +844,7 @@ class Value(ProtocolBuffer.ProtocolMessage):
   def double_value(self): return self.double_value_
 
   def set_double_value(self, x):
+    assert not isinstance(x, str)
     self.has_double_value_ = 1
     self.double_value_ = x
 
@@ -848,6 +858,7 @@ class Value(ProtocolBuffer.ProtocolMessage):
   def timestamp_microseconds_value(self): return self.timestamp_microseconds_value_
 
   def set_timestamp_microseconds_value(self, x):
+    assert not isinstance(x, str)
     self.has_timestamp_microseconds_value_ = 1
     self.timestamp_microseconds_value_ = x
 
@@ -880,6 +891,7 @@ class Value(ProtocolBuffer.ProtocolMessage):
   def blob_key_value(self): return self.blob_key_value_
 
   def set_blob_key_value(self, x):
+    assert not isinstance(x, str)
     self.has_blob_key_value_ = 1
     self.blob_key_value_ = x
 
@@ -893,6 +905,7 @@ class Value(ProtocolBuffer.ProtocolMessage):
   def string_value(self): return self.string_value_
 
   def set_string_value(self, x):
+    assert not isinstance(x, str)
     self.has_string_value_ = 1
     self.string_value_ = x
 
@@ -906,6 +919,7 @@ class Value(ProtocolBuffer.ProtocolMessage):
   def blob_value(self): return self.blob_value_
 
   def set_blob_value(self, x):
+    assert not isinstance(x, str)
     self.has_blob_value_ = 1
     self.blob_value_ = x
 
@@ -973,6 +987,7 @@ class Value(ProtocolBuffer.ProtocolMessage):
   def meaning(self): return self.meaning_
 
   def set_meaning(self, x):
+    assert not isinstance(x, str)
     self.has_meaning_ = 1
     self.meaning_ = x
 
@@ -986,6 +1001,7 @@ class Value(ProtocolBuffer.ProtocolMessage):
   def indexed(self): return self.indexed_
 
   def set_indexed(self, x):
+    assert not isinstance(x, str)
     self.has_indexed_ = 1
     self.indexed_ = x
 
@@ -1392,6 +1408,7 @@ class Property(ProtocolBuffer.ProtocolMessage):
   def name(self): return self.name_
 
   def set_name(self, x):
+    assert not isinstance(x, str)
     self.has_name_ = 1
     self.name_ = x
 
@@ -1405,6 +1422,7 @@ class Property(ProtocolBuffer.ProtocolMessage):
   def deprecated_multi(self): return self.deprecated_multi_
 
   def set_deprecated_multi(self, x):
+    assert not isinstance(x, str)
     self.has_deprecated_multi_ = 1
     self.deprecated_multi_ = x
 

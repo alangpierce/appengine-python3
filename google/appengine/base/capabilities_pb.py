@@ -234,6 +234,7 @@ class CapabilityConfig(ProtocolBuffer.ProtocolMessage):
   def package(self): return self.package_
 
   def set_package(self, x):
+    assert not isinstance(x, str)
     self.has_package_ = 1
     self.package_ = x
 
@@ -247,6 +248,7 @@ class CapabilityConfig(ProtocolBuffer.ProtocolMessage):
   def capability(self): return self.capability_
 
   def set_capability(self, x):
+    assert not isinstance(x, str)
     self.has_capability_ = 1
     self.capability_ = x
 
@@ -260,6 +262,7 @@ class CapabilityConfig(ProtocolBuffer.ProtocolMessage):
   def status(self): return self.status_
 
   def set_status(self, x):
+    assert not isinstance(x, str)
     self.has_status_ = 1
     self.status_ = x
 
@@ -273,6 +276,7 @@ class CapabilityConfig(ProtocolBuffer.ProtocolMessage):
   def scheduled_time(self): return self.scheduled_time_
 
   def set_scheduled_time(self, x):
+    assert not isinstance(x, str)
     self.has_scheduled_time_ = 1
     self.scheduled_time_ = x
 
@@ -286,6 +290,7 @@ class CapabilityConfig(ProtocolBuffer.ProtocolMessage):
   def internal_message(self): return self.internal_message_
 
   def set_internal_message(self, x):
+    assert not isinstance(x, str)
     self.has_internal_message_ = 1
     self.internal_message_ = x
 
@@ -299,6 +304,7 @@ class CapabilityConfig(ProtocolBuffer.ProtocolMessage):
   def admin_message(self): return self.admin_message_
 
   def set_admin_message(self, x):
+    assert not isinstance(x, str)
     self.has_admin_message_ = 1
     self.admin_message_ = x
 
@@ -312,6 +318,7 @@ class CapabilityConfig(ProtocolBuffer.ProtocolMessage):
   def error_message(self): return self.error_message_
 
   def set_error_message(self, x):
+    assert not isinstance(x, str)
     self.has_error_message_ = 1
     self.error_message_ = x
 

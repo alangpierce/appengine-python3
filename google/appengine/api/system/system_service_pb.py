@@ -133,6 +133,7 @@ class SystemStat(ProtocolBuffer.ProtocolMessage):
   def current(self): return self.current_
 
   def set_current(self, x):
+    assert not isinstance(x, str)
     self.has_current_ = 1
     self.current_ = x
 
@@ -146,6 +147,7 @@ class SystemStat(ProtocolBuffer.ProtocolMessage):
   def average1m(self): return self.average1m_
 
   def set_average1m(self, x):
+    assert not isinstance(x, str)
     self.has_average1m_ = 1
     self.average1m_ = x
 
@@ -159,6 +161,7 @@ class SystemStat(ProtocolBuffer.ProtocolMessage):
   def average10m(self): return self.average10m_
 
   def set_average10m(self, x):
+    assert not isinstance(x, str)
     self.has_average10m_ = 1
     self.average10m_ = x
 
@@ -172,6 +175,7 @@ class SystemStat(ProtocolBuffer.ProtocolMessage):
   def total(self): return self.total_
 
   def set_total(self, x):
+    assert not isinstance(x, str)
     self.has_total_ = 1
     self.total_ = x
 
@@ -185,6 +189,7 @@ class SystemStat(ProtocolBuffer.ProtocolMessage):
   def rate1m(self): return self.rate1m_
 
   def set_rate1m(self, x):
+    assert not isinstance(x, str)
     self.has_rate1m_ = 1
     self.rate1m_ = x
 
@@ -198,6 +203,7 @@ class SystemStat(ProtocolBuffer.ProtocolMessage):
   def rate10m(self): return self.rate10m_
 
   def set_rate10m(self, x):
+    assert not isinstance(x, str)
     self.has_rate10m_ = 1
     self.rate10m_ = x
 
@@ -678,6 +684,7 @@ class StartBackgroundRequestResponse(ProtocolBuffer.ProtocolMessage):
   def request_id(self): return self.request_id_
 
   def set_request_id(self, x):
+    assert not isinstance(x, str)
     self.has_request_id_ = 1
     self.request_id_ = x
 

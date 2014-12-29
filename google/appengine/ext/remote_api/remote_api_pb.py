@@ -51,6 +51,7 @@ class Request(ProtocolBuffer.ProtocolMessage):
   def service_name(self): return self.service_name_
 
   def set_service_name(self, x):
+    assert not isinstance(x, str)
     self.has_service_name_ = 1
     self.service_name_ = x
 
@@ -64,6 +65,7 @@ class Request(ProtocolBuffer.ProtocolMessage):
   def method(self): return self.method_
 
   def set_method(self, x):
+    assert not isinstance(x, str)
     self.has_method_ = 1
     self.method_ = x
 
@@ -77,6 +79,7 @@ class Request(ProtocolBuffer.ProtocolMessage):
   def request(self): return self.request_
 
   def set_request(self, x):
+    assert not isinstance(x, str)
     self.has_request_ = 1
     self.request_ = x
 
@@ -90,6 +93,7 @@ class Request(ProtocolBuffer.ProtocolMessage):
   def request_id(self): return self.request_id_
 
   def set_request_id(self, x):
+    assert not isinstance(x, str)
     self.has_request_id_ = 1
     self.request_id_ = x
 
@@ -259,6 +263,7 @@ class ApplicationError(ProtocolBuffer.ProtocolMessage):
   def code(self): return self.code_
 
   def set_code(self, x):
+    assert not isinstance(x, str)
     self.has_code_ = 1
     self.code_ = x
 
@@ -272,6 +277,7 @@ class ApplicationError(ProtocolBuffer.ProtocolMessage):
   def detail(self): return self.detail_
 
   def set_detail(self, x):
+    assert not isinstance(x, str)
     self.has_detail_ = 1
     self.detail_ = x
 
@@ -433,6 +439,7 @@ class RpcError(ProtocolBuffer.ProtocolMessage):
   def code(self): return self.code_
 
   def set_code(self, x):
+    assert not isinstance(x, str)
     self.has_code_ = 1
     self.code_ = x
 
@@ -446,6 +453,7 @@ class RpcError(ProtocolBuffer.ProtocolMessage):
   def detail(self): return self.detail_
 
   def set_detail(self, x):
+    assert not isinstance(x, str)
     self.has_detail_ = 1
     self.detail_ = x
 
@@ -574,6 +582,7 @@ class Response(ProtocolBuffer.ProtocolMessage):
   def response(self): return self.response_
 
   def set_response(self, x):
+    assert not isinstance(x, str)
     self.has_response_ = 1
     self.response_ = x
 
@@ -587,6 +596,7 @@ class Response(ProtocolBuffer.ProtocolMessage):
   def exception(self): return self.exception_
 
   def set_exception(self, x):
+    assert not isinstance(x, str)
     self.has_exception_ = 1
     self.exception_ = x
 
@@ -619,6 +629,7 @@ class Response(ProtocolBuffer.ProtocolMessage):
   def java_exception(self): return self.java_exception_
 
   def set_java_exception(self, x):
+    assert not isinstance(x, str)
     self.has_java_exception_ = 1
     self.java_exception_ = x
 
@@ -837,6 +848,7 @@ class TransactionRequest_Precondition(ProtocolBuffer.ProtocolMessage):
   def hash(self): return self.hash_
 
   def set_hash(self, x):
+    assert not isinstance(x, str)
     self.has_hash_ = 1
     self.hash_ = x
 
@@ -1003,6 +1015,7 @@ class TransactionRequest(ProtocolBuffer.ProtocolMessage):
   def allow_multiple_eg(self): return self.allow_multiple_eg_
 
   def set_allow_multiple_eg(self, x):
+    assert not isinstance(x, str)
     self.has_allow_multiple_eg_ = 1
     self.allow_multiple_eg_ = x
 

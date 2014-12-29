@@ -127,6 +127,7 @@ class UserAppLogLine(ProtocolBuffer.ProtocolMessage):
   def timestamp_usec(self): return self.timestamp_usec_
 
   def set_timestamp_usec(self, x):
+    assert not isinstance(x, str)
     self.has_timestamp_usec_ = 1
     self.timestamp_usec_ = x
 
@@ -140,6 +141,7 @@ class UserAppLogLine(ProtocolBuffer.ProtocolMessage):
   def level(self): return self.level_
 
   def set_level(self, x):
+    assert not isinstance(x, str)
     self.has_level_ = 1
     self.level_ = x
 
@@ -153,6 +155,7 @@ class UserAppLogLine(ProtocolBuffer.ProtocolMessage):
   def message(self): return self.message_
 
   def set_message(self, x):
+    assert not isinstance(x, str)
     self.has_message_ = 1
     self.message_ = x
 
@@ -415,6 +418,7 @@ class FlushRequest(ProtocolBuffer.ProtocolMessage):
   def logs(self): return self.logs_
 
   def set_logs(self, x):
+    assert not isinstance(x, str)
     self.has_logs_ = 1
     self.logs_ = x
 
@@ -510,6 +514,7 @@ class SetStatusRequest(ProtocolBuffer.ProtocolMessage):
   def status(self): return self.status_
 
   def set_status(self, x):
+    assert not isinstance(x, str)
     self.has_status_ = 1
     self.status_ = x
 
@@ -610,6 +615,7 @@ class LogOffset(ProtocolBuffer.ProtocolMessage):
   def request_id(self): return self.request_id_
 
   def set_request_id(self, x):
+    assert not isinstance(x, str)
     self.has_request_id_ = 1
     self.request_id_ = x
 
@@ -709,6 +715,7 @@ class LogLine(ProtocolBuffer.ProtocolMessage):
   def time(self): return self.time_
 
   def set_time(self, x):
+    assert not isinstance(x, str)
     self.has_time_ = 1
     self.time_ = x
 
@@ -722,6 +729,7 @@ class LogLine(ProtocolBuffer.ProtocolMessage):
   def level(self): return self.level_
 
   def set_level(self, x):
+    assert not isinstance(x, str)
     self.has_level_ = 1
     self.level_ = x
 
@@ -735,6 +743,7 @@ class LogLine(ProtocolBuffer.ProtocolMessage):
   def log_message(self): return self.log_message_
 
   def set_log_message(self, x):
+    assert not isinstance(x, str)
     self.has_log_message_ = 1
     self.log_message_ = x
 
@@ -959,6 +968,7 @@ class RequestLog(ProtocolBuffer.ProtocolMessage):
   def app_id(self): return self.app_id_
 
   def set_app_id(self, x):
+    assert not isinstance(x, str)
     self.has_app_id_ = 1
     self.app_id_ = x
 
@@ -972,6 +982,7 @@ class RequestLog(ProtocolBuffer.ProtocolMessage):
   def module_id(self): return self.module_id_
 
   def set_module_id(self, x):
+    assert not isinstance(x, str)
     self.has_module_id_ = 1
     self.module_id_ = x
 
@@ -985,6 +996,7 @@ class RequestLog(ProtocolBuffer.ProtocolMessage):
   def version_id(self): return self.version_id_
 
   def set_version_id(self, x):
+    assert not isinstance(x, str)
     self.has_version_id_ = 1
     self.version_id_ = x
 
@@ -998,6 +1010,7 @@ class RequestLog(ProtocolBuffer.ProtocolMessage):
   def request_id(self): return self.request_id_
 
   def set_request_id(self, x):
+    assert not isinstance(x, str)
     self.has_request_id_ = 1
     self.request_id_ = x
 
@@ -1030,6 +1043,7 @@ class RequestLog(ProtocolBuffer.ProtocolMessage):
   def ip(self): return self.ip_
 
   def set_ip(self, x):
+    assert not isinstance(x, str)
     self.has_ip_ = 1
     self.ip_ = x
 
@@ -1043,6 +1057,7 @@ class RequestLog(ProtocolBuffer.ProtocolMessage):
   def nickname(self): return self.nickname_
 
   def set_nickname(self, x):
+    assert not isinstance(x, str)
     self.has_nickname_ = 1
     self.nickname_ = x
 
@@ -1056,6 +1071,7 @@ class RequestLog(ProtocolBuffer.ProtocolMessage):
   def start_time(self): return self.start_time_
 
   def set_start_time(self, x):
+    assert not isinstance(x, str)
     self.has_start_time_ = 1
     self.start_time_ = x
 
@@ -1069,6 +1085,7 @@ class RequestLog(ProtocolBuffer.ProtocolMessage):
   def end_time(self): return self.end_time_
 
   def set_end_time(self, x):
+    assert not isinstance(x, str)
     self.has_end_time_ = 1
     self.end_time_ = x
 
@@ -1082,6 +1099,7 @@ class RequestLog(ProtocolBuffer.ProtocolMessage):
   def latency(self): return self.latency_
 
   def set_latency(self, x):
+    assert not isinstance(x, str)
     self.has_latency_ = 1
     self.latency_ = x
 
@@ -1095,6 +1113,7 @@ class RequestLog(ProtocolBuffer.ProtocolMessage):
   def mcycles(self): return self.mcycles_
 
   def set_mcycles(self, x):
+    assert not isinstance(x, str)
     self.has_mcycles_ = 1
     self.mcycles_ = x
 
@@ -1108,6 +1127,7 @@ class RequestLog(ProtocolBuffer.ProtocolMessage):
   def method(self): return self.method_
 
   def set_method(self, x):
+    assert not isinstance(x, str)
     self.has_method_ = 1
     self.method_ = x
 
@@ -1121,6 +1141,7 @@ class RequestLog(ProtocolBuffer.ProtocolMessage):
   def resource(self): return self.resource_
 
   def set_resource(self, x):
+    assert not isinstance(x, str)
     self.has_resource_ = 1
     self.resource_ = x
 
@@ -1134,6 +1155,7 @@ class RequestLog(ProtocolBuffer.ProtocolMessage):
   def http_version(self): return self.http_version_
 
   def set_http_version(self, x):
+    assert not isinstance(x, str)
     self.has_http_version_ = 1
     self.http_version_ = x
 
@@ -1147,6 +1169,7 @@ class RequestLog(ProtocolBuffer.ProtocolMessage):
   def status(self): return self.status_
 
   def set_status(self, x):
+    assert not isinstance(x, str)
     self.has_status_ = 1
     self.status_ = x
 
@@ -1160,6 +1183,7 @@ class RequestLog(ProtocolBuffer.ProtocolMessage):
   def response_size(self): return self.response_size_
 
   def set_response_size(self, x):
+    assert not isinstance(x, str)
     self.has_response_size_ = 1
     self.response_size_ = x
 
@@ -1173,6 +1197,7 @@ class RequestLog(ProtocolBuffer.ProtocolMessage):
   def referrer(self): return self.referrer_
 
   def set_referrer(self, x):
+    assert not isinstance(x, str)
     self.has_referrer_ = 1
     self.referrer_ = x
 
@@ -1186,6 +1211,7 @@ class RequestLog(ProtocolBuffer.ProtocolMessage):
   def user_agent(self): return self.user_agent_
 
   def set_user_agent(self, x):
+    assert not isinstance(x, str)
     self.has_user_agent_ = 1
     self.user_agent_ = x
 
@@ -1199,6 +1225,7 @@ class RequestLog(ProtocolBuffer.ProtocolMessage):
   def url_map_entry(self): return self.url_map_entry_
 
   def set_url_map_entry(self, x):
+    assert not isinstance(x, str)
     self.has_url_map_entry_ = 1
     self.url_map_entry_ = x
 
@@ -1212,6 +1239,7 @@ class RequestLog(ProtocolBuffer.ProtocolMessage):
   def combined(self): return self.combined_
 
   def set_combined(self, x):
+    assert not isinstance(x, str)
     self.has_combined_ = 1
     self.combined_ = x
 
@@ -1225,6 +1253,7 @@ class RequestLog(ProtocolBuffer.ProtocolMessage):
   def api_mcycles(self): return self.api_mcycles_
 
   def set_api_mcycles(self, x):
+    assert not isinstance(x, str)
     self.has_api_mcycles_ = 1
     self.api_mcycles_ = x
 
@@ -1238,6 +1267,7 @@ class RequestLog(ProtocolBuffer.ProtocolMessage):
   def host(self): return self.host_
 
   def set_host(self, x):
+    assert not isinstance(x, str)
     self.has_host_ = 1
     self.host_ = x
 
@@ -1251,6 +1281,7 @@ class RequestLog(ProtocolBuffer.ProtocolMessage):
   def cost(self): return self.cost_
 
   def set_cost(self, x):
+    assert not isinstance(x, str)
     self.has_cost_ = 1
     self.cost_ = x
 
@@ -1264,6 +1295,7 @@ class RequestLog(ProtocolBuffer.ProtocolMessage):
   def task_queue_name(self): return self.task_queue_name_
 
   def set_task_queue_name(self, x):
+    assert not isinstance(x, str)
     self.has_task_queue_name_ = 1
     self.task_queue_name_ = x
 
@@ -1277,6 +1309,7 @@ class RequestLog(ProtocolBuffer.ProtocolMessage):
   def task_name(self): return self.task_name_
 
   def set_task_name(self, x):
+    assert not isinstance(x, str)
     self.has_task_name_ = 1
     self.task_name_ = x
 
@@ -1290,6 +1323,7 @@ class RequestLog(ProtocolBuffer.ProtocolMessage):
   def was_loading_request(self): return self.was_loading_request_
 
   def set_was_loading_request(self, x):
+    assert not isinstance(x, str)
     self.has_was_loading_request_ = 1
     self.was_loading_request_ = x
 
@@ -1303,6 +1337,7 @@ class RequestLog(ProtocolBuffer.ProtocolMessage):
   def pending_time(self): return self.pending_time_
 
   def set_pending_time(self, x):
+    assert not isinstance(x, str)
     self.has_pending_time_ = 1
     self.pending_time_ = x
 
@@ -1316,6 +1351,7 @@ class RequestLog(ProtocolBuffer.ProtocolMessage):
   def replica_index(self): return self.replica_index_
 
   def set_replica_index(self, x):
+    assert not isinstance(x, str)
     self.has_replica_index_ = 1
     self.replica_index_ = x
 
@@ -1329,6 +1365,7 @@ class RequestLog(ProtocolBuffer.ProtocolMessage):
   def finished(self): return self.finished_
 
   def set_finished(self, x):
+    assert not isinstance(x, str)
     self.has_finished_ = 1
     self.finished_ = x
 
@@ -1342,6 +1379,7 @@ class RequestLog(ProtocolBuffer.ProtocolMessage):
   def clone_key(self): return self.clone_key_
 
   def set_clone_key(self, x):
+    assert not isinstance(x, str)
     self.has_clone_key_ = 1
     self.clone_key_ = x
 
@@ -1371,6 +1409,7 @@ class RequestLog(ProtocolBuffer.ProtocolMessage):
   def lines_incomplete(self): return self.lines_incomplete_
 
   def set_lines_incomplete(self, x):
+    assert not isinstance(x, str)
     self.has_lines_incomplete_ = 1
     self.lines_incomplete_ = x
 
@@ -1384,6 +1423,7 @@ class RequestLog(ProtocolBuffer.ProtocolMessage):
   def app_engine_release(self): return self.app_engine_release_
 
   def set_app_engine_release(self, x):
+    assert not isinstance(x, str)
     self.has_app_engine_release_ = 1
     self.app_engine_release_ = x
 
@@ -1397,6 +1437,7 @@ class RequestLog(ProtocolBuffer.ProtocolMessage):
   def trace_id(self): return self.trace_id_
 
   def set_trace_id(self, x):
+    assert not isinstance(x, str)
     self.has_trace_id_ = 1
     self.trace_id_ = x
 
@@ -1410,6 +1451,7 @@ class RequestLog(ProtocolBuffer.ProtocolMessage):
   def exit_reason(self): return self.exit_reason_
 
   def set_exit_reason(self, x):
+    assert not isinstance(x, str)
     self.has_exit_reason_ = 1
     self.exit_reason_ = x
 
@@ -1423,6 +1465,7 @@ class RequestLog(ProtocolBuffer.ProtocolMessage):
   def was_throttled_for_time(self): return self.was_throttled_for_time_
 
   def set_was_throttled_for_time(self, x):
+    assert not isinstance(x, str)
     self.has_was_throttled_for_time_ = 1
     self.was_throttled_for_time_ = x
 
@@ -1436,6 +1479,7 @@ class RequestLog(ProtocolBuffer.ProtocolMessage):
   def was_throttled_for_requests(self): return self.was_throttled_for_requests_
 
   def set_was_throttled_for_requests(self, x):
+    assert not isinstance(x, str)
     self.has_was_throttled_for_requests_ = 1
     self.was_throttled_for_requests_ = x
 
@@ -1449,6 +1493,7 @@ class RequestLog(ProtocolBuffer.ProtocolMessage):
   def throttled_time(self): return self.throttled_time_
 
   def set_throttled_time(self, x):
+    assert not isinstance(x, str)
     self.has_throttled_time_ = 1
     self.throttled_time_ = x
 
@@ -1462,6 +1507,7 @@ class RequestLog(ProtocolBuffer.ProtocolMessage):
   def server_name(self): return self.server_name_
 
   def set_server_name(self, x):
+    assert not isinstance(x, str)
     self.has_server_name_ = 1
     self.server_name_ = x
 
@@ -2382,6 +2428,7 @@ class LogModuleVersion(ProtocolBuffer.ProtocolMessage):
   def module_id(self): return self.module_id_
 
   def set_module_id(self, x):
+    assert not isinstance(x, str)
     self.has_module_id_ = 1
     self.module_id_ = x
 
@@ -2395,6 +2442,7 @@ class LogModuleVersion(ProtocolBuffer.ProtocolMessage):
   def version_id(self): return self.version_id_
 
   def set_version_id(self, x):
+    assert not isinstance(x, str)
     self.has_version_id_ = 1
     self.version_id_ = x
 
@@ -2543,6 +2591,7 @@ class LogReadRequest(ProtocolBuffer.ProtocolMessage):
   def app_id(self): return self.app_id_
 
   def set_app_id(self, x):
+    assert not isinstance(x, str)
     self.has_app_id_ = 1
     self.app_id_ = x
 
@@ -2560,6 +2609,7 @@ class LogReadRequest(ProtocolBuffer.ProtocolMessage):
     return self.version_id_[i]
 
   def set_version_id(self, i, x):
+    assert not isinstance(x, str)
     self.version_id_[i] = x
 
   def add_version_id(self, x):
@@ -2587,6 +2637,7 @@ class LogReadRequest(ProtocolBuffer.ProtocolMessage):
   def start_time(self): return self.start_time_
 
   def set_start_time(self, x):
+    assert not isinstance(x, str)
     self.has_start_time_ = 1
     self.start_time_ = x
 
@@ -2600,6 +2651,7 @@ class LogReadRequest(ProtocolBuffer.ProtocolMessage):
   def end_time(self): return self.end_time_
 
   def set_end_time(self, x):
+    assert not isinstance(x, str)
     self.has_end_time_ = 1
     self.end_time_ = x
 
@@ -2636,6 +2688,7 @@ class LogReadRequest(ProtocolBuffer.ProtocolMessage):
     return self.request_id_[i]
 
   def set_request_id(self, i, x):
+    assert not isinstance(x, str)
     self.request_id_[i] = x
 
   def add_request_id(self, x):
@@ -2647,6 +2700,7 @@ class LogReadRequest(ProtocolBuffer.ProtocolMessage):
   def minimum_log_level(self): return self.minimum_log_level_
 
   def set_minimum_log_level(self, x):
+    assert not isinstance(x, str)
     self.has_minimum_log_level_ = 1
     self.minimum_log_level_ = x
 
@@ -2660,6 +2714,7 @@ class LogReadRequest(ProtocolBuffer.ProtocolMessage):
   def include_incomplete(self): return self.include_incomplete_
 
   def set_include_incomplete(self, x):
+    assert not isinstance(x, str)
     self.has_include_incomplete_ = 1
     self.include_incomplete_ = x
 
@@ -2673,6 +2728,7 @@ class LogReadRequest(ProtocolBuffer.ProtocolMessage):
   def count(self): return self.count_
 
   def set_count(self, x):
+    assert not isinstance(x, str)
     self.has_count_ = 1
     self.count_ = x
 
@@ -2686,6 +2742,7 @@ class LogReadRequest(ProtocolBuffer.ProtocolMessage):
   def combined_log_regex(self): return self.combined_log_regex_
 
   def set_combined_log_regex(self, x):
+    assert not isinstance(x, str)
     self.has_combined_log_regex_ = 1
     self.combined_log_regex_ = x
 
@@ -2699,6 +2756,7 @@ class LogReadRequest(ProtocolBuffer.ProtocolMessage):
   def host_regex(self): return self.host_regex_
 
   def set_host_regex(self, x):
+    assert not isinstance(x, str)
     self.has_host_regex_ = 1
     self.host_regex_ = x
 
@@ -2712,6 +2770,7 @@ class LogReadRequest(ProtocolBuffer.ProtocolMessage):
   def replica_index(self): return self.replica_index_
 
   def set_replica_index(self, x):
+    assert not isinstance(x, str)
     self.has_replica_index_ = 1
     self.replica_index_ = x
 
@@ -2725,6 +2784,7 @@ class LogReadRequest(ProtocolBuffer.ProtocolMessage):
   def include_app_logs(self): return self.include_app_logs_
 
   def set_include_app_logs(self, x):
+    assert not isinstance(x, str)
     self.has_include_app_logs_ = 1
     self.include_app_logs_ = x
 
@@ -2738,6 +2798,7 @@ class LogReadRequest(ProtocolBuffer.ProtocolMessage):
   def app_logs_per_request(self): return self.app_logs_per_request_
 
   def set_app_logs_per_request(self, x):
+    assert not isinstance(x, str)
     self.has_app_logs_per_request_ = 1
     self.app_logs_per_request_ = x
 
@@ -2751,6 +2812,7 @@ class LogReadRequest(ProtocolBuffer.ProtocolMessage):
   def include_host(self): return self.include_host_
 
   def set_include_host(self, x):
+    assert not isinstance(x, str)
     self.has_include_host_ = 1
     self.include_host_ = x
 
@@ -2764,6 +2826,7 @@ class LogReadRequest(ProtocolBuffer.ProtocolMessage):
   def include_all(self): return self.include_all_
 
   def set_include_all(self, x):
+    assert not isinstance(x, str)
     self.has_include_all_ = 1
     self.include_all_ = x
 
@@ -2777,6 +2840,7 @@ class LogReadRequest(ProtocolBuffer.ProtocolMessage):
   def cache_iterator(self): return self.cache_iterator_
 
   def set_cache_iterator(self, x):
+    assert not isinstance(x, str)
     self.has_cache_iterator_ = 1
     self.cache_iterator_ = x
 
@@ -2790,6 +2854,7 @@ class LogReadRequest(ProtocolBuffer.ProtocolMessage):
   def num_shards(self): return self.num_shards_
 
   def set_num_shards(self, x):
+    assert not isinstance(x, str)
     self.has_num_shards_ = 1
     self.num_shards_ = x
 
@@ -3313,6 +3378,7 @@ class LogReadResponse(ProtocolBuffer.ProtocolMessage):
   def last_end_time(self): return self.last_end_time_
 
   def set_last_end_time(self, x):
+    assert not isinstance(x, str)
     self.has_last_end_time_ = 1
     self.last_end_time_ = x
 
@@ -3482,6 +3548,7 @@ class LogUsageRecord(ProtocolBuffer.ProtocolMessage):
   def version_id(self): return self.version_id_
 
   def set_version_id(self, x):
+    assert not isinstance(x, str)
     self.has_version_id_ = 1
     self.version_id_ = x
 
@@ -3495,6 +3562,7 @@ class LogUsageRecord(ProtocolBuffer.ProtocolMessage):
   def start_time(self): return self.start_time_
 
   def set_start_time(self, x):
+    assert not isinstance(x, str)
     self.has_start_time_ = 1
     self.start_time_ = x
 
@@ -3508,6 +3576,7 @@ class LogUsageRecord(ProtocolBuffer.ProtocolMessage):
   def end_time(self): return self.end_time_
 
   def set_end_time(self, x):
+    assert not isinstance(x, str)
     self.has_end_time_ = 1
     self.end_time_ = x
 
@@ -3521,6 +3590,7 @@ class LogUsageRecord(ProtocolBuffer.ProtocolMessage):
   def count(self): return self.count_
 
   def set_count(self, x):
+    assert not isinstance(x, str)
     self.has_count_ = 1
     self.count_ = x
 
@@ -3534,6 +3604,7 @@ class LogUsageRecord(ProtocolBuffer.ProtocolMessage):
   def total_size(self): return self.total_size_
 
   def set_total_size(self, x):
+    assert not isinstance(x, str)
     self.has_total_size_ = 1
     self.total_size_ = x
 
@@ -3547,6 +3618,7 @@ class LogUsageRecord(ProtocolBuffer.ProtocolMessage):
   def records(self): return self.records_
 
   def set_records(self, x):
+    assert not isinstance(x, str)
     self.has_records_ = 1
     self.records_ = x
 
@@ -3750,6 +3822,7 @@ class LogUsageRequest(ProtocolBuffer.ProtocolMessage):
   def app_id(self): return self.app_id_
 
   def set_app_id(self, x):
+    assert not isinstance(x, str)
     self.has_app_id_ = 1
     self.app_id_ = x
 
@@ -3767,6 +3840,7 @@ class LogUsageRequest(ProtocolBuffer.ProtocolMessage):
     return self.version_id_[i]
 
   def set_version_id(self, i, x):
+    assert not isinstance(x, str)
     self.version_id_[i] = x
 
   def add_version_id(self, x):
@@ -3778,6 +3852,7 @@ class LogUsageRequest(ProtocolBuffer.ProtocolMessage):
   def start_time(self): return self.start_time_
 
   def set_start_time(self, x):
+    assert not isinstance(x, str)
     self.has_start_time_ = 1
     self.start_time_ = x
 
@@ -3791,6 +3866,7 @@ class LogUsageRequest(ProtocolBuffer.ProtocolMessage):
   def end_time(self): return self.end_time_
 
   def set_end_time(self, x):
+    assert not isinstance(x, str)
     self.has_end_time_ = 1
     self.end_time_ = x
 
@@ -3804,6 +3880,7 @@ class LogUsageRequest(ProtocolBuffer.ProtocolMessage):
   def resolution_hours(self): return self.resolution_hours_
 
   def set_resolution_hours(self, x):
+    assert not isinstance(x, str)
     self.has_resolution_hours_ = 1
     self.resolution_hours_ = x
 
@@ -3817,6 +3894,7 @@ class LogUsageRequest(ProtocolBuffer.ProtocolMessage):
   def combine_versions(self): return self.combine_versions_
 
   def set_combine_versions(self, x):
+    assert not isinstance(x, str)
     self.has_combine_versions_ = 1
     self.combine_versions_ = x
 
@@ -3830,6 +3908,7 @@ class LogUsageRequest(ProtocolBuffer.ProtocolMessage):
   def usage_version(self): return self.usage_version_
 
   def set_usage_version(self, x):
+    assert not isinstance(x, str)
     self.has_usage_version_ = 1
     self.usage_version_ = x
 
@@ -3843,6 +3922,7 @@ class LogUsageRequest(ProtocolBuffer.ProtocolMessage):
   def versions_only(self): return self.versions_only_
 
   def set_versions_only(self, x):
+    assert not isinstance(x, str)
     self.has_versions_only_ = 1
     self.versions_only_ = x
 

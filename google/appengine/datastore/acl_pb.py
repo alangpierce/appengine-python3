@@ -66,6 +66,7 @@ class Scope(ProtocolBuffer.ProtocolMessage):
   def type(self): return self.type_
 
   def set_type(self, x):
+    assert not isinstance(x, str)
     self.has_type_ = 1
     self.type_ = x
 
@@ -79,6 +80,7 @@ class Scope(ProtocolBuffer.ProtocolMessage):
   def value(self): return self.value_
 
   def set_value(self, x):
+    assert not isinstance(x, str)
     self.has_value_ = 1
     self.value_ = x
 
@@ -232,6 +234,7 @@ class Entry(ProtocolBuffer.ProtocolMessage):
   def permission(self): return self.permission_
 
   def set_permission(self, x):
+    assert not isinstance(x, str)
     self.has_permission_ = 1
     self.permission_ = x
 
@@ -245,6 +248,7 @@ class Entry(ProtocolBuffer.ProtocolMessage):
   def display_name(self): return self.display_name_
 
   def set_display_name(self, x):
+    assert not isinstance(x, str)
     self.has_display_name_ = 1
     self.display_name_ = x
 
@@ -388,6 +392,7 @@ class AccessControlList(ProtocolBuffer.ProtocolMessage):
   def owner(self): return self.owner_
 
   def set_owner(self, x):
+    assert not isinstance(x, str)
     self.has_owner_ = 1
     self.owner_ = x
 

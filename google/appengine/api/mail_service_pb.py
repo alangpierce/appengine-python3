@@ -135,6 +135,7 @@ class MailAttachment(ProtocolBuffer.ProtocolMessage):
   def filename(self): return self.filename_
 
   def set_filename(self, x):
+    assert not isinstance(x, str)
     self.has_filename_ = 1
     self.filename_ = x
 
@@ -148,6 +149,7 @@ class MailAttachment(ProtocolBuffer.ProtocolMessage):
   def data(self): return self.data_
 
   def set_data(self, x):
+    assert not isinstance(x, str)
     self.has_data_ = 1
     self.data_ = x
 
@@ -161,6 +163,7 @@ class MailAttachment(ProtocolBuffer.ProtocolMessage):
   def contentid(self): return self.contentid_
 
   def set_contentid(self, x):
+    assert not isinstance(x, str)
     self.has_contentid_ = 1
     self.contentid_ = x
 
@@ -306,6 +309,7 @@ class MailHeader(ProtocolBuffer.ProtocolMessage):
   def name(self): return self.name_
 
   def set_name(self, x):
+    assert not isinstance(x, str)
     self.has_name_ = 1
     self.name_ = x
 
@@ -319,6 +323,7 @@ class MailHeader(ProtocolBuffer.ProtocolMessage):
   def value(self): return self.value_
 
   def set_value(self, x):
+    assert not isinstance(x, str)
     self.has_value_ = 1
     self.value_ = x
 
@@ -456,6 +461,7 @@ class MailMessage(ProtocolBuffer.ProtocolMessage):
   def sender(self): return self.sender_
 
   def set_sender(self, x):
+    assert not isinstance(x, str)
     self.has_sender_ = 1
     self.sender_ = x
 
@@ -469,6 +475,7 @@ class MailMessage(ProtocolBuffer.ProtocolMessage):
   def replyto(self): return self.replyto_
 
   def set_replyto(self, x):
+    assert not isinstance(x, str)
     self.has_replyto_ = 1
     self.replyto_ = x
 
@@ -486,6 +493,7 @@ class MailMessage(ProtocolBuffer.ProtocolMessage):
     return self.to_[i]
 
   def set_to(self, i, x):
+    assert not isinstance(x, str)
     self.to_[i] = x
 
   def add_to(self, x):
@@ -501,6 +509,7 @@ class MailMessage(ProtocolBuffer.ProtocolMessage):
     return self.cc_[i]
 
   def set_cc(self, i, x):
+    assert not isinstance(x, str)
     self.cc_[i] = x
 
   def add_cc(self, x):
@@ -516,6 +525,7 @@ class MailMessage(ProtocolBuffer.ProtocolMessage):
     return self.bcc_[i]
 
   def set_bcc(self, i, x):
+    assert not isinstance(x, str)
     self.bcc_[i] = x
 
   def add_bcc(self, x):
@@ -527,6 +537,7 @@ class MailMessage(ProtocolBuffer.ProtocolMessage):
   def subject(self): return self.subject_
 
   def set_subject(self, x):
+    assert not isinstance(x, str)
     self.has_subject_ = 1
     self.subject_ = x
 
@@ -540,6 +551,7 @@ class MailMessage(ProtocolBuffer.ProtocolMessage):
   def textbody(self): return self.textbody_
 
   def set_textbody(self, x):
+    assert not isinstance(x, str)
     self.has_textbody_ = 1
     self.textbody_ = x
 
@@ -553,6 +565,7 @@ class MailMessage(ProtocolBuffer.ProtocolMessage):
   def htmlbody(self): return self.htmlbody_
 
   def set_htmlbody(self, x):
+    assert not isinstance(x, str)
     self.has_htmlbody_ = 1
     self.htmlbody_ = x
 

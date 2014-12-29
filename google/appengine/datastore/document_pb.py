@@ -45,6 +45,7 @@ class FieldValue_Geo(ProtocolBuffer.ProtocolMessage):
   def lat(self): return self.lat_
 
   def set_lat(self, x):
+    assert not isinstance(x, str)
     self.has_lat_ = 1
     self.lat_ = x
 
@@ -58,6 +59,7 @@ class FieldValue_Geo(ProtocolBuffer.ProtocolMessage):
   def lng(self): return self.lng_
 
   def set_lng(self, x):
+    assert not isinstance(x, str)
     self.has_lng_ = 1
     self.lng_ = x
 
@@ -184,6 +186,7 @@ class FieldValue(ProtocolBuffer.ProtocolMessage):
   def type(self): return self.type_
 
   def set_type(self, x):
+    assert not isinstance(x, str)
     self.has_type_ = 1
     self.type_ = x
 
@@ -197,6 +200,7 @@ class FieldValue(ProtocolBuffer.ProtocolMessage):
   def language(self): return self.language_
 
   def set_language(self, x):
+    assert not isinstance(x, str)
     self.has_language_ = 1
     self.language_ = x
 
@@ -210,6 +214,7 @@ class FieldValue(ProtocolBuffer.ProtocolMessage):
   def string_value(self): return self.string_value_
 
   def set_string_value(self, x):
+    assert not isinstance(x, str)
     self.has_string_value_ = 1
     self.string_value_ = x
 
@@ -395,6 +400,7 @@ class Field(ProtocolBuffer.ProtocolMessage):
   def name(self): return self.name_
 
   def set_name(self, x):
+    assert not isinstance(x, str)
     self.has_name_ = 1
     self.name_ = x
 
@@ -537,6 +543,7 @@ class FieldTypes(ProtocolBuffer.ProtocolMessage):
   def name(self): return self.name_
 
   def set_name(self, x):
+    assert not isinstance(x, str)
     self.has_name_ = 1
     self.name_ = x
 
@@ -554,6 +561,7 @@ class FieldTypes(ProtocolBuffer.ProtocolMessage):
     return self.type_[i]
 
   def set_type(self, i, x):
+    assert not isinstance(x, str)
     self.type_[i] = x
 
   def add_type(self, x):
@@ -679,6 +687,7 @@ class IndexMetadata(ProtocolBuffer.ProtocolMessage):
   def is_over_field_number_threshold(self): return self.is_over_field_number_threshold_
 
   def set_is_over_field_number_threshold(self, x):
+    assert not isinstance(x, str)
     self.has_is_over_field_number_threshold_ = 1
     self.is_over_field_number_threshold_ = x
 
@@ -789,6 +798,7 @@ class FacetValue(ProtocolBuffer.ProtocolMessage):
   def type(self): return self.type_
 
   def set_type(self, x):
+    assert not isinstance(x, str)
     self.has_type_ = 1
     self.type_ = x
 
@@ -802,6 +812,7 @@ class FacetValue(ProtocolBuffer.ProtocolMessage):
   def string_value(self): return self.string_value_
 
   def set_string_value(self, x):
+    assert not isinstance(x, str)
     self.has_string_value_ = 1
     self.string_value_ = x
 
@@ -918,6 +929,7 @@ class Facet(ProtocolBuffer.ProtocolMessage):
   def name(self): return self.name_
 
   def set_name(self, x):
+    assert not isinstance(x, str)
     self.has_name_ = 1
     self.name_ = x
 
@@ -1059,6 +1071,7 @@ class DocumentMetadata(ProtocolBuffer.ProtocolMessage):
   def version(self): return self.version_
 
   def set_version(self, x):
+    assert not isinstance(x, str)
     self.has_version_ = 1
     self.version_ = x
 
@@ -1176,6 +1189,7 @@ class Document(ProtocolBuffer.ProtocolMessage):
   def id(self): return self.id_
 
   def set_id(self, x):
+    assert not isinstance(x, str)
     self.has_id_ = 1
     self.id_ = x
 
@@ -1189,6 +1203,7 @@ class Document(ProtocolBuffer.ProtocolMessage):
   def language(self): return self.language_
 
   def set_language(self, x):
+    assert not isinstance(x, str)
     self.has_language_ = 1
     self.language_ = x
 
@@ -1218,6 +1233,7 @@ class Document(ProtocolBuffer.ProtocolMessage):
   def order_id(self): return self.order_id_
 
   def set_order_id(self, x):
+    assert not isinstance(x, str)
     self.has_order_id_ = 1
     self.order_id_ = x
 
@@ -1231,6 +1247,7 @@ class Document(ProtocolBuffer.ProtocolMessage):
   def storage(self): return self.storage_
 
   def set_storage(self, x):
+    assert not isinstance(x, str)
     self.has_storage_ = 1
     self.storage_ = x
 

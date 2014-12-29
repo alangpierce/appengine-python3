@@ -135,6 +135,7 @@ class RequestStatus(ProtocolBuffer.ProtocolMessage):
   def code(self): return self.code_
 
   def set_code(self, x):
+    assert not isinstance(x, str)
     self.has_code_ = 1
     self.code_ = x
 
@@ -148,6 +149,7 @@ class RequestStatus(ProtocolBuffer.ProtocolMessage):
   def error_detail(self): return self.error_detail_
 
   def set_error_detail(self, x):
+    assert not isinstance(x, str)
     self.has_error_detail_ = 1
     self.error_detail_ = x
 
@@ -161,6 +163,7 @@ class RequestStatus(ProtocolBuffer.ProtocolMessage):
   def canonical_code(self): return self.canonical_code_
 
   def set_canonical_code(self, x):
+    assert not isinstance(x, str)
     self.has_canonical_code_ = 1
     self.canonical_code_ = x
 
@@ -350,6 +353,7 @@ class IndexSpec(ProtocolBuffer.ProtocolMessage):
   def name(self): return self.name_
 
   def set_name(self, x):
+    assert not isinstance(x, str)
     self.has_name_ = 1
     self.name_ = x
 
@@ -363,6 +367,7 @@ class IndexSpec(ProtocolBuffer.ProtocolMessage):
   def consistency(self): return self.consistency_
 
   def set_consistency(self, x):
+    assert not isinstance(x, str)
     self.has_consistency_ = 1
     self.consistency_ = x
 
@@ -376,6 +381,7 @@ class IndexSpec(ProtocolBuffer.ProtocolMessage):
   def namespace(self): return self.namespace_
 
   def set_namespace(self, x):
+    assert not isinstance(x, str)
     self.has_namespace_ = 1
     self.namespace_ = x
 
@@ -389,6 +395,7 @@ class IndexSpec(ProtocolBuffer.ProtocolMessage):
   def version(self): return self.version_
 
   def set_version(self, x):
+    assert not isinstance(x, str)
     self.has_version_ = 1
     self.version_ = x
 
@@ -402,6 +409,7 @@ class IndexSpec(ProtocolBuffer.ProtocolMessage):
   def source(self): return self.source_
 
   def set_source(self, x):
+    assert not isinstance(x, str)
     self.has_source_ = 1
     self.source_ = x
 
@@ -415,6 +423,7 @@ class IndexSpec(ProtocolBuffer.ProtocolMessage):
   def mode(self): return self.mode_
 
   def set_mode(self, x):
+    assert not isinstance(x, str)
     self.has_mode_ = 1
     self.mode_ = x
 
@@ -612,6 +621,7 @@ class IndexMetadata_Storage(ProtocolBuffer.ProtocolMessage):
   def amount_used(self): return self.amount_used_
 
   def set_amount_used(self, x):
+    assert not isinstance(x, str)
     self.has_amount_used_ = 1
     self.amount_used_ = x
 
@@ -625,6 +635,7 @@ class IndexMetadata_Storage(ProtocolBuffer.ProtocolMessage):
   def limit(self): return self.limit_
 
   def set_limit(self, x):
+    assert not isinstance(x, str)
     self.has_limit_ = 1
     self.limit_ = x
 
@@ -978,6 +989,7 @@ class IndexDocumentParams(ProtocolBuffer.ProtocolMessage):
   def freshness(self): return self.freshness_
 
   def set_freshness(self, x):
+    assert not isinstance(x, str)
     self.has_freshness_ = 1
     self.freshness_ = x
 
@@ -1160,6 +1172,7 @@ class IndexDocumentRequest(ProtocolBuffer.ProtocolMessage):
   def app_id(self): return self.app_id_
 
   def set_app_id(self, x):
+    assert not isinstance(x, str)
     self.has_app_id_ = 1
     self.app_id_ = x
 
@@ -1308,6 +1321,7 @@ class IndexDocumentResponse(ProtocolBuffer.ProtocolMessage):
     return self.doc_id_[i]
 
   def set_doc_id(self, i, x):
+    assert not isinstance(x, str)
     self.doc_id_[i] = x
 
   def add_doc_id(self, x):
@@ -1450,6 +1464,7 @@ class DeleteDocumentParams(ProtocolBuffer.ProtocolMessage):
     return self.doc_id_[i]
 
   def set_doc_id(self, i, x):
+    assert not isinstance(x, str)
     self.doc_id_[i] = x
 
   def add_doc_id(self, x):
@@ -1602,6 +1617,7 @@ class DeleteDocumentRequest(ProtocolBuffer.ProtocolMessage):
   def app_id(self): return self.app_id_
 
   def set_app_id(self, x):
+    assert not isinstance(x, str)
     self.has_app_id_ = 1
     self.app_id_ = x
 
@@ -1860,6 +1876,7 @@ class ListDocumentsParams(ProtocolBuffer.ProtocolMessage):
   def start_doc_id(self): return self.start_doc_id_
 
   def set_start_doc_id(self, x):
+    assert not isinstance(x, str)
     self.has_start_doc_id_ = 1
     self.start_doc_id_ = x
 
@@ -1873,6 +1890,7 @@ class ListDocumentsParams(ProtocolBuffer.ProtocolMessage):
   def include_start_doc(self): return self.include_start_doc_
 
   def set_include_start_doc(self, x):
+    assert not isinstance(x, str)
     self.has_include_start_doc_ = 1
     self.include_start_doc_ = x
 
@@ -1886,6 +1904,7 @@ class ListDocumentsParams(ProtocolBuffer.ProtocolMessage):
   def limit(self): return self.limit_
 
   def set_limit(self, x):
+    assert not isinstance(x, str)
     self.has_limit_ = 1
     self.limit_ = x
 
@@ -1899,6 +1918,7 @@ class ListDocumentsParams(ProtocolBuffer.ProtocolMessage):
   def keys_only(self): return self.keys_only_
 
   def set_keys_only(self, x):
+    assert not isinstance(x, str)
     self.has_keys_only_ = 1
     self.keys_only_ = x
 
@@ -2094,6 +2114,7 @@ class ListDocumentsRequest(ProtocolBuffer.ProtocolMessage):
   def app_id(self): return self.app_id_
 
   def set_app_id(self, x):
+    assert not isinstance(x, str)
     self.has_app_id_ = 1
     self.app_id_ = x
 
@@ -2393,6 +2414,7 @@ class ListIndexesParams(ProtocolBuffer.ProtocolMessage):
   def fetch_schema(self): return self.fetch_schema_
 
   def set_fetch_schema(self, x):
+    assert not isinstance(x, str)
     self.has_fetch_schema_ = 1
     self.fetch_schema_ = x
 
@@ -2406,6 +2428,7 @@ class ListIndexesParams(ProtocolBuffer.ProtocolMessage):
   def limit(self): return self.limit_
 
   def set_limit(self, x):
+    assert not isinstance(x, str)
     self.has_limit_ = 1
     self.limit_ = x
 
@@ -2419,6 +2442,7 @@ class ListIndexesParams(ProtocolBuffer.ProtocolMessage):
   def namespace(self): return self.namespace_
 
   def set_namespace(self, x):
+    assert not isinstance(x, str)
     self.has_namespace_ = 1
     self.namespace_ = x
 
@@ -2432,6 +2456,7 @@ class ListIndexesParams(ProtocolBuffer.ProtocolMessage):
   def start_index_name(self): return self.start_index_name_
 
   def set_start_index_name(self, x):
+    assert not isinstance(x, str)
     self.has_start_index_name_ = 1
     self.start_index_name_ = x
 
@@ -2445,6 +2470,7 @@ class ListIndexesParams(ProtocolBuffer.ProtocolMessage):
   def include_start_index(self): return self.include_start_index_
 
   def set_include_start_index(self, x):
+    assert not isinstance(x, str)
     self.has_include_start_index_ = 1
     self.include_start_index_ = x
 
@@ -2458,6 +2484,7 @@ class ListIndexesParams(ProtocolBuffer.ProtocolMessage):
   def index_name_prefix(self): return self.index_name_prefix_
 
   def set_index_name_prefix(self, x):
+    assert not isinstance(x, str)
     self.has_index_name_prefix_ = 1
     self.index_name_prefix_ = x
 
@@ -2471,6 +2498,7 @@ class ListIndexesParams(ProtocolBuffer.ProtocolMessage):
   def offset(self): return self.offset_
 
   def set_offset(self, x):
+    assert not isinstance(x, str)
     self.has_offset_ = 1
     self.offset_ = x
 
@@ -2484,6 +2512,7 @@ class ListIndexesParams(ProtocolBuffer.ProtocolMessage):
   def source(self): return self.source_
 
   def set_source(self, x):
+    assert not isinstance(x, str)
     self.has_source_ = 1
     self.source_ = x
 
@@ -2722,6 +2751,7 @@ class ListIndexesRequest(ProtocolBuffer.ProtocolMessage):
   def app_id(self): return self.app_id_
 
   def set_app_id(self, x):
+    assert not isinstance(x, str)
     self.has_app_id_ = 1
     self.app_id_ = x
 
@@ -3008,6 +3038,7 @@ class DeleteSchemaParams(ProtocolBuffer.ProtocolMessage):
   def source(self): return self.source_
 
   def set_source(self, x):
+    assert not isinstance(x, str)
     self.has_source_ = 1
     self.source_ = x
 
@@ -3165,6 +3196,7 @@ class DeleteSchemaRequest(ProtocolBuffer.ProtocolMessage):
   def app_id(self): return self.app_id_
 
   def set_app_id(self, x):
+    assert not isinstance(x, str)
     self.has_app_id_ = 1
     self.app_id_ = x
 
@@ -3413,6 +3445,7 @@ class SortSpec(ProtocolBuffer.ProtocolMessage):
   def sort_expression(self): return self.sort_expression_
 
   def set_sort_expression(self, x):
+    assert not isinstance(x, str)
     self.has_sort_expression_ = 1
     self.sort_expression_ = x
 
@@ -3426,6 +3459,7 @@ class SortSpec(ProtocolBuffer.ProtocolMessage):
   def sort_descending(self): return self.sort_descending_
 
   def set_sort_descending(self, x):
+    assert not isinstance(x, str)
     self.has_sort_descending_ = 1
     self.sort_descending_ = x
 
@@ -3439,6 +3473,7 @@ class SortSpec(ProtocolBuffer.ProtocolMessage):
   def default_value_text(self): return self.default_value_text_
 
   def set_default_value_text(self, x):
+    assert not isinstance(x, str)
     self.has_default_value_text_ = 1
     self.default_value_text_ = x
 
@@ -3452,6 +3487,7 @@ class SortSpec(ProtocolBuffer.ProtocolMessage):
   def default_value_numeric(self): return self.default_value_numeric_
 
   def set_default_value_numeric(self, x):
+    assert not isinstance(x, str)
     self.has_default_value_numeric_ = 1
     self.default_value_numeric_ = x
 
@@ -3626,6 +3662,7 @@ class ScorerSpec(ProtocolBuffer.ProtocolMessage):
   def scorer(self): return self.scorer_
 
   def set_scorer(self, x):
+    assert not isinstance(x, str)
     self.has_scorer_ = 1
     self.scorer_ = x
 
@@ -3639,6 +3676,7 @@ class ScorerSpec(ProtocolBuffer.ProtocolMessage):
   def limit(self): return self.limit_
 
   def set_limit(self, x):
+    assert not isinstance(x, str)
     self.has_limit_ = 1
     self.limit_ = x
 
@@ -3652,6 +3690,7 @@ class ScorerSpec(ProtocolBuffer.ProtocolMessage):
   def match_scorer_parameters(self): return self.match_scorer_parameters_
 
   def set_match_scorer_parameters(self, x):
+    assert not isinstance(x, str)
     self.has_match_scorer_parameters_ = 1
     self.match_scorer_parameters_ = x
 
@@ -3787,6 +3826,7 @@ class FieldSpec_Expression(ProtocolBuffer.ProtocolMessage):
   def name(self): return self.name_
 
   def set_name(self, x):
+    assert not isinstance(x, str)
     self.has_name_ = 1
     self.name_ = x
 
@@ -3800,6 +3840,7 @@ class FieldSpec_Expression(ProtocolBuffer.ProtocolMessage):
   def expression(self): return self.expression_
 
   def set_expression(self, x):
+    assert not isinstance(x, str)
     self.has_expression_ = 1
     self.expression_ = x
 
@@ -3906,6 +3947,7 @@ class FieldSpec(ProtocolBuffer.ProtocolMessage):
     return self.name_[i]
 
   def set_name(self, i, x):
+    assert not isinstance(x, str)
     self.name_[i] = x
 
   def add_name(self, x):
@@ -4066,6 +4108,7 @@ class FacetRange(ProtocolBuffer.ProtocolMessage):
   def name(self): return self.name_
 
   def set_name(self, x):
+    assert not isinstance(x, str)
     self.has_name_ = 1
     self.name_ = x
 
@@ -4079,6 +4122,7 @@ class FacetRange(ProtocolBuffer.ProtocolMessage):
   def start(self): return self.start_
 
   def set_start(self, x):
+    assert not isinstance(x, str)
     self.has_start_ = 1
     self.start_ = x
 
@@ -4092,6 +4136,7 @@ class FacetRange(ProtocolBuffer.ProtocolMessage):
   def end(self): return self.end_
 
   def set_end(self, x):
+    assert not isinstance(x, str)
     self.has_end_ = 1
     self.end_ = x
 
@@ -4227,6 +4272,7 @@ class FacetRequestParam(ProtocolBuffer.ProtocolMessage):
   def value_limit(self): return self.value_limit_
 
   def set_value_limit(self, x):
+    assert not isinstance(x, str)
     self.has_value_limit_ = 1
     self.value_limit_ = x
 
@@ -4260,6 +4306,7 @@ class FacetRequestParam(ProtocolBuffer.ProtocolMessage):
     return self.value_constraint_[i]
 
   def set_value_constraint(self, i, x):
+    assert not isinstance(x, str)
     self.value_constraint_[i] = x
 
   def add_value_constraint(self, x):
@@ -4416,6 +4463,7 @@ class FacetAutoDetectParam(ProtocolBuffer.ProtocolMessage):
   def value_limit(self): return self.value_limit_
 
   def set_value_limit(self, x):
+    assert not isinstance(x, str)
     self.has_value_limit_ = 1
     self.value_limit_ = x
 
@@ -4514,6 +4562,7 @@ class FacetRequest(ProtocolBuffer.ProtocolMessage):
   def name(self): return self.name_
 
   def set_name(self, x):
+    assert not isinstance(x, str)
     self.has_name_ = 1
     self.name_ = x
 
@@ -4663,6 +4712,7 @@ class FacetRefinement_Range(ProtocolBuffer.ProtocolMessage):
   def start(self): return self.start_
 
   def set_start(self, x):
+    assert not isinstance(x, str)
     self.has_start_ = 1
     self.start_ = x
 
@@ -4676,6 +4726,7 @@ class FacetRefinement_Range(ProtocolBuffer.ProtocolMessage):
   def end(self): return self.end_
 
   def set_end(self, x):
+    assert not isinstance(x, str)
     self.has_end_ = 1
     self.end_ = x
 
@@ -4795,6 +4846,7 @@ class FacetRefinement(ProtocolBuffer.ProtocolMessage):
   def name(self): return self.name_
 
   def set_name(self, x):
+    assert not isinstance(x, str)
     self.has_name_ = 1
     self.name_ = x
 
@@ -4808,6 +4860,7 @@ class FacetRefinement(ProtocolBuffer.ProtocolMessage):
   def value(self): return self.value_
 
   def set_value(self, x):
+    assert not isinstance(x, str)
     self.has_value_ = 1
     self.value_ = x
 
@@ -5040,6 +5093,7 @@ class SearchParams(ProtocolBuffer.ProtocolMessage):
   def query(self): return self.query_
 
   def set_query(self, x):
+    assert not isinstance(x, str)
     self.has_query_ = 1
     self.query_ = x
 
@@ -5053,6 +5107,7 @@ class SearchParams(ProtocolBuffer.ProtocolMessage):
   def cursor(self): return self.cursor_
 
   def set_cursor(self, x):
+    assert not isinstance(x, str)
     self.has_cursor_ = 1
     self.cursor_ = x
 
@@ -5066,6 +5121,7 @@ class SearchParams(ProtocolBuffer.ProtocolMessage):
   def offset(self): return self.offset_
 
   def set_offset(self, x):
+    assert not isinstance(x, str)
     self.has_offset_ = 1
     self.offset_ = x
 
@@ -5079,6 +5135,7 @@ class SearchParams(ProtocolBuffer.ProtocolMessage):
   def cursor_type(self): return self.cursor_type_
 
   def set_cursor_type(self, x):
+    assert not isinstance(x, str)
     self.has_cursor_type_ = 1
     self.cursor_type_ = x
 
@@ -5092,6 +5149,7 @@ class SearchParams(ProtocolBuffer.ProtocolMessage):
   def limit(self): return self.limit_
 
   def set_limit(self, x):
+    assert not isinstance(x, str)
     self.has_limit_ = 1
     self.limit_ = x
 
@@ -5105,6 +5163,7 @@ class SearchParams(ProtocolBuffer.ProtocolMessage):
   def matched_count_accuracy(self): return self.matched_count_accuracy_
 
   def set_matched_count_accuracy(self, x):
+    assert not isinstance(x, str)
     self.has_matched_count_accuracy_ = 1
     self.matched_count_accuracy_ = x
 
@@ -5172,6 +5231,7 @@ class SearchParams(ProtocolBuffer.ProtocolMessage):
   def keys_only(self): return self.keys_only_
 
   def set_keys_only(self, x):
+    assert not isinstance(x, str)
     self.has_keys_only_ = 1
     self.keys_only_ = x
 
@@ -5185,6 +5245,7 @@ class SearchParams(ProtocolBuffer.ProtocolMessage):
   def parsing_mode(self): return self.parsing_mode_
 
   def set_parsing_mode(self, x):
+    assert not isinstance(x, str)
     self.has_parsing_mode_ = 1
     self.parsing_mode_ = x
 
@@ -5198,6 +5259,7 @@ class SearchParams(ProtocolBuffer.ProtocolMessage):
   def auto_discover_facet_count(self): return self.auto_discover_facet_count_
 
   def set_auto_discover_facet_count(self, x):
+    assert not isinstance(x, str)
     self.has_auto_discover_facet_count_ = 1
     self.auto_discover_facet_count_ = x
 
@@ -5262,6 +5324,7 @@ class SearchParams(ProtocolBuffer.ProtocolMessage):
   def facet_depth(self): return self.facet_depth_
 
   def set_facet_depth(self, x):
+    assert not isinstance(x, str)
     self.has_facet_depth_ = 1
     self.facet_depth_ = x
 
@@ -5768,6 +5831,7 @@ class SearchRequest(ProtocolBuffer.ProtocolMessage):
   def app_id(self): return self.app_id_
 
   def set_app_id(self, x):
+    assert not isinstance(x, str)
     self.has_app_id_ = 1
     self.app_id_ = x
 
@@ -5900,6 +5964,7 @@ class FacetResultValue(ProtocolBuffer.ProtocolMessage):
   def name(self): return self.name_
 
   def set_name(self, x):
+    assert not isinstance(x, str)
     self.has_name_ = 1
     self.name_ = x
 
@@ -5913,6 +5978,7 @@ class FacetResultValue(ProtocolBuffer.ProtocolMessage):
   def count(self): return self.count_
 
   def set_count(self, x):
+    assert not isinstance(x, str)
     self.has_count_ = 1
     self.count_ = x
 
@@ -6079,6 +6145,7 @@ class FacetResult(ProtocolBuffer.ProtocolMessage):
   def name(self): return self.name_
 
   def set_name(self, x):
+    assert not isinstance(x, str)
     self.has_name_ = 1
     self.name_ = x
 
@@ -6263,6 +6330,7 @@ class SearchResult(ProtocolBuffer.ProtocolMessage):
     return self.score_[i]
 
   def set_score(self, i, x):
+    assert not isinstance(x, str)
     self.score_[i] = x
 
   def add_score(self, x):
@@ -6274,6 +6342,7 @@ class SearchResult(ProtocolBuffer.ProtocolMessage):
   def cursor(self): return self.cursor_
 
   def set_cursor(self, x):
+    assert not isinstance(x, str)
     self.has_cursor_ = 1
     self.cursor_ = x
 
@@ -6487,6 +6556,7 @@ class SearchResponse(_ExtendableProtocolMessage):
   def matched_count(self): return self.matched_count_
 
   def set_matched_count(self, x):
+    assert not isinstance(x, str)
     self.has_matched_count_ = 1
     self.matched_count_ = x
 
@@ -6508,6 +6578,7 @@ class SearchResponse(_ExtendableProtocolMessage):
   def cursor(self): return self.cursor_
 
   def set_cursor(self, x):
+    assert not isinstance(x, str)
     self.has_cursor_ = 1
     self.cursor_ = x
 
