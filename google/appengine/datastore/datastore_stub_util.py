@@ -4117,9 +4117,9 @@ def _GuessOrders(filters, orders):
     orders.append(order)
 
 
-  if not orders or orders[-1].property() != '__key__':
+  if not orders or orders[-1].property() != b'__key__':
     order = datastore_pb.Query_Order()
-    order.set_property('__key__')
+    order.set_property(b'__key__')
     orders.append(order)
   return orders
 

@@ -1703,14 +1703,7 @@ class TextProperty(BlobProperty):
   """An unindexed Property whose value is a text string of unlimited length."""
 
   def _validate(self, value):
-    if isinstance(value, str):
-      # Decode from UTF-8 -- if this fails, we can't write it.
-      try:
-        value = str(value, 'utf-8')
-      except UnicodeError:
-        raise datastore_errors.BadValueError('Expected valid UTF-8, got %r' %
-                                             (value,))
-    elif not isinstance(value, str):
+    if not isinstance(value, str):
       raise datastore_errors.BadValueError('Expected string, got %r' %
                                            (value,))
     if self._indexed and len(value) > _MAX_STRING_LENGTH:
@@ -3607,7 +3600,7 @@ class Model(_NotEqualMixin, metaclass=MetaModel):
       raise TypeError('Default hooks for ndb.model.Model must be callable')
     if not hasattr(hook, '__call__'):
       raise TypeError('Hooks must be callable')
-    return default_hook.__func__ is hook.__func__
+    return default_hook is hook
 
 
 class Expando(Model):

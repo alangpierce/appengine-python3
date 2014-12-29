@@ -249,10 +249,8 @@ class Key(object):
                           id)
       if isinstance(kind, type):
         kind = kind._get_kind()
-      if isinstance(kind, str):
-        kind = kind.encode('utf8')
-      if not isinstance(kind, bytes):
-          raise TypeError('Key kind must be a bytes or Model class; '
+      if not isinstance(kind, str):
+          raise TypeError('Key kind must be a str or Model class; '
                           'received %r' % kind)
       if not id:
         id = None
@@ -679,8 +677,6 @@ def _ReferenceFromPairs(pairs, reference=None, app=None, namespace=None):
           'Incomplete Key entry must be last')
     t = type(kind)
     if t is str:
-      pass
-    elif t is str:
       kind = kind.encode('utf8')
     else:
       if issubclass(t, type):
@@ -692,12 +688,8 @@ def _ReferenceFromPairs(pairs, reference=None, app=None, namespace=None):
                           'Model; received %r' % modelclass)
         kind = modelclass._get_kind()
         t = type(kind)
-      if t is bytes:
-        pass
-      elif t is str:
+      if t is str:
         kind = kind.encode('utf8')
-      elif issubclass(t, bytes):
-        pass
       elif issubclass(t, str):
         kind = kind.encode('utf8')
       else:
