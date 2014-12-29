@@ -1391,7 +1391,7 @@ class Property(ModelAttribute):
         p = pb.add_property()
       else:
         p = pb.add_raw_property()
-      p.set_name(name)
+      p.set_name(name.encode())
       p.set_multiple(self._repeated or parent_repeated)
       v = p.mutable_value()
       if val is not None:
@@ -1646,8 +1646,8 @@ class BlobProperty(Property):
     return long_repr
 
   def _validate(self, value):
-    if not isinstance(value, str):
-      raise datastore_errors.BadValueError('Expected str, got %r' %
+    if not isinstance(value, bytes):
+      raise datastore_errors.BadValueError('Expected bytes, got %r' %
                                            (value,))
     if (self._indexed and
         not isinstance(self, TextProperty) and
