@@ -143,7 +143,7 @@ def HandleRequest(environ, handler_name, url, post_data, application_root,
         environ['CONTENT_TYPE'] = environ['HTTP_CONTENT_TYPE']
       else:
         environ['CONTENT_TYPE'] = 'application/x-www-form-urlencoded'
-    post_data = io.StringIO(post_data.decode())
+    post_data = io.BytesIO(post_data)
 
     if '/' in handler_name or handler_name.endswith('.py'):
       response = cgi.HandleRequest(environ, handler_name, url, post_data, error,
