@@ -200,7 +200,7 @@ def _GetScatterProperty(entity_proto):
     if element.has_name():
       hash_obj.update(element.name())
     elif element.has_id():
-      hash_obj.update(str(element.id()))
+      hash_obj.update(str(element.id()).encode())
   hash_bytes = hash_obj.digest()[0:2]
   (hash_int,) = struct.unpack('H', hash_bytes)
 
@@ -208,7 +208,7 @@ def _GetScatterProperty(entity_proto):
     return None
 
   scatter_property = entity_pb.Property()
-  scatter_property.set_name(datastore_types.SCATTER_SPECIAL_PROPERTY)
+  scatter_property.set_name(datastore_types.SCATTER_SPECIAL_PROPERTY.encode())
   scatter_property.set_meaning(entity_pb.Property.BYTESTRING)
   scatter_property.set_multiple(False)
   property_value = scatter_property.mutable_value()
@@ -407,7 +407,7 @@ def CheckReference(request_trusted,
 
   assert isinstance(key, entity_pb.Reference)
 
-  CheckAppId(request_trusted, request_app_id, key.app())
+  CheckAppId(request_trusted, request_app_id, key.app().decode())
 
   Check(key.path().element_size() > 0, 'key\'s path cannot be empty')
 
@@ -459,10 +459,9 @@ def CheckProperty(request_trusted, request_app_id, prop, indexed=True):
   Raises:
     apiproxy_errors.ApplicationError: if the property is invalid
   """
-  name = prop.name()
+  name = prop.name().decode()
   value = prop.value()
   meaning = prop.meaning()
-  CheckValidUTF8(name, 'property name')
   Check(request_trusted or
         not datastore_types.RESERVED_PROPERTY_NAME.match(name),
         'cannot store entity with reserved property name \'%s\'' % name)
@@ -2576,11 +2575,12 @@ class BaseDatastore(BaseTransactionManager, BaseIndexManager):
 
       for entities in grouped_entities.values():
         txn_cost = self._RunInTxn(
-            entities, entities[0][0].key().app(),
+            entities, entities[0][0].key().app().decode(),
 
             lambda txn, v: txn.Put(v[0], v[1], _FilterIndexesByKind(
                 v[0].key(),
-                self.GetIndexes(v[0].key().app(), trusted, calling_app))))
+                self.GetIndexes(
+                  v[0].key().app().decode(), trusted, calling_app))))
         _UpdateCost(cost, txn_cost.entity_writes(), txn_cost.index_writes())
     return result
 

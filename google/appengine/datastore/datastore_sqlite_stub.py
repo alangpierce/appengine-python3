@@ -1428,7 +1428,8 @@ class DatastoreSqliteStub(datastore_stub_util.BaseDatastore,
     try:
       full_keys = []
       for key in references:
-        datastore_stub_util.CheckAppId(self._trusted, self._app_id, key.app())
+        datastore_stub_util.CheckAppId(
+          self._trusted, self._app_id, key.app().decode())
         prefix = self._GetTablePrefix(key)
         last_element = key.path().element_list()[-1]
 

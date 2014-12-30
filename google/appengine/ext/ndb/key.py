@@ -406,13 +406,13 @@ class Key(object):
   def namespace(self):
     """Return the namespace."""
     if self.__namespace is None:
-      self.__namespace = self.__reference.name_space()
+      self.__namespace = self.__reference.name_space().decode()
     return self.__namespace
 
   def app(self):
     """Return the application id."""
     if self.__app is None:
-      self.__app = self.__reference.app()
+      self.__app = self.__reference.app().decode()
     return self.__app
 
   def id(self):
@@ -460,7 +460,7 @@ class Key(object):
     if pairs is None:
       pairs = []
       for elem in self.__reference.path().element_list():
-        kind = elem.type()
+        kind = elem.type().decode()
         if elem.has_id():
           id_or_name = elem.id()
         else:
@@ -487,7 +487,7 @@ class Key(object):
     """
     if self.__pairs:
       return self.__pairs[-1][0]
-    return self.__reference.path().element(-1).type()
+    return self.__reference.path().element(-1).type().decode()
 
   def reference(self):
     """Return the Reference object for this Key.
@@ -517,7 +517,7 @@ class Key(object):
     """
     # This is 3-4x faster than urlsafe_b64decode()
     urlsafe = base64.b64encode(self.reference().Encode())
-    return urlsafe.rstrip('=').replace('+', '-').replace('/', '_')
+    return urlsafe.rstrip(b'=').replace(b'+', b'-').replace(b'/', b'_')
 
   # Datastore API using the default context.
   # These use local import since otherwise they'd be recursive imports.
