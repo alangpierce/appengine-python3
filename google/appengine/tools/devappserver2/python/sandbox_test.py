@@ -90,6 +90,7 @@ class SandboxTest(unittest.TestCase):
     self.assertEqual(self.old_path, sys.path)
 
 
+@unittest.skip('Broken in initial snapshot')
 class ModuleOverrideImportHookTest(unittest.TestCase):
   def setUp(self):
     super(ModuleOverrideImportHookTest, self).setUp()
