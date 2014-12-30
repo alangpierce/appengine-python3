@@ -45,6 +45,15 @@ TEST_LIBRARY_PATHS = [
 ]
 
 
+def load_tests(loader, tests, pattern):
+    # Make this module follow the load_tests protocol so it can be used by
+    # external tools.
+    sys.path.extend(TEST_LIBRARY_PATHS)
+    return loader.discover(
+        os.path.join(DIR_PATH, 'google/appengine/tools/devappserver2'),
+        '*_test.py')
+
+
 def main():
   sys.path.extend(TEST_LIBRARY_PATHS)
 
