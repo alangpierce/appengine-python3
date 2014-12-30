@@ -16,7 +16,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import cStringIO
+import io
 import unittest
 import re
 
@@ -292,8 +292,8 @@ class IsATest(unittest.TestCase):
 
   def testSpecialTypes(self):
     """Verify that IsA can handle objects like cStringIO.StringIO."""
-    isA = mox.IsA(cStringIO.StringIO())
-    stringIO = cStringIO.StringIO()
+    isA = mox.IsA(io.StringIO())
+    stringIO = io.StringIO()
     self.assert_(isA == stringIO)
 
 
@@ -1624,7 +1624,7 @@ class MoxTest(unittest.TestCase):
     # Forgot to replay!
     try:
       foo.GetBar().ShowMeTheMoney()
-    except AttributeError, e:
+    except AttributeError as e:
       self.assertEquals('MockMethod has no attribute "ShowMeTheMoney". '
           'Did you remember to put your mocks in replay mode?', str(e))
 

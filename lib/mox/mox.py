@@ -69,6 +69,7 @@ import types
 import unittest
 
 import stubout
+import collections
 
 class Error(AssertionError):
   """Base exception for this module."""
@@ -218,7 +219,7 @@ class UnexpectedMockCreationError(Error):
 
     if self._named_params:
       error += ", " + ", ".join(["%s=%s" % (k, v) for k, v in
-                                 self._named_params.iteritems()])
+                                 self._named_params.items()])
 
     error += ")"
     return error
@@ -229,11 +230,11 @@ class Mox(object):
 
   # A list of types that should be stubbed out with MockObjects (as
   # opposed to MockAnythings).
-  _USE_MOCK_OBJECT = [types.ClassType, types.FunctionType, types.InstanceType,
-                      types.ModuleType, types.ObjectType, types.TypeType]
+  _USE_MOCK_OBJECT = [type, types.FunctionType, types.InstanceType,
+                      types.ModuleType, object, type]
 
   # A list of types that may be stubbed out with a MockObjectFactory.
-  _USE_MOCK_FACTORY = [types.ClassType, types.ObjectType, types.TypeType]
+  _USE_MOCK_FACTORY = [type, object, type]
 
   def __init__(self):
     """Initialize a new Mox."""
@@ -463,7 +464,7 @@ class MockAnything:
                       self._replay_mode, method_to_mock=method_to_mock,
                       description=self._description)
 
-  def __nonzero__(self):
+  def __bool__(self):
     """Return 1 for nonzero so the mock can be used as a conditional."""
 
     return 1
@@ -552,7 +553,7 @@ class MockObject(MockAnything, object):
 
     for method in dir(class_to_mock):
       attr = getattr(class_to_mock, method)
-      if callable(attr):
+      if isinstance(attr, collections.Callable):
         self._known_methods.add(method)
       elif not (type(attr) is property):
         # treating properties as class vars makes little sense.
@@ -561,7 +562,7 @@ class MockObject(MockAnything, object):
     # Set additional attributes at instantiation time; this is quicker
     # than manually setting attributes that are normally created in
     # __init__.
-    for attr, value in attrs.items():
+    for attr, value in list(attrs.items()):
       if attr.startswith("_"):
         raise PrivateAttributeError(attr)
       elif attr in self._known_methods:
@@ -820,7 +821,7 @@ class _MockObjectFactory(MockObject):
 class MethodCallChecker(object):
   """Ensures that methods are called correctly."""
 
-  _NEEDED, _DEFAULT, _GIVEN = range(3)
+  _NEEDED, _DEFAULT, _GIVEN = list(range(3))
 
   def __init__(self, method):
     """Creates a checker.
@@ -903,7 +904,7 @@ class MethodCallChecker(object):
       self._RecordArgumentGiven(arg_name, arg_status)
 
     # Ensure all the required arguments have been given.
-    still_needed = [k for k, v in arg_status.iteritems()
+    still_needed = [k for k, v in arg_status.items()
                     if v == MethodCallChecker._NEEDED]
     if still_needed:
       raise AttributeError('No values given for arguments %s'
@@ -1003,7 +1004,7 @@ class MockMethod(object):
     raise TypeError('MockMethod cannot be iterated. '
                     'Did you remember to put your mocks in replay mode?')
 
-  def next(self):
+  def __next__(self):
     """Raise a TypeError with a helpful message."""
     raise TypeError('MockMethod cannot be iterated. '
                     'Did you remember to put your mocks in replay mode?')
@@ -1210,7 +1211,7 @@ class Comparator:
       rhs: any python object
     """
 
-    raise NotImplementedError, 'method must be implemented by a subclass.'
+    raise NotImplementedError('method must be implemented by a subclass.')
 
   def __eq__(self, rhs):
     return self.equals(rhs)
@@ -1837,8 +1838,8 @@ class MoxMetaTestBase(type):
         if attr_name not in d:
           d[attr_name] = getattr(base, attr_name)
 
-    for func_name, func in d.items():
-      if func_name.startswith('test') and callable(func):
+    for func_name, func in list(d.items()):
+      if func_name.startswith('test') and isinstance(func, collections.Callable):
         setattr(cls, func_name, MoxMetaTestBase.CleanUpTest(cls, func))
 
   @staticmethod
@@ -1880,7 +1881,7 @@ class MoxMetaTestBase(type):
     return new_method
 
 
-class MoxTestBase(unittest.TestCase):
+class MoxTestBase(unittest.TestCase, metaclass=MoxMetaTestBase):
   """Convenience test class to make stubbing easier.
 
   Sets up a "mox" attribute which is an instance of Mox (any mox tests will
@@ -1889,8 +1890,6 @@ class MoxTestBase(unittest.TestCase):
   mock methods have been called at the end of each test, eliminating boilerplate
   code.
   """
-
-  __metaclass__ = MoxMetaTestBase
 
   def setUp(self):
     super(MoxTestBase, self).setUp()
