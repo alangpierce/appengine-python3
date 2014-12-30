@@ -179,14 +179,18 @@ class ProtocolMessage:
 
     raise NotImplementedError
 
+  # Special value to work around the fact that getstate can't return the #
+  # empty array.
+  class EmptyEncoding(object):
+    pass
+
   def __getstate__(self):
-
-
-    return self.Encode()
+    result = self.Encode()
+    return result if result else self.EmptyEncoding()
 
   def __setstate__(self, contents_):
-
-
+    if isinstance(contents_, self.EmptyEncoding):
+      contents_ = b''
     self.__init__(contents=contents_)
 
   def sendCommand(self, server, url, response, follow_redirects=1,
