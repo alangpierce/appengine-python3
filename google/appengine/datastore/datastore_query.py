@@ -1201,11 +1201,14 @@ class _ReverseOrder(_BaseComponent):
   def __hash__(self):
     return hash(self._obj)
 
-  def __cmp__(self, other):
+  def __eq__(self, other):
+    return self._obj == other._obj
+
+  def __lt__(self, other):
     assert self.__class__ == other.__class__, (
         'A datastore_query._ReverseOrder object can only be compared to '
         'an object of the same type.')
-    return -cmp(self._obj, other._obj)
+    return self._obj > other._obj
 
 
 class PropertyOrder(Order):
@@ -2351,7 +2354,7 @@ def apply_query(query, entities):
       value_map['__entity__'] = entity
       value_maps.append(value_map)
 
-  value_maps.sort(key=functools.cmp_to_key(query._order._cmp))
+  value_maps.sort(key=query._order._key)
   return [value_map['__entity__'] for value_map in value_maps]
 
 
