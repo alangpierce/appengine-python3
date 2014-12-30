@@ -1714,9 +1714,9 @@ class TextProperty(BlobProperty):
       return value.encode('utf-8')
 
   def _from_base_type(self, value):
-    if isinstance(value, str):
+    if isinstance(value, bytes):
       try:
-        return str(value, 'utf-8')
+        return value.decode('utf-8')
       except UnicodeDecodeError:
         # Since older versions of NDB could write non-UTF-8 TEXT
         # properties, we can't just reject these.  But _validate() now
