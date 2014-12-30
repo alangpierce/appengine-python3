@@ -228,10 +228,12 @@ class UnexpectedMockCreationError(Error):
 class Mox(object):
   """Mox: a factory for creating mock objects."""
 
-  # A list of types that should be stubbed out with MockObjects (as
-  # opposed to MockAnythings).
-  _USE_MOCK_OBJECT = [type, types.FunctionType, types.InstanceType,
-                      types.ModuleType, object, type]
+  @staticmethod
+  def ShouldUseMockObject(attr_type):
+    # A list of types that should be stubbed out with MockObjects (as opposed
+    # to MockAnythings).
+    return (attr_type == types.MethodType or attr_type == property or
+            '__dict__' in dir(attr_type) or hasattr(attr_type, '__slots__'))
 
   # A list of types that may be stubbed out with a MockObjectFactory.
   _USE_MOCK_FACTORY = [type, object, type]
@@ -311,7 +313,7 @@ class Mox(object):
       raise TypeError('Cannot mock a MockAnything! Did you remember to '
                       'call UnsetStubs in your previous test?')
 
-    if attr_type in self._USE_MOCK_OBJECT and not use_mock_anything:
+    if self.ShouldUseMockObject(attr_type) and not use_mock_anything:
       stub = self.CreateMock(attr_to_replace)
     else:
       stub = self.CreateMockAnything(description='Stub for %s' % attr_to_replace)

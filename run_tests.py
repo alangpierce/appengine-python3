@@ -32,15 +32,16 @@ TEST_LIBRARY_PATHS = [
     DIR_PATH,
     os.path.join(DIR_PATH, 'lib', 'cherrypy'),
     os.path.join(DIR_PATH, 'lib', 'fancy_urllib'),
-    os.path.join(DIR_PATH, 'lib', 'yaml-3.10'),
+    os.path.join(DIR_PATH, 'lib', 'yaml-3.11'),
     os.path.join(DIR_PATH, 'lib', 'antlr3'),
     os.path.join(DIR_PATH, 'lib', 'concurrent'),
     os.path.join(DIR_PATH, 'lib', 'ipaddr'),
-    os.path.join(DIR_PATH, 'lib', 'jinja2-2.6'),
-    os.path.join(DIR_PATH, 'lib', 'webob-1.2.3'),
+    os.path.join(DIR_PATH, 'lib', 'jinja2-2.7'),
+    os.path.join(DIR_PATH, 'lib', 'webob-1.4'),
     os.path.join(DIR_PATH, 'lib', 'webapp2-2.5.1'),
     os.path.join(DIR_PATH, 'lib', 'mox'),
     os.path.join(DIR_PATH, 'lib', 'protorpc-1.0'),
+    os.path.join(DIR_PATH, 'lib', 'markupsafe-0.23'),
 ]
 
 
