@@ -121,8 +121,8 @@ class CallableClass(object):
 try:
   import abc
 
-  class MyDictABC(object):
-    __metaclass__ = abc.ABCMeta
+  class MyDictABC(object, metaclass=abc.ABCMeta):
+    pass
 
   MyDictABC.register(dict)
 

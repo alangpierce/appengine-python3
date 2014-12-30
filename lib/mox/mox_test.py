@@ -16,7 +16,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import cStringIO
+import io
 import unittest
 import re
 import sys
@@ -394,8 +394,8 @@ class IsATest(unittest.TestCase):
 
   def testSpecialTypes(self):
     """Verify that IsA can handle objects like cStringIO.StringIO."""
-    isA = mox.IsA(cStringIO.StringIO())
-    stringIO = cStringIO.StringIO()
+    isA = mox.IsA(io.StringIO())
+    stringIO = io.StringIO()
     self.assert_(isA == stringIO)
 
 
@@ -1930,7 +1930,7 @@ class MoxTest(unittest.TestCase):
       self.assertEquals('mock bar', actual_foo_bar)
       self.assertEquals('called mock', actual_spam)
   except ImportError:
-    print >>sys.stderr, "testStubOutClass_ABCMeta. ... Skipped - no abc module"
+    print("testStubOutClass_ABCMeta. ... Skipped - no abc module", file=sys.stderr)
 
   def testStubOutClass_NotAClass(self):
     self.assertRaises(TypeError, self.mox.StubOutClassWithMocks,
@@ -2044,7 +2044,7 @@ class MoxTest(unittest.TestCase):
     # Forgot to replay!
     try:
       foo.GetBar().ShowMeTheMoney()
-    except AttributeError, e:
+    except AttributeError as e:
       self.assertEquals('MockMethod has no attribute "ShowMeTheMoney". '
           'Did you remember to put your mocks in replay mode?', str(e))
 
