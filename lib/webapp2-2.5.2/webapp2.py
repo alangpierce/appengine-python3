@@ -203,9 +203,6 @@ class Request(webob.Request):
         :returns:
             A (possibly empty) list of values.
         """
-        if self.charset:
-            argument_name = argument_name.encode(self.charset)
-
         if default_value is None:
             default_value = []
 
