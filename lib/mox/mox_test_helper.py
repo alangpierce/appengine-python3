@@ -95,6 +95,17 @@ class TestClassFromAnotherModule(object):
     return 'Not mock'
 
 
+class ChildClassFromAnotherModule(TestClassFromAnotherModule):
+  """A child class of TestClassFromAnotherModule.
+
+  Used to test stubbing out unbound methods, where child classes
+  are eventually bound.
+  """
+
+  def __init__(self):
+    TestClassFromAnotherModule.__init__(self)
+
+
 class CallableClass(object):
 
   def __init__(self, one, two, nine=None):
@@ -107,5 +118,44 @@ class CallableClass(object):
     return 'Not mock'
 
 
+try:
+  import abc
+
+  class MyDictABC(object):
+    __metaclass__ = abc.ABCMeta
+
+  MyDictABC.register(dict)
+
+  class CallableSubclassOfMyDictABC(MyDictABC):
+
+    def __call__(self, one):
+      return 'Not mock'
+
+    def __getitem__(self, key, default=None):
+      return 'Not mock'
+except ImportError:
+  pass  # Python 2.5 or earlier
+
+
 def MyTestFunction(one, two, nine=None):
   pass
+
+
+class ExampleClass(object):
+  def __init__(self, foo='bar'):
+    pass
+
+  def TestMethod(self, one, two, nine=None):
+    pass
+
+  def NamedParams(self, ignore, foo='bar', baz='qux'):
+    pass
+
+  def SpecialArgs(self, *args, **kwargs):
+    pass
+
+
+# This class is used to test stubbing out __init__ of a parent class.
+class ChildExampleClass(ExampleClass):
+  def __init__(self):
+    ExampleClass.__init__(self)

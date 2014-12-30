@@ -16,9 +16,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import io
+import cStringIO
 import unittest
 import re
+import sys
 
 import mox
 
@@ -33,7 +34,7 @@ class ExpectedMethodCallsErrorTest(unittest.TestCase):
     self.assertRaises(ValueError, mox.ExpectedMethodCallsError, [])
 
   def testOneError(self):
-    method = mox.MockMethod("testMethod", [], False)
+    method = mox.MockMethod("testMethod", [], [], False)
     method(1, 2).AndReturn('output')
     e = mox.ExpectedMethodCallsError([method])
     self.assertEqual(
@@ -42,13 +43,13 @@ class ExpectedMethodCallsErrorTest(unittest.TestCase):
         str(e))
 
   def testManyErrors(self):
-    method1 = mox.MockMethod("testMethod", [], False)
+    method1 = mox.MockMethod("testMethod", [], [], False)
     method1(1, 2).AndReturn('output')
-    method2 = mox.MockMethod("testMethod", [], False)
+    method2 = mox.MockMethod("testMethod", [], [], False)
     method2(a=1, b=2, c="only named")
-    method3 = mox.MockMethod("testMethod2", [], False)
+    method3 = mox.MockMethod("testMethod2", [], [], False)
     method3().AndReturn(44)
-    method4 = mox.MockMethod("testMethod", [], False)
+    method4 = mox.MockMethod("testMethod", [], [], False)
     method4(1, 2).AndReturn('output')
     e = mox.ExpectedMethodCallsError([method1, method2, method3, method4])
     self.assertEqual(
@@ -101,6 +102,35 @@ class AndTest(unittest.TestCase):
     self.failIf(mox.And(mox.In("NOTFOUND"),
                           mox.ContainsKeyValue("mock", "obj")) == test_dict)
 
+class FuncTest(unittest.TestCase):
+  """Test Func correctly evaluates based upon true-false return."""
+
+  def testFuncTrueFalseEvaluation(self):
+    """Should return True if the validating function returns True."""
+    equals_one = lambda x: x == 1
+    always_none = lambda x: None
+
+    self.assert_(mox.Func(equals_one) == 1)
+    self.failIf(mox.Func(equals_one) == 0)
+
+
+    self.failIf(mox.Func(always_none) == 1)
+    self.failIf(mox.Func(always_none) == 0)
+    self.failIf(mox.Func(always_none) == None)
+
+  def testFuncExceptionPropagation(self):
+    """Exceptions within the validating function should propagate."""
+    class TestException(Exception):
+      pass
+
+    def raiseExceptionOnNotOne(value):
+      if value != 1:
+        raise TestException
+      else:
+        return True
+
+    self.assert_(mox.Func(raiseExceptionOnNotOne) == 1)
+    self.assertRaises(TestException, mox.Func(raiseExceptionOnNotOne).__eq__, 2)
 
 class SameElementsAsTest(unittest.TestCase):
   """Test SameElementsAs correctly identifies sequences with same elements."""
@@ -129,6 +159,19 @@ class SameElementsAsTest(unittest.TestCase):
   def testUnequalUnhashableLists(self):
     """Should return False if two lists with unhashable elements are unequal."""
     self.failIf(mox.SameElementsAs([{'a': 1}, {2: 'b'}]) == [{2: 'b'}])
+
+  def testActualIsNotASequence(self):
+    """Should return False if the actual object is not a sequence."""
+    self.failIf(mox.SameElementsAs([1]) == object())
+
+  def testOneUnhashableObjectInActual(self):
+    """Store the entire iterator for a correct comparison.
+
+    In a previous version of SameElementsAs, iteration stopped when an
+    unhashable object was encountered and then was restarted, so the actual list
+    appeared smaller than it was.
+    """
+    self.failIf(mox.SameElementsAs([1, 2]) == iter([{}, 1, 2]))
 
 
 class ContainsKeyValueTest(unittest.TestCase):
@@ -184,6 +227,19 @@ class InTest(unittest.TestCase):
   def testKeyInDict(self):
     """Should return True if the item is a key in a dict."""
     self.assert_(mox.In("test") == {"test" : "module"})
+
+  def testItemInTuple(self):
+    """Should return True if the item is in the list."""
+    self.assert_(mox.In(1) == (1, 2, 3))
+
+  def testTupleInTupleOfTuples(self):
+    self.assert_(mox.In((1, 2, 3)) == ((1, 2, 3), (1, 2)))
+
+  def testItemNotInList(self):
+    self.failIf(mox.In(1) == [2, 3])
+
+  def testTupleNotInTupleOfTuples(self):
+    self.failIf(mox.In((1, 2)) == ((1, 2, 3), (4, 5)))
 
 
 class NotTest(unittest.TestCase):
@@ -259,6 +315,52 @@ class RegexTest(unittest.TestCase):
                  "<regular expression 'a\s+b', flags=4>")
 
 
+class IsTest(unittest.TestCase):
+  """Verify Is correctly checks equality based upon identity, not value"""
+
+  class AlwaysComparesTrue(object):
+    def __eq__(self, other):
+      return True
+    def __cmp__(self, other):
+      return 0
+    def __ne__(self, other):
+      return False
+
+  def testEqualityValid(self):
+    o1 = self.AlwaysComparesTrue()
+    self.assertTrue(mox.Is(o1), o1)
+
+  def testEqualityInvalid(self):
+    o1 = self.AlwaysComparesTrue()
+    o2 = self.AlwaysComparesTrue()
+    self.assertTrue(o1 == o2)
+    # but...
+    self.assertFalse(mox.Is(o1) == o2)
+
+  def testInequalityValid(self):
+    o1 = self.AlwaysComparesTrue()
+    o2 = self.AlwaysComparesTrue()
+    self.assertTrue(mox.Is(o1) != o2)
+
+  def testInequalityInvalid(self):
+    o1 = self.AlwaysComparesTrue()
+    self.assertFalse(mox.Is(o1) != o1)
+
+  def testEqualityInListValid(self):
+    o1 = self.AlwaysComparesTrue()
+    o2 = self.AlwaysComparesTrue()
+    isa_list = [mox.Is(o1), mox.Is(o2)]
+    str_list = [o1, o2]
+    self.assertTrue(isa_list == str_list)
+
+  def testEquailtyInListInvalid(self):
+    o1 = self.AlwaysComparesTrue()
+    o2 = self.AlwaysComparesTrue()
+    isa_list = [mox.Is(o1), mox.Is(o2)]
+    mixed_list = [o2, o1]
+    self.assertFalse(isa_list == mixed_list)
+
+
 class IsATest(unittest.TestCase):
   """Verify IsA correctly checks equality based upon class type, not value."""
 
@@ -284,7 +386,7 @@ class IsATest(unittest.TestCase):
     str_list = ["abc", "def"]
     self.assert_(isa_list == str_list)
 
-  def testEqualityInListInvalid(self):
+  def testEquailtyInListInvalid(self):
     """Verify list contents are properly compared."""
     isa_list = [mox.IsA(str),mox.IsA(str)]
     mixed_list = ["abc", 123]
@@ -292,8 +394,8 @@ class IsATest(unittest.TestCase):
 
   def testSpecialTypes(self):
     """Verify that IsA can handle objects like cStringIO.StringIO."""
-    isA = mox.IsA(io.StringIO())
-    stringIO = io.StringIO()
+    isA = mox.IsA(cStringIO.StringIO())
+    stringIO = cStringIO.StringIO()
     self.assert_(isA == stringIO)
 
 
@@ -321,12 +423,44 @@ class IsAlmostTest(unittest.TestCase):
     self.assertNotEquals(mox.IsAlmost('1.8999999999'), '1.9')
 
 
+class ValueRememberTest(unittest.TestCase):
+  """Verify comparing argument against remembered value."""
+
+  def testValueEquals(self):
+    """Verify that value will compare to stored value."""
+    value = mox.Value()
+    value.store_value('hello world')
+    self.assertEquals(value, 'hello world')
+
+  def testNoValue(self):
+    """Verify that uninitialized value does not compare to "empty" values."""
+    value = mox.Value()
+    self.assertNotEquals(value, None)
+    self.assertNotEquals(value, False)
+    self.assertNotEquals(value, 0)
+    self.assertNotEquals(value, '')
+    self.assertNotEquals(value, ())
+    self.assertNotEquals(value, [])
+    self.assertNotEquals(value, {})
+    self.assertNotEquals(value, object())
+    self.assertNotEquals(value, set())
+
+  def testRememberValue(self):
+    """Verify that comparing against remember will store argument."""
+    value = mox.Value()
+    remember = mox.Remember(value)
+    self.assertNotEquals(value, 'hello world')  # value not yet stored.
+    self.assertEquals(remember, 'hello world')  # store value here.
+    self.assertEquals(value, 'hello world')     # compare against stored value.
+
+
 class MockMethodTest(unittest.TestCase):
   """Test class to verify that the MockMethod class is working correctly."""
 
   def setUp(self):
-    self.expected_method = mox.MockMethod("testMethod", [], False)(['original'])
-    self.mock_method = mox.MockMethod("testMethod", [self.expected_method],
+    self.expected_method = mox.MockMethod("testMethod", [], [], False)(
+        ['original'])
+    self.mock_method = mox.MockMethod("testMethod", [self.expected_method], [],
                                         True)
 
   def testNameAttribute(self):
@@ -391,18 +525,18 @@ class MockMethodTest(unittest.TestCase):
 
   def testEqualityNoParamsEqual(self):
     """Methods with the same name and without params should be equal."""
-    expected_method = mox.MockMethod("testMethod", [], False)
+    expected_method = mox.MockMethod("testMethod", [], [], False)
     self.assertEqual(self.mock_method, expected_method)
 
   def testEqualityNoParamsNotEqual(self):
     """Methods with different names and without params should not be equal."""
-    expected_method = mox.MockMethod("otherMethod", [], False)
+    expected_method = mox.MockMethod("otherMethod", [], [], False)
     self.failIfEqual(self.mock_method, expected_method)
 
   def testEqualityParamsEqual(self):
     """Methods with the same name and parameters should be equal."""
     params = [1, 2, 3]
-    expected_method = mox.MockMethod("testMethod", [], False)
+    expected_method = mox.MockMethod("testMethod", [], [], False)
     expected_method._params = params
 
     self.mock_method._params = params
@@ -410,7 +544,7 @@ class MockMethodTest(unittest.TestCase):
 
   def testEqualityParamsNotEqual(self):
     """Methods with the same name and different params should not be equal."""
-    expected_method = mox.MockMethod("testMethod", [], False)
+    expected_method = mox.MockMethod("testMethod", [], [], False)
     expected_method._params = [1, 2, 3]
 
     self.mock_method._params = ['a', 'b', 'c']
@@ -419,7 +553,7 @@ class MockMethodTest(unittest.TestCase):
   def testEqualityNamedParamsEqual(self):
     """Methods with the same name and same named params should be equal."""
     named_params = {"input1": "test", "input2": "params"}
-    expected_method = mox.MockMethod("testMethod", [], False)
+    expected_method = mox.MockMethod("testMethod", [], [], False)
     expected_method._named_params = named_params
 
     self.mock_method._named_params = named_params
@@ -427,7 +561,7 @@ class MockMethodTest(unittest.TestCase):
 
   def testEqualityNamedParamsNotEqual(self):
     """Methods with the same name and diffnamed params should not be equal."""
-    expected_method = mox.MockMethod("testMethod", [], False)
+    expected_method = mox.MockMethod("testMethod", [], [], False)
     expected_method._named_params = {"input1": "test", "input2": "params"}
 
     self.mock_method._named_params = {"input1": "test2", "input2": "params2"}
@@ -443,39 +577,39 @@ class MockMethodTest(unittest.TestCase):
     instB = TestClass();
 
     params = [instA, ]
-    expected_method = mox.MockMethod("testMethod", [], False)
+    expected_method = mox.MockMethod("testMethod", [], [], False)
     expected_method._params = params
 
     self.mock_method._params = [instB, ]
     self.assertEqual(self.mock_method, expected_method)
 
   def testStrConversion(self):
-    method = mox.MockMethod("f", [], False)
+    method = mox.MockMethod("f", [], [], False)
     method(1, 2, "st", n1=8, n2="st2")
     self.assertEqual(str(method), ("f(1, 2, 'st', n1=8, n2='st2') -> None"))
 
-    method = mox.MockMethod("testMethod", [], False)
+    method = mox.MockMethod("testMethod", [], [], False)
     method(1, 2, "only positional")
     self.assertEqual(str(method), "testMethod(1, 2, 'only positional') -> None")
 
-    method = mox.MockMethod("testMethod", [], False)
+    method = mox.MockMethod("testMethod", [], [], False)
     method(a=1, b=2, c="only named")
     self.assertEqual(str(method),
                      "testMethod(a=1, b=2, c='only named') -> None")
 
-    method = mox.MockMethod("testMethod", [], False)
+    method = mox.MockMethod("testMethod", [], [], False)
     method()
     self.assertEqual(str(method), "testMethod() -> None")
 
-    method = mox.MockMethod("testMethod", [], False)
+    method = mox.MockMethod("testMethod", [], [], False)
     method(x="only 1 parameter")
     self.assertEqual(str(method), "testMethod(x='only 1 parameter') -> None")
 
-    method = mox.MockMethod("testMethod", [], False)
+    method = mox.MockMethod("testMethod", [], [], False)
     method().AndReturn('return_value')
     self.assertEqual(str(method), "testMethod() -> 'return_value'")
 
-    method = mox.MockMethod("testMethod", [], False)
+    method = mox.MockMethod("testMethod", [], [], False)
     method().AndReturn(('a', {1: 2}))
     self.assertEqual(str(method), "testMethod() -> ('a', {1: 2})")
 
@@ -489,6 +623,13 @@ class MockAnythingTest(unittest.TestCase):
   def testRepr(self):
     """Calling repr on a MockAnything instance must work."""
     self.assertEqual('<MockAnything instance>', repr(self.mock_object))
+
+  def testCanMockStr(self):
+    self.mock_object.__str__().AndReturn("foo");
+    self.mock_object._Replay()
+    actual = str(self.mock_object)
+    self.mock_object._Verify();
+    self.assertEquals("foo", actual)
 
   def testSetupMode(self):
     """Verify the mock will accept any call."""
@@ -607,7 +748,7 @@ class MethodCheckerTest(unittest.TestCase):
   """Tests MockMethod's use of MethodChecker method."""
 
   def testNoParameters(self):
-    method = mox.MockMethod('NoParameters', [], False,
+    method = mox.MockMethod('NoParameters', [], [], False,
                             CheckCallTestClass.NoParameters)
     method()
     self.assertRaises(AttributeError, method, 1)
@@ -616,7 +757,7 @@ class MethodCheckerTest(unittest.TestCase):
     self.assertRaises(AttributeError, method, 1, b=2)
 
   def testOneParameter(self):
-    method = mox.MockMethod('OneParameter', [], False,
+    method = mox.MockMethod('OneParameter', [], [], False,
                             CheckCallTestClass.OneParameter)
     self.assertRaises(AttributeError, method)
     method(1)
@@ -627,7 +768,7 @@ class MethodCheckerTest(unittest.TestCase):
     self.assertRaises(AttributeError, method, 1, b=2)
 
   def testTwoParameters(self):
-    method = mox.MockMethod('TwoParameters', [], False,
+    method = mox.MockMethod('TwoParameters', [], [], False,
                             CheckCallTestClass.TwoParameters)
     self.assertRaises(AttributeError, method)
     self.assertRaises(AttributeError, method, 1)
@@ -644,7 +785,7 @@ class MethodCheckerTest(unittest.TestCase):
     self.assertRaises(AttributeError, method, 3, a=1, b=2)
 
   def testOneDefaultValue(self):
-    method = mox.MockMethod('OneDefaultValue', [], False,
+    method = mox.MockMethod('OneDefaultValue', [], [], False,
                             CheckCallTestClass.OneDefaultValue)
     method()
     method(1)
@@ -655,7 +796,7 @@ class MethodCheckerTest(unittest.TestCase):
     self.assertRaises(AttributeError, method, 1, b=2)
 
   def testTwoDefaultValues(self):
-    method = mox.MockMethod('TwoDefaultValues', [], False,
+    method = mox.MockMethod('TwoDefaultValues', [], [], False,
                             CheckCallTestClass.TwoDefaultValues)
     self.assertRaises(AttributeError, method)
     self.assertRaises(AttributeError, method, c=3)
@@ -675,7 +816,7 @@ class MethodCheckerTest(unittest.TestCase):
     self.assertRaises(AttributeError, method, a=1, b=2, e=9)
 
   def testArgs(self):
-    method = mox.MockMethod('Args', [], False, CheckCallTestClass.Args)
+    method = mox.MockMethod('Args', [], [], False, CheckCallTestClass.Args)
     self.assertRaises(AttributeError, method)
     self.assertRaises(AttributeError, method, 1)
     method(1, 2)
@@ -686,7 +827,7 @@ class MethodCheckerTest(unittest.TestCase):
     self.assertRaises(AttributeError, method, 1, 2, c=3)
 
   def testKwargs(self):
-    method = mox.MockMethod('Kwargs', [], False, CheckCallTestClass.Kwargs)
+    method = mox.MockMethod('Kwargs', [], [], False, CheckCallTestClass.Kwargs)
     self.assertRaises(AttributeError, method)
     method(1)
     method(1, 2)
@@ -701,7 +842,7 @@ class MethodCheckerTest(unittest.TestCase):
     self.assertRaises(AttributeError, method, 1, 2, 3, 4)
 
   def testArgsAndKwargs(self):
-    method = mox.MockMethod('ArgsAndKwargs', [], False,
+    method = mox.MockMethod('ArgsAndKwargs', [], [], False,
                             CheckCallTestClass.ArgsAndKwargs)
     self.assertRaises(AttributeError, method)
     method(1)
@@ -892,7 +1033,7 @@ class MockObjectTest(unittest.TestCase):
 
     self.assertRaises(mox.UnexpectedMethodCallError, call)
 
-    dummy._Verify()
+    self.assertRaises(mox.SwallowedExceptionError, dummy._Verify)
 
   def testMockSetItem_WithSubClassOfNewStyleClass(self):
     class NewStyleTestClass(object):
@@ -960,7 +1101,7 @@ class MockObjectTest(unittest.TestCase):
 
     self.assertRaises(mox.UnexpectedMethodCallError, call)
 
-    dummy._Verify()
+    self.assertRaises(mox.SwallowedExceptionError, dummy._Verify)
 
   def testMockGetItem_WithSubClassOfNewStyleClass(self):
     class NewStyleTestClass(object):
@@ -1030,7 +1171,7 @@ class MockObjectTest(unittest.TestCase):
 
     self.assertRaises(mox.UnexpectedMethodCallError, call)
 
-    dummy._Verify()
+    self.assertRaises(mox.SwallowedExceptionError, dummy._Verify)
 
   def testMockIter_ExpectedIter_NoSuccess(self):
     """Test that __iter__() gets mocked in Dummy.
@@ -1113,7 +1254,18 @@ class MoxTest(unittest.TestCase):
 
   def testCreateObject(self):
     """Mox should create a mock object."""
-    mock_obj = self.mox.CreateMock(TestClass)
+    self.mox.CreateMock(TestClass)
+
+  def testCreateMockOfType(self):
+    self.mox.CreateMock(type)
+
+  def testCreateMockWithBogusAttr(self):
+
+    class BogusAttrClass(object):
+      __slots__ = 'no_such_attr',
+
+    foo = BogusAttrClass()
+    self.mox.CreateMock(foo)
 
   def testVerifyObjectWithCompleteReplay(self):
     """Mox should replay and verify all objects it created."""
@@ -1141,6 +1293,27 @@ class MoxTest(unittest.TestCase):
 
     ret_val = mock_obj.ValidCall()
     self.assertEquals("yes", ret_val)
+    self.mox.VerifyAll()
+
+  def testSignatureMatchingWithComparatorAsFirstArg(self):
+    """Test that the first argument can be a comparator."""
+
+    def VerifyLen(val):
+      """This will raise an exception when not given a list.
+
+      This exception will be raised when trying to infer/validate the
+      method signature.
+      """
+      return len(val) != 1
+
+    mock_obj = self.mox.CreateMock(TestClass)
+    # This intentionally does not name the 'nine' param so it triggers
+    # deeper inspection.
+    mock_obj.MethodWithArgs(mox.Func(VerifyLen), mox.IgnoreArg(), None)
+    self.mox.ReplayAll()
+
+    mock_obj.MethodWithArgs([1, 2], "foo", None)
+
     self.mox.VerifyAll()
 
   def testCallableObject(self):
@@ -1471,11 +1644,14 @@ class MoxTest(unittest.TestCase):
     self.mox.VerifyAll()
 
   def testStubOutMethod(self):
-    """Test that a method is replaced with a MockAnything."""
+    """Test that a method is replaced with a MockObject."""
     test_obj = TestClass()
+    method_type = type(test_obj.OtherValidCall)
     # Replace OtherValidCall with a mock.
     self.mox.StubOutWithMock(test_obj, 'OtherValidCall')
-    self.assert_(isinstance(test_obj.OtherValidCall, mox.MockAnything))
+    self.assertTrue(isinstance(test_obj.OtherValidCall, mox.MockObject))
+    self.assertFalse(type(test_obj.OtherValidCall) is method_type)
+
     test_obj.OtherValidCall().AndReturn('foo')
     self.mox.ReplayAll()
 
@@ -1484,7 +1660,194 @@ class MoxTest(unittest.TestCase):
     self.mox.VerifyAll()
     self.mox.UnsetStubs()
     self.assertEquals('foo', actual)
-    self.failIf(isinstance(test_obj.OtherValidCall, mox.MockAnything))
+    self.assertTrue(type(test_obj.OtherValidCall) is method_type)
+
+  def testStubOutMethod_Unbound_Comparator(self):
+    instance = TestClass()
+    self.mox.StubOutWithMock(TestClass, 'OtherValidCall')
+
+    TestClass.OtherValidCall(mox.IgnoreArg()).AndReturn('foo')
+    self.mox.ReplayAll()
+
+    actual = TestClass.OtherValidCall(instance)
+
+    self.mox.VerifyAll()
+    self.mox.UnsetStubs()
+    self.assertEquals('foo', actual)
+
+  def testStubOutMethod_Unbound_Subclass_Comparator(self):
+    self.mox.StubOutWithMock(mox_test_helper.TestClassFromAnotherModule,
+                             'Value')
+    mox_test_helper.TestClassFromAnotherModule.Value(
+        mox.IsA(mox_test_helper.ChildClassFromAnotherModule)).AndReturn('foo')
+    self.mox.ReplayAll()
+
+    instance = mox_test_helper.ChildClassFromAnotherModule()
+    actual = mox_test_helper.TestClassFromAnotherModule.Value(instance)
+
+    self.mox.VerifyAll()
+    self.mox.UnsetStubs()
+    self.assertEquals('foo', actual)
+
+  def testStubOuMethod_Unbound_WithOptionalParams(self):
+    self.mox = mox.Mox()
+    self.mox.StubOutWithMock(TestClass, 'OptionalArgs')
+    TestClass.OptionalArgs(mox.IgnoreArg(), foo=2)
+    self.mox.ReplayAll()
+
+    t = TestClass()
+    TestClass.OptionalArgs(t, foo=2)
+
+    self.mox.VerifyAll()
+    self.mox.UnsetStubs()
+
+  def testStubOutMethod_Unbound_ActualInstance(self):
+    instance = TestClass()
+    self.mox.StubOutWithMock(TestClass, 'OtherValidCall')
+
+    TestClass.OtherValidCall(instance).AndReturn('foo')
+    self.mox.ReplayAll()
+
+    actual = TestClass.OtherValidCall(instance)
+
+    self.mox.VerifyAll()
+    self.mox.UnsetStubs()
+    self.assertEquals('foo', actual)
+
+  def testStubOutMethod_Unbound_DifferentInstance(self):
+    instance = TestClass()
+    self.mox.StubOutWithMock(TestClass, 'OtherValidCall')
+
+    TestClass.OtherValidCall(instance).AndReturn('foo')
+    self.mox.ReplayAll()
+
+    # This should fail, since the instances are different
+    self.assertRaises(mox.UnexpectedMethodCallError,
+                      TestClass.OtherValidCall, "wrong self")
+
+    self.assertRaises(mox.SwallowedExceptionError, self.mox.VerifyAll)
+    self.mox.UnsetStubs()
+
+  def testStubOutMethod_Unbound_NamedUsingPositional(self):
+    """Check positional parameters can be matched to keyword arguments."""
+    self.mox.StubOutWithMock(mox_test_helper.ExampleClass, 'NamedParams')
+    instance = mox_test_helper.ExampleClass()
+    mox_test_helper.ExampleClass.NamedParams(instance, 'foo', baz=None)
+    self.mox.ReplayAll()
+
+    mox_test_helper.ExampleClass.NamedParams(instance, 'foo', baz=None)
+
+    self.mox.VerifyAll()
+    self.mox.UnsetStubs()
+
+  def testStubOutMethod_Unbound_NamedUsingPositional_SomePositional(self):
+    """Check positional parameters can be matched to keyword arguments."""
+    self.mox.StubOutWithMock(mox_test_helper.ExampleClass, 'TestMethod')
+    instance = mox_test_helper.ExampleClass()
+    mox_test_helper.ExampleClass.TestMethod(instance, 'one', 'two', 'nine')
+    self.mox.ReplayAll()
+
+    mox_test_helper.ExampleClass.TestMethod(instance, 'one', 'two', 'nine')
+
+    self.mox.VerifyAll()
+    self.mox.UnsetStubs()
+
+  def testStubOutMethod_Unbound_SpecialArgs(self):
+    self.mox.StubOutWithMock(mox_test_helper.ExampleClass, 'SpecialArgs')
+    instance = mox_test_helper.ExampleClass()
+    mox_test_helper.ExampleClass.SpecialArgs(instance, 'foo', None, bar='bar')
+    self.mox.ReplayAll()
+
+    mox_test_helper.ExampleClass.SpecialArgs(instance, 'foo', None, bar='bar')
+
+    self.mox.VerifyAll()
+    self.mox.UnsetStubs()
+
+  def testStubOutMethod_Bound_SimpleTest(self):
+    t = self.mox.CreateMock(TestClass)
+
+    t.MethodWithArgs(mox.IgnoreArg(), mox.IgnoreArg()).AndReturn('foo')
+    self.mox.ReplayAll()
+
+    actual = t.MethodWithArgs(None, None);
+
+    self.mox.VerifyAll()
+    self.mox.UnsetStubs()
+    self.assertEquals('foo', actual)
+
+  def testStubOutMethod_Bound_NamedUsingPositional(self):
+    """Check positional parameters can be matched to keyword arguments."""
+    self.mox.StubOutWithMock(mox_test_helper.ExampleClass, 'NamedParams')
+    instance = mox_test_helper.ExampleClass()
+    instance.NamedParams('foo', baz=None)
+    self.mox.ReplayAll()
+
+    instance.NamedParams('foo', baz=None)
+
+    self.mox.VerifyAll()
+    self.mox.UnsetStubs()
+
+  def testStubOutMethod_Bound_NamedUsingPositional_SomePositional(self):
+    """Check positional parameters can be matched to keyword arguments."""
+    self.mox.StubOutWithMock(mox_test_helper.ExampleClass, 'TestMethod')
+    instance = mox_test_helper.ExampleClass()
+    instance.TestMethod(instance, 'one', 'two', 'nine')
+    self.mox.ReplayAll()
+
+    instance.TestMethod(instance, 'one', 'two', 'nine')
+
+    self.mox.VerifyAll()
+    self.mox.UnsetStubs()
+
+  def testStubOutMethod_Bound_SpecialArgs(self):
+    self.mox.StubOutWithMock(mox_test_helper.ExampleClass, 'SpecialArgs')
+    instance = mox_test_helper.ExampleClass()
+    instance.SpecialArgs(instance, 'foo', None, bar='bar')
+    self.mox.ReplayAll()
+
+    instance.SpecialArgs(instance, 'foo', None, bar='bar')
+
+    self.mox.VerifyAll()
+    self.mox.UnsetStubs()
+
+  def testStubOutMethod_Func_PropgatesExceptions(self):
+    """Errors in a Func comparator should propagate to the calling method."""
+    class TestException(Exception):
+      pass
+
+    def raiseExceptionOnNotOne(value):
+      if value == 1:
+        return True
+      else:
+        raise TestException
+
+    test_obj = TestClass()
+    self.mox.StubOutWithMock(test_obj, 'MethodWithArgs')
+    test_obj.MethodWithArgs(
+        mox.IgnoreArg(), mox.Func(raiseExceptionOnNotOne)).AndReturn(1)
+    test_obj.MethodWithArgs(
+        mox.IgnoreArg(), mox.Func(raiseExceptionOnNotOne)).AndReturn(1)
+    self.mox.ReplayAll()
+
+    self.assertEqual(test_obj.MethodWithArgs('ignored', 1), 1)
+    self.assertRaises(TestException,
+                      test_obj.MethodWithArgs, 'ignored', 2)
+
+    self.mox.VerifyAll()
+    self.mox.UnsetStubs()
+
+
+  def testStubOut_SignatureMatching_init_(self):
+    self.mox.StubOutWithMock(mox_test_helper.ExampleClass, '__init__')
+    mox_test_helper.ExampleClass.__init__(mox.IgnoreArg())
+    self.mox.ReplayAll()
+
+    # Create an instance of a child class, which calls the parent
+    # __init__
+    mox_test_helper.ChildExampleClass()
+
+    self.mox.VerifyAll()
+    self.mox.UnsetStubs()
 
   def testStubOutClass_OldStyle(self):
     """Test a mocked class whose __init__ returns a Mock."""
@@ -1535,6 +1898,39 @@ class MoxTest(unittest.TestCase):
     # Verify
     self.assertEquals('mock', actual_one)
     self.assertEquals('called mock', actual_two)
+
+  try:
+    import abc
+    # I'd use the unittest skipping decorators for this but I want to support
+    # older versions of Python that don't have them.
+    def testStubOutClass_ABCMeta(self):
+      self.mox.StubOutClassWithMocks(mox_test_helper,
+                                     'CallableSubclassOfMyDictABC')
+      mock_foo = mox_test_helper.CallableSubclassOfMyDictABC(foo='!mock bar')
+      mock_foo['foo'].AndReturn('mock bar')
+      mock_spam = mox_test_helper.CallableSubclassOfMyDictABC(spam='!mock eggs')
+      mock_spam('beans').AndReturn('called mock')
+
+      self.mox.ReplayAll()
+
+      foo = mox_test_helper.CallableSubclassOfMyDictABC(foo='!mock bar')
+      actual_foo_bar = foo['foo']
+
+      spam = mox_test_helper.CallableSubclassOfMyDictABC(spam='!mock eggs')
+      actual_spam = spam('beans')
+
+      self.mox.VerifyAll()
+      self.mox.UnsetStubs()
+
+      # Verify the correct mocks were returned
+      self.assertEquals(mock_foo, foo)
+      self.assertEquals(mock_spam, spam)
+
+      # Verify
+      self.assertEquals('mock bar', actual_foo_bar)
+      self.assertEquals('called mock', actual_spam)
+  except ImportError:
+    print >>sys.stderr, "testStubOutClass_ABCMeta. ... Skipped - no abc module"
 
   def testStubOutClass_NotAClass(self):
     self.assertRaises(TypeError, self.mox.StubOutClassWithMocks,
@@ -1595,6 +1991,30 @@ class MoxTest(unittest.TestCase):
     self.assertRaises(AttributeError, mox_test_helper.MyTestFunction, 1)
     self.mox.UnsetStubs()
 
+  def _testMethodSignatureVerification(self, stubClass):
+    # If stubClass is true, the test is run against an a stubbed out class,
+    # else the test is run against a stubbed out instance.
+    if stubClass:
+      self.mox.StubOutWithMock(mox_test_helper.ExampleClass, "TestMethod")
+      obj = mox_test_helper.ExampleClass()
+    else:
+      obj = mox_test_helper.ExampleClass()
+      self.mox.StubOutWithMock(mox_test_helper.ExampleClass, "TestMethod")
+    self.assertRaises(AttributeError, obj.TestMethod)
+    self.assertRaises(AttributeError, obj.TestMethod, 1)
+    self.assertRaises(AttributeError, obj.TestMethod, nine=2)
+    obj.TestMethod(1, 2)
+    obj.TestMethod(1, 2, 3)
+    obj.TestMethod(1, 2, nine=3)
+    self.assertRaises(AttributeError, obj.TestMethod, 1, 2, 3, 4)
+    self.mox.UnsetStubs()
+
+  def testStubOutClassMethodVerifiesSignature(self):
+    self._testMethodSignatureVerification(stubClass=True)
+
+  def testStubOutObjectMethodVerifiesSignature(self):
+    self._testMethodSignatureVerification(stubClass=False)
+
   def testStubOutObject(self):
     """Test than object is replaced with a Mock."""
 
@@ -1624,9 +2044,121 @@ class MoxTest(unittest.TestCase):
     # Forgot to replay!
     try:
       foo.GetBar().ShowMeTheMoney()
-    except AttributeError as e:
+    except AttributeError, e:
       self.assertEquals('MockMethod has no attribute "ShowMeTheMoney". '
           'Did you remember to put your mocks in replay mode?', str(e))
+
+  def testSwallowedUnknownMethodCall(self):
+    """Test that a swallowed UnknownMethodCallError will be re-raised."""
+    dummy = self.mox.CreateMock(TestClass)
+    dummy._Replay()
+
+    def call():
+      try:
+        dummy.InvalidCall()
+      except mox.UnknownMethodCallError:
+        pass
+
+    # UnknownMethodCallError swallowed
+    call()
+
+    self.assertRaises(mox.SwallowedExceptionError, self.mox.VerifyAll)
+
+  def testSwallowedUnexpectedMockCreation(self):
+    """Test that a swallowed UnexpectedMockCreationError will be re-raised."""
+    self.mox.StubOutClassWithMocks(mox_test_helper, 'CallableClass')
+    self.mox.ReplayAll()
+
+    def call():
+      try:
+        mox_test_helper.CallableClass(1, 2)
+      except mox.UnexpectedMockCreationError:
+        pass
+
+    # UnexpectedMockCreationError swallowed
+    call()
+
+    self.assertRaises(mox.SwallowedExceptionError, self.mox.VerifyAll)
+    self.mox.UnsetStubs()
+
+  def testSwallowedUnexpectedMethodCall_WrongMethod(self):
+    """Test that a swallowed UnexpectedMethodCallError will be re-raised.
+
+    This case is an extraneous method call."""
+    mock_obj = self.mox.CreateMockAnything()
+    mock_obj.Open()
+    self.mox.ReplayAll()
+
+    def call():
+      mock_obj.Open()
+      try:
+        mock_obj.Close()
+      except mox.UnexpectedMethodCallError:
+        pass
+
+    # UnexpectedMethodCall swallowed
+    call()
+
+    self.assertRaises(mox.SwallowedExceptionError, self.mox.VerifyAll)
+
+  def testSwallowedUnexpectedMethodCall_WrongArguments(self):
+    """Test that a swallowed UnexpectedMethodCallError will be re-raised.
+
+    This case is an extraneous method call."""
+    mock_obj = self.mox.CreateMockAnything()
+    mock_obj.Open()
+    self.mox.ReplayAll()
+
+    def call():
+      try:
+        mock_obj.Open(1)
+      except mox.UnexpectedMethodCallError:
+        pass
+
+    # UnexpectedMethodCall swallowed
+    call()
+
+    self.assertRaises(mox.SwallowedExceptionError, self.mox.VerifyAll)
+
+  def testSwallowedUnexpectedMethodCall_UnorderedGroup(self):
+    """Test that a swallowed UnexpectedMethodCallError will be re-raised.
+
+    This case is an extraneous method call in an unordered group."""
+    mock_obj = self.mox.CreateMockAnything()
+    mock_obj.Open().InAnyOrder()
+    mock_obj.Close().InAnyOrder()
+    self.mox.ReplayAll()
+
+    def call():
+      mock_obj.Close()
+      try:
+        mock_obj.Open(1)
+      except mox.UnexpectedMethodCallError:
+        pass
+
+    # UnexpectedMethodCall swallowed
+    call()
+
+    self.assertRaises(mox.SwallowedExceptionError, self.mox.VerifyAll)
+
+  def testSwallowedUnexpectedMethodCall_MultipleTimesGroup(self):
+    """Test that a swallowed UnexpectedMethodCallError will be re-raised.
+
+    This case is an extraneous method call in a multiple times group."""
+    mock_obj = self.mox.CreateMockAnything()
+    mock_obj.Open().MultipleTimes()
+    self.mox.ReplayAll()
+
+    def call():
+      try:
+        mock_obj.Open(1)
+      except mox.UnexpectedMethodCallError:
+        pass
+
+    # UnexpectedMethodCall swallowed
+    call()
+
+    self.assertRaises(mox.SwallowedExceptionError, self.mox.VerifyAll)
 
 
 class ReplayTest(unittest.TestCase):
@@ -1876,6 +2408,9 @@ class TestClass:
     pass
 
   def OtherValidCall(self):
+    pass
+
+  def OptionalArgs(self, foo='boom'):
     pass
 
   def ValidCallWithArgs(self, *args, **kwargs):

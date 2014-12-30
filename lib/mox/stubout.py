@@ -59,7 +59,7 @@ class StubOutForTesting:
        Raises AttributeError if the attribute cannot be found.
     """
     if (inspect.ismodule(obj) or
-        (not inspect.isclass(obj) and attr_name in obj.__dict__)):
+        (not inspect.isclass(obj) and obj.__dict__.has_key(attr_name))):
       orig_obj = obj
       orig_attr = getattr(obj, attr_name)
 
@@ -122,7 +122,7 @@ class StubOutForTesting:
       if isinstance(old_attribute, staticmethod):
         old_child = staticmethod(old_child)
       elif isinstance(old_attribute, classmethod):
-        old_child = classmethod(old_child.__func__)
+        old_child = classmethod(old_child.im_func)
 
     self.cache.append((parent, old_child, child_name))
     setattr(parent, child_name, new_child)
