@@ -502,7 +502,7 @@ class NamespacePseudoKind(object):
     """
     namespace_range = datastore_stub_util.ParseNamespaceQuery(query, filters,
                                                               orders)
-    app_str = query.app()
+    app_str = query.app().decode()
 
     namespace_entities = []
 
@@ -882,7 +882,7 @@ class DatastoreSqliteStub(datastore_stub_util.BaseDatastore,
     Returns:
       The number of rows deleted.
     """
-    keys = sorted((x.app(), x.name_space(), x) for x in keys)
+    keys = sorted((x.app().decode(), x.name_space().decode(), x) for x in keys)
     for (app_id, ns), group in itertools.groupby(keys, lambda x: x[:2]):
       path_strings = [self.__EncodeIndexPB(x[2].path()) for x in group]
       prefix = self._GetTablePrefix((app_id, ns))
