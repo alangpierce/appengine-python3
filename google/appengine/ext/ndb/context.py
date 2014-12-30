@@ -303,7 +303,7 @@ class Context(object):
 
   # NOTE: The default memcache prefix is altered if an incompatible change is
   # required. Remember to check release notes when using a custom prefix.
-  _memcache_prefix = 'NDB9:'  # TODO: Might make this configurable.
+  _memcache_prefix = b'NDB9:'  # TODO: Might make this configurable.
 
   @tasklets.tasklet
   def flush(self):
@@ -1160,8 +1160,8 @@ class Context(object):
       A Future (!) whose return value is the value retrieved from
       memcache, or None.
     """
-    if not isinstance(key, str):
-      raise TypeError('key must be a string; received %r' % key)
+    if not isinstance(key, bytes):
+      raise TypeError('key must be a bytes; received %r' % key)
     if not isinstance(for_cas, bool):
       raise TypeError('for_cas must be a bool; received %r' % for_cas)
     if namespace is None:
@@ -1181,8 +1181,8 @@ class Context(object):
 
   def memcache_set(self, key, value, time=0, namespace=None, use_cache=False,
                    deadline=None):
-    if not isinstance(key, str):
-      raise TypeError('key must be a string; received %r' % key)
+    if not isinstance(key, bytes):
+      raise TypeError('key must be a bytes; received %r' % key)
     if not isinstance(time, int):
       raise TypeError('time must be a number; received %r' % time)
     if namespace is None:
@@ -1195,8 +1195,8 @@ class Context(object):
       return batcher.add((key, value), options)
 
   def memcache_add(self, key, value, time=0, namespace=None, deadline=None):
-    if not isinstance(key, str):
-      raise TypeError('key must be a string; received %r' % key)
+    if not isinstance(key, bytes):
+      raise TypeError('key must be a bytes; received %r' % key)
     if not isinstance(time, int):
       raise TypeError('time must be a number; received %r' % time)
     if namespace is None:
@@ -1205,8 +1205,8 @@ class Context(object):
                                           ('add', time, namespace, deadline))
 
   def memcache_replace(self, key, value, time=0, namespace=None, deadline=None):
-    if not isinstance(key, str):
-      raise TypeError('key must be a string; received %r' % key)
+    if not isinstance(key, bytes):
+      raise TypeError('key must be a bytes; received %r' % key)
     if not isinstance(time, int):
       raise TypeError('time must be a number; received %r' % time)
     if namespace is None:
@@ -1215,8 +1215,8 @@ class Context(object):
     return self._memcache_set_batcher.add((key, value), options)
 
   def memcache_cas(self, key, value, time=0, namespace=None, deadline=None):
-    if not isinstance(key, str):
-      raise TypeError('key must be a string; received %r' % key)
+    if not isinstance(key, bytes):
+      raise TypeError('key must be a bytes; received %r' % key)
     if not isinstance(time, int):
       raise TypeError('time must be a number; received %r' % time)
     if namespace is None:
@@ -1225,8 +1225,8 @@ class Context(object):
                                           ('cas', time, namespace, deadline))
 
   def memcache_delete(self, key, seconds=0, namespace=None, deadline=None):
-    if not isinstance(key, str):
-      raise TypeError('key must be a string; received %r' % key)
+    if not isinstance(key, bytes):
+      raise TypeError('key must be a bytes; received %r' % key)
     if not isinstance(seconds, int):
       raise TypeError('seconds must be a number; received %r' % seconds)
     if namespace is None:
@@ -1235,8 +1235,8 @@ class Context(object):
 
   def memcache_incr(self, key, delta=1, initial_value=None, namespace=None,
                     deadline=None):
-    if not isinstance(key, str):
-      raise TypeError('key must be a string; received %r' % key)
+    if not isinstance(key, bytes):
+      raise TypeError('key must be a bytes; received %r' % key)
     if not isinstance(delta, int):
       raise TypeError('delta must be a number; received %r' % delta)
     if initial_value is not None and not isinstance(initial_value, int):
@@ -1249,8 +1249,8 @@ class Context(object):
 
   def memcache_decr(self, key, delta=1, initial_value=None, namespace=None,
                     deadline=None):
-    if not isinstance(key, str):
-      raise TypeError('key must be a string; received %r' % key)
+    if not isinstance(key, bytes):
+      raise TypeError('key must be a bytes; received %r' % key)
     if not isinstance(delta, int):
       raise TypeError('delta must be a number; received %r' % delta)
     if initial_value is not None and not isinstance(initial_value, int):

@@ -132,7 +132,7 @@ def _add_name_space(message, namespace=None):
     message.set_name_space(namespace)
 
 
-def _key_string(key, key_prefix='', server_to_user_dict=None):
+def _key_string(key, key_prefix=b'', server_to_user_dict=None):
   """Utility function to handle different ways of requesting keys.
 
   Args:
@@ -156,10 +156,10 @@ def _key_string(key, key_prefix='', server_to_user_dict=None):
   """
   if _is_pair(key):
     key = key[1]
-  if not isinstance(key, str):
-    raise TypeError('Key must be a string instance, received %r' % key)
-  if not isinstance(key_prefix, str):
-    raise TypeError('key_prefix must be a string instance, received %r' %
+  if not isinstance(key, bytes):
+    raise TypeError('Key must be a bytes instance, received %r' % key)
+  if not isinstance(key_prefix, bytes):
+    raise TypeError('key_prefix must be a bytes instance, received %r' %
                     key_prefix)
 
 
@@ -167,8 +167,6 @@ def _key_string(key, key_prefix='', server_to_user_dict=None):
 
 
   server_key = key_prefix + key
-  if isinstance(server_key, str):
-    server_key = server_key.encode('utf-8')
 
   if len(server_key) > MAX_KEY_SIZE:
     server_key = hashlib.sha1(server_key).hexdigest()
@@ -686,7 +684,7 @@ class Client(object):
     results = rpc.get_result()
     return bool(results)
 
-  def delete_multi_async(self, keys, seconds=0, key_prefix='',
+  def delete_multi_async(self, keys, seconds=0, key_prefix=b'',
                          namespace=None, rpc=None):
     """Async version of delete_multi() -- note different return value.
 
