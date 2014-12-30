@@ -131,8 +131,8 @@ def _make_key_value_map(entity, property_names):
 
 
   for prop in entity.property_list():
-    if prop.name() in value_map:
-      value_map[prop.name()].append(
+    if prop.name().decode() in value_map:
+      value_map[prop.name().decode()].append(
           datastore_types.PropertyValueToKeyValue(prop.value()))
 
 
@@ -1239,7 +1239,7 @@ class PropertyOrder(Order):
 
   @property
   def prop(self):
-    return self.__order.property()
+    return self.__order.property().decode()
 
   @property
   def direction(self):
@@ -1256,7 +1256,7 @@ class PropertyOrder(Order):
 
   @datastore_rpc._positional(1)
   def reversed(self, group_by=None):
-    if group_by and self.__order.property() not in group_by:
+    if group_by and self.__order.property().decode() not in group_by:
       return self
 
     if self.__order.direction() == self.ASCENDING:
@@ -1267,13 +1267,13 @@ class PropertyOrder(Order):
                            self.ASCENDING)
 
   def _get_prop_names(self):
-    return set([self.__order.property()])
+    return set([self.__order.property().decode()])
 
   def _key(self, lhs_value_map):
-    lhs_values = lhs_value_map[self.__order.property()]
+    lhs_values = lhs_value_map[self.__order.property().decode()]
     if not lhs_values:
       raise datastore_errors.BadArgumentError(
-          'Missing value for property (%s)' % self.__order.property())
+          'Missing value for property (%s)' % self.__order.property().decode())
 
     if self.__order.direction() == self.ASCENDING:
       return min(lhs_values)
@@ -1281,19 +1281,21 @@ class PropertyOrder(Order):
       return _ReverseOrder(max(lhs_values))
 
   def _cmp(self, lhs_value_map, rhs_value_map):
-    lhs_values = lhs_value_map[self.__order.property()]
-    rhs_values = rhs_value_map[self.__order.property()]
+    lhs_values = lhs_value_map[self.__order.property().decode()]
+    rhs_values = rhs_value_map[self.__order.property().decode()]
 
     if not lhs_values and not rhs_values:
       return 0
 
     if not lhs_values:
       raise datastore_errors.BadArgumentError(
-          'LHS missing value for property (%s)' % self.__order.property())
+          'LHS missing value for property (%s)' %
+              self.__order.property().decode())
 
     if not rhs_values:
       raise datastore_errors.BadArgumentError(
-          'RHS missing value for property (%s)' % self.__order.property())
+          'RHS missing value for property (%s)' %
+              self.__order.property().decode())
 
     if self.__order.direction() == self.ASCENDING:
       return cmp(min(lhs_values), min(rhs_values))

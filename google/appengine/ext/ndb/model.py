@@ -864,8 +864,6 @@ class Property(ModelAttribute):
                verbose_name=None):
     """Constructor.  For arguments see the module docstring."""
     if name is not None:
-      if isinstance(name, str):
-        name = name.encode('utf-8')
       if not isinstance(name, str):
         raise TypeError('Name %r is not a string' % (name,))
       if '.' in name:
@@ -3148,7 +3146,7 @@ class Model(_NotEqualMixin, metaclass=MetaModel):
 
   def _get_property_for(self, p, indexed=True, depth=0):
     """Internal helper to get the Property for a protobuf-level property."""
-    name = p.name()
+    name = p.name().decode()
     parts = name.split('.')
     if len(parts) <= depth:
       # Apparently there's an unstructured value here.
@@ -3173,11 +3171,12 @@ class Model(_NotEqualMixin, metaclass=MetaModel):
   def _fake_property(self, p, next, indexed=True):
     """Internal helper to create a fake Property."""
     self._clone_properties()
-    if p.name() != next and not p.name().endswith('.' + next):
+    name = p.name().decode()
+    if name != next and not name.endswith('.' + next):
       prop = StructuredProperty(Expando, next)
       prop._store_value(self, _BaseValue(Expando()))
     else:
-      compressed = p.meaning_uri() == _MEANING_URI_COMPRESSED
+      compressed = p.meaning_uri().decode() == _MEANING_URI_COMPRESSED
       prop = GenericProperty(next,
                              repeated=p.multiple(),
                              indexed=indexed,
