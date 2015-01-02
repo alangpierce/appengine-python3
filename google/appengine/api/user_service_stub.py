@@ -140,9 +140,9 @@ class UserServiceStub(apiproxy_stub.APIProxyStub):
           API call.
     """
     response.set_logout_url(
-        self._logout_url %
-        urllib.parse.quote(self._AddHostToContinueURL(request.destination_url(),
-                                                request_id)))
+        (self._logout_url % urllib.parse.quote(
+          self._AddHostToContinueURL(
+            request.destination_url().decode(), request_id))).encode())
 
   def _Dynamic_GetOAuthUser(self, request, response, request_id):
     """Trivial implementation of UserService.GetOAuthUser().

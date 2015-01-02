@@ -112,8 +112,8 @@ def _create_cookie_data(email, admin):
     A string containing the cookie payload.
   """
   if email:
-    user_id_digest = hashlib.md5(email.lower()).digest()
-    user_id = '1' + ''.join(['%02d' % ord(x) for x in user_id_digest])[:20]
+    user_id_digest = hashlib.md5(email.lower().encode()).digest()
+    user_id = '1' + ''.join(['%02d' % x for x in user_id_digest])[:20]
   else:
     user_id = ''
   return '%s:%s:%s' % (email, admin, user_id)
@@ -270,9 +270,6 @@ class Handler(webapp2.RequestHandler):
                                                                     set_admin)
 
       redirect_url = continue_url or login_url
-      # URLs should be ASCII-only byte strings.
-      if isinstance(redirect_url, str):
-        redirect_url = redirect_url.encode('ascii')
 
       self.response.status = 302
       self.response.status_message = 'Redirecting to continue URL'

@@ -278,9 +278,9 @@ def create_logout_url(dest_url, _auth_domain=None):
   """
   req = user_service_pb.CreateLogoutURLRequest()
   resp = user_service_pb.CreateLogoutURLResponse()
-  req.set_destination_url(dest_url)
+  req.set_destination_url(dest_url.encode())
   if _auth_domain:
-    req.set_auth_domain(_auth_domain)
+    req.set_auth_domain(_auth_domain.encode())
 
   try:
     apiproxy_stub_map.MakeSyncCall('user', 'CreateLogoutURL', req, resp)
@@ -290,7 +290,7 @@ def create_logout_url(dest_url, _auth_domain=None):
       raise RedirectTooLongError
     else:
       raise e
-  return resp.logout_url()
+  return resp.logout_url().decode()
 
 
 CreateLogoutURL = create_logout_url
