@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # NOTE: Documentation is intended to be processed by epydoc and contains
 # epydoc markup.

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 """
 gather_profile_stats.py /path/to/dir/of/profiles

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 """Execute all sample applications.
 
 Runs over all the sample applications, determines their type (App Engine,

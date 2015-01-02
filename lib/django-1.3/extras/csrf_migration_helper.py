@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # This script aims to help developers locate forms and view code that needs to
 # use the new CSRF protection in Django 1.2.  It tries to find all the code that

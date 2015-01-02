@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # This works exactly like 2to3, except that it uses Django's fixers rather
 # than 2to3's built-in fixers.
