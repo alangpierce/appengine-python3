@@ -38,7 +38,7 @@ TEST_LIBRARY_PATHS = [
     os.path.join(DIR_PATH, 'lib', 'ipaddr'),
     os.path.join(DIR_PATH, 'lib', 'jinja2-2.7'),
     os.path.join(DIR_PATH, 'lib', 'webob-1.4'),
-    os.path.join(DIR_PATH, 'lib', 'webapp2-2.5.1'),
+    os.path.join(DIR_PATH, 'lib', 'webapp2-2.5.2'),
     os.path.join(DIR_PATH, 'lib', 'mox'),
     os.path.join(DIR_PATH, 'lib', 'protorpc-1.0'),
     os.path.join(DIR_PATH, 'lib', 'markupsafe-0.23'),

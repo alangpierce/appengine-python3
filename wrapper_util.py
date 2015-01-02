@@ -207,7 +207,7 @@ class Paths(object):
         os.path.join(dir_path, 'lib', 'docker'),
         os.path.join(dir_path, 'lib', 'jinja2-2.7'),
         os.path.join(dir_path, 'lib', 'webob-1.4'),
-        os.path.join(dir_path, 'lib', 'webapp2-2.5.1'),
+        os.path.join(dir_path, 'lib', 'webapp2-2.5.2'),
     ]
 
     php_runtime_paths = [

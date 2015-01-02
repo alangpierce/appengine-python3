@@ -445,9 +445,8 @@ _SUPPORTED_LIBRARIES = [
         'webapp2',
         'http://webapp-improved.appspot.com/',
         'A lightweight Python web framework.',
-        ['2.3', '2.5.1', '2.5.2'],
-        default_version='2.3',
-        deprecated_versions=['2.3']
+        ['2.5.2'],
+        default_version='2.5.2',
         ),
     _VersionedLibrary(
         'webob',
