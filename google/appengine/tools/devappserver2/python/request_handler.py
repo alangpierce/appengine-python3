@@ -120,7 +120,7 @@ class RequestHandler(object):
       module_id, version_id = config.version_id.split(appinfo.MODULE_SEPARATOR)
 
     self.environ_template = {
-        'APPLICATION_ID': config.app_id,
+        'APPLICATION_ID': config.app_id.decode(),
         'CURRENT_MODULE_ID': module_id,
         'CURRENT_VERSION_ID': version_id,
         'DATACENTER': config.datacenter.encode('ascii'),
