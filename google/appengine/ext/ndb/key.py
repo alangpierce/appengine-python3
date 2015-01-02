@@ -739,13 +739,13 @@ def _ReferenceFromPairs(pairs, reference=None, app=None, namespace=None):
   if not app:
     app = _DefaultAppId()
   # Always set the app id, since it is mandatory.
-  reference.set_app(app)
+  reference.set_app(app.encode())
   # An empty namespace overrides the default namespace.
   if namespace is None:
     namespace = _DefaultNamespace()
   # Only set the namespace if it is not empty.
   if namespace:
-    reference.set_name_space(namespace)
+    reference.set_name_space(namespace.encode())
   return reference
 
 
