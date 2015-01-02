@@ -42,17 +42,6 @@ from google.appengine.tools.devappserver2.python import stubs
 CODING_MAGIC_COMMENT_RE = re.compile('coding[:=]\s*([-\w.]+)')
 DEFAULT_ENCODING = 'ascii'
 
-_C_MODULES = frozenset(['cv', 'Crypto', 'lxml', 'numpy', 'PIL'])
-
-NAME_TO_CMODULE_WHITELIST_REGEX = {
-    'cv': re.compile(r'cv(\..*)?$'),
-    'lxml': re.compile(r'lxml(\..*)?$'),
-    'numpy': re.compile(r'numpy(\..*)?$'),
-    'pycrypto': re.compile(r'Crypto(\..*)?$'),
-    'PIL': re.compile(r'(PIL(\..*)?|_imaging|_imagingft|_imagingmath)$'),
-    'ssl': re.compile(r'_ssl$'),
-}
-
 # Maps App Engine third-party library names to the Python package name for
 # libraries whose names differ from the package names.
 _THIRD_PARTY_LIBRARY_NAME_OVERRIDES = {
@@ -139,34 +128,13 @@ def enable_sandbox(config):
   Args:
     config: The runtime_config_pb2.Config to use to configure the sandbox.
   """
-
-
-
-
-
-
-
-
-
   devnull = open(os.path.devnull)
-  modules = [os, traceback, google]
-  c_module = _find_shared_object_c_module()
-  if c_module:
-    modules.append(c_module)
-  module_paths = [module.__file__ for module in modules]
-  module_paths.extend([os.path.realpath(module.__file__) for module in modules])
-  app_root = config.application_root.decode()
-  python_lib_paths = [app_root]
-  for path in sys.path:
-    if any(module_path.startswith(path) for module_path in module_paths):
-      python_lib_paths.append(path)
-  python_lib_paths.extend(_enable_libraries(config.libraries))
   sys.platform = 'linux3'
   sys.meta_path = [
       PyCryptoRandomImportHook,
       ] + sys.meta_path
-  sys.path_importer_cache = {}
-  sys.path = python_lib_paths[:]
+  app_root = config.application_root.decode()
+  sys.path = [app_root] + sys.path
 
   thread = __import__('_thread')
   __import__('%s.threading' % dist27.__name__)
@@ -187,18 +155,6 @@ def enable_sandbox(config):
   pdb_sandbox.install(config)
   sys.stdin = devnull
   sys.stdout = sys.stderr
-
-
-def _find_shared_object_c_module():
-  for module_name in ['_sqlite3', '_multiprocessing', '_ctypes', 'bz2']:
-    try:
-      module = __import__(module_name)
-    except ImportError:
-      continue
-    else:
-      if hasattr(module, '__file__'):
-        return module
-  return None
 
 
 def _init_logging(stderr_log_level):
@@ -250,31 +206,6 @@ class Tee(object):
   def writelines(self, data):
     for stream in self._streams:
       stream.writelines(data)
-
-
-def _enable_libraries(libraries):
-  """Add enabled libraries to the path.
-
-  Args:
-    libraries: A repeated Config.Library containing the libraries to enable.
-
-  Returns:
-    A list of paths containing the enabled libraries.
-  """
-  library_dirs = []
-  library_pattern = os.path.join(os.path.dirname(
-      os.path.dirname(google.__file__)), _THIRD_PARTY_LIBRARY_FORMAT_STRING)
-  for library in libraries:
-    # Encode the library name/version to convert the Python type
-    # from unicode to str so that Python doesn't try to decode
-    # library pattern from str to unicode (which can cause problems
-    # when the SDK has non-ASCII data in the directory). Encode as
-    # ASCII should be safe as we control library info and are not
-    # likely to have non-ASCII names/versions.
-    library_dir = os.path.abspath(
-        library_pattern % {'name': library.name, 'version': library.version})
-    library_dirs.append(library_dir)
-  return library_dirs
 
 
 class BaseImportHook(object):

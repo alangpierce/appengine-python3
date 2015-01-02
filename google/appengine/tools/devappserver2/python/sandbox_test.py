@@ -71,25 +71,6 @@ class SandboxTest(unittest.TestCase):
     self.mox.UnsetStubs()
     super(SandboxTest, self).tearDown()
 
-  def test_enable_libraries(self):
-    sandbox._THIRD_PARTY_LIBRARY_FORMAT_STRING = (
-        'name=%(name)s-version=%(version)s')
-    libs = self.config.libraries
-    libs.add(name='foo', version='12345')
-    libs.add(name='webapp2', version='2.5.1')
-    self.assertEqual(
-        [os.path.join(os.path.dirname(os.path.dirname(
-            google.__file__)), 'name=foo-version=12345'),
-         os.path.join(os.path.dirname(os.path.dirname(
-             google.__file__)), 'name=webapp2-version=2.5.1')],
-        sandbox._enable_libraries(libs))
-
-  def test_enable_libraries_no_libraries(self):
-    libs = self.config.libraries
-    self.assertEqual([], sandbox._enable_libraries(libs))
-    self.assertEqual(self.old_path, sys.path)
-
-
 @unittest.skip('Broken in initial snapshot')
 class ModuleOverrideImportHookTest(unittest.TestCase):
   def setUp(self):

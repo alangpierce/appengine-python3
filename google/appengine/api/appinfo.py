@@ -371,22 +371,10 @@ class _VersionedLibrary(object):
 
 _SUPPORTED_LIBRARIES = [
     _VersionedLibrary(
-        'django',
-        'http://www.djangoproject.com/',
-        'A full-featured web application framework for Python.',
-        ['1.2', '1.3', '1.4', '1.5'],
-        experimental_versions=['1.5'],
-        ),
-    _VersionedLibrary(
         'endpoints',
         'https://developers.google.com/appengine/docs/python/endpoints/',
         'Libraries for building APIs in an App Engine application.',
         ['1.0']),
-    _VersionedLibrary(
-        'jinja2',
-        'http://jinja.pocoo.org/docs/',
-        'A modern and designer friendly templating language for Python.',
-        ['2.7']),
     _VersionedLibrary(
         'lxml',
         'http://lxml.de/',
@@ -483,8 +471,6 @@ _NAME_TO_SUPPORTED_LIBRARY = dict((library.name, library)
 
 
 REQUIRED_LIBRARIES = {
-    ('jinja2', '2.6'): [('markupsafe', '0.23'), ('setuptools', '0.6c11')],
-    ('jinja2', 'latest'): [('markupsafe', 'latest'), ('setuptools', 'latest')],
     ('matplotlib', '1.1.1'): [('numpy', '1.6.1')],
     ('matplotlib', '1.2.0'): [('numpy', '1.6.1')],
     ('matplotlib', 'latest'): [('numpy', 'latest')],
