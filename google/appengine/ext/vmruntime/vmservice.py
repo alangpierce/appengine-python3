@@ -83,12 +83,12 @@ class VmRuntimeCherryPyServer(VmRuntimeServer):
 
   def CreateServer(self):
 
-    from cherrypy.wsgiserver import wsgiserver2
+    from cherrypy.wsgiserver import wsgiserver3
 
 
 
-    wsgiserver2.socket_error_eintr.append(512)
-    return wsgiserver2.CherryPyWSGIServer(
+    wsgiserver3.socket_error_eintr.append(512)
+    return wsgiserver3.CherryPyWSGIServer(
         (self._host, self._port), self._app,
         numthreads=middlewares.MAX_CONCURRENT_REQUESTS,
 
