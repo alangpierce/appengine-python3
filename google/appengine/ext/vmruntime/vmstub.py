@@ -181,9 +181,9 @@ class VMEngineRPC(apiproxy_rpc.RPC):
       ticket = self.stub.DefaultTicket()
 
     request = remote_api_pb.Request()
-    request.set_service_name(self.package)
-    request.set_method(self.call)
-    request.set_request_id(ticket)
+    request.set_service_name(self.package.encode())
+    request.set_method(self.call.encode())
+    request.set_request_id(ticket.encode())
     request.set_request(self.request.SerializeToString())
 
     deadline = self.deadline or DEFAULT_TIMEOUT
