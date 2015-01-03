@@ -496,7 +496,7 @@ class Key(object):
     if parent is not None:
       ref.CopyFrom(parent.__reference)
     else:
-      ref.set_app(app_id)
+      ref.set_app(app_id.encode())
       SetNamespace(ref, namespace)
 
 
