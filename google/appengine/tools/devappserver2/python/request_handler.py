@@ -135,7 +135,8 @@ class RequestHandler(object):
         'wsgi.multithread': config.threadsafe,
         }
     self._command_globals = {}  # Use to evaluate interactive requests.
-    self.environ_template.update((env.key, env.value) for env in config.environ)
+    self.environ_template.update(
+        (env.key.decode(), env.value.decode()) for env in config.environ)
 
   def __call__(self, environ, start_response):
     remote_api_stub.RemoteStub._SetRequestId(
