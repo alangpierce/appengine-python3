@@ -371,7 +371,7 @@ class WsgiServer(object):
         if port == 0:
           port = server.port
       except BindError as bind_error:
-        if bind_error[1][0] == errno.EADDRINUSE:
+        if bind_error.args[1].args[0] == errno.EADDRINUSE:
           # The port picked at random for first interface was not available
           # on one of the other interfaces. Forget them and try again.
           for server in self._servers:

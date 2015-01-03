@@ -648,12 +648,11 @@ class HttpHeadersDict(validation.ValidatedDict):
       original_name = name
 
 
-      if isinstance(name, str):
-        try:
-          name = name.encode('ascii')
-        except UnicodeEncodeError:
-          raise appinfo_errors.InvalidHttpHeaderName(
-              'HTTP header values must not contain non-ASCII data')
+      try:
+        name.encode('ascii')
+      except UnicodeEncodeError:
+        raise appinfo_errors.InvalidHttpHeaderName(
+            'HTTP header values must not contain non-ASCII data')
 
 
       name = name.lower()
@@ -710,12 +709,11 @@ class HttpHeadersDict(validation.ValidatedDict):
           HTTP header value.
       """
 
-      if isinstance(value, str):
-        try:
-          value = value.encode('ascii')
-        except UnicodeEncodeError:
-          raise appinfo_errors.InvalidHttpHeaderValue(
-              'HTTP header values must not contain non-ASCII data')
+      try:
+        value.encode('ascii')
+      except UnicodeEncodeError:
+        raise appinfo_errors.InvalidHttpHeaderValue(
+            'HTTP header values must not contain non-ASCII data')
 
 
       key = key.lower()
