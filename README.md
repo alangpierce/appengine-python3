@@ -74,8 +74,7 @@ section of the docs for details.
 
 ## Getting started
 
-There's a short Makefile that may provide some guidance. Better instructions
-coming soon!
+See the [sample app README](demos/guestbook/README.md) for setup instructions.
 
 ## FAQ
 
