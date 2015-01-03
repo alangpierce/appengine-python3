@@ -115,9 +115,10 @@ class RequestHandler(object):
     self.config = config
     if appinfo.MODULE_SEPARATOR not in config.version_id.decode():
       module_id = appinfo.DEFAULT_MODULE
-      version_id = config.version_id
+      version_id = config.version_id.decode()
     else:
-      module_id, version_id = config.version_id.split(appinfo.MODULE_SEPARATOR)
+      module_id, version_id = (
+          config.version_id.decode().split(appinfo.MODULE_SEPARATOR))
 
     self.environ_template = {
         'APPLICATION_ID': config.app_id.decode(),
