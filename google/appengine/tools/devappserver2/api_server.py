@@ -469,7 +469,7 @@ def maybe_convert_datastore_file_stub_data_to_sqlite(app_id, filename):
     return
   try:
     with open(filename, 'rb') as f:
-      if f.read(16) == 'SQLite format 3\x00':
+      if f.read(16) == b'SQLite format 3\x00':
         return
   except (IOError, OSError):
     return
