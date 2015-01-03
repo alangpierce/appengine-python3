@@ -11,7 +11,7 @@ use the datastore and other Google services from Python.
 ## 1. Set up your dependencies
 
 Follow the steps in the
-[Python Managed VMs setup guide](https://cloud.google.com/appengine/docs/python/managed-vms/)
+[Python Managed VMs setup guide](https://cloud.google.com/appengine/docs/python/managed-vms/).
 
 In particular, you'll need to do the following:
 
@@ -28,7 +28,7 @@ current shell for docker commands to work.
 ## 2. Build the Python 3 Runtime Docker image
 
 To build the SDK image, go to the top-level of this repo (the
-`appengine-python3` directory, not the `guestbook` directory) and run
+`appengine-python3` directory, not the `demos/guestbook` directory) and run
 
 ```
 make build
@@ -49,7 +49,7 @@ And you should see an image with that tag.
 
 ## 3. Build and run the sample guestbook app Docker image
 
-Then, in the `guestbook` directory (the same one as this README), run
+Then, in the `demos/guestbook` directory (the same one as this README), run
 
 ```
 make serve
@@ -69,7 +69,7 @@ your project is configured correctly by running
 gcloud config list project
 ```
 
-If that looks, right, run the following form the `guestbook` directory to
+If that looks, right, run the following form the `demos/guestbook` directory to
 deploy the app.
 
 ```
