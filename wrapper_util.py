@@ -146,7 +146,6 @@ class Paths(object):
 
     self.oauth_client_extra_paths = [
         os.path.join(dir_path, 'lib', 'google-api-python-client'),
-        os.path.join(dir_path, 'lib', 'httplib2'),
         os.path.join(dir_path, 'lib', 'python-gflags'),
     ]
 
