@@ -431,11 +431,6 @@ _SUPPORTED_LIBRARIES = [
         ['2.3', '2.6'],
         ),
     _VersionedLibrary(
-        'setuptools',
-        'http://pypi.python.org/pypi/setuptools',
-        'A library that provides package and module discovery capabilities.',
-        ['0.6c11']),
-    _VersionedLibrary(
         'ssl',
         'http://docs.python.org/dev/library/ssl.html',
         'The SSL socket wrapper built-in module.',
