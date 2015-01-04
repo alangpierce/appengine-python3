@@ -958,10 +958,18 @@ class Property(ModelAttribute):
 
   def __eq__(self, value):
     """Return a FilterNode instance representing the '=' comparison."""
+    # Don't break == and != when comparing to other properties (not values),
+    # since the standard library sometimes needs this to work. Note that this
+    # means that using "== None" doesn't work, and callers need to build that
+    # kind of query some other way.
+    if value is None or isinstance(value, Property):
+      return self is value
     return self._comparison('=', value)
 
   def __ne__(self, value):
     """Return a FilterNode instance representing the '!=' comparison."""
+    if value is None or isinstance(value, Property):
+      return self is not value
     return self._comparison('!=', value)
 
   def __lt__(self, value):
