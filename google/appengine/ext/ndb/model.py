@@ -956,20 +956,12 @@ class Property(ModelAttribute):
   # used in queries.  See the module docstrings above and in query.py
   # for details on how these can be used.
 
-  def __eq__(self, value):
+  def equals(self, value):
     """Return a FilterNode instance representing the '=' comparison."""
-    # Don't break == and != when comparing to other properties (not values),
-    # since the standard library sometimes needs this to work. Note that this
-    # means that using "== None" doesn't work, and callers need to build that
-    # kind of query some other way.
-    if value is None or isinstance(value, Property):
-      return self is value
     return self._comparison('=', value)
 
-  def __ne__(self, value):
+  def not_equal(self, value):
     """Return a FilterNode instance representing the '!=' comparison."""
-    if value is None or isinstance(value, Property):
-      return self is not value
     return self._comparison('!=', value)
 
   def __lt__(self, value):
