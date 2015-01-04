@@ -1921,8 +1921,6 @@ class KeyProperty(Property):
     if kind is not None:
       if isinstance(kind, type) and issubclass(kind, Model):
         kind = kind._get_kind()
-      if isinstance(kind, str):
-        kind = kind.encode('utf-8')
       if not isinstance(kind, str):
         raise TypeError('kind must be a Model class or a string')
 
