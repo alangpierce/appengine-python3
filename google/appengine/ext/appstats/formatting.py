@@ -40,7 +40,6 @@ CONTAINER_TYPES = {tuple: ('(', ')'),
                    dict: ('{', '}'),
                    }
 BUILTIN_TYPES = EASY_TYPES + STRING_TYPES + tuple(CONTAINER_TYPES)
-INSTANCE_TYPE = types.InstanceType
 
 
 def format_value(val, limit=100, level=10):
@@ -202,8 +201,6 @@ def _format_value(val, limit, level, len=len, repr=repr):
 
   dct = getattr(val, '__dict__', None)
   if type(dct) is dict:
-    if typ is INSTANCE_TYPE:
-      typ = val.__class__
     typnam = typ.__name__
     priv = '_' + typnam + '__'
     buffer = [typnam, '<']
