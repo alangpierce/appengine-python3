@@ -129,7 +129,7 @@ def _add_name_space(message, namespace=None):
   if not namespace:
     message.clear_name_space()
   else:
-    message.set_name_space(namespace)
+    message.set_name_space(namespace.encode())
 
 
 def _key_string(key, key_prefix=b'', server_to_user_dict=None):
@@ -864,7 +864,7 @@ class Client(object):
       failing due to the item not already existing.
     """
     rpc = self._set_multi_async_with_policy(policy, {key: value},
-                                            time, '', namespace)
+                                            time, b'', namespace)
     status_dict = rpc.get_result()
     if not status_dict:
       return False
@@ -921,7 +921,7 @@ class Client(object):
 
 
   def _set_multi_async_with_policy(self, policy, mapping, time=0,
-                                   key_prefix='', namespace=None, rpc=None):
+                                   key_prefix=b'', namespace=None, rpc=None):
     """Async version of _set_multi_with_policy() -- note different return.
 
     Returns:

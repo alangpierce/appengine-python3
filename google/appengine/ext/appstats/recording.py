@@ -673,8 +673,8 @@ class Recorder(object):
     """
     part, full = self.get_both_protos_encoded()
     key = make_key(self.start_timestamp)
-    errors = memcache.set_multi({config.PART_SUFFIX: part,
-                                 config.FULL_SUFFIX: full},
+    errors = memcache.set_multi({config.PART_SUFFIX.encode(): part,
+                                 config.FULL_SUFFIX.encode(): full},
                                 time=36*3600, key_prefix=key,
                                 namespace=config.KEY_NAMESPACE)
     if errors:
@@ -726,8 +726,8 @@ class Recorder(object):
       proto.set_is_admin(True)
     for key, value in sorted(self.env.items()):
       x = proto.add_cgi_env()
-      x.set_key(key)
-      x.set_value(value)
+      x.set_key(key.encode())
+      x.set_value(value.encode())
     with self._lock:
       proto.individual_stats_list().extend(self.traces)
 
@@ -751,13 +751,13 @@ class Recorder(object):
     summary.set_start_timestamp_milliseconds(int(self.start_timestamp * 1000))
     method = self.http_method()
     if method != 'GET':
-      summary.set_http_method(method)
+      summary.set_http_method(method.encode())
     path = self.http_path()
     if path != '/':
-      summary.set_http_path(path)
+      summary.set_http_path(path.encode())
     query = self.http_query()
     if query:
-      summary.set_http_query(query)
+      summary.set_http_query(query.encode())
     status = int(self.http_status)
     if status != 200:
       summary.set_http_status(status)
@@ -768,7 +768,7 @@ class Recorder(object):
     rpc_stats.sort(key=lambda x: (-x[1][0], x[0]))
     for key, value in rpc_stats:
       x = summary.add_rpc_stats()
-      x.set_service_call_name(key)
+      x.set_service_call_name(key.encode())
       x.set_total_amount_of_calls(value[0])
       x.set_total_cost_of_calls_microdollars(value[1])
       for billed_op in value[2].values():
@@ -953,7 +953,7 @@ def make_key(timestamp):
       seconds since the POSIX timestamp epoch).
 
   Returns:
-    A string, formed by concatenating config.KEY_PREFIX and
+    A bytes, formed by concatenating config.KEY_PREFIX and
     config.KEY_TEMPLATE with some of the lower digits of the timestamp
     converted to milliseconds substituted in the template (which should
     contain exactly one %-format like '%d').
@@ -963,7 +963,7 @@ def make_key(timestamp):
   tmpl = config.KEY_PREFIX + config.KEY_TEMPLATE
   msecs = int(timestamp * 1000)
   index = ((msecs // distance) % modulus) * distance
-  return tmpl % index
+  return (tmpl % index).encode()
 
 
 def format_time(timestamp):
