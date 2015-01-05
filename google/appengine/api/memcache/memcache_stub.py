@@ -61,7 +61,7 @@ class CacheEntry(object):
       cas_id: Unique Compare-And-Set ID.
       gettime: Used for testing. Function that works like time.time().
     """
-    assert isinstance(value, str)
+    assert isinstance(value, bytes)
     assert len(value) <= memcache.MAX_VALUE_SIZE
     assert isinstance(expiration, int)
 

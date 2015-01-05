@@ -383,7 +383,7 @@ class Client(object):
 
   def _do_pickle(self, value):
     """Pickles a provided value."""
-    pickle_data = io.StringIO()
+    pickle_data = io.BytesIO()
     pickler = self._pickler_factory(pickle_data,
                                     protocol=self._pickle_protocol)
     if self._persistent_id is not None:
