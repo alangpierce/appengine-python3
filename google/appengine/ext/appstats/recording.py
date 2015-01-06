@@ -911,9 +911,9 @@ class Recorder(object):
     if re.search(config.RE_STACK_SKIP, code_key):
       return True
     entry = trace.add_call_stack()
-    entry.set_class_or_file_name(filename)
+    entry.set_class_or_file_name(filename.encode())
     entry.set_line_number(lineno)
-    entry.set_function_name(funcname)
+    entry.set_function_name(funcname.encode())
     if frame.f_globals is frame.f_locals:
       return True
 
@@ -923,8 +923,8 @@ class Recorder(object):
 
     for name, value in sorted(frame.f_locals.items()):
       x = entry.add_variables()
-      x.set_key(name)
-      x.set_value(format_value(value))
+      x.set_key(name.encode())
+      x.set_value(format_value(value).encode())
       max_locals -= 1
       if max_locals <= 0:
         break

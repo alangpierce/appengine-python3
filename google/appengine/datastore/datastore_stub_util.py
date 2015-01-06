@@ -2487,7 +2487,7 @@ class BaseDatastore(BaseTransactionManager, BaseIndexManager):
         key, i = v
         result[i] = self._GetWithPseudoKinds(txn, key)
       for keys in grouped_keys.values():
-        self._RunInTxn(keys, keys[0][0].app(), op)
+        self._RunInTxn(keys, keys[0][0].app().decode(), op)
       return result
 
   def _GetWithPseudoKinds(self, txn, key):
@@ -2682,12 +2682,14 @@ class BaseDatastore(BaseTransactionManager, BaseIndexManager):
       trusted: True if the calling app is trusted (like dev_admin_console)
       calling_app: app_id of the current running application
     """
-    if query.kind() in self._pseudo_kinds or not self._require_indexes:
+    if (query.kind().decode() in self._pseudo_kinds or
+          not self._require_indexes):
       return
 
     minimal_index = datastore_index.MinimalCompositeIndexForQuery(query,
         (datastore_index.ProtoToIndexDefinition(index)
-         for index in self.GetIndexes(query.app(), trusted, calling_app)
+         for index in self.GetIndexes(query.app().decode(), trusted,
+                                      calling_app)
          if index.state() == entity_pb.CompositeIndex.READ_WRITE))
     if minimal_index is not None:
       msg = ('This query requires a composite index that is not defined. '

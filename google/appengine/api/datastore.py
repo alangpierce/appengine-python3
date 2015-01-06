@@ -760,7 +760,7 @@ class Entity(dict):
 
     ref = entity_pb.Reference()
     _app = datastore_types.ResolveAppId(_app)
-    ref.set_app(_app)
+    ref.set_app(_app.encode())
 
     _namespace = kwds.pop('_namespace', None)
 
@@ -1122,17 +1122,17 @@ class Entity(dict):
         assert last_path.name()
 
 
-    unindexed_properties = [str(p.name(), 'utf-8')
+    unindexed_properties = [p.name().decode()
                             for p in pb.raw_property_list()]
 
 
     if pb.key().has_name_space():
-      namespace = pb.key().name_space()
+      namespace = pb.key().name_space().decode()
     else:
       namespace = ''
-    e = Entity(str(last_path.type(), 'utf-8'),
+    e = Entity(last_path.type().decode(),
                unindexed_properties=unindexed_properties,
-               _app=pb.key().app(), namespace=namespace)
+               _app=pb.key().app().decode(), namespace=namespace)
     ref = e.__key._Key__reference
     ref.CopyFrom(pb.key())
 

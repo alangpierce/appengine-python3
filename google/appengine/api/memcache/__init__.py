@@ -562,7 +562,7 @@ class Client(object):
     """An alias for get(..., for_cas=True)."""
     return self.get(key, namespace=namespace, for_cas=True)
 
-  def get_multi(self, keys, key_prefix='', namespace=None, for_cas=False):
+  def get_multi(self, keys, key_prefix=b'', namespace=None, for_cas=False):
     """Looks up multiple keys from memcache in one operation.
 
     This is the recommended way to do bulk loads.
@@ -587,7 +587,7 @@ class Client(object):
     rpc = self.get_multi_async(keys, key_prefix, namespace, for_cas)
     return rpc.get_result()
 
-  def get_multi_async(self, keys, key_prefix='', namespace=None,
+  def get_multi_async(self, keys, key_prefix=b'', namespace=None,
                       for_cas=False, rpc=None):
     """Async version of get_multi().
 
@@ -660,7 +660,7 @@ class Client(object):
       return DELETE_NETWORK_FAILURE
     return results[0]
 
-  def delete_multi(self, keys, seconds=0, key_prefix='', namespace=None):
+  def delete_multi(self, keys, seconds=0, key_prefix=b'', namespace=None):
     """Delete multiple keys at once.
 
     Args:
@@ -875,7 +875,7 @@ class Client(object):
 
 
 
-  def _set_multi_with_policy(self, policy, mapping, time=0, key_prefix='',
+  def _set_multi_with_policy(self, policy, mapping, time=0, key_prefix=b'',
                              namespace=None):
     """Set multiple keys with a specified policy.
 
@@ -982,7 +982,7 @@ class Client(object):
       status_dict[user_key[server_key]] = status
     return status_dict
 
-  def set_multi(self, mapping, time=0, key_prefix='', min_compress_len=0,
+  def set_multi(self, mapping, time=0, key_prefix=b'', min_compress_len=0,
                 namespace=None):
     """Set multiple keys' values at once, regardless of previous contents.
 
@@ -1006,7 +1006,7 @@ class Client(object):
                                        time=time, key_prefix=key_prefix,
                                        namespace=namespace)
 
-  def set_multi_async(self, mapping, time=0,  key_prefix='',
+  def set_multi_async(self, mapping, time=0,  key_prefix=b'',
                       min_compress_len=0, namespace=None, rpc=None):
     """Async version of set_multi() -- note different return value.
 
@@ -1017,7 +1017,7 @@ class Client(object):
                                              time=time, key_prefix=key_prefix,
                                              namespace=namespace, rpc=rpc)
 
-  def add_multi(self, mapping, time=0, key_prefix='', min_compress_len=0,
+  def add_multi(self, mapping, time=0, key_prefix=b'', min_compress_len=0,
                 namespace=None):
     """Set multiple keys' values iff items are not already in memcache.
 
@@ -1041,7 +1041,7 @@ class Client(object):
                                        time=time, key_prefix=key_prefix,
                                        namespace=namespace)
 
-  def add_multi_async(self, mapping, time=0,  key_prefix='',
+  def add_multi_async(self, mapping, time=0,  key_prefix=b'',
                       min_compress_len=0, namespace=None, rpc=None):
     """Async version of add_multi() -- note different return value.
 
@@ -1052,7 +1052,7 @@ class Client(object):
                                              time=time, key_prefix=key_prefix,
                                              namespace=namespace, rpc=rpc)
 
-  def replace_multi(self, mapping, time=0, key_prefix='', min_compress_len=0,
+  def replace_multi(self, mapping, time=0, key_prefix=b'', min_compress_len=0,
                     namespace=None):
     """Replace multiple keys' values, failing if the items aren't in memcache.
 
@@ -1076,7 +1076,7 @@ class Client(object):
                                        time=time, key_prefix=key_prefix,
                                        namespace=namespace)
 
-  def replace_multi_async(self, mapping, time=0,  key_prefix='',
+  def replace_multi_async(self, mapping, time=0,  key_prefix=b'',
                           min_compress_len=0, namespace=None, rpc=None):
     """Async version of replace_multi() -- note different return value.
 
@@ -1088,7 +1088,7 @@ class Client(object):
                                              time=time, key_prefix=key_prefix,
                                              namespace=namespace, rpc=rpc)
 
-  def cas_multi(self, mapping, time=0, key_prefix='', min_compress_len=0,
+  def cas_multi(self, mapping, time=0, key_prefix=b'', min_compress_len=0,
                 namespace=None):
     """Compare-And-Set update for multiple keys.
 
@@ -1114,7 +1114,7 @@ class Client(object):
                                        time=time, key_prefix=key_prefix,
                                        namespace=namespace)
 
-  def cas_multi_async(self, mapping, time=0,  key_prefix='',
+  def cas_multi_async(self, mapping, time=0,  key_prefix=b'',
                       min_compress_len=0, namespace=None, rpc=None):
     """Async version of cas_multi() -- note different return value.
 
@@ -1316,7 +1316,7 @@ class Client(object):
       return response.new_value()
     return None
 
-  def offset_multi(self, mapping, key_prefix='',
+  def offset_multi(self, mapping, key_prefix=b'',
                    namespace=None, initial_value=None):
     """Offsets multiple keys by a delta, incrementing and decrementing in batch.
 
@@ -1340,7 +1340,7 @@ class Client(object):
                                   namespace, initial_value)
     return rpc.get_result()
 
-  def offset_multi_async(self, mapping, key_prefix='',
+  def offset_multi_async(self, mapping, key_prefix=b'',
                          namespace=None, initial_value=None, rpc=None):
     """Async version of offset_multi().
 
