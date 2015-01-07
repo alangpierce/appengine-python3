@@ -393,7 +393,7 @@ class Client(object):
 
   def _do_unpickle(self, value):
     """Unpickles a provided value."""
-    pickle_data = io.StringIO(value)
+    pickle_data = io.BytesIO(value)
     unpickler = self._unpickler_factory(pickle_data)
     if self._persistent_load is not None:
       unpickler.persistent_load = self._persistent_load

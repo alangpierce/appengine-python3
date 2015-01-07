@@ -369,7 +369,7 @@ def _get_fetch_result(rpc):
   assert rpc.service == 'urlfetch', repr(rpc.service)
   assert rpc.method == 'Fetch', repr(rpc.method)
 
-  url = rpc.request.url()
+  url = rpc.request.url().decode()
 
   try:
     rpc.check_success()
@@ -451,9 +451,9 @@ class _URLFetchResult(object):
     self.content = response_proto.content()
     self.status_code = response_proto.statuscode()
     self.content_was_truncated = response_proto.contentwastruncated()
-    self.final_url = response_proto.finalurl() or None
+    self.final_url = response_proto.finalurl().decode() or None
     self.header_msg = http.client.HTTPMessage(
-        io.StringIO(''.join(['%s: %s\n' % (h.key(), h.value())
+        io.StringIO(''.join(['%s: %s\n' % (h.key().decode(), h.value().decode())
                           for h in response_proto.header_list()] + ['\n'])))
     self.headers = _CaselessDict(list(self.header_msg.items()))
 

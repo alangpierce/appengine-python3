@@ -179,7 +179,8 @@ class URLFetchServiceStub(apiproxy_stub.APIProxyStub):
       raise apiproxy_errors.ApplicationError(
           urlfetch_service_pb.URLFetchServiceError.INVALID_URL)
 
-    (protocol, host, path, query, fragment) = urllib.parse.urlsplit(request.url())
+    (protocol, host, path, query, fragment) = (
+        urllib.parse.urlsplit(request.url().decode()))
 
     payload = None
     if request.method() == urlfetch_service_pb.URLFetchRequest.GET:
@@ -222,7 +223,7 @@ class URLFetchServiceStub(apiproxy_stub.APIProxyStub):
       validate_certificate = request.mustvalidateservercertificate()
 
     fetch_function = self._GetFetchFunction(request.url())
-    fetch_function(request.url(), payload, method,
+    fetch_function(request.url().decode(), payload, method,
                    request.header_list(), request, response,
                    follow_redirects=request.followredirects(),
                    deadline=deadline,
@@ -337,14 +338,15 @@ class URLFetchServiceStub(apiproxy_stub.APIProxyStub):
 
       passthrough_content_encoding = False
       for header in headers:
-        if header.key().title().lower() == 'user-agent':
+        if header.key().decode().title().lower() == 'user-agent':
           adjusted_headers['User-Agent'] = (
               '%s %s' %
-              (header.value(), adjusted_headers['User-Agent']))
+              (header.value().decode(), adjusted_headers['User-Agent']))
         else:
-          if header.key().lower() == 'accept-encoding':
+          if header.key().decode().lower() == 'accept-encoding':
             passthrough_content_encoding = True
-          adjusted_headers[header.key().title()] = header.value()
+          adjusted_headers[header.key().decode().title()] = (
+              header.value().decode())
 
       if payload is not None:
         escaped_payload = payload.encode('string_escape')
@@ -462,7 +464,7 @@ class URLFetchServiceStub(apiproxy_stub.APIProxyStub):
 
 
         for header_key in list(http_response.msg.keys()):
-          for header_value in http_response.msg.getheaders(header_key):
+          for header_value in http_response.msg.get_all(header_key):
             if (header_key.lower() == 'content-encoding' and
                 header_value == 'gzip' and
                 not passthrough_content_encoding):
@@ -470,8 +472,8 @@ class URLFetchServiceStub(apiproxy_stub.APIProxyStub):
             if header_key.lower() == 'content-length' and method != 'HEAD':
               header_value = str(len(response.content()))
             header_proto = response.add_header()
-            header_proto.set_key(header_key)
-            header_proto.set_value(header_value)
+            header_proto.set_key(header_key.encode())
+            header_proto.set_value(header_value.encode())
 
         if len(http_response_data) > MAX_RESPONSE_SIZE:
           response.set_contentwastruncated(True)
@@ -479,7 +481,7 @@ class URLFetchServiceStub(apiproxy_stub.APIProxyStub):
 
 
         if request.url() != url:
-          response.set_finalurl(url)
+          response.set_finalurl(url.encode())
 
 
         break
