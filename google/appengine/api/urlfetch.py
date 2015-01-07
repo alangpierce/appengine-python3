@@ -134,7 +134,7 @@ class _CaselessDict(dict):
 
   def __contains__(self, key):
     """Same as 'has_key', but used for 'in' operator.'"""
-    return key in self
+    return self.has_key(key)
 
   def get(self, key, failobj=None):
     """Get dictionary item, defaulting to another value if it does not exist.

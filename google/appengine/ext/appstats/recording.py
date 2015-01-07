@@ -784,8 +784,10 @@ class Recorder(object):
     """
     rpcstats = {}
     with self._lock:
-      values = [[trace.service_call_name(), trace.call_cost_microdollars(),
-                 trace.billed_ops_list()] for trace in self.traces]
+      values = [[trace.service_call_name().decode(),
+                 trace.call_cost_microdollars(),
+                 trace.billed_ops_list()]
+                for trace in self.traces]
     for value in values:
       if value[0] in rpcstats:
         stats_for_rpc = rpcstats[value[0]]
