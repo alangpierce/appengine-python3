@@ -554,8 +554,8 @@ class Recorder(object):
     delta = int(1000 * (now - self.start_timestamp))
     trace = datamodel_pb.IndividualRpcStatsProto()
     self.get_call_stack(trace)
-    trace.set_service_call_name('%s.%s' % (service, call))
-    trace.set_request_data_summary(sreq)
+    trace.set_service_call_name(('%s.%s' % (service, call)).encode())
+    trace.set_request_data_summary(sreq.encode())
     trace.set_start_offset_milliseconds(delta)
     with self._lock:
       if rpc is not None:
@@ -590,7 +590,7 @@ class Recorder(object):
           del self.pending[rpc]
           if 0 <= index < len(self.traces):
             trace = self.traces[index]
-            trace.set_response_data_summary(sresp)
+            trace.set_response_data_summary(sresp.encode())
             duration = delta - trace.start_offset_milliseconds()
             trace.set_duration_milliseconds(duration)
             if (config.CALC_RPC_COSTS or

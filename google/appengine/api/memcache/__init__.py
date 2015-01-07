@@ -206,7 +206,7 @@ def _validate_encode_value(value, do_pickle):
   flags = 0
   stored_value = value
 
-  if isinstance(value, str):
+  if isinstance(value, bytes):
     pass
   elif isinstance(value, str):
     stored_value = value.encode('utf-8')
@@ -254,7 +254,7 @@ def _decode_value(stored_value, flags, do_unpickle):
   Raises:
     pickle.UnpicklingError: If the value could not be unpickled.
   """
-  assert isinstance(stored_value, str)
+  assert isinstance(stored_value, bytes)
   assert isinstance(flags, int)
 
   type_number = flags & FLAG_TYPE_MASK

@@ -536,7 +536,7 @@ def CheckTransaction(request_trusted, request_app_id, transaction):
     apiproxy_errors.ApplicationError: if the transaction is not valid.
   """
   assert isinstance(transaction, datastore_pb.Transaction)
-  CheckAppId(request_trusted, request_app_id, transaction.app())
+  CheckAppId(request_trusted, request_app_id, transaction.app().decode())
 
 
 def CheckQuery(query, filters, orders, max_query_components):
@@ -2005,7 +2005,7 @@ class BaseTransactionManager(object):
     txn = self._BeginTransaction(app, allow_multiple_eg)
     self._txn_map[id(txn)] = txn
     transaction = datastore_pb.Transaction()
-    transaction.set_app(app)
+    transaction.set_app(app.encode())
     transaction.set_handle(id(txn))
     return transaction
 
@@ -2023,7 +2023,7 @@ class BaseTransactionManager(object):
     request_app = datastore_types.ResolveAppId(request_app)
     CheckTransaction(request_trusted, request_app, transaction)
     txn = self._txn_map.get(transaction.handle())
-    Check(txn and txn._app == transaction.app(),
+    Check(txn and txn._app == transaction.app().decode(),
           'Transaction(<%s>) not found' % str(transaction).replace('\n', ', '))
     return txn
 
@@ -2569,7 +2569,7 @@ class BaseDatastore(BaseTransactionManager, BaseIndexManager):
         for entity, insert in group:
 
           indexes = _FilterIndexesByKind(entity.key(), self.GetIndexes(
-              entity.key().app(), trusted, calling_app))
+              entity.key().app().decode(), trusted, calling_app))
           txn.Put(entity, insert, indexes)
     else:
 
@@ -3210,17 +3210,17 @@ class DatastoreStub(object):
     txn.AddActions(new_actions, self._MAX_ACTIONS_PER_TXN)
 
   def _Dynamic_BeginTransaction(self, req, transaction):
-    CheckAppId(self._trusted, self._app_id, req.app())
+    CheckAppId(self._trusted, self._app_id, req.app().decode())
     transaction.CopyFrom(self._datastore.BeginTransaction(
-        req.app(), req.allow_multiple_eg()))
+        req.app().decode(), req.allow_multiple_eg()))
 
   def _Dynamic_Commit(self, transaction, res):
-    CheckAppId(self._trusted, self._app_id, transaction.app())
+    CheckAppId(self._trusted, self._app_id, transaction.app().decode())
     txn = self._datastore.GetTxn(transaction, self._trusted, self._app_id)
     res.mutable_cost().CopyFrom(txn.Commit())
 
   def _Dynamic_Rollback(self, transaction, _):
-    CheckAppId(self._trusted, self._app_id, transaction.app())
+    CheckAppId(self._trusted, self._app_id, transaction.app().decode())
     txn = self._datastore.GetTxn(transaction, self._trusted, self._app_id)
     txn.Rollback()
 

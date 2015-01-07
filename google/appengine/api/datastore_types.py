@@ -1177,17 +1177,17 @@ class _BaseByteType(str):
   def __new__(cls, arg=None):
     """Constructor.
 
-    We only accept str instances.
+    We only accept bytes instances.
 
     Args:
-      arg: optional str instance (default '')
+      arg: optional bytes instance (default b'')
     """
     if arg is None:
-      arg = ''
-    if isinstance(arg, str):
+      arg = b''
+    if isinstance(arg, bytes):
       return super(_BaseByteType, cls).__new__(cls, arg)
 
-    raise TypeError('%s() argument should be str instance, not %s' %
+    raise TypeError('%s() argument should be bytes instance, not %s' %
                     (cls.__name__, type(arg).__name__))
 
   def ToXml(self):

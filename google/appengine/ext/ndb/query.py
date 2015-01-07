@@ -509,8 +509,7 @@ class FilterNode(Node):
                                 'expressions and therefore cannot be converted '
                                 'to a single filter (%r)' % self.__opsymbol)
     value = self.__value
-    return datastore_query.make_filter(self.__name.decode('utf-8'),
-                                       self.__opsymbol, value)
+    return datastore_query.make_filter(self.__name, self.__opsymbol, value)
 
 
 class PostFilterNode(Node):

@@ -1969,7 +1969,7 @@ class BaseConnection(object):
       resp = datastore_v4_pb.BeginTransactionResponse()
     else:
       req = datastore_pb.BeginTransactionRequest()
-      req.set_app(app)
+      req.set_app(app.encode())
       if (TransactionOptions.xg(config, self.__config)):
         req.set_allow_multiple_eg(True)
       resp = datastore_pb.Transaction()
