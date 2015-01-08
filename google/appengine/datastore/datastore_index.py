@@ -893,7 +893,7 @@ def ProtoToIndexDefinition(proto):
   properties = []
   proto_index = proto.definition()
   for prop_proto in proto_index.property_list():
-    prop_definition = Property(name=prop_proto.name())
+    prop_definition = Property(name=prop_proto.name().decode())
 
     if prop_proto.mode() == entity_pb.Index_Property.GEOSPATIAL:
       prop_definition.mode = 'geospatial'
@@ -906,7 +906,7 @@ def ProtoToIndexDefinition(proto):
 
     properties.append(prop_definition)
 
-  index = Index(kind=proto_index.entity_type(), properties=properties)
+  index = Index(kind=proto_index.entity_type().decode(), properties=properties)
   if proto_index.ancestor():
     index.ancestor = True
   return index

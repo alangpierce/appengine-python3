@@ -127,7 +127,8 @@ class UserServiceStub(apiproxy_stub.APIProxyStub):
     """
     url = (
         self._login_url % urllib.parse.quote(
-            self._AddHostToContinueURL(request.destination_url(), request_id)))
+            self._AddHostToContinueURL(
+                request.destination_url().decode(), request_id)))
     response.set_login_url(url.encode())
 
   def _Dynamic_CreateLogoutURL(self, request, response, request_id):

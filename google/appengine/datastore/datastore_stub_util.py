@@ -961,7 +961,7 @@ def SynthesizeUserId(email):
   """
 
   user_id_digest = _MD5_FUNC(email.lower()).digest()
-  user_id = '1' + ''.join(['%02d' % ord(x) for x in user_id_digest])[:20]
+  user_id = '1' + ''.join(['%02d' % x for x in user_id_digest])[:20]
   return user_id
 
 
@@ -985,7 +985,8 @@ def FillUser(property):
   if property.value().has_uservalue():
     uid = SynthesizeUserId(property.value().uservalue().email())
     if uid:
-      property.mutable_value().mutable_uservalue().set_obfuscated_gaiaid(uid)
+      property.mutable_value().mutable_uservalue().set_obfuscated_gaiaid(
+        uid.encode())
 
 
 class BaseCursor(object):
