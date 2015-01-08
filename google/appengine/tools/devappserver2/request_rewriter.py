@@ -33,7 +33,7 @@ representing an App Engine runtime.
 
 import calendar
 import io
-import email
+import email.utils
 import functools
 import logging
 import time
@@ -185,7 +185,7 @@ def _cache_rewriter(state):
     expires = state.headers.get('Expires')
     reset_expires = True
     if expires:
-      expires_time = email.Utils.parsedate(expires)
+      expires_time = email.utils.parsedate(expires)
       if expires_time:
         reset_expires = calendar.timegm(expires_time) >= current_date
     if reset_expires:
