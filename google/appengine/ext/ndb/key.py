@@ -776,9 +776,9 @@ def _DecodeUrlSafe(urlsafe):
     urlsafe = urlsafe.encode('utf8')
   mod = len(urlsafe) % 4
   if mod:
-    urlsafe += '=' * (4 - mod)
+    urlsafe += b'=' * (4 - mod)
   # This is 3-4x faster than urlsafe_b64decode()
-  return base64.b64decode(urlsafe.replace('-', '+').replace('_', '/'))
+  return base64.b64decode(urlsafe.replace(b'-', b'+').replace(b'_', b'/'))
 
 
 def _DefaultAppId():

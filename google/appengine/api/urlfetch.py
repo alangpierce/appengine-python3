@@ -79,6 +79,8 @@ class _CaselessDict(dict):
   """
 
   def __init__(self, dict=None, **kwargs):
+    if dict is None:
+      dict = {}
     self.caseless_keys = {}
     super(_CaselessDict, self).__init__(dict, **kwargs)
 
@@ -93,9 +95,9 @@ class _CaselessDict(dict):
     caseless_key = key.lower()
 
     if caseless_key in self.caseless_keys:
-      del self.data[self.caseless_keys[caseless_key]]
+      super().__delitem__(self.caseless_keys[caseless_key])
     self.caseless_keys[caseless_key] = key
-    self.data[key] = item
+    super().__setitem__(key, item)
 
   def __getitem__(self, key):
     """Get dictionary item.
@@ -107,7 +109,7 @@ class _CaselessDict(dict):
     Returns:
       Item associated with key.
     """
-    return self.data[self.caseless_keys[key.lower()]]
+    return super().__getitem__(self.caseless_keys[key.lower()])
 
   def __delitem__(self, key):
     """Remove item from dictionary.
@@ -117,7 +119,7 @@ class _CaselessDict(dict):
         the same as "del d['key']"
     """
     caseless_key = key.lower()
-    del self.data[self.caseless_keys[caseless_key]]
+    super().__delitem__(self.caseless_keys[caseless_key])
     del self.caseless_keys[caseless_key]
 
   def has_key(self, key):
@@ -148,7 +150,7 @@ class _CaselessDict(dict):
       cased_key = self.caseless_keys[key.lower()]
     except KeyError:
       return failobj
-    return self.data[cased_key]
+    return self[cased_key]
 
   def update(self, dict=None, **kwargs):
     """Update dictionary using values from another dictionary and keywords.

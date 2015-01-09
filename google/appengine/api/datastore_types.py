@@ -1167,7 +1167,7 @@ class Text(str):
     raise TypeError('Text() argument should be str or unicode, not %s' %
                     type(arg).__name__)
 
-class _BaseByteType(str):
+class _BaseByteType(bytes):
   """A base class for datastore types that are encoded as bytes.
 
   This behaves identically to the Python str type, except for the

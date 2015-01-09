@@ -47,7 +47,7 @@ from google.appengine.ext.appstats import formatting
 def _to_micropennies_per_op(pennies, per):
   """The price of a single op in micropennies."""
 
-  return (pennies * 1000000) / per
+  return (pennies * 1000000) // per
 
 
 class ConfigDefaults(object):
@@ -721,7 +721,7 @@ class Recorder(object):
     """Update a protobuf representing with additional data."""
     user_email = self.env.get('USER_EMAIL')
     if user_email:
-      proto.set_user_email(user_email)
+      proto.set_user_email(user_email.encode())
     if self.env.get('USER_IS_ADMIN') == '1':
       proto.set_is_admin(True)
     for key, value in sorted(self.env.items()):
