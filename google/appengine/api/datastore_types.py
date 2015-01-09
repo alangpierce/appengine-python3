@@ -705,7 +705,7 @@ class Key(object):
     except AttributeError:
       pass
     if (self.has_id_or_name()):
-      encoded = base64.urlsafe_b64encode(self.__reference.Encode())
+      encoded = base64.urlsafe_b64encode(self.__reference.Encode()).decode()
       self._str = encoded.replace('=', '')
     else:
       raise datastore_errors.BadKeyError(

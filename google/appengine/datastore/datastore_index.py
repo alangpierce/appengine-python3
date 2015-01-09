@@ -299,9 +299,9 @@ def Normalize(filters, orders, exists):
     if f.op() == datastore_pb.Query_Filter.IN and f.property_size() == 1:
       f.set_op(datastore_pb.Query_Filter.EQUAL)
     if f.op() in EQUALITY_OPERATORS:
-      eq_properties.add(f.property(0).name())
+      eq_properties.add(f.property(0).name().decode())
     elif f.op() in INEQUALITY_OPERATORS:
-      inequality_properties.add(f.property(0).name())
+      inequality_properties.add(f.property(0).name().decode())
 
   eq_properties -= inequality_properties
 
@@ -309,8 +309,8 @@ def Normalize(filters, orders, exists):
   remove_set = eq_properties.copy()
   new_orders = []
   for o in orders:
-    if o.property() not in remove_set:
-      remove_set.add(o.property())
+    if o.property().decode() not in remove_set:
+      remove_set.add(o.property().decode())
       new_orders.append(o)
   orders = new_orders
 
@@ -322,7 +322,7 @@ def Normalize(filters, orders, exists):
     if f.op() not in EXISTS_OPERATORS:
       new_filters.append(f)
       continue
-    name = f.property(0).name()
+    name = f.property(0).name().decode()
     if name not in remove_set:
       remove_set.add(name)
       new_filters.append(f)
@@ -334,7 +334,7 @@ def Normalize(filters, orders, exists):
       new_filter = datastore_pb.Query_Filter()
       new_filter.set_op(datastore_pb.Query_Filter.EXISTS)
       new_prop = new_filter.add_property()
-      new_prop.set_name(prop)
+      new_prop.set_name(prop.encode())
       new_prop.set_multiple(False)
       new_prop.mutable_value()
       new_filters.append(new_filter)
@@ -385,7 +385,8 @@ def RemoveNativelySupportedComponents(filters, orders, exists):
 
 
   has_key_desc_order = False
-  if orders and orders[-1].property() == datastore_types.KEY_SPECIAL_PROPERTY:
+  if (orders and
+      orders[-1].property().decode() == datastore_types.KEY_SPECIAL_PROPERTY):
     if orders[-1].direction() == ASCENDING:
       orders = orders[:-1]
     else:
@@ -399,12 +400,12 @@ def RemoveNativelySupportedComponents(filters, orders, exists):
   if not has_key_desc_order:
     for f in filters:
       if (f.op() in INEQUALITY_OPERATORS and
-          f.property(0).name() != datastore_types.KEY_SPECIAL_PROPERTY):
+          f.property(0).name().decode() != datastore_types.KEY_SPECIAL_PROPERTY):
         break
     else:
       filters = [
           f for f in filters
-          if f.property(0).name() != datastore_types.KEY_SPECIAL_PROPERTY]
+          if f.property(0).name().decode() != datastore_types.KEY_SPECIAL_PROPERTY]
 
   return (filters, orders)
 
@@ -489,7 +490,7 @@ def CompositeIndexForQuery(query):
   required = True
 
 
-  kind = query.kind()
+  kind = query.kind().decode()
   ancestor = query.has_ancestor()
   filters = query.filter_list()
   orders = query.order_list()
@@ -523,7 +524,7 @@ def CompositeIndexForQuery(query):
 
 
 
-    names = set(f.property(0).name() for f in eq_filters)
+    names = set(f.property(0).name().decode() for f in eq_filters)
     if not names.intersection(datastore_types._SPECIAL_PROPERTIES):
       required = False
 
@@ -532,36 +533,39 @@ def CompositeIndexForQuery(query):
   ineq_property = None
   if ineq_filters:
     for filter in ineq_filters:
-      if (filter.property(0).name() ==
+      if (filter.property(0).name().decode() ==
           datastore_types._UNAPPLIED_LOG_TIMESTAMP_SPECIAL_PROPERTY):
         continue
       if not ineq_property:
-        ineq_property = filter.property(0).name()
+        ineq_property = filter.property(0).name().decode()
       else:
-        assert filter.property(0).name() == ineq_property
+        assert filter.property(0).name().decode() == ineq_property
 
 
 
   group_by_props = set(query.group_by_property_name_list())
 
 
-  prefix = frozenset(f.property(0).name() for f in eq_filters)
+  prefix = frozenset(f.property(0).name().decode() for f in eq_filters)
 
-  postfix_ordered = [(order.property(), order.direction()) for order in orders]
+  postfix_ordered = [
+      (order.property().decode(), order.direction()) for order in orders]
 
 
-  postfix_group_by = frozenset(f.property(0).name() for f in exists_filters
-                               if f.property(0).name() in group_by_props)
+  postfix_group_by = frozenset(
+      f.property(0).name().decode() for f in exists_filters
+      if f.property(0).name().decode() in group_by_props)
 
-  postfix_unordered = frozenset(f.property(0).name() for f in exists_filters
-                                if f.property(0).name() not in group_by_props)
+  postfix_unordered = frozenset(
+      f.property(0).name().decode() for f in exists_filters
+      if f.property(0).name().decode() not in group_by_props)
 
 
   if ineq_property:
     if orders:
 
 
-      assert ineq_property == orders[0].property()
+      assert ineq_property == orders[0].property().decode()
     else:
       postfix_ordered.append((ineq_property, None))
 

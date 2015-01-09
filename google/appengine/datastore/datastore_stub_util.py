@@ -2426,11 +2426,11 @@ class BaseDatastore(BaseTransactionManager, BaseIndexManager):
     composite_index_pb.set_id(0)
     composite_index_pb.set_state(entity_pb.CompositeIndex.READ_WRITE)
     index_pb = composite_index_pb.mutable_definition()
-    index_pb.set_entity_type(kind)
+    index_pb.set_entity_type(kind.encode())
     index_pb.set_ancestor(bool(ancestor))
     for name, direction in datastore_index.GetRecommendedIndexProperties(props):
       prop_pb = entity_pb.Index_Property()
-      prop_pb.set_name(name)
+      prop_pb.set_name(name.encode())
       prop_pb.set_direction(direction)
       index_pb.property_list().append(prop_pb)
     return [composite_index_pb]
@@ -2687,7 +2687,8 @@ class BaseDatastore(BaseTransactionManager, BaseIndexManager):
           not self._require_indexes):
       return
 
-    minimal_index = datastore_index.MinimalCompositeIndexForQuery(query,
+    minimal_index = datastore_index.MinimalCompositeIndexForQuery(
+        query,
         (datastore_index.ProtoToIndexDefinition(index)
          for index in self.GetIndexes(query.app().decode(), trusted,
                                       calling_app)
