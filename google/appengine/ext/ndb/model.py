@@ -1601,7 +1601,7 @@ class _CompressedValue(_NotEqualMixin):
 
   def __init__(self, z_val):
     """Constructor.  Argument is a string returned by zlib.compress()."""
-    assert isinstance(z_val, str), repr(z_val)
+    assert isinstance(z_val, bytes), repr(z_val)
     self.z_val = z_val
 
   def __repr__(self):
