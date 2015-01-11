@@ -807,7 +807,7 @@ class Module(object):
     force_shutdown_time = time.time() + _SHUTDOWN_TIMEOUT
     try:
       environ = self.build_request_environ(
-          'GET', '/_ah/stop', [], '', '0.1.0.3', port, fake_login=True)
+          'GET', '/_ah/stop', [], b'', '0.1.0.3', port, fake_login=True)
       self._handle_request(environ,
                            start_response_utils.null_start_response,
                            inst=inst,
@@ -1371,7 +1371,7 @@ class AutoScalingModule(Module):
 
     try:
       environ = self.build_request_environ(
-          'GET', '/_ah/warmup', [], '', '0.1.0.3', self.balanced_port,
+          'GET', '/_ah/warmup', [], b'', '0.1.0.3', self.balanced_port,
           fake_login=True)
       self._handle_request(environ,
                            start_response_utils.null_start_response,
@@ -1830,7 +1830,7 @@ class ManualScalingModule(Module):
                   wsgi_servr.port)
     try:
       environ = self.build_request_environ(
-          'GET', '/_ah/start', [], '', '0.1.0.3', wsgi_servr.port,
+          'GET', '/_ah/start', [], b'', '0.1.0.3', wsgi_servr.port,
           fake_login=True)
       self._handle_request(environ,
                            start_response_utils.null_start_response,
@@ -1848,7 +1848,7 @@ class ManualScalingModule(Module):
     url = '/_ah/health?%s' % urllib.parse.urlencode(
         [('IsLastSuccessful', is_last_successful)])
     environ = self.build_request_environ(
-        'GET', url, [], '', '', wsgi_servr.port,
+        'GET', url, [], b'', '', wsgi_servr.port,
         fake_login=True)
     return self._handle_request(
         environ,
@@ -2400,7 +2400,7 @@ class BasicScalingModule(Module):
                     wsgi_servr.port)
       try:
         environ = self.build_request_environ(
-            'GET', '/_ah/start', [], '', '0.1.0.3', wsgi_servr.port,
+            'GET', '/_ah/start', [], b'', '0.1.0.3', wsgi_servr.port,
             fake_login=True)
         self._handle_request(environ,
                              start_response_utils.null_start_response,

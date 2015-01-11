@@ -536,7 +536,7 @@ class Dispatcher(request_info.Dispatcher):
     environ = _module.build_request_environ(
         'GET', '/_ah/background',
         [('X-AppEngine-BackgroundRequest', background_request_id)],
-        '', '0.1.0.3', port)
+        b'', '0.1.0.3', port)
     _THREAD_POOL.submit(self._handle_request,
                         environ,
                         start_response_utils.null_start_response,

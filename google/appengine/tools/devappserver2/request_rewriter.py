@@ -288,7 +288,7 @@ def _rewriter_middleware(request_rewriter_chain, response_rewriter_chain,
     An iterable of strings containing the body of an HTTP response.
   """
   response_dict = {'headers_sent': False}
-  write_body = io.StringIO()
+  write_body = io.BytesIO()
 
   def wrapped_start_response(status, response_headers, exc_info=None):
     if exc_info and response_dict['headers_sent']:

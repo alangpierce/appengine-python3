@@ -163,7 +163,7 @@ class RequestHandler(object):
       status = '%d %s' % (response_code, httplib_responses.get(
           response_code, 'Unknown Status Code'))
       start_response(status, response.get('headers', []))
-      return [response.get('body', '')]
+      return [response.get('body', b'')]
     elif error == 2:
       start_response('404 Not Found', [])
       return []
