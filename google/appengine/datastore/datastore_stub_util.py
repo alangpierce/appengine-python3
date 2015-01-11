@@ -2109,7 +2109,7 @@ class BaseTransactionManager(object):
     Args:
       meta_data_list: list of EntityGroupMetaData objects.
     """
-    for meta_data in sorted(meta_data_list):
+    for meta_data in sorted(meta_data_list, key=id):
       meta_data._write_lock.acquire()
 
   def _ReleaseWriteLocks(self, meta_data_list):
@@ -2118,7 +2118,7 @@ class BaseTransactionManager(object):
     Args:
       meta_data_list: list of EntityGroupMetaData objects.
     """
-    for meta_data in sorted(meta_data_list):
+    for meta_data in sorted(meta_data_list, key=id):
       meta_data._write_lock.release()
 
   def _RemoveTxn(self, txn):
