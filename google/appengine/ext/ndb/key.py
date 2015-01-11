@@ -517,7 +517,8 @@ class Key(object):
     """
     # This is 3-4x faster than urlsafe_b64decode()
     urlsafe = base64.b64encode(self.reference().Encode())
-    return urlsafe.rstrip(b'=').replace(b'+', b'-').replace(b'/', b'_')
+    return (
+        urlsafe.rstrip(b'=').replace(b'+', b'-').replace(b'/', b'_').decode())
 
   # Datastore API using the default context.
   # These use local import since otherwise they'd be recursive imports.

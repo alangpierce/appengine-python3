@@ -1679,7 +1679,7 @@ class BlobProperty(Property):
     # Use meaning_uri because setting meaning to something else that is not
     # BLOB or BYTESTRING will cause the value to be decoded from utf-8 in
     # datastore_types.FromPropertyPb. That would break the compressed string.
-    p.set_meaning_uri(_MEANING_URI_COMPRESSED)
+    p.set_meaning_uri(_MEANING_URI_COMPRESSED.encode())
     p.set_meaning(entity_pb.Property.BLOB)
 
   def _db_set_uncompressed_meaning(self, p):
@@ -1692,7 +1692,7 @@ class BlobProperty(Property):
     if not v.has_stringvalue():
       return None
     value = v.stringvalue()
-    if p.meaning_uri() == _MEANING_URI_COMPRESSED:
+    if p.meaning_uri().decode() == _MEANING_URI_COMPRESSED:
       value = _CompressedValue(value)
     return value
 
@@ -2371,7 +2371,7 @@ class StructuredProperty(_StructuredGetForDictMixin):
       # need this passed in from _from_pb(), which would mean a
       # signature change for _deserialize(), which might break valid
       # end-user code that overrides it.
-      compressed = p.meaning_uri() == _MEANING_URI_COMPRESSED
+      compressed = p.meaning_uri().decode() == _MEANING_URI_COMPRESSED
       prop = GenericProperty(next, compressed=compressed)
       prop._code_name = next
       prop_is_fake = True
@@ -2570,7 +2570,7 @@ class GenericProperty(Property):
       if meaning == entity_pb.Property.BLOBKEY:
         sval = BlobKey(sval)
       elif meaning == entity_pb.Property.BLOB:
-        if p.meaning_uri() == _MEANING_URI_COMPRESSED:
+        if p.meaning_uri().decode() == _MEANING_URI_COMPRESSED:
           sval = _CompressedValue(sval)
       elif meaning == entity_pb.Property.ENTITY_PROTO:
         # NOTE: This is only used for uncompressed LocalStructuredProperties.
@@ -2674,7 +2674,7 @@ class GenericProperty(Property):
     elif isinstance(value, _CompressedValue):
       value = value.z_val
       v.set_stringvalue(value)
-      p.set_meaning_uri(_MEANING_URI_COMPRESSED)
+      p.set_meaning_uri(_MEANING_URI_COMPRESSED.encode())
       p.set_meaning(entity_pb.Property.BLOB)
     else:
       raise NotImplementedError('Property %s does not support %s types.' %

@@ -239,4 +239,4 @@ class PolyModel(model.Model):
   def _default_filters(cls):
     if len(cls._get_hierarchy()) <= 1:
       return ()
-    return (cls.class_ == cls._class_name(),)
+    return (cls.class_.equals(cls._class_name()),)
