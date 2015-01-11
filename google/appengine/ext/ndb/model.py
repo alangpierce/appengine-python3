@@ -1811,14 +1811,14 @@ class JsonProperty(BlobProperty):
       import json
     except ImportError:
       import simplejson as json
-    return json.dumps(value)
+    return json.dumps(value).encode()
 
   def _from_base_type(self, value):
     try:
       import json
     except ImportError:
       import simplejson as json
-    return json.loads(value)
+    return json.loads(value.decode())
 
 
 class UserProperty(Property):

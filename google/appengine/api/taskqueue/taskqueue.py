@@ -381,8 +381,6 @@ def _parse_relative_url(relative_url):
 def _flatten_params(params):
   """Converts a dictionary of parameters to a list of parameters.
 
-  Any unicode strings in keys or values will be encoded as UTF-8.
-
   Args:
     params: Dictionary mapping parameter keys to values. Values will be
       converted to a string and added to the list as tuple (key, value). If
@@ -392,29 +390,17 @@ def _flatten_params(params):
   Returns:
     List of (key, value) tuples.
   """
-
-  def get_string(value):
-    if isinstance(value, str):
-      return str(value).encode('utf-8')
-    else:
-
-
-
-
-      return str(value)
-
   param_list = []
   for key, value in params.items():
-    key = get_string(key)
     if isinstance(value, str):
-      param_list.append((key, get_string(value)))
+      param_list.append((key, value))
     else:
       try:
         iterator = iter(value)
       except TypeError:
         param_list.append((key, str(value)))
       else:
-        param_list.extend((key, get_string(v)) for v in iterator)
+        param_list.extend((key, v) for v in iterator)
 
   return param_list
 
@@ -988,9 +974,9 @@ class Task(object):
     if isinstance(payload, str):
       headers.setdefault('content-type', 'text/plain; charset=utf-8')
       payload = payload.encode('utf-8')
-    elif not isinstance(payload, str):
+    elif not isinstance(payload, bytes):
       raise InvalidTaskError(
-          'Task payloads must be strings; invalid payload: %r' % payload)
+          'Task payloads must be bytes; invalid payload: %r' % payload)
     return payload
 
   @classmethod
@@ -2058,14 +2044,14 @@ class Queue(object):
 
 
     task_request.set_method(_METHOD_MAP.get(task.method))
-    task_request.set_url(adjusted_url)
+    task_request.set_url(adjusted_url.encode())
 
     if task.payload:
       task_request.set_body(task.payload)
     for key, value in _flatten_params(task.headers):
       header = task_request.add_header()
-      header.set_key(key)
-      header.set_value(value)
+      header.set_key(key.encode())
+      header.set_value(value.encode())
 
     if task.retry_options:
       self.__FillTaskQueueRetryParameters(
@@ -2099,13 +2085,13 @@ class Queue(object):
   def __FillTaskCommon(self, task, task_request, transactional):
     """Fills common fields for both push tasks and pull tasks."""
     if self._app:
-      task_request.set_app_id(self._app)
-    task_request.set_queue_name(self.__name)
+      task_request.set_app_id(self._app.encode())
+    task_request.set_queue_name(self.__name.encode())
     task_request.set_eta_usec(task._eta_usec)
     if task.name:
-      task_request.set_task_name(task.name)
+      task_request.set_task_name(task.name.encode())
     else:
-      task_request.set_task_name('')
+      task_request.set_task_name(b'')
     if task.tag:
       task_request.set_tag(task.tag)
 

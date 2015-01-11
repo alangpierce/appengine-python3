@@ -238,7 +238,7 @@ def _PrepareSpecialProperties(entity_proto, is_load):
   """Computes special properties for loading or storing.
   Strips other special properties."""
   for i in range(entity_proto.property_size() - 1, -1, -1):
-    if entity_proto.property(i).name() in _SPECIAL_PROPERTY_MAP:
+    if entity_proto.property(i).name().decode() in _SPECIAL_PROPERTY_MAP:
       del entity_proto.property_list()[i]
 
   for is_visible, is_stored, property_func in list(_SPECIAL_PROPERTY_MAP.values()):
@@ -263,9 +263,9 @@ def _GetGroupByKey(entity, property_names):
   Returns:
     A hashable value that uniquely identifies the entity's 'group'.
   """
-  return frozenset((prop.name(), prop.value().SerializeToString())
+  return frozenset((prop.name().decode(), prop.value().SerializeToString())
                    for prop in entity.property_list()
-                   if prop.name() in property_names)
+                   if prop.name().decode() in property_names)
 
 
 def PrepareSpecialPropertiesForStore(entity_proto):

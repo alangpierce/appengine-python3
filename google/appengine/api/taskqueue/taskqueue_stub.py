@@ -205,7 +205,7 @@ def QueryTasksResponseToDict(queue_name, task_response, now):
   """
   task = {}
 
-  task['name'] = task_response.task_name()
+  task['name'] = task_response.task_name().decode()
   task['queue_name'] = queue_name
   task['url'] = task_response.url()
   method = task_response.method()
@@ -235,7 +235,7 @@ def QueryTasksResponseToDict(queue_name, task_response, now):
 
 
   headers.append(('X-AppEngine-QueueName', queue_name))
-  headers.append(('X-AppEngine-TaskName', task_response.task_name()))
+  headers.append(('X-AppEngine-TaskName', task_response.task_name().decode()))
   headers.append(('X-AppEngine-TaskRetryCount',
                   str(task_response.retry_count())))
   headers.append(('X-AppEngine-TaskETA',
@@ -594,7 +594,8 @@ class _Group(object):
       return taskqueue_service_pb.TaskQueueServiceError.INVALID_ETA
 
 
-    queue_name_response = self._ValidateQueueName(request.queue_name())
+    queue_name_response = self._ValidateQueueName(
+        request.queue_name().decode())
     if queue_name_response != taskqueue_service_pb.TaskQueueServiceError.OK:
       return queue_name_response
 
@@ -640,9 +641,9 @@ class _Group(object):
       task_result = response.add_taskresult()
       result = self._VerifyTaskQueueAddRequest(add_request, now)
       if result == taskqueue_service_pb.TaskQueueServiceError.OK:
-        if not add_request.task_name():
+        if not add_request.task_name().decode():
           chosen_name = self._ChooseTaskName()
-          add_request.set_task_name(chosen_name)
+          add_request.set_task_name(chosen_name.encode())
           task_results_with_chosen_names.add(id(task_result))
 
 
@@ -703,7 +704,7 @@ class _Group(object):
     queue_mode = request.add_request(0).mode()
 
 
-    queue_name = request.add_request(0).queue_name()
+    queue_name = request.add_request(0).queue_name().decode()
     store = self._queues[queue_name]
     if store.queue_mode != queue_mode:
       raise apiproxy_errors.ApplicationError(
@@ -728,7 +729,7 @@ class _Group(object):
       request: A taskqueue_service_pb.TaskQueueUpdateQueueRequest.
       response: A taskqueue_service_pb.TaskQueueUpdateQueueResponse.
     """
-    queue_name = request.queue_name()
+    queue_name = request.queue_name().decode()
 
     response = self._ValidateQueueName(queue_name)
 
@@ -739,7 +740,7 @@ class _Group(object):
       raise apiproxy_errors.ApplicationError(response)
 
     if is_unknown_queue:
-      self._queues[queue_name] = _Queue(request.queue_name())
+      self._queues[queue_name] = _Queue(request.queue_name().decode())
 
 
 
@@ -807,8 +808,9 @@ class _Group(object):
       request: A taskqueue_service_pb.TaskQueueQueryTasksRequest.
       response: A taskqueue_service_pb.TaskQueueQueryTasksResponse.
     """
-    self._CheckQueueForRpc(request.queue_name())
-    self._queues[request.queue_name()].QueryTasks_Rpc(request, response)
+    self._CheckQueueForRpc(request.queue_name().decode())
+    self._queues[request.queue_name().decode()].QueryTasks_Rpc(
+        request, response)
 
   def FetchTask_Rpc(self, request, response):
     """Implementation of the FetchTask RPC.
@@ -819,8 +821,8 @@ class _Group(object):
     """
     self._ReloadQueuesFromYaml()
 
-    self._CheckQueueForRpc(request.queue_name())
-    self._queues[request.queue_name()].FetchTask_Rpc(request, response)
+    self._CheckQueueForRpc(request.queue_name().decode())
+    self._queues[request.queue_name().decode()].FetchTask_Rpc(request, response)
 
   def Delete_Rpc(self, request, response):
     """Implementation of the Delete RPC.
@@ -836,13 +838,13 @@ class _Group(object):
     def _AddResultForAll(result):
       for _ in request.task_name_list():
         response.add_result(result)
-    if request.queue_name() not in self._queues:
+    if request.queue_name().decode() not in self._queues:
       _AddResultForAll(taskqueue_service_pb.TaskQueueServiceError.UNKNOWN_QUEUE)
-    elif self._queues[request.queue_name()] is None:
+    elif self._queues[request.queue_name().decode()] is None:
       _AddResultForAll(
           taskqueue_service_pb.TaskQueueServiceError.TOMBSTONED_QUEUE)
     else:
-      self._queues[request.queue_name()].Delete_Rpc(request, response)
+      self._queues[request.queue_name().decode()].Delete_Rpc(request, response)
 
   def DeleteQueue_Rpc(self, request, response):
     """Implementation of the DeleteQueue RPC.
@@ -853,10 +855,10 @@ class _Group(object):
       request: A taskqueue_service_pb.TaskQueueDeleteQueueRequest.
       response: A taskqueue_service_pb.TaskQueueDeleteQueueResponse.
     """
-    self._CheckQueueForRpc(request.queue_name())
+    self._CheckQueueForRpc(request.queue_name().decode())
 
 
-    self._queues[request.queue_name()] = None
+    self._queues[request.queue_name().decode()] = None
 
   def PauseQueue_Rpc(self, request, response):
     """Implementation of the PauseQueue RPC.
@@ -865,8 +867,8 @@ class _Group(object):
       request: A taskqueue_service_pb.TaskQueuePauseQueueRequest.
       response: A taskqueue_service_pb.TaskQueuePauseQueueResponse.
     """
-    self._CheckQueueForRpc(request.queue_name())
-    self._queues[request.queue_name()].paused = request.pause()
+    self._CheckQueueForRpc(request.queue_name().decode())
+    self._queues[request.queue_name().decode()].paused = request.pause()
 
   def PurgeQueue_Rpc(self, request, response):
     """Implementation of the PurgeQueue RPC.
@@ -875,8 +877,8 @@ class _Group(object):
       request: A taskqueue_service_pb.TaskQueuePurgeQueueRequest.
       response: A taskqueue_service_pb.TaskQueuePurgeQueueResponse.
     """
-    self._CheckQueueForRpc(request.queue_name())
-    self._queues[request.queue_name()].PurgeQueue()
+    self._CheckQueueForRpc(request.queue_name().decode())
+    self._queues[request.queue_name().decode()].PurgeQueue()
 
   def QueryAndOwnTasks_Rpc(self, request, response):
     """Implementation of the QueryAndOwnTasks RPC.
@@ -885,11 +887,11 @@ class _Group(object):
       request: A taskqueue_service_pb.TaskQueueQueryAndOwnTasksRequest.
       response: A taskqueue_service_pb.TaskQueueQueryAndOwnTasksResponse.
     """
-    self._CheckQueueForRpc(request.queue_name())
+    self._CheckQueueForRpc(request.queue_name().decode())
 
 
 
-    self._queues[request.queue_name()].QueryAndOwnTasks_Rpc(request, response)
+    self._queues[request.queue_name().decode()].QueryAndOwnTasks_Rpc(request, response)
 
   def ModifyTaskLease_Rpc(self, request, response):
     """Implementation of the ModifyTaskLease RPC.
@@ -898,8 +900,8 @@ class _Group(object):
       request: A taskqueue_service_pb.TaskQueueModifyTaskLeaseRequest.
       response: A taskqueue_service_pb.TaskQueueModifyTaskLeaseResponse.
     """
-    self._CheckQueueForRpc(request.queue_name())
-    self._queues[request.queue_name()].ModifyTaskLease_Rpc(request, response)
+    self._CheckQueueForRpc(request.queue_name().decode())
+    self._queues[request.queue_name().decode()].ModifyTaskLease_Rpc(request, response)
 
 
 class Retry(object):
@@ -1025,7 +1027,7 @@ class _Queue(object):
     tasks_by_name = set()
     tasks_with_tags = set()
     for name, task in self._sorted_by_name:
-      assert name == task.task_name()
+      assert name == task.task_name().decode()
       assert name not in tasks_by_name
       tasks_by_name.add(name)
       if task.has_tag():
@@ -1033,7 +1035,7 @@ class _Queue(object):
 
     tasks_by_eta = set()
     for eta, name, task in self._sorted_by_eta:
-      assert name == task.task_name()
+      assert name == task.task_name().decode()
       assert eta == task.eta_usec()
       assert name not in tasks_by_eta
       tasks_by_eta.add(name)
@@ -1042,7 +1044,7 @@ class _Queue(object):
 
     tasks_by_tag = set()
     for tag, eta, name, task in self._sorted_by_tag:
-      assert name == task.task_name()
+      assert name == task.task_name().decode()
       assert eta == task.eta_usec()
       assert task.has_tag() and task.tag()
       assert tag == task.tag()
@@ -1094,7 +1096,7 @@ class _Queue(object):
       request: A taskqueue_service_pb.TaskQueueUpdateQueueRequest.
       response: A taskqueue_service_pb.TaskQueueUpdateQueueResponse.
     """
-    assert request.queue_name() == self.queue_name
+    assert request.queue_name().decode() == self.queue_name
 
 
 
@@ -1158,11 +1160,11 @@ class _Queue(object):
 
     if request.has_start_eta_usec():
       tasks = self._LookupNoAcquireLock(request.max_rows(),
-                                        name=request.start_task_name(),
+                                        name=request.start_task_name().decode(),
                                         eta=request.start_eta_usec())
     else:
       tasks = self._LookupNoAcquireLock(request.max_rows(),
-                                        name=request.start_task_name())
+                                        name=request.start_task_name().decode())
     for task in tasks:
       response.add_task().MergeFrom(task)
 
@@ -1174,7 +1176,7 @@ class _Queue(object):
       request: A taskqueue_service_pb.TaskQueueFetchTaskRequest.
       response: A taskqueue_service_pb.TaskQueueFetchTaskResponse.
     """
-    task_name = request.task_name()
+    task_name = request.task_name().decode()
     pos = self._LocateTaskByName(task_name)
     if pos is None:
       if task_name in self.task_name_archive:
@@ -1273,7 +1275,7 @@ class _Queue(object):
       if not retry.CanRetry(task.retry_count() + 1, 0):
         logging.warning(
             'Task %s in queue %s cannot be leased again after %d leases.',
-            task.task_name(), self.queue_name, task.retry_count())
+            task.task_name().decode(), self.queue_name, task.retry_count())
         tasks_to_delete.append(task)
         continue
 
@@ -1294,7 +1296,7 @@ class _Queue(object):
 
 
     for task in tasks_to_delete:
-      self._DeleteNoAcquireLock(task.task_name())
+      self._DeleteNoAcquireLock(task.task_name().decode())
 
   @_WithLock
   def ModifyTaskLease_Rpc(self, request, response):
@@ -1318,9 +1320,9 @@ class _Queue(object):
       raise apiproxy_errors.ApplicationError(
           taskqueue_service_pb.TaskQueueServiceError.INVALID_REQUEST)
 
-    pos = self._LocateTaskByName(request.task_name())
+    pos = self._LocateTaskByName(request.task_name().decode())
     if pos is None:
-      if request.task_name() in self.task_name_archive:
+      if request.task_name().decode() in self.task_name_archive:
         raise apiproxy_errors.ApplicationError(
             taskqueue_service_pb.TaskQueueServiceError.TOMBSTONED_TASK)
       else:
@@ -1436,7 +1438,7 @@ class _Queue(object):
     if not task_responses:
       return
     task_response, = task_responses
-    if task_response.task_name() != task_name:
+    if task_response.task_name().decode() != task_name:
       return
 
     now = datetime.datetime.utcnow()
@@ -1480,7 +1482,7 @@ class _Queue(object):
     """
     assert self._lock.locked()
     eta = task.eta_usec()
-    name = task.task_name()
+    name = task.task_name().decode()
     bisect.insort_left(self._sorted_by_eta, (eta, name, task))
     if task.has_tag():
       bisect.insort_left(self._sorted_by_tag, (task.tag(), eta, name, task))
@@ -1515,7 +1517,7 @@ class _Queue(object):
     assert self._lock.locked()
     if increase_retries:
       self._IncRetryCount(task)
-    name = task.task_name()
+    name = task.task_name().decode()
     eta = task.eta_usec()
     assert self._RemoveTaskFromIndex(
         self._sorted_by_eta, (eta, name, None), task)
@@ -1527,7 +1529,7 @@ class _Queue(object):
   def _PostponeTaskInsertOnly(self, task, new_eta_usec):
     assert self._lock.locked()
     task.set_eta_usec(new_eta_usec)
-    name = task.task_name()
+    name = task.task_name().decode()
     bisect.insort_left(self._sorted_by_eta, (new_eta_usec, name, task))
     if task.has_tag():
       tag = task.tag()
@@ -1657,10 +1659,10 @@ class _Queue(object):
       in the store, or the task is tombstoned.
     """
 
-    if self._LocateTaskByName(request.task_name()) is not None:
+    if self._LocateTaskByName(request.task_name().decode()) is not None:
       raise apiproxy_errors.ApplicationError(
           taskqueue_service_pb.TaskQueueServiceError.TASK_ALREADY_EXISTS)
-    if request.task_name() in self.task_name_archive:
+    if request.task_name().decode() in self.task_name_archive:
       raise apiproxy_errors.ApplicationError(
           taskqueue_service_pb.TaskQueueServiceError.TOMBSTONED_TASK)
 
@@ -1766,7 +1768,7 @@ class _Queue(object):
       assert self._lock.locked()
       task = taskqueue_service_pb.TaskQueueQueryTasksResponse_Task()
       task.set_task_name(''.join(random.choice(string.ascii_lowercase)
-                                 for x in range(20)))
+                                 for x in range(20)).encode())
 
       task.set_eta_usec(now_usec + random.randint(_SecToUsec(-10),
                                                   _SecToUsec(600)))
@@ -1850,7 +1852,7 @@ class _TaskExecutor(object):
 
 
     headers.append(('X-AppEngine-QueueName', queue.queue_name))
-    headers.append(('X-AppEngine-TaskName', task.task_name()))
+    headers.append(('X-AppEngine-TaskName', task.task_name().decode()))
     headers.append(('X-AppEngine-TaskRetryCount', str(task.retry_count())))
     headers.append(('X-AppEngine-TaskETA',
                     str(_UsecToSec(task.eta_usec()))))
@@ -1959,14 +1961,14 @@ class _BackgroundTaskScheduler(object):
         logging.error(
             'An error occured while sending the task "%s" '
             '(Url: "%s") in queue "%s". Treating as a task error.',
-            task.task_name(), task.url(), queue.queue_name)
+            task.task_name().decode(), task.url(), queue.queue_name)
 
 
 
 
       now = self._get_time()
       if 200 <= response_code < 300:
-        queue.Delete(task.task_name())
+        queue.Delete(task.task_name().decode())
       else:
         retry = Retry(task, queue)
         age_usec = _SecToUsec(now) - task.first_try_usec()
@@ -1974,7 +1976,7 @@ class _BackgroundTaskScheduler(object):
           retry_usec = retry.CalculateBackoffUsec(task.retry_count() + 1)
           logging.warning(
               'Task %s failed to execute. This task will retry in %.3f seconds',
-              task.task_name(), _UsecToSec(retry_usec))
+              task.task_name().decode(), _UsecToSec(retry_usec))
 
 
 
@@ -1983,8 +1985,8 @@ class _BackgroundTaskScheduler(object):
           logging.warning(
               'Task %s failed to execute. The task has no remaining retries. '
               'Failing permanently after %d retries and %d seconds',
-              task.task_name(), task.retry_count(), _UsecToSec(age_usec))
-          queue.Delete(task.task_name())
+              task.task_name().decode(), task.retry_count(), _UsecToSec(age_usec))
+          queue.Delete(task.task_name().decode())
       queue, task = self._group.GetNextPushTask()
 
     if task:
@@ -2176,7 +2178,7 @@ class TaskQueueServiceStub(apiproxy_stub.APIProxyStub):
       raise apiproxy_errors.ApplicationError(result)
     elif bulk_response.taskresult(0).has_chosen_task_name():
       response.set_chosen_task_name(
-          bulk_response.taskresult(0).chosen_task_name())
+          bulk_response.taskresult(0).chosen_task_name().decode())
 
   def _Dynamic_BulkAdd(self, request, response):
     """Add many tasks to a queue using a single request.
@@ -2381,12 +2383,12 @@ class TaskQueueServiceStub(apiproxy_stub.APIProxyStub):
             taskqueue_service_pb.TaskQueueServiceError.OK)
     else:
       group = self._GetGroup(None)
-      if not group.HasQueue(request.queue_name()):
+      if not group.HasQueue(request.queue_name().decode()):
         response.set_result(
             taskqueue_service_pb.TaskQueueServiceError.UNKNOWN_QUEUE)
         return
-      queue = group.GetQueue(request.queue_name())
-      task = queue.Lookup(1, name=request.task_name())
+      queue = group.GetQueue(request.queue_name().decode())
+      task = queue.Lookup(1, name=request.task_name().decode())
       if not task:
         response.set_result(
             taskqueue_service_pb.TaskQueueServiceError.UNKNOWN_TASK)
