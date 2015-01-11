@@ -1520,10 +1520,10 @@ class _Queue(object):
     name = task.task_name().decode()
     eta = task.eta_usec()
     assert self._RemoveTaskFromIndex(
-        self._sorted_by_eta, (eta, name, None), task)
+        self._sorted_by_eta, (eta, name), task)
     if task.has_tag():
       assert self._RemoveTaskFromIndex(
-          self._sorted_by_tag, (task.tag(), eta, name, None), task)
+          self._sorted_by_tag, (task.tag(), eta, name), task)
     self._PostponeTaskInsertOnly(task, new_eta_usec)
 
   def _PostponeTaskInsertOnly(self, task, new_eta_usec):
@@ -1743,14 +1743,14 @@ class _Queue(object):
 
     eta = old_task.eta_usec()
     if not self._RemoveTaskFromIndex(
-        self._sorted_by_eta, (eta, name, None), old_task):
+        self._sorted_by_eta, (eta, name), old_task):
       return taskqueue_service_pb.TaskQueueServiceError.INTERNAL_ERROR
 
 
     if old_task.has_tag():
       tag = old_task.tag()
       if not self._RemoveTaskFromIndex(
-          self._sorted_by_tag, (tag, eta, name, None), old_task):
+          self._sorted_by_tag, (tag, eta, name), old_task):
         return taskqueue_service_pb.TaskQueueServiceError.INTERNAL_ERROR
 
     return taskqueue_service_pb.TaskQueueServiceError.OK
@@ -1842,13 +1842,13 @@ class _TaskExecutor(object):
     """
     headers = []
     for header in task.header_list():
-      header_key_lower = header.key().lower()
+      header_key_lower = header.key().decode().lower()
 
       if header_key_lower == 'host' and queue.target is not None:
         headers.append(
-            (header.key(), '.'.join([queue.target, self._default_host])))
+            (header.key().decode(), '.'.join([queue.target, self._default_host])))
       elif header_key_lower not in BUILT_IN_HEADERS:
-        headers.append((header.key(), header.value()))
+        headers.append((header.key().decode(), header.value().decode()))
 
 
     headers.append(('X-AppEngine-QueueName', queue.queue_name))
@@ -1884,7 +1884,7 @@ class _TaskExecutor(object):
     headers = self._HeadersFromTask(task, queue)
     dispatcher = self._request_data.get_dispatcher()
     try:
-      response = dispatcher.add_request(method, task.url(), headers,
+      response = dispatcher.add_request(method, task.url().decode(), headers,
                                         task.body() if task.has_body() else '',
                                         '0.1.0.2')
     except request_info.ModuleDoesNotExistError:

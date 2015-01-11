@@ -1363,7 +1363,7 @@ class DatastoreSqliteStub(datastore_stub_util.BaseDatastore,
     if not block_size:
 
 
-      block_size = (size / 1000 + 1) * 1000
+      block_size = (size // 1000 + 1) * 1000
       c = conn.execute('SELECT next_id FROM %s WHERE prefix = ? LIMIT 1'
                        % table, (prefix,))
       next_id = c.fetchone()[0]
