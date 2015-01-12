@@ -424,7 +424,7 @@ class Key(object):
     if self.__pairs:
       return self.__pairs[-1][1]
     elem = self.__reference.path().element(-1)
-    return elem.name() or elem.id() or None
+    return elem.name().decode() or elem.id() or None
 
   def string_id(self):
     """Return the string id in the last (kind, id) pair, if any.
@@ -438,7 +438,7 @@ class Key(object):
         id = None
       return id
     elem = self.__reference.path().element(-1)
-    return elem.name() or None
+    return elem.name().decode() or None
 
   def integer_id(self):
     """Return the integer id in the last (kind, id) pair, if any.
@@ -464,7 +464,7 @@ class Key(object):
         if elem.has_id():
           id_or_name = elem.id()
         else:
-          id_or_name = elem.name()
+          id_or_name = elem.name().decode()
         if not id_or_name:
           id_or_name = None
         tup = (kind, id_or_name)

@@ -3118,7 +3118,7 @@ class Model(_NotEqualMixin, metaclass=MetaModel):
     for plist in [indexed_properties, unindexed_properties]:
       for p in plist:
         if p.meaning() == entity_pb.Property.INDEX_VALUE:
-          projection.append(p.name())
+          projection.append(p.name().decode())
         prop = ent._get_property_for(p, plist is indexed_properties)
         prop._deserialize(ent, p)
 
