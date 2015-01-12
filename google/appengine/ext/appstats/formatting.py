@@ -258,8 +258,6 @@ def _format_value(val, limit, level, len=len, repr=repr):
     limit -= 2
     series = val
     isdict = typ is dict
-    if isdict and len(val) <= limit//4:
-      series = sorted(val)
     try:
       for elem in series:
         if limit <= 0:
