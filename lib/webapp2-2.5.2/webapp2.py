@@ -370,11 +370,14 @@ class Response(webob.Response):
         """Appends a text to the response body."""
         # webapp uses StringIO as Response.out, so we need to convert anything
         # that is not str or unicode to string to keep same behavior.
-        if not isinstance(text, str):
+        if not isinstance(text, (str, bytes)):
             text = str(text)
 
-        if isinstance(text, str) and not self.charset:
+        if not self.charset:
             self.charset = self.default_charset
+
+        if isinstance(text, str):
+            text = text.encode(self.charset)
 
         super(Response, self).write(text)
 
