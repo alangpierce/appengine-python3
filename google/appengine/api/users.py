@@ -218,6 +218,21 @@ class User(object):
       return cmp((self.__email, self.__auth_domain),
                  (other.__email, other.__auth_domain))
 
+  def __eq__(self, other):
+    if not isinstance(other, User):
+      return False
+    if self.__federated_identity:
+      return (
+          (self.__federated_identity, self.__auth_domain) ==
+          (other.__federated_identity, other.__auth_domain))
+    else:
+      return (
+          (self.__email, self.__auth_domain) ==
+          (other.__email, other.__auth_domain))
+
+  def __ne__(self, other):
+    return not (self == other)
+
 
 def create_login_url(dest_url=None, _auth_domain=None,
                      federated_identity=None):

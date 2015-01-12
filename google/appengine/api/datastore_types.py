@@ -766,6 +766,21 @@ class Key(object):
 
     return cmp(len(self_args), len(other_args))
 
+  def __eq__(self, other):
+    if not isinstance(other, Key):
+      return False
+
+    self_args = [self.__reference.app(), self.__reference.name_space()]
+    self_args += self.to_path(_default_id=0, _decode=False)
+
+    other_args = [other.__reference.app(), other.__reference.name_space()]
+    other_args += other.to_path(_default_id=0, _decode=False)
+
+    return self_args == other_args
+
+  def __ne__(self, other):
+      return not (self == other)
+
   def __hash__(self):
     """Returns an integer hash of this key.
 
