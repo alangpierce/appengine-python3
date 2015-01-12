@@ -237,16 +237,13 @@ class Key(object):
     if not pairs:
       raise TypeError('Key must consist of at least one pair.')
     for i, (kind, id) in enumerate(pairs):
-      if isinstance(id, str):
-        id = id.encode('utf8')
-      elif id is None:
+      if id is None:
         if i + 1 < len(pairs):
           raise datastore_errors.BadArgumentError(
             'Incomplete Key entry must be last')
       else:
-        if not isinstance(id, (int, bytes)):
-          raise TypeError('Key id must be a bytes or a number; received %r' %
-                          id)
+        if not isinstance(id, (int, str)):
+          raise TypeError('Key id must be a str or a number; received %r' % id)
       if isinstance(kind, type):
         kind = kind._get_kind()
       if not isinstance(kind, str):
